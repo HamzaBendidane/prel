@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the ecofolio search feature.
+ */
+
+include_once 'ecofolio_search.features.inc';

@@ -1,0 +1,246 @@
+<?php
+/**
+ *  Création d'un établissement
+ *  Envoie des données
+ *  Hook_form()
+ *
+ *  @param: $form
+ *  @param: $form_state
+ *
+ *
+ */
+function common_form($form, &$form_state) {
+
+    global $user;
+
+    $id_entreprise = arg(3);
+
+    if (arg(3)) shared_security_access_user(3,'ETAB');
+
+    // Raison sociale et idadresse
+    $infos_entreprise = shared_get_infos_entreprise($id_entreprise);
+
+    $raison_sociale = shared_isset_trim($infos_entreprise['raison_sociale']);
+    $id_adresse = shared_isset_trim($infos_entreprise['a_id']);
+
+
+    $form['modification']['id_adresse'] = array(
+        '#type' => 'hidden',
+        '#default_value' => $id_adresse,
+    );
+    $idadefim = null;
+    $data_contact = array();
+    if($id_entreprise) {
+
+        if (!$infos_entreprise) redirect_no_access();
+
+        $data_entreprise = shared_get_infos_entreprise($id_entreprise);
+        $data_contact = shared_get_infos_contact($id_entreprise);
+
+        $form['modification']['id_contact'] = array(
+            '#type' => 'hidden',
+            '#default_value' => $data_contact['id_contact_entreprise'],
+        );
+
+
+        $siret = shared_isset_trim($data_entreprise['siret']);
+        $raison_sociale = shared_isset_trim($data_entreprise['raison_sociale']);
+        $tel = trim($data_entreprise['telephone_principal']) != 'NULL' ? shared_isset_trim($data_entreprise['telephone_principal']) : '';
+        $id_nafs = shared_isset_trim($data_entreprise['id_naf']);
+        $id_nace = shared_isset_trim($data_entreprise['id_nace']);
+        $rue = shared_isset_trim($data_entreprise['rue']);
+        $complt_rue = shared_isset_trim($data_entreprise['complement_de_rue']);
+        $complt_rue2 = shared_isset_trim($data_entreprise['complement_de_rue_2']);
+        $cp = shared_isset_trim($data_entreprise['code_postal']);
+        $ville = shared_isset_trim($data_entreprise['ville']);
+        $idadefim = shared_isset_trim($data_entreprise['id_adefim']);
+
+        // Ancien ID de gestion
+        $form['id_adefim_ancien'] = array(
+            '#type' => 'hidden',
+            '#default_value' => $idadefim
+        );
+
+    }
+    $form['old_siret'] = array(
+        '#type' => 'hidden',
+        '#default_value' => @$siret,
+    );
+    /*
+    $etablissements = array('etablissement' => 'établissement');
+    $form['type_etablissement'] = array(
+        '#type' => 'select',
+        '#title' => t('Type établissement'),
+        '#options' => $etablissements,
+        '#default_value' => $etablissements['etablissement'],
+    );
+
+    $adefims = shared_get_adefim();
+    $form['adefim_gestion'] = array(
+        '#type' => 'select',
+        '#title' => t('ADEFIM de gestion'),
+        '#options' => $adefims,
+        "#default_value" => $idadefim ? $idadefim : shared_isset_trim(@$user->data['extranet_user']->user_adefim->id_adefim)
+    );
+    */
+
+    $form['mod_type'] = array(
+        '#type' => 'hidden',
+        '#default_value' => '',
+    );
+
+    $form['resp']['title'] = array(
+        '#type' => 'select',
+        '#title' => t('Titre'),
+        '#options' => shared_db_get_title(true),
+        '#attributes' => array('required'),
+        "#default_value" => shared_isset_trim(@$data_contact['id_civilite']),
+    );
+    $form['resp']['lastname'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Nom'),
+        '#default_value' => shared_isset_trim(@$data_contact['nom']),
+    );
+    $form['resp']['firstname'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Prénom'),
+        '#default_value' => shared_isset_trim(@$data_contact['prenom']),
+
+    );
+    $form['resp']['function'] = array(
+        '#type' => 'select',
+        '#title' => t('Fonction'),
+        '#options' => shared_db_get_fonction(true),
+        '#default_value' => shared_isset_trim(@$data_contact['id_fonction']),
+
+    );
+    $form['resp']['email'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Email'),
+        '#default_value' => shared_isset_trim(@$data_contact['email']),
+    );
+    $form['resp']['confirm_email'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Confirmation courriel'),
+        '#default_value' => shared_isset_trim(@$data_contact['email']),
+    );
+
+
+    $form['back'] = array(
+        '#type' => 'submit',
+        '#value' => t('Annuler'),
+        '#submit' => array('creation_form_cancel_submit'),
+        '#validate' => array('creation_form_skip'),
+    );
+    if (arg(2) == 'valider'){
+
+        $form['mod_type'] = array(
+            '#type' => 'hidden',
+            '#default_value' => 'valider',
+        );
+
+        $form['refuser-creation'] = array(
+            '#type' => 'submit',
+            '#value' => t('Refuser création'),
+            '#submit' => array('validation_form_cancel_submit'),
+            '#validate' => array('validation_form_skip'),
+        );
+        $form['submit'] = array(
+            '#type' => 'submit',
+            '#value' => t('Valider la création'),
+            '#submit' => array('modification_form_submit'),
+            '#validate' => array('creation_form_validate'),
+        );
+    }
+    else if ($id_entreprise){
+
+        $form['submit'] = array(
+            '#type' => 'submit',
+            '#value' => t('Modifier'),
+            '#submit' => array('modification_form_submit'),
+            '#validate' => array('creation_form_validate'),
+        );
+    }else{
+        $form['submit'] = array(
+            '#type' => 'submit',
+            '#value' => t('Ajouter'),
+            '#submit' => array('creation_form_submit'),
+            '#validate' => array('creation_form_validate'),
+        );
+    }
+
+
+    $form['etab']['siret'] = array(
+        '#type' => 'textfield',
+        '#title' => t('SIRET'),
+        '#default_value' => shared_isset_trim(@$siret),
+    );
+    $form['etab']['corporate_name'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Raison sociale'),
+        '#default_value' => shared_isset_trim(@$raison_sociale),
+    );
+
+    $form['etab']['street_name'] = array(
+        '#type'     => 'textfield',
+        '#title'    => t('Adresse'),
+        '#attributes' =>array(
+            'placeholder' => t(''),
+        ),
+         '#default_value' => shared_isset_trim(@$rue),
+    );
+    $form['etab']['adress_complement'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Complément rue'),
+        '#default_value' => shared_isset_trim(@$complt_rue),
+    );
+    $form['etab']['adress_complement_2'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Complément rue 2'),
+        '#default_value' => shared_isset_trim(@$complt_rue2),
+    );
+    $form['etab']['zip_code'] = array(
+        '#type'     => 'textfield',
+        '#title'    => t('Code postal / Ville'),
+        '#attributes' => array(
+            'placeholder' => t('Code Postal'),
+            'class' => array('coller-serrer-1')
+        ),
+         '#default_value' => shared_isset_trim(@$cp),
+        '#element_validate' => array('element_shared_code_postal'),
+    );
+    $form['etab']['city'] = array(
+        '#type'     => 'textfield',
+        '#title'    => t(''),
+        '#attributes' => array(
+            'placeholder' => t('Ville'),
+            'class' => array('coller-serrer-2')
+        ),
+        '#default_value' => shared_isset_trim(@$ville),
+    );
+    /*
+    $form['etab']['code_naf'] = array(
+        '#type' => 'select',
+        '#title' => t('Code NAF'),
+        '#options' => shared_db_get_code_naf(),
+        '#default_value' => shared_isset_trim(@$id_nafs),
+    );
+*/
+    $form['etab']['code_nace'] = array(
+        '#type' => 'select',
+        '#title' => t('Code NACE'),
+        '#options' => shared_db_get_code_naces(),
+        '#default_value' => shared_isset_trim(@$id_nace),
+    );
+
+    $form['etab']['phone_number'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Téléphone'),
+        '#attributes' =>array('placeholder' => t('Exemple: 0142154798')),
+        '#default_value' => shared_isset_trim(@$tel),
+        '#element_validate' => array('element_shared_telephone'),
+
+    );
+
+    return $form;
+}

@@ -1,0 +1,190 @@
+#zone-maincontent-wrapper {
+
+
+    .view-actualites {
+        padding: 70px 0 0 70px;
+        position: relative;
+
+        .field-name-title {
+            padding: 0;
+            margin: 0;
+        }
+
+        h2.views-title {
+            padding: 0;
+            margin: 0;
+            color: #5c656d;
+            border: none;
+            text-transform: capitalize;
+            letter-spacing: 0.01em;
+            @include avant-garde-bold(50px, 50px);
+
+            &:after {
+                display: none;
+            }
+        }
+
+        #edit-field-actu-date-value-wrapper, #edit-field-actu-univers-tid-wrapper {
+            background-color: white;
+            padding: 0;
+            margin: 50px 0 0 0;
+
+            > label {
+                padding: 0;
+                margin: 0;
+                display: block;
+                text-align: left;
+                @include avant-garde-bold(20px, 20px);
+                color: $blue;
+            }
+
+            .views-widget {
+                margin-top: 24px;
+            }
+
+        }
+
+        .view-filters form .form-checkboxes .form-type-bef-checkbox {
+            padding: 0 !important;
+            width: 250px !important;
+            margin: 0 0 10px 0;
+            max-width: none;
+
+            input[type="checkbox"] + label {
+                display: inline-block;
+                vertical-align: middle;
+                background: white url("../images/2015/media/background-check.png") no-repeat left center;
+                width: 250px;
+                height: 20px;
+                @include avant-garde-demi(15px, 15px);
+                color: #a3a3a3;
+                padding-left: 40px;
+                padding-top: 3px;
+            }
+
+            input[type="checkbox"]:checked + label {
+                background: white url("../images/2015/media/ico-check-on.png") no-repeat left center;
+            }
+        }
+
+        #edit-field-actu-date-value-wrapper {
+            margin-top: 30px;
+        }
+
+        .view-content {
+            margin-top: 60px;
+
+            .views-row {
+                margin-top: 70px;
+                padding: 0;
+                border: none;
+                width: 100%;
+
+                &:first-child {
+                    margin-top: 0;
+                }
+
+                .views-field-field-actu-univers {
+                    background-color: white;
+                    float: left;
+                    padding-top:16px;
+
+                    .field-content {
+                        @include amaranth-italic(14px, 14px);
+                        color: #c1c1c1;
+                    }
+                }
+
+                .views-field-field-actu-teaser {
+                    padding-top: 40px;
+                }
+
+                .views-field-field-actu-date {
+                    float: right;
+                    background-color: white;
+                    padding-top:16px;
+
+                    .field-content {
+                        width: 100%;
+                        text-align: right;
+                        @include amaranth-italic(14px, 14px);
+                        color: $blue;
+                        padding-right: 30px;
+                        text-transform: none;
+
+                        .date-display-single {
+                            &:before {
+                                display: none;
+                            }
+                        }
+                    }
+                }
+
+                .views-field-title {
+                    display: table;
+                    background-image: url("../images/2015/home/ico-more-white-off.png");
+                    background-repeat: no-repeat;
+                    background-position: 94% center;
+                    width: 100%;
+                    background-color: #009ddf;
+                    line-height: 92px;
+                    padding: 20px 30px;
+                    margin: 0;
+
+                    .field-content {
+                        line-height: normal;
+                        display: table-cell;
+                        vertical-align: middle;
+                        padding-right: 100px;
+
+                        a {
+                            color: white;
+                            @include avant-garde-bold(20px, 22px);
+                            padding: 0;
+                            margin: 0;
+
+                            span {
+                                padding-right: 100px;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .container-inline-date .form-item .form-item {
+        float: none;
+    }
+
+    .view-actualites .views-widget-filter-field_actu_date_value .form-type-date-select {
+        float: none;
+        margin: 0;
+    }
+
+    .view-actualites .view-filters .views-widget-per-page select, .view-actualites .view-filters select.bef-datepicker.form-select {
+        background-color: #f4f4f4 !important;
+        background-image: url("../images/2015/page/ico-select-down.png") !important;
+        background-position: 95% center !important;
+        background-repeat: no-repeat !important;
+        border: none;
+        width: 416px;
+        height: 42px;
+        padding: 0 10px;
+        @include open-sans-regular(14px, 42px);
+        color: #656565;
+        @include border-radius(0);
+
+        option {
+            padding: 0 10px;
+        }
+    }
+
+    .node-actu {
+
+        .back-btn {
+            margin-left: 70px;
+        }
+
+    }
+}

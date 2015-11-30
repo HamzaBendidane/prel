@@ -1,0 +1,35 @@
+.form-item-type-etablissement, #edit-cancel {
+    float: left;
+}
+
+
+#edit-fieldset1 {
+    /*   padding-bottom: 0; */
+    /*   padding-top: 0 !important; */
+    /*   margin: 0;	 */
+}
+
+#edit-resp .form-item {
+    float:left;
+}
+#edit-resp .form-item-title, #edit-resp .form-item-function, #edit-resp .form-item-contact-phone {
+    width: 100%;
+}
+
+.left-part-form .form-item {
+  margin-top: 0px !important;
+  margin-bottom: 0px !important;
+}
+
+div label {
+    margin: 1px 0;
+/*      !important; */
+}
+.cp-field {
+  margin-left: 0.7%;
+}
+
+.address-field label {
+  margin-bottom: 0px !important;
+  margin-right: 2%;
+}

@@ -1,0 +1,19 @@
+div#resultats a.btn {
+  border-radius: 5px;
+  color: #196681!important;
+  background-color: #FFFFFF !important;
+  border-color: #ABC7D5!important;
+  font-weight: bold;
+  text-transform: uppercase;
+  float: none;
+  margin-bottom: 20px;
+}
+
+.sticky-enabled a.action {
+  color: #196681;
+  margin: 0 5px;
+}
+
+table {
+  width: 100%;
+}

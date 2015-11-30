@@ -1,0 +1,229 @@
+<?php
+
+/**
+ * administration_utilisateurs_common_db_modifier
+ *
+ * fonction qui permet de modifier un user en BDD
+ */
+function administration_utilisateurs_common_db_modifier($data) {
+  global $user;
+
+  if (arg(0) === 'mon-compte') {
+    $id = shared_get_drupal_user_id($user->uid);
+  } else {
+    $id = arg(3);
+  }
+
+  $civilite = $data['utilisateur_titre'];
+  $user_name = $data['utilisateur_nom'];
+  $user_surname = $data['utilisateur_prenom'];
+  $user_email = $data['utilisateur_email'];
+  $user_fonction = $data['utilisateur_fonction'];
+  $user_phone = $data['utilisateur_telephone'];
+
+  $user_habilitations = $data['utilisateur_habilitations'];
+
+  // modifier le mot de passe drupal si sélectionné
+  if ($data['utilisateur_password']) {
+    $account = user_load($user->uid);
+    $edit = array();
+    $edit['password'] = $data['utilisateur_password'];
+    user_save($account, $edit);
+  }
+
+    if ($data['utilisateur_email']) {
+        $account = user_load($user->uid);
+        $edit = array();
+        $edit['mail'] = $user_email;
+        user_save($account, $edit);
+    }
+
+    db_set_active(@DB_EXTRANET);
+
+  // Sauvegarde les infos de l'utilisateur.
+  $update = db_update('drupal_user')
+  ->fields(array(
+      'civilite' => $civilite,
+      'last_name' => $user_name,
+      'first_name' => $user_surname,
+      'mail'   => $user_email,
+      'fonction' => $user_fonction,
+      'telephone' => $user_phone,
+      'date_last_edit' => shared_send_to_mssql_date(null, 'datetime'),
+      'id_user_last_edit' =>$user->uid,
+  ))
+  ->condition('id', $id , '=')
+  ->execute();
+
+  // Supprime toutes les habilitations de l'utilisateur associé à l'id
+  $delete = db_delete('lien_drupal_user_habilitation')
+  ->condition('id_drupal_user' , $id, '=')
+  ->execute();
+
+  // Sauvegarde les habilitations  // Vaudrait mieux faire un db_update : lien
+  foreach ($user_habilitations as $key => $value) {
+    if ($value !== 0) {
+      $hab_sql = db_insert('lien_drupal_user_habilitation')
+      ->fields(array(
+          'id_drupal_user'     => $id,
+          'id_habilitation'    => $key,
+      ))
+      ->execute();
+    }
+  }
+  db_set_active();
+}
+
+/**
+ * administration_utilisateurs_common_db_valider
+ *
+ * fonction qui permet de valider un user en BDD
+ */
+function administration_utilisateurs_common_db_valider($data) {
+  global $user;
+  $id = arg(3);
+
+  $civilite = $data['utilisateur_titre'];
+  $user_name = $data['utilisateur_nom'];
+  $user_surname = $data['utilisateur_prenom'];
+  $user_email = $data['utilisateur_email'];
+  $user_fonction = $data['utilisateur_fonction'];
+  $user_phone = $data['utilisateur_telephone'];
+  //   $user_role = $data['roles'];
+
+  $user_habilitations = $data['utilisateur_habilitations'];
+
+  db_set_active(@DB_EXTRANET);
+
+  $query_id_user_drupal = db_select('drupal_user', 'u')
+    ->fields('u', array('id_user_drupal'))
+    ->condition('id', $id , '=')
+    ->execute();
+
+  $id_user_drupal = $query_id_user_drupal->fetchField();
+  db_set_active();
+
+  $account = user_load($id_user_drupal);
+  user_save($account, array('status' => 1));
+
+  db_set_active(@DB_EXTRANET);
+
+  // Sauvegarde les infos de l'utilisateur.
+  $update = db_update('drupal_user')
+    ->fields(array(
+        'civilite' => $civilite,
+        'last_name' => $user_name,
+        'first_name' => $user_surname,
+        'mail'   => $user_email,
+        'fonction' => $user_fonction,
+        'telephone' => $user_phone,
+        'date_last_edit' => shared_send_to_mssql_date(null, 'datetime'),
+        'id_user_last_edit' =>$user->uid,
+        'statut' => 1
+    ))
+    ->condition('id', $id , '=')
+    ->execute();
+
+  // Supprime toutes les habilitations de l'utilisateur associé à l'id
+  $delete = db_delete('lien_drupal_user_habilitation')
+  ->condition('id_drupal_user' , $id, '=')
+  ->execute();
+
+  // Sauvegarde les habilitations  // Vaudrait mieux faire un db_update : lien
+  foreach ($user_habilitations as $key => $value) {
+    if ($value !== 0) {
+      $hab_sql = db_insert('lien_drupal_user_habilitation')
+      ->fields(array(
+          'id_drupal_user'     => $id,
+          'id_habilitation'    => $key,
+      ))
+      ->execute();
+    }
+  }
+  db_set_active();
+}
+
+/**
+ * administration_utilisateurs_common_db_ajouter
+ *
+ * fonction qui permet d'ajouter un nouveau user en BDD
+ */
+function administration_utilisateurs_common_db_ajouter($data) {
+  global $user;
+
+  $civilite = $data['utilisateur_titre'];
+  $user_name = $data['utilisateur_nom'];
+  $user_surname = $data['utilisateur_prenom'];
+  $user_email = $data['utilisateur_email'];
+  $user_fonction = $data['utilisateur_fonction'];
+  $user_phone = $data['utilisateur_telephone'];
+  //   $user_role = $data['roles'];
+
+  $user_habilitations = $data['utilisateur_habilitations'];
+
+  $letters = 'abcefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
+  $password = substr(str_shuffle($letters), 0, 8);
+
+  // On sauvegarde le user dans la table users de drupal en bloqué
+  $new_user = array(
+      'name' => $user_email,
+      'pass' => $password,
+      'mail' => $user_email,
+      'init' => $user_email,
+      'status' => 1,
+      'access' => REQUEST_TIME,
+      'roles' => array('7' => 'COLLABORATEUR ENTREPRISE'),
+  );
+  // $account returns user object
+  $account = user_save(null, $new_user);
+  $id_drupal_user = $account->uid;
+  // Permet d'envoyer un email à l'utilisateur
+  _user_mail_notify('register_admin_created', $account);
+
+  db_set_active(@DB_EXTRANET);
+
+  // On sauvegarde le drupal_user
+  $id_extranet_drupal_user = db_insert('drupal_user')
+  ->fields( array(
+      'civilite' => $data['utilisateur_titre'],
+      'last_name' => $data['utilisateur_nom'],
+      'first_name' => $data['utilisateur_prenom'],
+      'mail' => $data['utilisateur_email'],
+      'fonction' => $data['utilisateur_fonction'],
+      'telephone' => $data['utilisateur_telephone'],
+      'date_creation' => shared_send_to_mssql_date(null,'datetime'),
+      'id_user_creation' => $user->uid,
+      'is_delete' => 0,
+      'id_user_drupal' => $id_drupal_user,
+      'statut' => 1))
+      ->execute();
+
+
+  // On sauvegarde le drupal_user
+  $id_user_entreprise = db_insert('user_entreprise')
+  -> fields(array(
+      'id_user_responsable' => null,
+      'id_drupal_user' => $id_extranet_drupal_user,
+      'numero_demande' => null,
+      'charte_signe'   => 0,
+      'nom_signe'   => null,
+      'date_charte_signe' => null,
+  ))
+  ->execute();
+
+  // Sauvegarde les habilitations
+  foreach ($user_habilitations as $key => $value) {
+    if ($value !== 0) {
+      $hab_sql = db_insert('lien_drupal_user_habilitation')
+      ->fields(array(
+          'id_drupal_user'     => $id_extranet_drupal_user,
+          'id_habilitation'    => $key,
+      ))
+      ->execute();
+    }
+  }
+
+  db_set_active();
+
+  return $id_extranet_drupal_user;
+}

@@ -1,0 +1,20 @@
+<h3>
+  Demande de création de compte entreprise
+</h3>
+
+<div class="row">
+    <?php print render($form_creation_compte_fin['#prefix']); ?>
+    <?php print drupal_render($form_creation_compte_fin['page']); ?>
+</div>
+
+<div id="message-fin" class="center">
+  <?php print @MESSAGE_FIN_CREATION_COMPTE; ?>
+  <span id="numero-demande">
+     <?php print $numero_demande; ?>
+  </span>
+  <br />
+  <?php print @MESSAGE_FIN_CREATION_COMPTE_2; ?>
+  <form>
+<input type="button" value="RETOURNER A LA PAGE D'ACCUEIL" onClick="javascript:document.location.href='/login'" />
+  </form> 
+</div>

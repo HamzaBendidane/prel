@@ -1,0 +1,129 @@
+<?php
+
+ /*
+ *  Implements Hook_permission()
+ *
+ *  Gestion des permissions sur les roles des utilisateurs
+ *
+ *
+ */
+function dgf_user_habilitation_permission() {
+  $actions = array(
+      'GES_DGF_PAR' => array(
+          'title' => t('Gérer les paramètres des demandes de gestion et financement'),
+          'description' => t(''),
+      ),
+      'GES_LIS_UTI' => array(
+          'title' => t('Accéder à la liste des utilisateurs'),
+          'description' => t(''),
+      ),
+      'GES_VAL_UTI' => array(
+          'title' => t('Valider une demande de compte utilisateur'),
+          'description' => t(''),
+      ),
+      'GES_AJO_UTI' => array(
+          'title' => t('Ajouter un utilisateur'),
+          'description' => t(''),
+      ),
+      'GES_MOD_UTI' => array(
+          'title' => t('Modifier un utilisateur'),
+          'description' => t(''),
+      ),
+      'GES_SUP_UTI' => array(
+          'title' => t('Supprimer un utilisateur'),
+          'description' => t(''),
+      ),
+      'GES_LIS_ETA' => array(
+          'title' => t('Accéder à la liste des établissements'),
+          'description' => t(''),
+      ),
+      'GES_VAL_UTI' => array(
+          'title' => t('Valider une création ou une modification d\'établissements'),
+          'description' => t(''),
+      ),
+      'GES_AJO_ETA' => array(
+          'title' => t('Ajouter un établissement'),
+          'description' => t(''),
+      ),
+      'GES_MOD_ETA' => array(
+          'title' => t('Modifier un établissement'),
+          'description' => t(''),
+      ),
+      'GES_SUP_ETA' => array(
+          'title' => t('Supprimer un établissement'),
+          'description' => t(''),
+      ),
+      'GES_CP' => array(
+          'title' => t('Gérer les contrats de professionnalisation (de la demande au suivi)'),
+          'description' => t(''),
+      ),
+      'GES_TA' => array(
+          'title' => t('Gérer les actions de formation (et VAE, CPF, etc.) (de la demande au suivi)'),
+          'description' => t(''),
+      ),
+      'GES_CON' => array(
+          'title' => t('Déclarer les contributions (collecte TA et FPC)'),
+          'description' => t(''),
+      ),
+      'GES_PAI' => array(
+          'title' => t('Suivre les paiements'),
+          'description' => t(''),
+      ),
+//       'GES_DGF_CP' => array(
+//           'title' => t('Gérer les demandes Contrat Pro'),
+//           'description' => t(''),
+//       ),
+//       'GES_DGF_TA' => array(
+//           'title' => t('Gérer les demandes Toutes Actions'),
+//           'description' => t(''),
+//       ),
+//       'SUI_DGF_CP' => array(
+//           'title' => t('Accéder à la liste des demandes Contrat Pro'),
+//           'description' => t(''),
+//       ),
+//       'SUI_DGF_TA' => array(
+//           'title' => t('Accéder à la liste des demandes Toutes Actions'),
+//           'description' => t(''),
+//       ),
+//       'SUI_PAI_CP' => array(
+//           'title' => t('Accéder à la liste des paiements Contrat Pro'),
+//           'description' => t(''),
+//       ),
+//       'SUI_PAI_TA' => array(
+//           'title' => t('Accéder à la liste des paiements Toutes Actions'),
+//           'description' => t(''),
+//       ),
+//       'SAI_DGF_CP' => array(
+//           'title' => t('Faire une demande Contrat Pro'),
+//           'description' => t(''),
+//       ),
+//       'SAI_DGF_TA' => array(
+//           'title' => t('Faire une demande Toutes Actions'),
+//           'description' => t(''),
+//       ),
+      'SAI_COM_ENT' => array(
+          'title' => t('Faire une demande de création de compte enteprise'),
+          'description' => t(''),
+      ),
+      'DAS_ADH' => array(
+          'title' => t('Dashboard - Utilisateurs ADEFIM'),
+          'description' => t(''),
+      ),
+      'DAS_ENU' => array(
+          'title' => t('Dashboard - Utilisateur Adhérent'),
+          'description' => t(''),
+      ),
+      
+      'DAS_OGF' => array(
+          'title' => t('Dashboard - Organisme de formation'),
+          'description' => t(''),
+      ),
+      
+      'DAS_OPA' => array(
+          'title' => t('Dashboard - Administrateur OPCAIM'),
+          'description' => t(''),
+      ),
+  );
+
+  return $actions;
+}

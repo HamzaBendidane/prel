@@ -1,0 +1,18 @@
+<?php
+
+/*******************************
+Custom Ad Form
+Display Current user information
+********************************/
+function ecofolio_annonce_custom_form_alter(&$form, &$form_state, &$form_id) {
+	global $user;
+	$user_fields = user_load($user->uid);
+	if ($form_id == 'annonces_node_form') {
+        $form['field_annonces_convention']['und'][0]['value']['#attributes']['placeholder'] = t('EF');
+        isset($user_fields->field_last_name['und']['0']['value']) ? $form['field_annonces_nom']['und'][0]['value']['#default_value'] = $user_fields->field_last_name['und']['0']['value'] : null;
+        isset($user_fields->field_first_name['und']['0']['value']) ? $form['field_annonces_prenom']['und'][0]['value']['#default_value'] = $user_fields->field_first_name['und']['0']['value'] : null;
+        isset($user_fields->field_fonction['und']['0']['value']) ? $form['field_annonces_fonction']['und'][0]['value']['#default_value'] = $user_fields->field_fonction['und']['0']['value'] : null;
+        isset($user_fields->mail) ? $form['field_annonces_email']['und'][0]['value']['#default_value'] = $user_fields->mail : null;
+        isset($user_fields->field_telephone['und']['0']['value']) ? $form['field_tel']['und'][0]['value']['#default_value'] = $user_fields->field_telephone['und']['0']['value'] : null;
+    }
+}

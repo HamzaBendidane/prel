@@ -1,0 +1,4 @@
+name = Bloc CXM
+description = Module to configure bloc CXM rules and other workaround.
+core = 7.x
+package = Ecofolio

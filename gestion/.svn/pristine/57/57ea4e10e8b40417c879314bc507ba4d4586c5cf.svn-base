@@ -1,0 +1,53 @@
+<?php
+
+/**
+ * @param $db DB_SLAVE
+ * @param $procedureName the name of the procedure
+ * @param $procedureData the procedure DATA
+ * @return mixed The return id
+ * @throws Exception
+ */
+function shared_execute_procedure($procedureName,$procedureData){
+    db_set_active(@DB_SLAVE);
+    if ( !is_array($procedureData) ) throw new Exception("NO DATA TO BOUND FOR PROCEDURE ".$procedureName);
+    foreach ($procedureData as $key => $value){
+        switch (gettype($value)) {
+            case "boolean":
+            case "integer":
+                $svalue = $value;
+                break;
+            case "string":
+                $svalue = "'" . $value . "'";
+                break;
+            case "NULL":
+                $svalue = 'NULL';
+                break;
+        }
+
+        $sQuery[] = "@" . $key . " = " . $svalue;
+        $aQuery[] = "@" . $key . " = :" . $key;
+        $aValue[":".$key] = $value;
+    }
+
+    $query = 'EXEC ' . $procedureName . ' ' . implode(',',$aQuery) . ";";
+
+    try{
+
+      $result = db_query($query,$aValue);
+
+        try {
+            $id = $result->fetchField();
+        }catch (Exception $e){
+            $id = null;
+        }
+
+    }
+    catch(Exception $e){
+
+          $query = 'EXEC ' . $procedureName . ' ' . implode(',',$sQuery) . ";";
+          throw new Exception("#####".$query ."####### || ".$e->getMessage(), 1);
+    }
+
+    db_set_active();
+    return $id;
+}

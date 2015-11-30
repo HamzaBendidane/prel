@@ -1,0 +1,123 @@
+<?php
+ 
+/**
+ * Implementation of hook_block_info().
+ */
+function ecofolio_univers_block_info(){
+  $blocks['ecofolio_univers_full'] = array('info'=>'Ecofolio blocs page univers');
+  return $blocks;
+}
+
+/**
+ * Implementation of hook_block_view().
+ */
+function ecofolio_univers_block_view($delta=''){
+  global $base_url, $user, $node;
+  $block = array();
+  switch($delta){
+    case 'ecofolio_univers_full':
+      $block = ecofolio_univers_bloc_full();
+      break;
+
+  }
+  return $block;
+}
+
+
+
+
+function ecofolio_univers_bloc_full() {
+  if(arg(0)=='node' && is_numeric(arg(1))) $node_tmp = node_load(arg(1));
+  if(isset($node_tmp) && ($node_tmp->type=="home_univers")) {
+    $contenu = '';
+
+    //Bloc Intra Rubrique haut gauche Univers : field_homeunivers_bhg
+    $n_intra = node_load($node_tmp->field_homeunivers_bhg['und'][0]['nid']);
+    if(isset($n_intra->field_bloc_intra_link['und'])) $link = url('node/'.$n_intra->field_bloc_intra_link['und'][0]['nid']);
+    else $link = '';
+    if(isset($n_intra->field_bloc_intra_link['und']))  $link_title = $n_intra->field_bloc_intra_link_text['und'][0]['value'];
+    else $link_title = 'Découvrir';
+    $img = image_style_url("320-310", $n_intra->field_bloc_intra_image['und'][0]['uri']);
+    $contenu .= <<< END
+      <div class="bloc_intra">
+        <a href="{$link}">
+          <div class="top">
+            <h3>{$n_intra->field_bloc_intra_label['und'][0]['value']}</h3>
+            <p>{$n_intra->field_bloc_intra_teaser['und'][0]['value']}</p>
+          </div>
+          <img src="{$img}" />
+          <div class="footer_intra">
+            <span>{$link_title}</span>
+          </div>
+        </a>
+      </div>
+END;
+
+    //Bloc Intra Rubrique haut droite Univers : field_homeunivers_bhd
+    $center_node = node_load($node_tmp->field_homeunivers_bhd['und'][0]['nid']);
+    if(isset($center_node->field_bloc_img_link_int['und'])) $link = url('node/'.$center_node->field_bloc_img_link_int['und'][0]['nid']);
+    elseif(isset($center_node->field_bloc_img_link_ext['und'])) $link = $center_node->field_bloc_img_link_ext['und'][0]['url'];
+    else $link = '';
+    $img = image_style_url("320-402", $center_node->field_bloc_img_image['und'][0]['uri']);
+    $contenu .= <<< END
+  <div class="hp_top_center">
+  <a href="{$link}">
+    <img src="{$img}" />
+    <div class="top">
+      <h3>{$center_node->title}</h3>
+      <p class="accroche">{$center_node->body['und'][0]['value']}</p>
+    </div>
+  </a>
+  </div>
+END;
+
+      //Bloc Dossier bas gauche Univers : field_homeunivers_bbg
+      $right_node = node_load($node_tmp->field_homeunivers_bbg['und'][0]['nid']);
+      if(isset($right_node->field_bloc_img_link_int['und'])) $link = url('node/'.$right_node->field_bloc_img_link_int['und'][0]['nid']);
+      elseif(isset($right_node->field_bloc_img_link_ext['und'])) $link = $right_node->field_bloc_img_link_ext['und'][0]['url'];
+      else $link = '';
+      $img = image_style_url("hp_top_right", $right_node->field_bloc_img_image['und'][0]['uri']);
+      $img = image_style_url("hp_top_right", $right_node->field_bloc_img_image['und'][0]['uri']);
+      $contenu .= <<< END
+  <div class="hp_top_right">
+    <a href="{$link}">
+      <div class="top">
+        <h3>{$right_node->field_bloc_dossier_title['und'][0]['value']}</h3>
+        <h2>{$right_node->field_bloc_dossier_subtitle['und'][0]['value']}</h2>
+        <p class="accroche">{$right_node->field_bloc_dossier_teaser['und'][0]['value']}</p>
+      </div>
+      <img src="{$img}" />
+      <div class="encart"><div class="decouvrir"><span>Découvrir</span></div></div>
+    </a>
+  </div>
+END;
+
+
+    //Bloc Dossier bas droite Univers : field_homeunivers_bbd
+    $n_intra = node_load($node_tmp->field_homeunivers_bbd['und'][0]['nid']);
+    if(isset($n_intra->field_bloc_intra_link['und'])) $link = url('node/'.$n_intra->field_bloc_intra_link['und'][0]['nid']);
+    else $link = '';
+    if(isset($n_intra->field_bloc_intra_link['und']))  $link_title = $n_intra->field_bloc_intra_link_text['und'][0]['value'];
+    else $link_title = 'Découvrir';
+    $img = image_style_url("320-310", $n_intra->field_bloc_intra_image['und'][0]['uri']);
+    $contenu .= <<< END
+      <div class="bloc_intra">
+        <a href="{$link}">
+          <div class="top">
+            <h3>{$n_intra->field_bloc_intra_label['und'][0]['value']}</h3>
+            <p>{$n_intra->field_bloc_intra_teaser['und'][0]['value']}</p>
+          </div>
+          <img src="{$img}" />
+          <div class="footer_intra">
+            <span>{$link_title}</span>
+          </div>
+        </a>
+      </div>
+END;
+
+
+  } else $contenu = '';
+  return array("subject"=>"", "content"=>$contenu);
+}
+
+?>

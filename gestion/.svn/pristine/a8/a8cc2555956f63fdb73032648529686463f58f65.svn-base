@@ -1,0 +1,135 @@
+<?php
+/**
+ * @file
+ * ecofolio_page.features.inc
+ */
+
+/**
+ * Implements hook_ctools_plugin_api().
+ */
+function ecofolio_page_ctools_plugin_api($module = NULL, $api = NULL) {
+  if ($module == "field_group" && $api == "field_group") {
+    return array("version" => "1");
+  }
+  if ($module == "strongarm" && $api == "strongarm") {
+    return array("version" => "1");
+  }
+}
+
+/**
+ * Implements hook_image_default_styles().
+ */
+function ecofolio_page_image_default_styles() {
+  $styles = array();
+
+  // Exported image style: 320-310.
+  $styles['320-310'] = array(
+    'name' => '320-310',
+    'label' => '320-310',
+    'effects' => array(
+      9 => array(
+        'label' => 'Mise à l’échelle et recadrage',
+        'help' => 'La mise à l\'échelle et le recadrage maintiendront les proportions originales de l\'image puis recadreront la dimension la plus large. C\'est très utile pour créer des vignettes carrées sans étirer les images.',
+        'effect callback' => 'image_scale_and_crop_effect',
+        'dimensions callback' => 'image_resize_dimensions',
+        'form callback' => 'image_resize_form',
+        'summary theme' => 'image_resize_summary',
+        'module' => 'image',
+        'name' => 'image_scale_and_crop',
+        'data' => array(
+          'width' => 320,
+          'height' => 310,
+        ),
+        'weight' => 1,
+      ),
+    ),
+  );
+
+  // Exported image style: 320-402.
+  $styles['320-402'] = array(
+    'name' => '320-402',
+    'label' => '320-402',
+    'effects' => array(
+      12 => array(
+        'label' => 'Mise à l’échelle et recadrage',
+        'help' => 'La mise à l\'échelle et le recadrage maintiendront les proportions originales de l\'image puis recadreront la dimension la plus large. C\'est très utile pour créer des vignettes carrées sans étirer les images.',
+        'effect callback' => 'image_scale_and_crop_effect',
+        'dimensions callback' => 'image_resize_dimensions',
+        'form callback' => 'image_resize_form',
+        'summary theme' => 'image_resize_summary',
+        'module' => 'image',
+        'name' => 'image_scale_and_crop',
+        'data' => array(
+          'width' => 320,
+          'height' => 402,
+        ),
+        'weight' => 1,
+      ),
+    ),
+  );
+
+  // Exported image style: promo_left.
+  $styles['promo_left'] = array(
+    'name' => 'promo_left',
+    'label' => 'promo left',
+    'effects' => array(
+      11 => array(
+        'label' => 'Mise à l’échelle et recadrage',
+        'help' => 'La mise à l\'échelle et le recadrage maintiendront les proportions originales de l\'image puis recadreront la dimension la plus large. C\'est très utile pour créer des vignettes carrées sans étirer les images.',
+        'effect callback' => 'image_scale_and_crop_effect',
+        'dimensions callback' => 'image_resize_dimensions',
+        'form callback' => 'image_resize_form',
+        'summary theme' => 'image_resize_summary',
+        'module' => 'image',
+        'name' => 'image_scale_and_crop',
+        'data' => array(
+          'width' => 640,
+          'height' => 308,
+        ),
+        'weight' => 1,
+      ),
+    ),
+  );
+
+  // Exported image style: top_image.
+  $styles['top_image'] = array(
+    'name' => 'top_image',
+    'label' => 'Top image',
+    'effects' => array(
+      10 => array(
+        'label' => 'Mise à l’échelle et recadrage',
+        'help' => 'La mise à l\'échelle et le recadrage maintiendront les proportions originales de l\'image puis recadreront la dimension la plus large. C\'est très utile pour créer des vignettes carrées sans étirer les images.',
+        'effect callback' => 'image_scale_and_crop_effect',
+        'dimensions callback' => 'image_resize_dimensions',
+        'form callback' => 'image_resize_form',
+        'summary theme' => 'image_resize_summary',
+        'module' => 'image',
+        'name' => 'image_scale_and_crop',
+        'data' => array(
+          'width' => 640,
+          'height' => 402,
+        ),
+        'weight' => 1,
+      ),
+    ),
+  );
+
+  return $styles;
+}
+
+/**
+ * Implements hook_node_info().
+ */
+function ecofolio_page_node_info() {
+  $items = array(
+    'page' => array(
+      'name' => t('Page'),
+      'base' => 'node_content',
+      'description' => t('Use <em>basic pages</em> for your static content, such as an \'About us\' page.'),
+      'has_title' => '1',
+      'title_label' => t('Titre'),
+      'help' => '',
+    ),
+  );
+  return $items;
+}

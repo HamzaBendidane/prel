@@ -1,0 +1,23 @@
+<?php
+/**
+ * @file
+ * ecofolio_rule_bloc_cxm.features.user_permission.inc
+ */
+
+/**
+ * Implements hook_user_default_permissions().
+ */
+function ecofolio_rule_bloc_cxm_user_default_permissions() {
+  $permissions = array();
+
+  // Exported permission: 'administer cxm block rules'.
+  $permissions['administer cxm block rules'] = array(
+    'name' => 'administer cxm block rules',
+    'roles' => array(
+      'administrator' => 'administrator',
+    ),
+    'module' => 'block_cxm',
+  );
+
+  return $permissions;
+}

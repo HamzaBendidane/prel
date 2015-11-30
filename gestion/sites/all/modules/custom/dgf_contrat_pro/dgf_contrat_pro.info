@@ -1,0 +1,5 @@
+name = "Saisie des DGF - Spécificité pour les Contrats Pro"
+description = "Saisie des demandes de gestion et financement pour les contrats de professionnalisation"
+package = OPCAIM
+core = "7.x"
+version = "7.1.0"

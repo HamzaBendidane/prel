@@ -1,0 +1,13 @@
+<?php
+/**
+ * @file
+ * This module holds functions useful for Infos module.
+ * Please contribute!
+ */
+
+ function logs_table_connect(){
+ 	// Connection à la table des logs
+ 	// TODO
+	// Choisir la base de données à connecter
+	// db_set_active('');
+}

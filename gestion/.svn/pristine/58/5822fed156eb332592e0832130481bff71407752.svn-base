@@ -1,0 +1,8 @@
+a.form-submit {
+    border-radius: 5px;
+    color: #196681 !important;
+    background-color: #FFF !important;
+    border-color: #ABC7D5 !important;
+    font-weight: bold;
+    text-transform: uppercase;
+}

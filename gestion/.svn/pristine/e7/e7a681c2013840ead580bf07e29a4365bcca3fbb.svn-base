@@ -1,0 +1,519 @@
+<?php
+/**
+ * @file
+ * ecofolio_blocs_rem_pages_contenu.views_default.inc
+ */
+
+/**
+ * Implements hook_views_default_views().
+ */
+function ecofolio_blocs_rem_pages_contenu_views_default_views() {
+  $export = array();
+
+  $view = new view();
+  $view->name = 'blocs_rem_pages_contenu';
+  $view->description = '';
+  $view->tag = 'default';
+  $view->base_table = 'node';
+  $view->human_name = 'Blocs REM Basic Pages + Actualités';
+  $view->core = 7;
+  $view->api_version = '3.0';
+  $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
+
+  /* Display: Master */
+  $handler = $view->new_display('default', 'Master', 'default');
+  $handler->display->display_options['use_more_always'] = FALSE;
+  $handler->display->display_options['use_more_text'] = 'plus';
+  $handler->display->display_options['access']['type'] = 'perm';
+  $handler->display->display_options['cache']['type'] = 'none';
+  $handler->display->display_options['query']['type'] = 'views_query';
+  $handler->display->display_options['exposed_form']['type'] = 'basic';
+  $handler->display->display_options['exposed_form']['options']['submit_button'] = 'Appliquer';
+  $handler->display->display_options['exposed_form']['options']['reset_button_label'] = 'Réinitialiser';
+  $handler->display->display_options['exposed_form']['options']['exposed_sorts_label'] = 'Trier par';
+  $handler->display->display_options['pager']['type'] = 'none';
+  $handler->display->display_options['pager']['options']['offset'] = '0';
+  $handler->display->display_options['style_plugin'] = 'default';
+  $handler->display->display_options['row_plugin'] = 'fields';
+  /* Champ: Contenu : Bloc haut gauche Home */
+  $handler->display->display_options['fields']['field_homepage_bhg']['id'] = 'field_homepage_bhg';
+  $handler->display->display_options['fields']['field_homepage_bhg']['table'] = 'field_data_field_homepage_bhg';
+  $handler->display->display_options['fields']['field_homepage_bhg']['field'] = 'field_homepage_bhg';
+  $handler->display->display_options['fields']['field_homepage_bhg']['label'] = '';
+  $handler->display->display_options['fields']['field_homepage_bhg']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_homepage_bhg']['hide_empty'] = TRUE;
+  $handler->display->display_options['fields']['field_homepage_bhg']['type'] = 'node_reference_node';
+  $handler->display->display_options['fields']['field_homepage_bhg']['settings'] = array(
+    'node_reference_view_mode' => 'bloc_home',
+  );
+  /* Champ: Contenu : Accroche */
+  $handler->display->display_options['fields']['field_bloc_img_teaser']['id'] = 'field_bloc_img_teaser';
+  $handler->display->display_options['fields']['field_bloc_img_teaser']['table'] = 'field_data_field_bloc_img_teaser';
+  $handler->display->display_options['fields']['field_bloc_img_teaser']['field'] = 'field_bloc_img_teaser';
+  /* Champ: Contenu : Accroche */
+  $handler->display->display_options['fields']['field_bloc_rem_teaser']['id'] = 'field_bloc_rem_teaser';
+  $handler->display->display_options['fields']['field_bloc_rem_teaser']['table'] = 'field_data_field_bloc_rem_teaser';
+  $handler->display->display_options['fields']['field_bloc_rem_teaser']['field'] = 'field_bloc_rem_teaser';
+  /* Champ: Contenu : Accroche */
+  $handler->display->display_options['fields']['field_bloc_push_teaser']['id'] = 'field_bloc_push_teaser';
+  $handler->display->display_options['fields']['field_bloc_push_teaser']['table'] = 'field_data_field_bloc_push_teaser';
+  $handler->display->display_options['fields']['field_bloc_push_teaser']['field'] = 'field_bloc_push_teaser';
+  /* Champ: Contenu : Tous les termes de taxonomie */
+  $handler->display->display_options['fields']['term_node_tid']['id'] = 'term_node_tid';
+  $handler->display->display_options['fields']['term_node_tid']['table'] = 'node';
+  $handler->display->display_options['fields']['term_node_tid']['field'] = 'term_node_tid';
+  /* Champ: Contenu : Type */
+  $handler->display->display_options['fields']['type']['id'] = 'type';
+  $handler->display->display_options['fields']['type']['table'] = 'node';
+  $handler->display->display_options['fields']['type']['field'] = 'type';
+  /* Filtre contextuel: Contenu : Nid */
+  $handler->display->display_options['arguments']['nid']['id'] = 'nid';
+  $handler->display->display_options['arguments']['nid']['table'] = 'node';
+  $handler->display->display_options['arguments']['nid']['field'] = 'nid';
+  $handler->display->display_options['arguments']['nid']['default_action'] = 'default';
+  $handler->display->display_options['arguments']['nid']['exception']['title'] = 'Tous';
+  $handler->display->display_options['arguments']['nid']['default_argument_type'] = 'node';
+  $handler->display->display_options['arguments']['nid']['summary']['number_of_records'] = '0';
+  $handler->display->display_options['arguments']['nid']['summary']['format'] = 'default_summary';
+  $handler->display->display_options['arguments']['nid']['summary_options']['items_per_page'] = '25';
+  /* Critère de filtrage: Contenu : Publié */
+  $handler->display->display_options['filters']['status']['id'] = 'status';
+  $handler->display->display_options['filters']['status']['table'] = 'node';
+  $handler->display->display_options['filters']['status']['field'] = 'status';
+  $handler->display->display_options['filters']['status']['value'] = 1;
+  $handler->display->display_options['filters']['status']['group'] = 1;
+  $handler->display->display_options['filters']['status']['expose']['operator'] = FALSE;
+  /* Critère de filtrage: Contenu : Type */
+  $handler->display->display_options['filters']['type']['id'] = 'type';
+  $handler->display->display_options['filters']['type']['table'] = 'node';
+  $handler->display->display_options['filters']['type']['field'] = 'type';
+  $handler->display->display_options['filters']['type']['value'] = array(
+    'page' => 'page',
+  );
+
+  /* Display: Bloc REM gauche Basic Pages */
+  $handler = $view->new_display('block', 'Bloc REM gauche Basic Pages', 'block');
+  $handler->display->display_options['defaults']['relationships'] = FALSE;
+  /* Relation: Contenu : Bloc REM gauche (field_basicpage_brg) */
+  $handler->display->display_options['relationships']['field_basicpage_brg_nid']['id'] = 'field_basicpage_brg_nid';
+  $handler->display->display_options['relationships']['field_basicpage_brg_nid']['table'] = 'field_data_field_basicpage_brg';
+  $handler->display->display_options['relationships']['field_basicpage_brg_nid']['field'] = 'field_basicpage_brg_nid';
+  $handler->display->display_options['relationships']['field_basicpage_brg_nid']['delta'] = '-1';
+  $handler->display->display_options['defaults']['fields'] = FALSE;
+  /* Champ: Contenu : Lien */
+  $handler->display->display_options['fields']['field_bloc_rem_link']['id'] = 'field_bloc_rem_link';
+  $handler->display->display_options['fields']['field_bloc_rem_link']['table'] = 'field_data_field_bloc_rem_link';
+  $handler->display->display_options['fields']['field_bloc_rem_link']['field'] = 'field_bloc_rem_link';
+  $handler->display->display_options['fields']['field_bloc_rem_link']['relationship'] = 'field_basicpage_brg_nid';
+  $handler->display->display_options['fields']['field_bloc_rem_link']['label'] = '';
+  $handler->display->display_options['fields']['field_bloc_rem_link']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['field_bloc_rem_link']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_bloc_rem_link']['hide_empty'] = TRUE;
+  $handler->display->display_options['fields']['field_bloc_rem_link']['type'] = 'node_reference_path';
+  $handler->display->display_options['fields']['field_bloc_rem_link']['settings'] = array(
+    'alias' => 1,
+    'absolute' => 1,
+  );
+  /* Champ: Contenu : Accroche */
+  $handler->display->display_options['fields']['field_bloc_rem_teaser']['id'] = 'field_bloc_rem_teaser';
+  $handler->display->display_options['fields']['field_bloc_rem_teaser']['table'] = 'field_data_field_bloc_rem_teaser';
+  $handler->display->display_options['fields']['field_bloc_rem_teaser']['field'] = 'field_bloc_rem_teaser';
+  $handler->display->display_options['fields']['field_bloc_rem_teaser']['relationship'] = 'field_basicpage_brg_nid';
+  $handler->display->display_options['fields']['field_bloc_rem_teaser']['label'] = '';
+  $handler->display->display_options['fields']['field_bloc_rem_teaser']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['field_bloc_rem_teaser']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_bloc_rem_teaser']['hide_empty'] = TRUE;
+  /* Champ: Contenu : Image */
+  $handler->display->display_options['fields']['field_bloc_rem_image']['id'] = 'field_bloc_rem_image';
+  $handler->display->display_options['fields']['field_bloc_rem_image']['table'] = 'field_data_field_bloc_rem_image';
+  $handler->display->display_options['fields']['field_bloc_rem_image']['field'] = 'field_bloc_rem_image';
+  $handler->display->display_options['fields']['field_bloc_rem_image']['relationship'] = 'field_basicpage_brg_nid';
+  $handler->display->display_options['fields']['field_bloc_rem_image']['label'] = '';
+  $handler->display->display_options['fields']['field_bloc_rem_image']['alter']['alter_text'] = TRUE;
+  $handler->display->display_options['fields']['field_bloc_rem_image']['alter']['text'] = '<div class="bloc-rem">
+ <div class="bloc-image">[field_bloc_rem_image]</div>
+ <div class="bloc-accroche"><p>[field_bloc_rem_teaser]</p></div>
+</div>';
+  $handler->display->display_options['fields']['field_bloc_rem_image']['alter']['make_link'] = TRUE;
+  $handler->display->display_options['fields']['field_bloc_rem_image']['alter']['path'] = '[field_bloc_rem_link]';
+  $handler->display->display_options['fields']['field_bloc_rem_image']['alter']['absolute'] = TRUE;
+  $handler->display->display_options['fields']['field_bloc_rem_image']['alter']['replace_spaces'] = TRUE;
+  $handler->display->display_options['fields']['field_bloc_rem_image']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_bloc_rem_image']['hide_empty'] = TRUE;
+  $handler->display->display_options['fields']['field_bloc_rem_image']['click_sort_column'] = 'fid';
+  $handler->display->display_options['fields']['field_bloc_rem_image']['settings'] = array(
+    'image_style' => 'block_intra',
+    'image_link' => '',
+  );
+
+  /* Display: Bloc REM droite Basic Pages */
+  $handler = $view->new_display('block', 'Bloc REM droite Basic Pages', 'block_1');
+  $handler->display->display_options['defaults']['relationships'] = FALSE;
+  /* Relation: Contenu : Bloc REM droite (field_basicpage_brd) */
+  $handler->display->display_options['relationships']['field_basicpage_brd_nid']['id'] = 'field_basicpage_brd_nid';
+  $handler->display->display_options['relationships']['field_basicpage_brd_nid']['table'] = 'field_data_field_basicpage_brd';
+  $handler->display->display_options['relationships']['field_basicpage_brd_nid']['field'] = 'field_basicpage_brd_nid';
+  $handler->display->display_options['relationships']['field_basicpage_brd_nid']['delta'] = '-1';
+  $handler->display->display_options['defaults']['fields'] = FALSE;
+  /* Champ: Contenu : Lien */
+  $handler->display->display_options['fields']['field_bloc_rem_link']['id'] = 'field_bloc_rem_link';
+  $handler->display->display_options['fields']['field_bloc_rem_link']['table'] = 'field_data_field_bloc_rem_link';
+  $handler->display->display_options['fields']['field_bloc_rem_link']['field'] = 'field_bloc_rem_link';
+  $handler->display->display_options['fields']['field_bloc_rem_link']['relationship'] = 'field_basicpage_brd_nid';
+  $handler->display->display_options['fields']['field_bloc_rem_link']['label'] = '';
+  $handler->display->display_options['fields']['field_bloc_rem_link']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['field_bloc_rem_link']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_bloc_rem_link']['hide_empty'] = TRUE;
+  $handler->display->display_options['fields']['field_bloc_rem_link']['type'] = 'node_reference_path';
+  $handler->display->display_options['fields']['field_bloc_rem_link']['settings'] = array(
+    'alias' => 1,
+    'absolute' => 1,
+  );
+  /* Champ: Contenu : Accroche */
+  $handler->display->display_options['fields']['field_bloc_rem_teaser']['id'] = 'field_bloc_rem_teaser';
+  $handler->display->display_options['fields']['field_bloc_rem_teaser']['table'] = 'field_data_field_bloc_rem_teaser';
+  $handler->display->display_options['fields']['field_bloc_rem_teaser']['field'] = 'field_bloc_rem_teaser';
+  $handler->display->display_options['fields']['field_bloc_rem_teaser']['relationship'] = 'field_basicpage_brd_nid';
+  $handler->display->display_options['fields']['field_bloc_rem_teaser']['label'] = '';
+  $handler->display->display_options['fields']['field_bloc_rem_teaser']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['field_bloc_rem_teaser']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_bloc_rem_teaser']['hide_empty'] = TRUE;
+  /* Champ: Contenu : Image */
+  $handler->display->display_options['fields']['field_bloc_rem_image']['id'] = 'field_bloc_rem_image';
+  $handler->display->display_options['fields']['field_bloc_rem_image']['table'] = 'field_data_field_bloc_rem_image';
+  $handler->display->display_options['fields']['field_bloc_rem_image']['field'] = 'field_bloc_rem_image';
+  $handler->display->display_options['fields']['field_bloc_rem_image']['relationship'] = 'field_basicpage_brd_nid';
+  $handler->display->display_options['fields']['field_bloc_rem_image']['label'] = '';
+  $handler->display->display_options['fields']['field_bloc_rem_image']['alter']['alter_text'] = TRUE;
+  $handler->display->display_options['fields']['field_bloc_rem_image']['alter']['text'] = '<div class="bloc-rem">
+ <div class="bloc-image">[field_bloc_rem_image]</div>
+ <div class="bloc-accroche"><p>[field_bloc_rem_teaser]</p></div>
+</div>';
+  $handler->display->display_options['fields']['field_bloc_rem_image']['alter']['make_link'] = TRUE;
+  $handler->display->display_options['fields']['field_bloc_rem_image']['alter']['path'] = '[field_bloc_rem_link]';
+  $handler->display->display_options['fields']['field_bloc_rem_image']['alter']['absolute'] = TRUE;
+  $handler->display->display_options['fields']['field_bloc_rem_image']['alter']['replace_spaces'] = TRUE;
+  $handler->display->display_options['fields']['field_bloc_rem_image']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_bloc_rem_image']['hide_empty'] = TRUE;
+  $handler->display->display_options['fields']['field_bloc_rem_image']['click_sort_column'] = 'fid';
+  $handler->display->display_options['fields']['field_bloc_rem_image']['settings'] = array(
+    'image_style' => 'block_intra',
+    'image_link' => '',
+  );
+
+  /* Display: Bloc REM gauche Contenus Actualités */
+  $handler = $view->new_display('block', 'Bloc REM gauche Contenus Actualités', 'block_2');
+  $handler->display->display_options['defaults']['relationships'] = FALSE;
+  /* Relation: Contenu : Bloc REM gauche (field_actu_brg) */
+  $handler->display->display_options['relationships']['field_actu_brg_nid']['id'] = 'field_actu_brg_nid';
+  $handler->display->display_options['relationships']['field_actu_brg_nid']['table'] = 'field_data_field_actu_brg';
+  $handler->display->display_options['relationships']['field_actu_brg_nid']['field'] = 'field_actu_brg_nid';
+  $handler->display->display_options['relationships']['field_actu_brg_nid']['delta'] = '-1';
+  $handler->display->display_options['defaults']['fields'] = FALSE;
+  /* Champ: Contenu : Lien */
+  $handler->display->display_options['fields']['field_bloc_rem_link']['id'] = 'field_bloc_rem_link';
+  $handler->display->display_options['fields']['field_bloc_rem_link']['table'] = 'field_data_field_bloc_rem_link';
+  $handler->display->display_options['fields']['field_bloc_rem_link']['field'] = 'field_bloc_rem_link';
+  $handler->display->display_options['fields']['field_bloc_rem_link']['relationship'] = 'field_actu_brg_nid';
+  $handler->display->display_options['fields']['field_bloc_rem_link']['label'] = '';
+  $handler->display->display_options['fields']['field_bloc_rem_link']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['field_bloc_rem_link']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_bloc_rem_link']['hide_empty'] = TRUE;
+  $handler->display->display_options['fields']['field_bloc_rem_link']['type'] = 'node_reference_path';
+  $handler->display->display_options['fields']['field_bloc_rem_link']['settings'] = array(
+    'alias' => 1,
+    'absolute' => 1,
+  );
+  /* Champ: Contenu : Accroche */
+  $handler->display->display_options['fields']['field_bloc_rem_teaser']['id'] = 'field_bloc_rem_teaser';
+  $handler->display->display_options['fields']['field_bloc_rem_teaser']['table'] = 'field_data_field_bloc_rem_teaser';
+  $handler->display->display_options['fields']['field_bloc_rem_teaser']['field'] = 'field_bloc_rem_teaser';
+  $handler->display->display_options['fields']['field_bloc_rem_teaser']['relationship'] = 'field_actu_brg_nid';
+  $handler->display->display_options['fields']['field_bloc_rem_teaser']['label'] = '';
+  $handler->display->display_options['fields']['field_bloc_rem_teaser']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['field_bloc_rem_teaser']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_bloc_rem_teaser']['hide_empty'] = TRUE;
+  /* Champ: Contenu : Image */
+  $handler->display->display_options['fields']['field_bloc_rem_image']['id'] = 'field_bloc_rem_image';
+  $handler->display->display_options['fields']['field_bloc_rem_image']['table'] = 'field_data_field_bloc_rem_image';
+  $handler->display->display_options['fields']['field_bloc_rem_image']['field'] = 'field_bloc_rem_image';
+  $handler->display->display_options['fields']['field_bloc_rem_image']['relationship'] = 'field_actu_brg_nid';
+  $handler->display->display_options['fields']['field_bloc_rem_image']['label'] = '';
+  $handler->display->display_options['fields']['field_bloc_rem_image']['alter']['alter_text'] = TRUE;
+  $handler->display->display_options['fields']['field_bloc_rem_image']['alter']['text'] = '<div class="bloc-rem">
+ <div class="bloc-image">[field_bloc_rem_image]</div>
+ <div class="bloc-accroche"><p>[field_bloc_rem_teaser]</p></div>
+</div>';
+  $handler->display->display_options['fields']['field_bloc_rem_image']['alter']['make_link'] = TRUE;
+  $handler->display->display_options['fields']['field_bloc_rem_image']['alter']['path'] = '[field_bloc_rem_link]';
+  $handler->display->display_options['fields']['field_bloc_rem_image']['alter']['absolute'] = TRUE;
+  $handler->display->display_options['fields']['field_bloc_rem_image']['alter']['replace_spaces'] = TRUE;
+  $handler->display->display_options['fields']['field_bloc_rem_image']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_bloc_rem_image']['hide_empty'] = TRUE;
+  $handler->display->display_options['fields']['field_bloc_rem_image']['click_sort_column'] = 'fid';
+  $handler->display->display_options['fields']['field_bloc_rem_image']['settings'] = array(
+    'image_style' => 'block_intra',
+    'image_link' => '',
+  );
+  $handler->display->display_options['defaults']['filter_groups'] = FALSE;
+  $handler->display->display_options['defaults']['filters'] = FALSE;
+  /* Critère de filtrage: Contenu : Publié */
+  $handler->display->display_options['filters']['status']['id'] = 'status';
+  $handler->display->display_options['filters']['status']['table'] = 'node';
+  $handler->display->display_options['filters']['status']['field'] = 'status';
+  $handler->display->display_options['filters']['status']['value'] = 1;
+  $handler->display->display_options['filters']['status']['group'] = 1;
+  $handler->display->display_options['filters']['status']['expose']['operator'] = FALSE;
+  /* Critère de filtrage: Contenu : Type */
+  $handler->display->display_options['filters']['type']['id'] = 'type';
+  $handler->display->display_options['filters']['type']['table'] = 'node';
+  $handler->display->display_options['filters']['type']['field'] = 'type';
+  $handler->display->display_options['filters']['type']['value'] = array(
+    'actu' => 'actu',
+  );
+
+  /* Display: Bloc REM droite Contenus Actualités */
+  $handler = $view->new_display('block', 'Bloc REM droite Contenus Actualités', 'block_3');
+  $handler->display->display_options['defaults']['relationships'] = FALSE;
+  /* Relation: Contenu : Bloc REM droite (field_actu_brd) */
+  $handler->display->display_options['relationships']['field_actu_brd_nid']['id'] = 'field_actu_brd_nid';
+  $handler->display->display_options['relationships']['field_actu_brd_nid']['table'] = 'field_data_field_actu_brd';
+  $handler->display->display_options['relationships']['field_actu_brd_nid']['field'] = 'field_actu_brd_nid';
+  $handler->display->display_options['relationships']['field_actu_brd_nid']['delta'] = '-1';
+  $handler->display->display_options['defaults']['fields'] = FALSE;
+  /* Champ: Contenu : Lien */
+  $handler->display->display_options['fields']['field_bloc_rem_link']['id'] = 'field_bloc_rem_link';
+  $handler->display->display_options['fields']['field_bloc_rem_link']['table'] = 'field_data_field_bloc_rem_link';
+  $handler->display->display_options['fields']['field_bloc_rem_link']['field'] = 'field_bloc_rem_link';
+  $handler->display->display_options['fields']['field_bloc_rem_link']['relationship'] = 'field_actu_brd_nid';
+  $handler->display->display_options['fields']['field_bloc_rem_link']['label'] = '';
+  $handler->display->display_options['fields']['field_bloc_rem_link']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['field_bloc_rem_link']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_bloc_rem_link']['hide_empty'] = TRUE;
+  $handler->display->display_options['fields']['field_bloc_rem_link']['type'] = 'node_reference_path';
+  $handler->display->display_options['fields']['field_bloc_rem_link']['settings'] = array(
+    'alias' => 1,
+    'absolute' => 1,
+  );
+  /* Champ: Contenu : Accroche */
+  $handler->display->display_options['fields']['field_bloc_rem_teaser']['id'] = 'field_bloc_rem_teaser';
+  $handler->display->display_options['fields']['field_bloc_rem_teaser']['table'] = 'field_data_field_bloc_rem_teaser';
+  $handler->display->display_options['fields']['field_bloc_rem_teaser']['field'] = 'field_bloc_rem_teaser';
+  $handler->display->display_options['fields']['field_bloc_rem_teaser']['relationship'] = 'field_actu_brd_nid';
+  $handler->display->display_options['fields']['field_bloc_rem_teaser']['label'] = '';
+  $handler->display->display_options['fields']['field_bloc_rem_teaser']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['field_bloc_rem_teaser']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_bloc_rem_teaser']['hide_empty'] = TRUE;
+  /* Champ: Contenu : Image */
+  $handler->display->display_options['fields']['field_bloc_rem_image']['id'] = 'field_bloc_rem_image';
+  $handler->display->display_options['fields']['field_bloc_rem_image']['table'] = 'field_data_field_bloc_rem_image';
+  $handler->display->display_options['fields']['field_bloc_rem_image']['field'] = 'field_bloc_rem_image';
+  $handler->display->display_options['fields']['field_bloc_rem_image']['relationship'] = 'field_actu_brd_nid';
+  $handler->display->display_options['fields']['field_bloc_rem_image']['label'] = '';
+  $handler->display->display_options['fields']['field_bloc_rem_image']['alter']['alter_text'] = TRUE;
+  $handler->display->display_options['fields']['field_bloc_rem_image']['alter']['text'] = '<div class="bloc-rem">
+ <div class="bloc-image">[field_bloc_rem_image]</div>
+ <div class="bloc-accroche"><p>[field_bloc_rem_teaser]</p></div>
+</div>';
+  $handler->display->display_options['fields']['field_bloc_rem_image']['alter']['make_link'] = TRUE;
+  $handler->display->display_options['fields']['field_bloc_rem_image']['alter']['path'] = '[field_bloc_rem_link]';
+  $handler->display->display_options['fields']['field_bloc_rem_image']['alter']['absolute'] = TRUE;
+  $handler->display->display_options['fields']['field_bloc_rem_image']['alter']['replace_spaces'] = TRUE;
+  $handler->display->display_options['fields']['field_bloc_rem_image']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_bloc_rem_image']['hide_empty'] = TRUE;
+  $handler->display->display_options['fields']['field_bloc_rem_image']['click_sort_column'] = 'fid';
+  $handler->display->display_options['fields']['field_bloc_rem_image']['settings'] = array(
+    'image_style' => 'block_intra',
+    'image_link' => '',
+  );
+  $handler->display->display_options['defaults']['filter_groups'] = FALSE;
+  $handler->display->display_options['defaults']['filters'] = FALSE;
+  /* Critère de filtrage: Contenu : Publié */
+  $handler->display->display_options['filters']['status']['id'] = 'status';
+  $handler->display->display_options['filters']['status']['table'] = 'node';
+  $handler->display->display_options['filters']['status']['field'] = 'status';
+  $handler->display->display_options['filters']['status']['value'] = 1;
+  $handler->display->display_options['filters']['status']['group'] = 1;
+  $handler->display->display_options['filters']['status']['expose']['operator'] = FALSE;
+  /* Critère de filtrage: Contenu : Type */
+  $handler->display->display_options['filters']['type']['id'] = 'type';
+  $handler->display->display_options['filters']['type']['table'] = 'node';
+  $handler->display->display_options['filters']['type']['field'] = 'type';
+  $handler->display->display_options['filters']['type']['value'] = array(
+    'actu' => 'actu',
+  );
+
+  /* Display: Bloc REM gauche Webform */
+  $handler = $view->new_display('block', 'Bloc REM gauche Webform', 'block_4');
+  $handler->display->display_options['defaults']['relationships'] = FALSE;
+  /* Relation: Contenu : Bloc REM gauche (field_webform_brg) */
+  $handler->display->display_options['relationships']['field_webform_brg_nid']['id'] = 'field_webform_brg_nid';
+  $handler->display->display_options['relationships']['field_webform_brg_nid']['table'] = 'field_data_field_webform_brg';
+  $handler->display->display_options['relationships']['field_webform_brg_nid']['field'] = 'field_webform_brg_nid';
+  $handler->display->display_options['relationships']['field_webform_brg_nid']['delta'] = '-1';
+  $handler->display->display_options['defaults']['fields'] = FALSE;
+  /* Champ: Contenu : Lien */
+  $handler->display->display_options['fields']['field_bloc_rem_link']['id'] = 'field_bloc_rem_link';
+  $handler->display->display_options['fields']['field_bloc_rem_link']['table'] = 'field_data_field_bloc_rem_link';
+  $handler->display->display_options['fields']['field_bloc_rem_link']['field'] = 'field_bloc_rem_link';
+  $handler->display->display_options['fields']['field_bloc_rem_link']['relationship'] = 'field_webform_brg_nid';
+  $handler->display->display_options['fields']['field_bloc_rem_link']['label'] = '';
+  $handler->display->display_options['fields']['field_bloc_rem_link']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['field_bloc_rem_link']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_bloc_rem_link']['hide_empty'] = TRUE;
+  $handler->display->display_options['fields']['field_bloc_rem_link']['type'] = 'node_reference_path';
+  $handler->display->display_options['fields']['field_bloc_rem_link']['settings'] = array(
+    'alias' => 1,
+    'absolute' => 1,
+  );
+  /* Champ: Contenu : Accroche */
+  $handler->display->display_options['fields']['field_bloc_rem_teaser']['id'] = 'field_bloc_rem_teaser';
+  $handler->display->display_options['fields']['field_bloc_rem_teaser']['table'] = 'field_data_field_bloc_rem_teaser';
+  $handler->display->display_options['fields']['field_bloc_rem_teaser']['field'] = 'field_bloc_rem_teaser';
+  $handler->display->display_options['fields']['field_bloc_rem_teaser']['relationship'] = 'field_webform_brg_nid';
+  $handler->display->display_options['fields']['field_bloc_rem_teaser']['label'] = '';
+  $handler->display->display_options['fields']['field_bloc_rem_teaser']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['field_bloc_rem_teaser']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_bloc_rem_teaser']['hide_empty'] = TRUE;
+  /* Champ: Contenu : Image */
+  $handler->display->display_options['fields']['field_bloc_rem_image']['id'] = 'field_bloc_rem_image';
+  $handler->display->display_options['fields']['field_bloc_rem_image']['table'] = 'field_data_field_bloc_rem_image';
+  $handler->display->display_options['fields']['field_bloc_rem_image']['field'] = 'field_bloc_rem_image';
+  $handler->display->display_options['fields']['field_bloc_rem_image']['relationship'] = 'field_webform_brg_nid';
+  $handler->display->display_options['fields']['field_bloc_rem_image']['label'] = '';
+  $handler->display->display_options['fields']['field_bloc_rem_image']['alter']['alter_text'] = TRUE;
+  $handler->display->display_options['fields']['field_bloc_rem_image']['alter']['text'] = '<div class="bloc-rem">
+ <div class="bloc-image">[field_bloc_rem_image]</div>
+ <div class="bloc-accroche"><p>[field_bloc_rem_teaser]</p></div>
+</div>';
+  $handler->display->display_options['fields']['field_bloc_rem_image']['alter']['make_link'] = TRUE;
+  $handler->display->display_options['fields']['field_bloc_rem_image']['alter']['path'] = '[field_bloc_rem_link]';
+  $handler->display->display_options['fields']['field_bloc_rem_image']['alter']['absolute'] = TRUE;
+  $handler->display->display_options['fields']['field_bloc_rem_image']['alter']['replace_spaces'] = TRUE;
+  $handler->display->display_options['fields']['field_bloc_rem_image']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_bloc_rem_image']['hide_empty'] = TRUE;
+  $handler->display->display_options['fields']['field_bloc_rem_image']['click_sort_column'] = 'fid';
+  $handler->display->display_options['fields']['field_bloc_rem_image']['settings'] = array(
+    'image_style' => 'block_intra',
+    'image_link' => '',
+  );
+  $handler->display->display_options['defaults']['filter_groups'] = FALSE;
+  $handler->display->display_options['defaults']['filters'] = FALSE;
+  /* Critère de filtrage: Contenu : Publié */
+  $handler->display->display_options['filters']['status']['id'] = 'status';
+  $handler->display->display_options['filters']['status']['table'] = 'node';
+  $handler->display->display_options['filters']['status']['field'] = 'status';
+  $handler->display->display_options['filters']['status']['value'] = 1;
+  $handler->display->display_options['filters']['status']['group'] = 1;
+  $handler->display->display_options['filters']['status']['expose']['operator'] = FALSE;
+  /* Critère de filtrage: Contenu : Type */
+  $handler->display->display_options['filters']['type']['id'] = 'type';
+  $handler->display->display_options['filters']['type']['table'] = 'node';
+  $handler->display->display_options['filters']['type']['field'] = 'type';
+  $handler->display->display_options['filters']['type']['value'] = array(
+    'webform' => 'webform',
+  );
+
+  /* Display: Bloc REM droite Webform */
+  $handler = $view->new_display('block', 'Bloc REM droite Webform', 'block_5');
+  $handler->display->display_options['defaults']['relationships'] = FALSE;
+  /* Relation: Contenu : Bloc REM droite (field_webform_brd) */
+  $handler->display->display_options['relationships']['field_webform_brd_nid']['id'] = 'field_webform_brd_nid';
+  $handler->display->display_options['relationships']['field_webform_brd_nid']['table'] = 'field_data_field_webform_brd';
+  $handler->display->display_options['relationships']['field_webform_brd_nid']['field'] = 'field_webform_brd_nid';
+  $handler->display->display_options['relationships']['field_webform_brd_nid']['delta'] = '-1';
+  $handler->display->display_options['defaults']['fields'] = FALSE;
+  /* Champ: Contenu : Lien */
+  $handler->display->display_options['fields']['field_bloc_rem_link']['id'] = 'field_bloc_rem_link';
+  $handler->display->display_options['fields']['field_bloc_rem_link']['table'] = 'field_data_field_bloc_rem_link';
+  $handler->display->display_options['fields']['field_bloc_rem_link']['field'] = 'field_bloc_rem_link';
+  $handler->display->display_options['fields']['field_bloc_rem_link']['relationship'] = 'field_webform_brd_nid';
+  $handler->display->display_options['fields']['field_bloc_rem_link']['label'] = '';
+  $handler->display->display_options['fields']['field_bloc_rem_link']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['field_bloc_rem_link']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_bloc_rem_link']['hide_empty'] = TRUE;
+  $handler->display->display_options['fields']['field_bloc_rem_link']['type'] = 'node_reference_path';
+  $handler->display->display_options['fields']['field_bloc_rem_link']['settings'] = array(
+    'alias' => 1,
+    'absolute' => 1,
+  );
+  /* Champ: Contenu : Accroche */
+  $handler->display->display_options['fields']['field_bloc_rem_teaser']['id'] = 'field_bloc_rem_teaser';
+  $handler->display->display_options['fields']['field_bloc_rem_teaser']['table'] = 'field_data_field_bloc_rem_teaser';
+  $handler->display->display_options['fields']['field_bloc_rem_teaser']['field'] = 'field_bloc_rem_teaser';
+  $handler->display->display_options['fields']['field_bloc_rem_teaser']['relationship'] = 'field_webform_brd_nid';
+  $handler->display->display_options['fields']['field_bloc_rem_teaser']['label'] = '';
+  $handler->display->display_options['fields']['field_bloc_rem_teaser']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['field_bloc_rem_teaser']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_bloc_rem_teaser']['hide_empty'] = TRUE;
+  /* Champ: Contenu : Image */
+  $handler->display->display_options['fields']['field_bloc_rem_image']['id'] = 'field_bloc_rem_image';
+  $handler->display->display_options['fields']['field_bloc_rem_image']['table'] = 'field_data_field_bloc_rem_image';
+  $handler->display->display_options['fields']['field_bloc_rem_image']['field'] = 'field_bloc_rem_image';
+  $handler->display->display_options['fields']['field_bloc_rem_image']['relationship'] = 'field_webform_brd_nid';
+  $handler->display->display_options['fields']['field_bloc_rem_image']['label'] = '';
+  $handler->display->display_options['fields']['field_bloc_rem_image']['alter']['alter_text'] = TRUE;
+  $handler->display->display_options['fields']['field_bloc_rem_image']['alter']['text'] = '<div class="bloc-rem">
+ <div class="bloc-image">[field_bloc_rem_image]</div>
+ <div class="bloc-accroche"><p>[field_bloc_rem_teaser]</p></div>
+</div>';
+  $handler->display->display_options['fields']['field_bloc_rem_image']['alter']['make_link'] = TRUE;
+  $handler->display->display_options['fields']['field_bloc_rem_image']['alter']['path'] = '[field_bloc_rem_link]';
+  $handler->display->display_options['fields']['field_bloc_rem_image']['alter']['absolute'] = TRUE;
+  $handler->display->display_options['fields']['field_bloc_rem_image']['alter']['replace_spaces'] = TRUE;
+  $handler->display->display_options['fields']['field_bloc_rem_image']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_bloc_rem_image']['hide_empty'] = TRUE;
+  $handler->display->display_options['fields']['field_bloc_rem_image']['click_sort_column'] = 'fid';
+  $handler->display->display_options['fields']['field_bloc_rem_image']['settings'] = array(
+    'image_style' => 'block_intra',
+    'image_link' => '',
+  );
+  $handler->display->display_options['defaults']['filter_groups'] = FALSE;
+  $handler->display->display_options['defaults']['filters'] = FALSE;
+  /* Critère de filtrage: Contenu : Publié */
+  $handler->display->display_options['filters']['status']['id'] = 'status';
+  $handler->display->display_options['filters']['status']['table'] = 'node';
+  $handler->display->display_options['filters']['status']['field'] = 'status';
+  $handler->display->display_options['filters']['status']['value'] = 1;
+  $handler->display->display_options['filters']['status']['group'] = 1;
+  $handler->display->display_options['filters']['status']['expose']['operator'] = FALSE;
+  /* Critère de filtrage: Contenu : Type */
+  $handler->display->display_options['filters']['type']['id'] = 'type';
+  $handler->display->display_options['filters']['type']['table'] = 'node';
+  $handler->display->display_options['filters']['type']['field'] = 'type';
+  $handler->display->display_options['filters']['type']['value'] = array(
+    'webform' => 'webform',
+  );
+  $translatables['blocs_rem_pages_contenu'] = array(
+    t('Master'),
+    t('plus'),
+    t('Appliquer'),
+    t('Réinitialiser'),
+    t('Trier par'),
+    t('Asc'),
+    t('Desc'),
+    t('Accroche'),
+    t('Tous les termes de taxonomie'),
+    t('Type'),
+    t('Tous'),
+    t('Bloc REM gauche Basic Pages'),
+    t('field_basicpage_brg'),
+    t('<div class="bloc-rem">
+ <div class="bloc-image">[field_bloc_rem_image]</div>
+ <div class="bloc-accroche"><p>[field_bloc_rem_teaser]</p></div>
+</div>'),
+    t('Bloc REM droite Basic Pages'),
+    t('field_basicpage_brd'),
+    t('Bloc REM gauche Contenus Actualités'),
+    t('field_actu_brg'),
+    t('Bloc REM droite Contenus Actualités'),
+    t('field_actu_brd'),
+    t('Bloc REM gauche Webform'),
+    t('field_webform_brg'),
+    t('Bloc REM droite Webform'),
+    t('field_webform_brd'),
+  );
+  $export['blocs_rem_pages_contenu'] = $view;
+
+  return $export;
+}

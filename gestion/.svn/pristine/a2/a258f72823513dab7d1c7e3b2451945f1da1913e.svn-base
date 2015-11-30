@@ -1,0 +1,4 @@
+name = Ecofolio Webform Options List
+description = Ecofolio Webform Pre Built list of Options.
+core = 7.x
+dependencies[] = webform

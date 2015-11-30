@@ -1,0 +1,127 @@
+#edit-responsable, #edit-utilisateur, #edit-company {
+  background: #e9f1f6;
+}
+
+div.company-infos {
+  border-bottom: solid 1px #abc7d5;
+  padding-bottom: 10px;
+}
+
+#edit-ajout-siret {
+  display: none;
+}
+
+#edit-utilisateur-fonctions .form-type-checkbox {
+  display: block;
+}
+
+.form-item-utilisateur-fonctions label {
+  width: 105px;
+}
+
+.form-item-utilisateur-password-pass2 label {
+  width: 100%;
+}
+
+#charte {
+  margin: auto;
+  height: 280px;
+  overflow-y: auto;
+  border: 1px solid #b8c5cb;
+  padding: 15px;
+  border-radius: 5px;
+  font: 12px 'Open Sans', sans-serif;  
+  font-weight: 600;
+  float: none;
+}
+#charte p {
+  font: 12px 'Open Sans', sans-serif;  
+}
+
+#edit-confirmer {
+  float: right;
+  color: #FFF !important;
+  font-weight: bold;
+  text-transform: uppercase;
+  background-color: #E05A10 !important;
+  border-color: #ABC7D5 !important;
+}
+
+.view-value {
+  display: inline-block;
+  margin: 3px 0 8px 0;
+}
+
+.form-view label {
+  font-weight: 700;
+  color: #196681;
+  margin-bottom: 8px;
+}
+
+#creation-compte-entreprise-form table {
+  width: 100%;
+}
+
+label.option {
+  width: auto;
+  display: inline-block;
+}
+
+#message-fin {
+  margin: 50px;
+  font-weight: bold;
+}
+
+#numero-demande {
+  font-weight: bold;
+  text-align: center;
+  margin: 10px;
+  color: #82B0C7;
+}
+
+#creation-compte-entreprise-form input.password-confirm, #creation-compte-entreprise-form input.password-field {
+  width: 50%;
+}
+
+/* theming CGU */
+#charte b.titre-cadre {
+	text-align: center;
+    display: block;
+}
+
+.form-item, .form-actions {
+  margin: 0px !important;
+}
+
+div label {
+    margin: 1px 0;
+/*      !important; */
+}
+
+.form-item-company-siret-0 label {
+    margin-right: 1%;
+}
+.cp-field {
+  margin-left: 0.5%;
+}
+
+.form-type-checkbox {
+  height: 17px;
+}
+
+.inline-content .form-type-radios label {
+  width: 20.5%;
+}
+
+.inline-content .form-type-radio label {
+  width: 12%;
+}
+
+
+.infos-adefim caption, .col-adefim {
+    padding: 0;
+}
+
+.infos-adefim tbody, .infos-adefim tr, .infos-adefim td {
+    border: none !important;
+}

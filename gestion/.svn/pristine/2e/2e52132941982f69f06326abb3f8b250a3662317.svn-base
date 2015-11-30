@@ -1,0 +1,27 @@
+.field-name-field-description-page {
+      padding-bottom: 1%;
+}
+
+.sticky-enabled th a {
+    color: white;
+    font-size : 12px;
+}
+
+table {
+    border: 0 !important;
+}
+
+table tr:first-child {
+    background-color: #E57B18 !important;
+    color : white;
+    border: none;  
+}
+
+table tr:first-child td {
+    border: 1px solid #FFFFFF !important;
+}
+
+.field-liens-supplementaire img {
+   float: left;
+   margin-right: 0.5em;
+}

@@ -1,0 +1,667 @@
+<?php
+
+// Defines.
+define('ECOFOLIO_DISPLAY_MEDIATHEQUE_MODULE_PATH', drupal_get_path('module', 'ecofolio_display_mediatheque'));
+
+/**
+ * Implements hook_init().
+ */
+function ecofolio_display_mediatheque_init() {
+  drupal_add_css(ECOFOLIO_DISPLAY_MEDIATHEQUE_MODULE_PATH . '/css/mediatheque.css');
+}
+
+/**
+ * Implements hook_menu().
+ * ecofolio_display_mediatheque_menu
+ *
+ * Fonction qui permet d'associer l'url avec la fonction permettant l'affichage
+ */
+function ecofolio_display_mediatheque_menu() {
+    $items['mediatheque'] = array(
+        'title' => 'Médiathèque',
+        'description' => 'Affichage de la médiathèque',
+        'page callback' => 'ecofolio_display_mediatheque_content_callback',
+        'page arguments' => array(1),
+        'access callback' => TRUE,
+        'type' => MENU_CALLBACK,
+    );
+    $items['mediatheque/%'] = array(
+        'title' => 'Médiathèque',
+        'description' => 'Affichage de la médiathèque',
+        'page callback' => 'ecofolio_display_mediatheque_content_callback',
+        'page arguments' => array(1),
+        'access callback' => TRUE,
+        'type' => MENU_CALLBACK,
+    );
+    $items['mediatheque/ajax'] = array(
+        'title' => 'Médiathèque ajax',
+        'description' => 'Url ajax permettant de recharger le contenu de la médiathèque en fonction des filtres/mot-clés/tris/page',
+        'page callback' => 'ecofolio_display_mediatheque_update_ajax_callback',
+        'page arguments' => array(2),
+        'access callback' => TRUE,
+        'type' => MENU_CALLBACK,
+    );
+    return $items;
+}
+
+/*
+ * Implementation of hook_theme().
+ */
+function ecofolio_display_mediatheque_theme($existing, $type, $theme, $path){
+    return array(
+        // Template général pour afficher la médiathèque
+        'mediatheque_general_theme' => array(
+            'variables' => array(
+                'univers' => null,
+            ),
+            'template' => 'mediatheque',
+            'path' => drupal_get_path('module', 'ecofolio_display_mediatheque') .'/theme'
+        ),
+        // Template pour afficher les filtres de la médiathèque
+        'mediatheque_filter_theme' => array(
+            'variables' => array(
+                'formFilter' => null,
+            ),
+            'template' => 'mediatheque_filter',
+            'path' => drupal_get_path('module', 'ecofolio_display_mediatheque') .'/theme'
+        ),
+        // Template pour afficher les essentials de la médiathèque
+        'mediatheque_essential_theme' => array(
+            'variables' => array(
+                'essentials' => null,
+            ),
+            'template' => 'mediatheque_essential',
+            'path' => drupal_get_path('module', 'ecofolio_display_mediatheque') .'/theme'
+        ),
+        // Template pour afficher les résultats de la médiathèque
+        'mediatheque_result_theme' => array(
+            'variables' => array(
+                'results' => null,
+                'formOrder' => null,
+                'nbResultTot' => 0,
+            ),
+            'template' => 'mediatheque_results',
+            'path' => drupal_get_path('module', 'ecofolio_display_mediatheque') .'/theme'
+        ),
+        // Template pour afficher chaque média
+        'mediatheque_media_row_theme' => array(
+            'variables' => array(
+                'element' => null,
+            ),
+            'template' => 'mediatheque_media_row',
+            'path' => drupal_get_path('module', 'ecofolio_display_mediatheque') .'/theme'
+        ),
+        // Template pour afficher la pagination
+        'mediatheque_pager_theme' => array(
+            'variables' => array(
+                'nbResultTot' => 0,
+                'pageCurrent' => 1,
+                'nbElementDisplay' => 10,
+            ),
+            'template' => 'mediatheque_pager',
+            'path' => drupal_get_path('module', 'ecofolio_display_mediatheque') .'/theme'
+        ),
+        // Template pour afficher la pagination
+        'mediatheque_ajax_theme' => array(
+            'variables' => array(
+                'results' => 0,
+            ),
+            'template' => 'mediatheque_ajax',
+            'path' => drupal_get_path('module', 'ecofolio_display_mediatheque') .'/theme'
+        ),
+    );
+}
+
+/**
+ * mediatheque_callback
+ *
+ * Fonction qui permet de gérer l'affichage de la page médiathèque
+ *
+ * @param String $univers : univers sélec!tionné depuis l'url (facultatif)
+ */
+function ecofolio_display_mediatheque_content_callback($univers) {
+    // Si l'univers est indiqué dans l'url, on récupère les tid correspondant
+    $universTid = null;
+    if (!empty($univers)) {
+        if ($univers == 'Collectivités et entreprises') {
+            $universTid = array(4, 5, 6, 7);
+        } else {
+            $vidUnivers = '3';
+            $treeUnivers = taxonomy_get_tree($vidUnivers);
+
+            foreach ($treeUnivers as $termUnivers) {
+                if ($univers == $termUnivers->name) {
+                    $universTid[] = $termUnivers->tid;
+                }
+            }
+        }
+    }
+    
+    $results = get_all_media($universTid);
+
+    $formFilters = drupal_get_form('ecofolio_display_mediatheque_main_filters_form');
+
+    $formOrder = drupal_get_form('ecofolio_display_mediatheque_filters_order_form');
+
+    $errorsFilters = form_get_errors();
+    form_clear_error();
+    $manageCGUandCPU = manageCGUandCPU($results['results'] + $results['essentials']);
+    
+    $variables =  array(
+        'univers' => $univers,
+        'essentials' => $results['essentials'],
+        'results' => $results['results'],
+        'nbResultTot' => $results['nbResultTot'],
+        'formFilters' => $formFilters,
+        'formOrder' => $formOrder,
+        'pageCurrent' => 1,
+        'nbElementDisplay' => 10,
+        'loginForm' => $manageCGUandCPU['loginForm'],
+        'updateUserAccessForm' => $manageCGUandCPU['updateUserAccessForm'],
+        'CGU' => $manageCGUandCPU['CGU'],
+        'CPU' => $manageCGUandCPU['CPU'],
+    );
+    
+    $output = theme('mediatheque_general_theme', $variables);
+    
+    return $output;
+}
+
+function manageCGUandCPU($variables = false) {
+    $formLogin = drupal_get_form('user_login_block');
+    $return['loginForm'] = drupal_render($formLogin);
+    
+    if (!isset($_SESSION['CGU_accepted']) || $_SESSION['CGU_accepted'] === false) {
+        // On affiche la pop-up des CGU
+        // On récupère le node CGU (attention, nid 95 sur le développement)
+        $idPageCGU = 312;
+        $nodeCGU = node_load($idPageCGU);
+        if ($nodeCGU) {
+            $bodyCGU = field_get_items('node', $nodeCGU, 'body');
+        } else {
+            $bodyCGU[0]['value'] = "Attention : la page CGU n'a pas été trouvée. Veuillez vérifier la page avec l'id : ".$idPageCGU;
+        }
+        
+        $formCGU = drupal_get_form('ecofolio_manage_mediatheque_cgu_form');
+        $errorsCGU = form_get_errors();
+        form_clear_error();
+
+        // On met à jour la variable CGU a true utilisable dans le template views-view.tpl.php
+        $return['CGU'] = array(
+            'display' => true,
+            'content' => $bodyCGU[0]['value'],
+            'form' 	  => drupal_render($formCGU),
+            'errors'  => $errorsCGU['cgu']
+        );
+    } else {
+        // On initialise la variable CGU pour toutes les vues à false
+        $return['CGU'] = array(
+            'display' => false,
+            'content' => '',
+            'form' => '',
+            'errors' => ''
+        );
+    }
+    
+    $formCPU= drupal_get_form('ecofolio_manage_mediatheque_cpu_form');
+    $errorsCPU = form_get_errors();
+    form_clear_error();
+    
+    // On met à jour la variable CPU a true utilisable dans le template views-view.tpl.php
+    $return['CPU'] = array(
+        'display' => true,
+        'form' 	  => drupal_render($formCPU),
+        'errors'  => isset($errorsCPU['cpu']) ? $errorsCPU['cpu'] : ''
+    );
+
+    $updateUserAccessForm= drupal_get_form('ecofolio_updateUserAccessForm_form',$variables );
+    $errorspdateUserAccessForm = form_get_errors();
+    form_clear_error();
+
+    // On met à jour la variable CPU a true utilisable dans le template views-view.tpl.php
+    $return['updateUserAccessForm'] = array(
+        'display' => true,
+        'form' 	  => drupal_render($updateUserAccessForm),
+        'errors'  => isset($errorspdateUserAccessForm) ? $errorspdateUserAccessForm : ''
+    );
+
+    return $return;
+}
+
+/**
+ * ecofolio_display_mediatheque_update_ajax_callback
+ *
+ * Fonction qui gère l'appel ajax pour recharger le contenu principal en fonction des filtres
+ */
+function ecofolio_display_mediatheque_update_ajax_callback() {
+    $universFromUrl = arg(2);
+
+    if (!is_null($universFromUrl)) {
+        if ($universFromUrl == 'Collectivités et entreprises') {
+            $universTid = array(4, 5, 6, 7);
+        } else {
+            $vidUnivers = '3';
+            $treeUnivers = taxonomy_get_tree($vidUnivers);
+
+            foreach ($treeUnivers as $termUnivers) {
+                if ($universFromUrl == $termUnivers->name) {
+                    $universTid[] = $termUnivers->tid;
+                }
+            }
+        }
+    } else {
+        $universTid = $_POST['taxoSelected'];
+    }
+
+    $results = get_all_media(
+        $universTid,
+        $_POST['assetSelected'],
+        $_POST['keywords'],
+        $_POST['order'],
+        $_POST['page'],
+        10
+    );
+
+    $variablesEssentials =  array(
+        'results' => $results['essentials'],
+    );
+    $variablesResults =  array(
+        'results' => $results['results'],
+    );
+    $variablesPager =  array(
+        'nbResultTot' => $results['nbResultTot'],
+        'pageCurrent' => $_POST['page'],
+        'nbElementDisplay' => $_POST['range'],
+    );
+
+    $result['status'] = true;
+    $result['htmlEssentials'] = theme('mediatheque_ajax_theme', $variablesEssentials);
+    $result['htmlResults'] = theme('mediatheque_ajax_theme', $variablesResults);
+    $result['htmlPager'] = theme('mediatheque_pager_theme', $variablesPager);
+    $result['nbResultTot'] = $results['nbResultTot'];
+    
+    
+    drupal_json_output($result);
+    drupal_exit();
+}
+
+/**
+ * transformDate
+ *
+ * Fonction qui permet de convertir la date récupérée de la BDD en date française. 
+ * @param $dateEn : date en format 2014-10-14 00:00:00 
+ * @return $dateFr : date en format 10 OCTOBRE 2014
+ */
+function transformDate($dateEn) {
+    $monthLabel = array('Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre');
+    $tabDateEn = explode(' ', $dateEn);
+    if (isset($tabDateEn[0])) {
+        $dateEn = $tabDateEn[0];
+        $tabDateEn = explode('-', $dateEn);
+        if (isset($tabDateEn[0]) && isset($tabDateEn[1]) && isset($tabDateEn[2])) {
+            return $tabDateEn[2].' '.$monthLabel[$tabDateEn[1] - 1].' '.$tabDateEn[0];
+        } else {
+            return $dateEn;
+        }
+    } else {
+        return $dateEn;
+    }
+}
+
+/**
+ * get_all_media
+ *
+ * Fonction qui récupère tous les médias en fonction des filtres sélectionnés par l'utilisateur
+ * Cette fonction sera appelée en ajax et mettre à jour le contenu principal de la médiathèque (or filtre)
+ *
+ * @param Array $univers : univers sélectionné
+ * @param Array $typeDoc : type de document sélectionné
+ * @param String $keywords : mot clés renseigné
+ * @param int $order : tri des résultats
+ * @param int $page : page sur lequel est l'utilisateur
+ *
+ * @return Array $results
+ *   essentials : liste des essentiels
+ *   listPager : liste des résultats de la page sélectionnée
+ *   nbResultTot : nombre de résultat total récupéré
+ */
+function get_all_media($universTid, $typeDoc = false, $keywords = false, $order = 0, $page = 1, $range = 10) {
+    global $user;
+    
+    // Initialisation des variables que l'on va retourner
+    $essentials = array();
+    $listPager = array();
+    $nbResultTot = 0;
+    
+    
+    // On récupère les informations de media_user_allowed
+    $queryGetAllMediaUserAllowed = db_select('field_data_field_media_user_allowed', 'mua')
+        ->fields('mua', array('entity_id', 'field_media_user_allowed_value'))
+        ->condition('mua.deleted', 0);
+    $resultsMediaUserAllowed = $queryGetAllMediaUserAllowed->execute();
+    $mediaUserAllowed = array();
+    foreach ($resultsMediaUserAllowed as $result) {
+        $mediaUserAllowed[$result->entity_id][] = $result->field_media_user_allowed_value;
+    }
+    
+    // On récupère les essentials correspondant aux filtres si on est sur la première page
+    if ($page == 1) {
+        $queryGetEssentials = init_query_get_all_media($universTid, $typeDoc, $keywords);
+        // Jointure pour les rôles
+        $queryGetEssentials->leftJoin('field_data_field_media_user_allowed', 'field_data_field_media_user_allowed', 'node.nid = field_data_field_media_user_allowed.entity_id');
+        $queryGetEssentials->fields('field_data_field_media_user_allowed', array('field_media_user_allowed_value'));
+        $queryGetEssentials->condition('field_data_field_media_essentials.field_media_essentials_value', 0);
+        if ($order != 0) {
+            $queryGetEssentials->orderBy('node.created', 'ASC'); //Most pertinent.
+            $queryGetEssentials->orderBy('node.title', 'ASC');
+        } else {
+
+            $queryGetEssentials->orderBy('node.created', 'DESC'); //Most recent first.
+            $queryGetEssentials->orderBy('node.title', 'ASC');
+        }
+        $resultEssentials = $queryGetEssentials->execute();
+        foreach ($resultEssentials as $record) {
+            $nid = $record->nid;
+            $record->dateFr = transformDate($record->field_media_date_value);
+            if (isset($mediaUserAllowed[$nid])) {
+                $record->media_user_allowed = $mediaUserAllowed[$nid];
+                $view_permission = array_intersect(array_keys($user->roles), $mediaUserAllowed[$nid]);
+                if ($view_permission || in_array('3', array_keys($user->roles))) {
+                    $record->publicElement = true;
+                    $record->publicElementClass = 'allowed';
+                } else {
+                    $record->publicElement = false;
+                    $record->publicElementClass = 'not-allowed';
+                }
+            } else {
+                $record->media_user_allowed = array();
+                $record->publicElement = true;
+                $record->publicElementClass = 'allowed';
+            }
+            if (isset($essentials[$record->nid])) {
+                if (!is_null($record->field_media_user_allowed_value)) {
+                    $essentials[$record->nid]->user_allowed_value[] = $record->field_media_user_allowed_value;
+                }
+            } else {
+                $essentials[$record->nid] = $record;
+                if (!is_null($record->field_media_user_allowed_value)) {
+                    $essentials[$record->nid]->user_allowed_value = array($record->field_media_user_allowed_value);
+                }
+            }
+        }
+    }
+    
+    // On récupère les resultats paginés correspondant aux filtres
+    $queryGetResults = init_query_get_all_media($universTid, $typeDoc, $keywords);
+    $queryGetResults->isNull('field_data_field_media_essentials.field_media_essentials_value');
+
+    if ($order == 1 ) {
+        $queryGetResults->orderBy('field_data_field_media_date.field_media_date_value', 'ASC'); //Most old first.
+    } else if ($order == 0 || !$keywords ){
+        $queryGetResults->orderBy('field_data_field_media_date.field_media_date_value', 'DESC'); //Most recent first.
+    }
+
+    $queryGetResults->orderBy('asset_field_data_field_media_doc_type', 'ASC');
+    $queryGetResults->orderBy('node.title', 'ASC');
+    $queryGetResults->orderBy('field_media_teaser_value', 'ASC');
+
+    if ($page > 1) {
+        $queryGetResults->range(($range * ($page - 1)), $range);
+    } else {
+        $queryGetResults->range(0, $range);
+    }
+    
+    $results = $queryGetResults->execute();
+    foreach ($results as $result) {
+        $result->dateFr = transformDate($result->field_media_date_value);
+        $nid = $result->nid;
+        if (isset($mediaUserAllowed[$nid])) {
+            $result->media_user_allowed = $mediaUserAllowed[$nid];
+            $view_permission = array_intersect(array_keys($user->roles), $mediaUserAllowed[$nid]);
+            if ($view_permission || in_array('3', array_keys($user->roles))) {
+                $result->publicElement = true;
+                $result->publicElementClass = 'allowed';
+            } else {
+                $result->publicElement = false;
+                $result->publicElementClass = 'not-allowed';
+            }
+        } else {
+            $result->media_user_allowed = array();
+            $result->publicElement = true;
+            $result->publicElementClass = 'allowed';
+        }
+        $listPager[$nid] = $result;
+    }
+    
+    // On récupère le nombre de résultat total
+    $queryGetNbResults = init_query_get_all_media($universTid, $typeDoc, $keywords);
+    $queryGetNbResults->isNull('field_data_field_media_essentials.field_media_essentials_value');
+    $nbResultTot = $queryGetNbResults->countQuery()->execute()->fetchField();
+    
+    $results = array(
+        'essentials' => $essentials,
+        'results' => $listPager,
+        'nbResultTot' => $nbResultTot
+    );
+    
+    return $results;
+}
+
+function init_query_get_all_media($universTid, $typeDoc = false, $keywords = false) {
+    // Initialisation de la requête
+    $query = db_select('node', 'node')
+        ->fields('node', array('nid', 'title', 'created'));
+        
+    // Jointure avec la date
+    $query->leftJoin('field_data_field_media_date', 'field_data_field_media_date', 'node.nid = field_data_field_media_date.entity_id');
+    
+    // Jointure avec les univers
+    $query->leftJoin('field_data_field_media_univers', 'field_data_field_media_univers', 'node.nid = field_data_field_media_univers.entity_id');
+
+    // Jointure avec les types
+    $query->leftJoin('field_data_field_media_type_media', 'field_data_field_media_type_media', 'node.nid = field_data_field_media_type_media.entity_id');
+    
+    // Jointure avec les essentials
+    $query->leftJoin('field_data_field_media_essentials', 'field_data_field_media_essentials', 'node.nid = field_data_field_media_essentials.entity_id');
+    
+    // Jointure avec l'accroche
+    $query->leftJoin('field_data_field_media_teaser', 'field_data_field_media_teaser', 'node.nid = field_data_field_media_teaser.entity_id');
+    
+    // Jointure avec les documents
+    $query->leftJoin('field_data_field_media_doc', 'field_data_field_media_doc', "node.nid = field_data_field_media_doc.entity_id AND (field_data_field_media_doc.entity_type = 'node' AND field_data_field_media_doc.deleted = '0')");
+    $query->leftJoin('asset', 'asset_field_data_field_media_doc', 'field_data_field_media_doc.field_media_doc_target_id = asset_field_data_field_media_doc.aid');
+    
+    // Jointure avec les vidéos
+    $query->leftJoin('field_data_field_media_video', 'field_data_field_media_video', "node.nid = field_data_field_media_video.entity_id AND (field_data_field_media_video.entity_type = 'node' AND field_data_field_media_video.deleted = '0')");
+    $query->leftJoin('asset', 'asset_field_data_field_media_video', 'field_data_field_media_video.field_media_video_target_id  = asset_field_data_field_media_video.aid');
+    $query->leftJoin('field_data_field_asset_module_video_file', 'field_data_field_asset_module_video_file', 'field_data_field_media_video.field_media_video_target_id = field_data_field_asset_module_video_file.entity_id');
+    
+    // Jointure avec les PDF
+    $query->leftJoin('field_data_field_media_pdf', 'field_data_field_media_pdf', "node.nid = field_data_field_media_pdf.entity_id AND (field_data_field_media_pdf.entity_type = 'node' AND field_data_field_media_pdf.deleted = '0')");
+    $query->leftJoin('asset', 'asset_field_data_field_media_pdf', 'field_data_field_media_pdf.field_media_pdf_target_id  = asset_field_data_field_media_pdf.aid');
+    
+    // Jointure avec les images
+    $query->leftJoin('field_data_field_media_image', 'field_data_field_media_image', "node.nid = field_data_field_media_image.entity_id AND (field_data_field_media_image.entity_type = 'node' AND field_data_field_media_image.deleted = '0')");
+    $query->leftJoin('asset', 'asset_field_data_field_media_image', 'field_data_field_media_image.field_media_image_target_id  = asset_field_data_field_media_image.aid');
+    $query->leftJoin('field_data_field_asset_module_image', 'field_data_field_asset_module_image', 'field_data_field_media_image.field_media_image_target_id  = field_data_field_asset_module_image.entity_id');
+    $query->leftJoin('file_managed', 'file_managed', 'field_data_field_asset_module_image.field_asset_module_image_fid  = file_managed.fid');
+    
+    // Jointure avec les CPU
+    $query->leftJoin('field_data_field_media_cpu', 'field_data_field_media_cpu', 'node.nid = field_data_field_media_cpu.entity_id');
+    $query->leftJoin('field_data_body', 'field_data_body', 'field_data_field_media_cpu.field_media_cpu_nid = field_data_body.entity_id');
+    
+    // On sélectionne les champs que l'on veut récupérer
+    $query
+        ->fields('field_data_field_media_date', array('field_media_date_value'))
+        ->fields('field_data_field_media_univers', array('field_media_univers_tid'))
+        ->fields('field_data_field_media_essentials', array('field_media_essentials_value'))
+        ->fields('field_data_field_media_teaser', array('field_media_teaser_value'))
+        ->fields('asset_field_data_field_media_image', array('aid', 'type'))
+        ->fields('asset_field_data_field_media_video', array('aid', 'type'))
+        ->fields('asset_field_data_field_media_doc', array('type'))
+        ->fields('asset_field_data_field_media_pdf', array('type'))
+        ->fields('field_data_field_media_cpu', array('field_media_cpu_nid'))
+        ->fields('field_data_body', array('body_value'))
+        ->fields('file_managed', array('uri'))
+        ->fields('field_data_field_asset_module_video_file', array('field_asset_module_video_file_snapshot'))
+        ->condition('node.status', 1) //Published.
+        ->condition('node.type', array('media'), 'IN'); // type de contenu media
+
+    // Récupérer et traiter les filtres :
+    // Filtre sur l'univers sélectionné :
+    if (!is_null($universTid)) {
+        // Ajout de la clause WHERE sur les univers
+        if (!is_array($universTid)) {
+            $universTid = array($universTid);
+        }
+        $query->condition('field_data_field_media_univers.field_media_univers_tid', $universTid, 'IN');
+    }
+    
+    // Filtre sur le type de document sélectionné :
+    // $typeDoc = array('document', 'video', 'image'); // c'est pour un exemple d'utilisation
+    if ($typeDoc) {
+        // Ajout de la clause WHERE sur les TYPE DE 
+        if (!is_array($typeDoc)) {
+            $typeDoc = array($typeDoc);
+        }
+        $query->condition('field_data_field_media_type_media.field_media_type_media_tid', $typeDoc, 'IN');
+    }
+    
+    // Filtre sur le/les mot-clés sélectionné(s) :
+    // $keywords = 'Etudes et livres blancs'; // c'est pour un exemple d'utilisation
+    if ($keywords) {
+        // Jointure pour les tags taxo
+        $query->leftJoin('field_data_field_media_tags_media', 'field_data_field_media_tags_media', 'node.nid = field_data_field_media_tags_media.entity_id');
+        $query->leftJoin('taxonomy_term_data', 'taxonomy_term_data', 'field_data_field_media_tags_media.field_media_tags_media_tid = taxonomy_term_data.tid');
+
+        $aKeywords = explode(" ",$keywords);
+
+        $i = $j = 0;
+        $aCondition = array();
+        $aCondition [] = implode( " " ,$aKeywords);
+        while ($i < count($aKeywords)){
+
+            $aCondition [] = $aKeywords[$i];
+            $j = $i + 1 ;
+            while ($j < count($aKeywords)){
+                $aCondition [] = $aKeywords[$i] . " " . $aKeywords[$j];
+                $j++;
+            }
+            $i++;
+        }
+
+        foreach ($aCondition as $value) {
+            $query->condition(
+                db_or()->condition('taxonomy_term_data.name', '%' . $value . '%', 'LIKE')
+                    ->condition('node.title', '%' . $value . '%', 'LIKE')
+            );
+        }
+    }
+    return $query;
+}
+
+
+/**
+ * Implements hook_FORM_ID_form().
+ * 
+ */
+function ecofolio_display_mediatheque_main_filters_form($form, &$form_state) {
+  $form['#prefix'] = '<div id="formwrapper">';
+  $form['#suffix'] = '</div>';
+  
+  $arrayTaxo = ecofolio_display_manage_get_taxo_from_vid(3);
+
+ $arrayTaxo[9999] = t('Tous les profils');
+  $form['filters_taxo'] = array(
+    '#type'          => 'checkboxes',
+    '#options'       => $arrayTaxo,
+    '#default_value' => array_keys($arrayTaxo),
+    '#attributes' => array('class' => array('filters-taxo-checkboxes')),
+  );
+
+  $arrayAsset = ecofolio_display_manage_get_taxo_from_vid(5);
+  $arrayAsset[9999] = t('Tous les types de documents');
+
+
+  $form['filters_assets'] = array(
+    '#type'    => 'checkboxes',
+    '#options' => $arrayAsset,
+    '#default_value' => array_keys($arrayAsset),
+    '#attributes' => array('class' => array('filters-assets-checkboxes')),
+  );
+
+  $form['filters_search'] = array(
+    '#type'          => 'textfield', 
+    //'#title'         => t('Rechercher par mot-clés'), 
+    '#title'         => '', 
+    '#attributes'    => array(
+      'placeholder'  => t('Rapport annuel'),
+    ),
+    '#size'          => 60, 
+    '#maxlength'     => 128, 
+    '#required'      => FALSE,
+  );
+
+  $form['filters_range'] = array(
+   '#type' => 'select',
+   '#title' => t('Résultats par page'),
+   '#options' => array(
+      5 => 5,
+      10 => 10,
+      15 => 15,
+      20 => 20,
+      25 => 25,
+   ),
+   '#default_value' => 10,
+  );
+
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('OK'),
+  );
+  
+  return $form;
+}
+
+/**
+ * get_univers_taxonomy
+ *
+ * Get taxonomy terms name from univers vocabulary
+ * @return Array $listUnivers
+ */
+function ecofolio_display_manage_get_taxo_from_vid($vidUnivers) {
+  $treeUnivers = taxonomy_get_tree($vidUnivers);
+
+  $listUnivers = array();
+  foreach ($treeUnivers as $termUnivers) {
+    $listUnivers[$termUnivers->tid] = $termUnivers->name;
+  }
+
+  return $listUnivers;
+}
+
+/**
+ * Implements hook_FORM_ID_form().
+ */
+function ecofolio_display_mediatheque_filters_order_form($form, &$form_state) {
+  $form['#prefix'] = '<div id="formwrapper">';
+  $form['#suffix'] = '</div>';
+
+  $form['filters_order'] = array(
+   '#type' => 'select',
+   '#options' => array(
+      0 => t('Du plus récent au plus ancien'),
+      1 => t('Du plus ancien au plus récent'),
+       2 => t('Par pertinence'),
+   ),
+  );
+
+
+  $form['#submit'][] = 'ecofolio_display_mediatheque_submit_handler';
+
+  return $form;
+}
+
+function ecofolio_display_mediatheque_submit_handler($form, &$form_state) {
+  echo 'ecofolio_display_mediatheque_submit_handler';
+}

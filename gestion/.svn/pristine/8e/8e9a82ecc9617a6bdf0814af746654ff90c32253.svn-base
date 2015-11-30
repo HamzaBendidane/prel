@@ -1,0 +1,43 @@
+<?php 
+/**
+ * @file
+ * Alpha's theme implementation to display a single Drupal page.
+ */
+?>
+<div<?php print $attributes; ?>>
+  <?php if (isset($page['header'])) : ?>
+    <?php print render($page['header']); ?>
+  <?php endif; ?>
+  
+  <?php if (isset($page['content'])) : ?>
+    <?php 
+	if(isset($page['content']['content'])) {
+		// Ajout d'une zone pour contenir first_content à fourth_content
+		$maincontent = $page['content']['content'];
+		if(isset($maincontent['sidebar_first'])) {
+			
+			// extraction sidebar
+			$sidebar = $maincontent['sidebar_first'];
+			unset($maincontent['sidebar_first']);
+			$maincontent['#zone'] = 'maincontent';
+			$maincontent['#data']['zone'] = 'maincontent';
+			$maincontent['#data']['name'] = 'Maincontent';
+			unset($maincontent['#grid_container']);
+			
+			// Nettoyer content
+			if(isset($page['content']['content']['first_content'])) unset($page['content']['content']['first_content']);
+			if(isset($page['content']['content']['second_content'])) unset($page['content']['content']['second_content']);
+			if(isset($page['content']['content']['third_content'])) unset($page['content']['content']['third_content']);
+			if(isset($page['content']['content']['fourth_content'])) unset($page['content']['content']['fourth_content']);
+			// Insertion de la zone dans page
+			$page['content']['content']['maincontent'] = $maincontent;
+		}
+	}
+	?>
+	<?php print render($page['content']); ?>
+  <?php endif; ?>  
+  
+  <?php if (isset($page['footer'])) : ?>
+    <?php print render($page['footer']); ?>
+  <?php endif; ?>
+</div>

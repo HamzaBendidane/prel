@@ -1,0 +1,18 @@
+(function($){
+    jQuery(document).ready(function($) {
+        jQuery('#edit-siret').autocomplete({
+            source: '/autocomplete/entreprise',
+            dataType: 'json',
+            minLength : 3,
+            search: function(event, ui) {
+            	jQuery('#' + event.target.id).parent().children('.field-suffix').children('.spinner').addClass( "active" );
+            },
+            open: function(event, ui) {
+            	jQuery('#' + event.target.id).parent().children('.field-suffix').children('.spinner').removeClass( "active" );
+            },
+            change: function( event, ui ) {
+            	jQuery('#' + event.target.id).parent().children('.field-suffix').children('.spinner').removeClass( "active" );
+            },
+        });
+    });
+})(jQuery)

@@ -1,0 +1,237 @@
+<?php
+
+function _dgf_contrat_require_once_files() {
+  require_once 'contrat_db.inc';
+  require_once 'contrat_langs.inc';
+  require_once 'contrat_submit.inc';
+  require_once 'contrat_validate.inc';
+}
+
+function _dgf_contrat_include_js_css() {
+  drupal_add_js(drupal_get_path('module', 'dgf' ) . '/inc/contrat/js/contrat.js' );
+  drupal_add_css(drupal_get_path('module', 'dgf' ) . '/inc/contrat/css/contrat.css' );
+}
+
+// --------------------------------------------------
+// Création du formulaire
+// --------------------------------------------------
+function dgf_contrat_form($form, &$form_state) {
+  _dgf_contrat_require_once_files();
+  _dgf_contrat_include_js_css();
+  global $user;
+
+  // on regarde le 3eme argument de l'url pour retrouver s'il y a des données
+  $temp_dgf_form_contrat = array();
+  // s'il est rempli, on récupère les informations de la bdd
+    $id_dgf = shared_security_access_user(3, 'DGF');
+    save_step_url($id_dgf,3);
+    $temp_dgf_form_contrat = contrat_db_get_temp_dgf_form_salarie($id_dgf);
+
+  shared_get_referentiel_data(array('ref_groupe'));
+
+  $age = contrat_db_get_age_salarie($id_dgf);
+
+  $form['cerfa-step'] = array(
+      '#type' => 'hidden',
+      '#default_value' => '/'.drupal_get_path('theme', 'opcaim').'/images/cerfa-3.png',
+  );
+
+  $form['id_dgf'] = array(
+      '#type' => 'hidden',
+      '#default_value' => $id_dgf,
+      '#title' => t('Id demande' )
+  );
+
+  $form['id_dgf_contrat'] = array(
+      '#type' => 'hidden',
+      '#default_value' => $temp_dgf_form_contrat ? $temp_dgf_form_contrat['id'] : null,
+      '#title' => t('Id demande' )
+  );
+
+  if ($age >= 26) {
+    $form['alerte_age'] = array(
+        '#type' => 'item',
+        '#field_suffix' => '<div class="messageInfo center">Contrat de professionnalisation plus de 26 ans </div>',
+        '#title' => t(''),
+    );
+  } else {
+    $form['alerte_age'] = array(
+        '#type' => 'item',
+        '#field_suffix' => '<div class="messageInfo center">Contrat de professionnalisation moins de 26 ans </div>',
+        '#title' => t(''),
+    );
+  }
+
+  $form['nature'] = array(
+      '#type' => 'radios',
+      '#title' => 'Nature du contrat',
+      '#default_value' => $temp_dgf_form_contrat ? $temp_dgf_form_contrat['id_ref_type_contrat'] : NULL,
+      '#options' => array(1 => t('CDI'), 2 => t('CDD')),
+  );
+
+  $form['type_code'] = array(
+      '#type' => 'textfield',
+      '#default_value' => $temp_dgf_form_contrat ? trim($temp_dgf_form_contrat['type']['code']) : NULL,
+      '#title' => t('Type de contrat'),
+      '#attributes' => array(
+          'class' => array('coller-serrer-3'),
+      )
+  );
+
+  $form['type_libelle'] = array(
+      '#type' => 'textfield',
+      '#default_value' => $temp_dgf_form_contrat ? trim($temp_dgf_form_contrat['type']['libelle']) : NULL,
+      '#title' => t(''),
+      '#attributes' => array('class' => array('coller-serrer-4'),
+      )
+  );
+
+  $form['type'] = array(
+      '#type' => 'hidden',
+      '#default_value' => $temp_dgf_form_contrat ? trim($temp_dgf_form_contrat['id_ref_esclave_type_contrat']) : NULL,
+  );
+
+  $form['fieldset1'] = array(
+  		'#type' => 'fieldset',
+  		'#attributes' => array('class' => array('group-items')),
+  );
+
+  $datepicker_icon = '<span class="glyphicon glyphicon-calendar add-on"></span>';
+
+  $form['fieldset1']['date_begin'] = array(
+      '#type' => 'textfield',
+      '#field_suffix' => $datepicker_icon,
+      '#element_validate' => array('element_shared_date_validate'),
+      '#title' => t('Date de début'),
+      '#default_value' => $temp_dgf_form_contrat ? shared_parse_mssql_date($temp_dgf_form_contrat['date_debut'])->format('d/m/Y') : NULL,
+      '#attributes' => array('class' => array('datePicker', 'date-lenght'),"autocomplete"=>"off", "autocomplete"=>"off", 'placeholder' => t('jj/mm/aaaa' ) )
+  );
+
+  $form['fieldset1']['date_end'] = array(
+      '#type' => 'textfield',
+      '#field_suffix' => $datepicker_icon,
+      '#element_validate' => array('element_shared_date_validate'),
+      '#title' => t('Date de fin'),
+      '#default_value' => $temp_dgf_form_contrat ? shared_parse_mssql_date($temp_dgf_form_contrat['date_fin'])->format('d/m/Y') : NULL,
+      '#attributes' => array('class' => array('datePicker', 'date-lenght'),"autocomplete"=>"off", 'placeholder' => t('jj/mm/aaaa' ))
+  );
+
+  $form['fieldset1']['training_duration'] =array(
+      '#type' => 'textfield',
+      '#title' => t('Durée du contrat'),
+      '#default_value' => $temp_dgf_form_contrat ? $temp_dgf_form_contrat['duree_contrat_mois'] : NULL,
+      '#field_suffix' => t(' mois'),
+      '#attributes' => array('disabled' => true)
+  );
+
+    $form['fieldset1']['training_duration_days'] =array(
+      '#type' => 'textfield',
+      '#default_value' => $temp_dgf_form_contrat ? $temp_dgf_form_contrat['duree_contrat_jour'] : NULL,
+      '#attributes' => array('disabled' => true),
+      '#field_suffix' => t(' jours'),
+  );
+
+  $form['fieldset1']['test_period'] = array(
+      '#type' => 'textfield',
+      '#element_validate' => array('element_validate_integer_positive'),
+      '#title' => t('Durée de la période d’essai en jours'),
+      '#default_value' => $temp_dgf_form_contrat ? $temp_dgf_form_contrat['duree_essai_jour'] : NULL,
+
+  );
+
+  $form['fieldset1']['weekly_hour'] = array(
+      '#type' => 'textfield',
+      '#element_validate' => array('element_validate_integer_positive'),
+	    '#title' => t('Durée hebdomadaire'),
+      '#default_value' => $temp_dgf_form_contrat ? $temp_dgf_form_contrat['duree_hebdo_travail_heure'] : NULL,
+      '#field_suffix' => t(' h')
+  );
+
+  $form['fieldset1']['weekly_minute'] = array(
+      '#type' => 'textfield',
+      '#title' => t(''),
+      '#default_value' => $temp_dgf_form_contrat ? $temp_dgf_form_contrat['duree_hebdo_travail_minute'] : NULL,
+      '#field_suffix' => t(' min'),
+  );
+
+  $form['niveau'] = array(
+      '#type' => 'textfield',
+      '#title' => t('Niveau'),
+      '#default_value' => isset($temp_dgf_form_contrat['niveau']) ? $temp_dgf_form_contrat['niveau'] : NULL,
+      '#field_suffix' => '<a id="niveau_info" class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-original-title="le message niveau" style="float: none;"></a>',
+  );
+
+  $form['coefficient'] = array(
+      '#type' => 'textfield',
+      '#title' => t('Coefficient'),
+      '#element_validate' => array('element_validate_integer_positive'),
+      '#default_value' => isset($temp_dgf_form_contrat['coefficient']) ? $temp_dgf_form_contrat['coefficient'] : NULL,
+      '#field_suffix' => '<a id="coef_info" class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-original-title="le message coef" style="float: none;"></a>',
+  );
+
+  $form['group'] = array(
+      '#type' => 'hidden',
+      '#title' => t(''),
+      '#default_value' => isset($temp_dgf_form_contrat['id_ref_groupe']) ? trim($temp_dgf_form_contrat['id_ref_groupe']) : NULL,
+  );
+
+  $form['group_code'] = array(
+      '#type' => 'textfield',
+      '#title' => t('Groupe'),
+      '#attributes' => array(
+          'class' => array('coller-serrer-3')
+      ),
+      '#default_value' => isset($temp_dgf_form_contrat['groupe']['code']) ? trim($temp_dgf_form_contrat['groupe']['code']) : NULL,
+  );
+    
+  $form['group_label'] = array(
+      '#type' => 'textfield',
+      '#title' => t(''),
+      '#attributes' => array(
+          'class' => array('coller-serrer-4')
+      ),
+      '#field_suffix' => '<a id="group_info" class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-original-title="le message group" style="float: none;"></a>',
+      '#default_value' => isset($temp_dgf_form_contrat['groupe']['label']) ? trim($temp_dgf_form_contrat['groupe']['label']) : NULL,
+  );  
+  
+   $form['position_held'] = array(
+      '#type' => 'textfield',
+      '#title' => t('Emploi occupé'),
+      '#default_value' => $temp_dgf_form_contrat ? $temp_dgf_form_contrat['emploi_occupe'] : NULL,
+  );
+
+  $form['monthly_gross_pay'] = array(
+      '#type' => 'textfield',
+      '#title' => t('Salaires brut mensuel'),
+      // soit la valeur saisie pas l'user en cas de retour, soit la valeur calculée en cas de poursuite
+      '#default_value' => isset($temp_dgf_form_contrat['salaire_brut_mensuel']) ?
+        $temp_dgf_form_contrat['salaire_brut_mensuel'] : '',
+      '#field_suffix' => '<a id="pay_info" class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-original-title="
+      Vous pouvez remplacer le montant saisi par le calcul automatique ou saisir un montant supérieur à celui-ci"
+       style="float: none;"></a>',
+  );
+
+  $form['min_monthly_gross_pay'] = array(
+      '#type' => 'hidden',
+      '#title' => t('Minimum salaires brut mensuel'),
+      '#default_value' => contrat_db_get_minimum_salaire_salarie($id_dgf, $age),
+  );
+
+  // Ajout des boutons d'actions
+  $validatorsBoutonNext = array(
+        'dgf_contrat_standard_validate',
+        'dgf_contrat_specific_validate',
+  );
+  $submitsBoutonNext = array('dgf_contrat_form_submit');
+  dgf_boutons_action_form($form, $validatorsBoutonNext, $submitsBoutonNext);
+
+  // Ajout de la modal quitter
+  $validatorsQuit = array('dgf_contrat_form_validate');
+  $validatorsSave = array(
+//           'dgf_cp_contract_specific_validate'
+  );
+  $submitsSave = array('dgf_contrat_form_submit');
+  dgf_modal_quit_form($form, $validatorsQuit, $validatorsSave, $submitsSave);
+
+  return $form;
+}

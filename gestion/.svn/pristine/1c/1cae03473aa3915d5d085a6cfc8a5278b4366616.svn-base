@@ -1,0 +1,94 @@
+<?php
+
+/**
+ *  Fichier requis par le formulaire
+ * 
+ * 
+ */
+function _dgf_demande_require_once() {
+  require_once 'dgf_demande_db.inc';
+  require_once 'dgf_demande_langs.inc';
+  require_once 'dgf_demande_submit.inc';
+  require_once 'dgf_demande_validate.inc';
+}
+
+/**
+ *   Fichiers d'ajout des JS et CSS
+ * 
+ */
+function _dgf_demande_include_js_css() {
+  drupal_add_js(drupal_get_path('module', 'dgf' ) . '/inc/demande/js/dgf_demande.js' );
+  drupal_add_css(drupal_get_path('module', 'dgf' ) . '/inc/demande/css/dgf_demande.css' );
+}
+
+/**
+ *  Formulaire des types de demande DGF.
+ * 
+ *  @param: $form, &$form_state
+ *  @return: $form
+ * 
+ */
+function dgf_demande_form($form, &$form_state) {
+  _dgf_demande_require_once();
+  _dgf_demande_include_js_css();
+  shared_get_referentiel_data(array('ref_nature_demande', 'ref_nature_formation'), false);
+  
+  // si appel depuis le dashboard
+  $default_nature = isset($_GET['nature']) ? $_GET['nature'] : null;
+
+  if (isset($_SESSION['demande'])) {
+    unset($_SESSION['demande']);
+  }
+
+  $temp_dgf_form_demande = array();
+  if (arg(2)) {
+    $id_dgf = shared_security_access_user(2, 'DGF');
+    $temp_dgf_form_demande = demande_db_get_temp_dgf_form_demande($id_dgf);
+    $default_nature = $temp_dgf_form_demande ? $temp_dgf_form_demande['id_dgf_nature_demande'] : null;
+  }
+
+  $form['cerfa-step'] = array(
+      '#type' => 'hidden',
+      '#default_value' => '/'.drupal_get_path('theme', 'opcaim').'/images/cerfa-2.png',
+  );
+
+  $form['nature_demande'] = array(
+      '#type' => 'radios',
+      '#title' => t('Quelle est la nature de votre demande ?
+          <span class="sublabel">(un seul choix possible)</span>' ),
+      '#options' => $_SESSION['referentiel_extranet_datas']['ref_nature_demande'],
+      '#default_value' => $default_nature,
+  );
+
+  $form['nature_formation'] = array(
+      '#type' => 'radios',
+      '#title' => t('Nature de la formation
+          <span class="sublabel">(un seul choix possible)</span>'),
+      '#options' => $_SESSION['referentiel_extranet_datas']['ref_nature_formation'],
+      '#default_value' => $temp_dgf_form_demande ? $temp_dgf_form_demande['id_dgf_nature_formation'] : null,
+  );
+ 
+  $form['rappel_contrat_pro'] = array(
+      '#type' => 'item',
+      '#markup' => t(@RAPPEL_CONTRAT_PRO),
+  );
+
+  // TODO : champ entreprise
+
+  // TODO : champ ADEFIM
+
+  $form['back'] = array(
+      '#type' => 'button',
+      '#value' => t('Annuler'),
+      '#limit_validation_errors' => array(),
+      '#attributes' => array('class' => array('cancel')),
+  );
+
+  $form['next'] = array(
+      '#type' => 'submit',
+      '#value' => t('Suivant'),
+      '#attributes' => array('class' => array('nextDemande')),
+  );
+
+  return $form;
+}

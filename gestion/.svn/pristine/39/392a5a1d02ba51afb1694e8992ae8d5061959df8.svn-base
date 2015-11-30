@@ -1,0 +1,69 @@
+<?php
+/**
+ * @file
+ * ecofolio_ct_blocs.field_group.inc
+ */
+
+/**
+ * Implements hook_field_group_info().
+ */
+function ecofolio_ct_blocs_field_group_info() {
+  $export = array();
+
+  $field_group = new stdClass();
+  $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
+  $field_group->api_version = 1;
+  $field_group->identifier = 'group_bloc_dossier_bloc|node|bloc_dossier|form';
+  $field_group->group_name = 'group_bloc_dossier_bloc';
+  $field_group->entity_type = 'node';
+  $field_group->bundle = 'bloc_dossier';
+  $field_group->mode = 'form';
+  $field_group->parent_name = '';
+  $field_group->data = array(
+    'label' => 'Bloc dossier sur homeunivers',
+    'weight' => '1',
+    'children' => array(
+      0 => 'field_bloc_dossier_subtitle',
+      1 => 'field_bloc_dossier_title',
+    ),
+    'format_type' => 'fieldset',
+    'format_settings' => array(
+      'formatter' => 'collapsible',
+      'instance_settings' => array(
+        'description' => '',
+        'classes' => 'group-bloc-dossier-bloc field-group-fieldset',
+        'required_fields' => 1,
+      ),
+    ),
+  );
+  $export['group_bloc_dossier_bloc|node|bloc_dossier|form'] = $field_group;
+
+  $field_group = new stdClass();
+  $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
+  $field_group->api_version = 1;
+  $field_group->identifier = 'group_bloc_rem_big_menu|node|bloc_rem|form';
+  $field_group->group_name = 'group_bloc_rem_big_menu';
+  $field_group->entity_type = 'node';
+  $field_group->bundle = 'bloc_rem';
+  $field_group->mode = 'form';
+  $field_group->parent_name = '';
+  $field_group->data = array(
+    'label' => 'Big Menu',
+    'weight' => '4',
+    'children' => array(
+      0 => 'field_bloc_rem_image_bigmenu',
+    ),
+    'format_type' => 'fieldset',
+    'format_settings' => array(
+      'formatter' => 'collapsible',
+      'instance_settings' => array(
+        'description' => '',
+        'classes' => 'group-bloc-rem-big-menu field-group-fieldset',
+        'required_fields' => 1,
+      ),
+    ),
+  );
+  $export['group_bloc_rem_big_menu|node|bloc_rem|form'] = $field_group;
+
+  return $export;
+}

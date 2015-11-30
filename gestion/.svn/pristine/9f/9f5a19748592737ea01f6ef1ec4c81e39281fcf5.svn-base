@@ -1,0 +1,29 @@
+/*--------------------------------------------
+ * Hack ie8
+ *--------------------------------------------*/
+
+/* alignement bouton radio */
+#center .form-type-radio label.option { 
+	display/*\**/: inline\9;
+}
+
+.form-type-radio input, .form-type-checkbox input {
+	width:20px;
+}
+
+
+/* input[type='radio'] + label, input[type='checkbox'] + label { */
+/*     margin: 0; */
+/*     clear: none; */
+/* /*     padding: 2px 0 0px 24px; */ */
+/*     cursor: pointer; */
+/*     background: none; */
+/* } */
+
+/* input[type='radio'], input[type='checkbox'] { */
+/* 	display\*: inline-block\9; */
+/* } */
+
+/* label.option { */
+/* 	margin-top:10px;	 */
+/* } */

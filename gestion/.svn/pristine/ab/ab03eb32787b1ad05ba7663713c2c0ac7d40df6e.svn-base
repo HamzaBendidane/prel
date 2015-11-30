@@ -1,0 +1,155 @@
+(function($){
+    $(document).ready(function($) {
+        manageNumberEtablishmentModal();
+        manageNumberInternModal()
+        manageJustifModal();
+        manageDeleteModal();
+        manageExportExcel();
+        manageDuplicateModal();
+        
+        autocompleteNameSalarie();
+        autocompleteEtablissement();
+    });
+})(jQuery)
+
+function manageNumberEtablishmentModal() {
+    jQuery('body').on('click', '.action-etablishment-nb', function() {
+        id = jQuery(this).data('id');
+        console.log(id);
+        jQuery.ajax({
+            cache: false,
+            type: 'GET',
+            url: '/get/suivi/demande/liste-etablissement/' + id,
+            dataType: 'text',
+            error: function(request, status, error) {
+//                alert(status);
+            },
+            success: function(data, status, request) {
+                var dataJson = jQuery.parseJSON(data);
+                console.log(dataJson);
+                body = '';
+                jQuery.each(dataJson, function(k, etablishment) {
+//                    console.log(etablishment);
+                    body += '<div class="lineEtablishment"><span class="textEtablishment">';
+                    body += etablishment.t_raison_sociale + ' (' + etablishment.t_siret + ')</span></div>';
+                });
+                jQuery('#modal-etablishment-body').html(body);
+            }
+        });
+    });
+}
+
+function manageNumberInternModal() {
+    jQuery('body').on('click', '.action-intern-nb', function() {
+        id = jQuery(this).data('id');
+        console.log(id);
+        jQuery.ajax({
+            cache: false,
+            type: 'GET',
+            url: '/get/suivi/demande/liste-participant/' + id,
+            dataType: 'text',
+            error: function(request, status, error) {
+//                console.log(status);
+            },
+            success: function(data, status, request) {
+                var dataJson = jQuery.parseJSON(data);
+                console.log(dataJson);
+                body = '';
+                jQuery.each(dataJson, function(k, intern) {
+//                    console.log(intern);
+                    body += '<div class="lineIntern"><span class="textIntern">' + intern.t_salarie + '</span></div>'
+                });
+                jQuery('#modal-intern-body').html(body);
+            }
+        });
+    });
+}
+
+function manageJustifModal() {
+    jQuery('body').on('click', '.action-doc', function() {
+        id = jQuery(this).data('id');
+        console.log(id);
+        jQuery.ajax({
+            cache: false,
+            type: 'GET',
+            url: '/get/suivi/demande/justificatifs/' + id,
+            dataType: 'text',
+            error: function(request, status, error) {
+//                console.log(status);
+            },
+            success: function(data, status, request) {
+                var dataJson = jQuery.parseJSON(data);
+                console.log(dataJson);
+                body = '';
+                jQuery.each(dataJson, function(k, justif) {
+//                    console.log(justif);
+                    body += '<div class="lineJustif"><h5 class="labelJustif">'+justif.t_nom_ref_fichier +'</h5><span class="textJustif">' + justif.t_nom_fichier + justif.t_extension_fichier + '</span></div>'
+                });
+                jQuery('#modal-justif-body').html(body);
+            }
+        });
+    });
+}
+
+function manageDeleteModal() {
+    jQuery('body').on('click', '.action-delete', function() {
+        id = jQuery(this).data('id');
+        jQuery('#modal-delete-valid').attr('data-id', id);
+        body = '<p>Voulez vous vraiment supprimer la demande n° '+ id;
+        jQuery('#modal-justif-body').html(body);
+    });
+
+    jQuery('#modal-delete-valid').click(function() {
+        id = jQuery(this).data('id');
+        console.log(id);
+        jQuery.ajax({
+            cache: false,
+            type: 'GET',
+            url: '/delete/suivi/demande/' + id,
+            dataType: 'text',
+            error: function(request, status, error) {
+//            	console.log(status);
+            },
+            success: function(data, status, request) {
+
+            }
+          });
+    });
+}
+
+function manageDuplicateModal() {
+	var url ='';
+    jQuery('body').on('click', '.action-duplicate', function() {
+        url = jQuery(this).data('url');
+    });
+    jQuery('body').on('click', '#modal-duplicate-valid', function() {
+//    	console.log(url);
+    	window.location.assign(url);
+    });
+}
+
+function autocompleteNameSalarie() {
+    jQuery("#edit-worker-name").autocomplete({
+        source: '/autocomplete/salarie',
+        dataType: 'json',
+        minLength : 3,
+        select: function(event, ui) {
+//            console.log(ui.item);
+            jQuery("#edit-worker-name").val(ui.item.data.nom.trim() + ' ' + ui.item.data.prenom.trim());
+            return false;
+        }
+    });
+}
+
+function autocompleteEtablissement() {
+	
+	jQuery("#edit-tout-etablissement.autocomplete-siret").autocomplete({
+        source: '/autocomplete/entreprise-by-siret-or-raison-social',
+        dataType: 'json',
+        minLength : 3,
+        select: function( event, ui ) {
+        	jQuery("input[name='etablishment']").val(ui.item.data.id.trim());
+        }
+    });
+}
+

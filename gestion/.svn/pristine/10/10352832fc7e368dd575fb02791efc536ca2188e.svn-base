@@ -1,0 +1,5 @@
+; $Id: example.info,v 1.0.0.0 2013/07/17 10:42:00 WAMI Exp $
+name = "Ecofolio sidebar blocks"
+description = "Ecofolio sidebar blocks"
+core = "7.x"
+package = "Ecofolio"

@@ -1,0 +1,146 @@
+<?php
+/**
+ * Implements hook_menu().
+ *
+ * Cette fonction rajoute un menu d'accès pour la gestion des notifications.
+ * Return: Drupal menu items
+ */
+function notification_menu() {
+  $items = array();
+
+  // Parametrage des alertes
+  $items['notification/parametrage-alerte'] = array(
+      'title' => 'Paramétrage des alertes',
+      'page callback' => 'notification_parametrage_alerte_page',
+      'access arguments' => array('NOT_PAR_ALT'),
+      'file' => '/parametrage_alerte/notification_parametrage_alerte_controller.inc',
+      'type' => MENU_CALLBACK,
+  );
+
+  return $items;
+}
+
+/**
+ * hook theme()
+ *
+ * Fonction qui permet de définir le template
+ *
+ * @param unknown $existing
+ * @param unknown $type
+ * @param unknown $theme
+ * @param unknown $path
+ * @return multitype:multitype:string
+ */
+function notification_theme($existing, $type, $theme, $path) {
+  $theme_array = array(
+      // Template pour le paramétrage des alertes
+      'notification_parametrage_alerte_page_theme' => array(
+          'template' => 'notification_parametrage_alerte_page',
+          'path' => drupal_get_path('module', 'notification') .'/parametrage_alerte/theme'
+      ),
+  );
+
+  return $theme_array;
+}
+
+/**
+ *  Implements Hook_permission()
+ *
+ *  Gestion des permissions sur les roles des utilisateurs 
+ *  Pour le module notification
+ *
+ */
+function notification_permission() {
+    
+    $actions = array(
+        'NOT_PAR_ALT' => array(
+            'title' => t('Paramétrage des alertes'),
+            'description' => t(''),
+        ),
+    );
+    return $actions;   
+}
+
+/**
+ * notification_mail
+ *
+ * hook mail()
+ *
+ * @param unknown $key
+ * @param unknown $message
+ * @param unknown $params
+ */
+function notification_mail($key, &$message, $params) {
+  
+    switch ($key) {
+       
+        // Mail à l'utilisateur pour confirmer sa création de compte
+        case 'creation_compte_entreprise_user':
+
+            $message['subject'] = t(@MAIL_SUBJECT_CREATION_COMPTE_ENTREPRISE_USER);
+            // Note that the message body is an array, not a string.
+            $message['body'][] = htmlspecialchars(
+                    t(@MAIL_BODY_CREATION_COMPTE_ENTREPRISE_USER,
+                            array(
+                                    '@name' => $params['name'],
+                                    '@numero_demande' => $params['numero_demande']
+                            )), ENT_COMPAT, 'UTF-8');
+          
+            break;
+        
+        // Mail au responsable pour l'informer de la création d'un compte entreprise
+        case 'creation_compte_entreprise_responsable':
+            $message['subject'] = t(@MAIL_SUBJECT_CREATION_COMPTE_ENTREPRISE_RESPONSABLE);
+            // Note that the message body is an array, not a string.
+            $message['body'][] = htmlspecialchars(
+                    t(@MAIL_BODY_CREATION_COMPTE_ENTREPRISE_RESPONSABLE,
+                            array(
+                                    '@name_responsable' => $params['name_responsable'],
+                                    '@name_collaborateur' => $params['name_collaborateur'],
+                                    '@fonctionnalites' => $params['fonctionnalites'],
+                            )), ENT_COMPAT, 'UTF-8');
+                                    
+            break;
+        
+        // Mail à l'adefim pour l'informer de la création d'un compte entreprise (validation)
+        case 'creation_compte_entreprise_adefim':
+            $message['subject'] = t(@MAIL_SUBJECT_CREATION_COMPTE_ENTREPRISE_ADEFIM);
+            // Note that the message body is an array, not a string.
+            $message['body'][] = htmlspecialchars(
+                    t(@MAIL_BODY_CREATION_COMPTE_ENTREPRISE_ADEFIM,
+                            array(
+                                    '@name' => $params['name'],
+                                    '@numero_demande' => $params['numero_demande'],
+                                    '@name_utilisateur' => $params['name_utilisateur'],
+                                    '@etablissements' => $params['etablissements'],
+                            )), ENT_COMPAT, 'UTF-8');
+            break;
+        
+        // Send a simple message from the refuse_account form.
+        case 'refuse_account':
+            $message['subject'] = t(@MAIL_SUBJECT_REFUSE_ACCOUNT);
+            // Note that the message body is an array, not a string.
+            $message['body'][] = htmlspecialchars(
+                    t(@MAIL_BODY_REFUSE_ACCOUNT, 
+                            array(
+                                    '@name' => $params['name']
+                                    
+                            )), ENT_COMPAT, 'UTF-8');
+            break;
+            
+        // Mail à l'adefim pour l'informer de la création d'un compte entreprise (validation)
+        case 'relance_dgf':
+          $message['subject'] = t(@MAIL_SUBJECT_RELANCE_DGF_USER);
+          // Note that the message body is an array, not a string.
+          $message['body'][] = htmlspecialchars(
+              t(@MAIL_BODY_RELANCE_DGF_USER,
+                  array(
+                      '@name' => $params['name'],
+                      '@numero_dgf' => $params['numero_dgf'],
+                      '@reference_entreprise' => $params['reference_entreprise'],
+                      '@pieces_demandees' => $params['pieces_demandees'],
+                      '@commentaire_libre' => $params['commentaire_libre'],
+                  )), ENT_COMPAT, 'UTF-8');
+              break;
+    }
+}

@@ -1,0 +1,107 @@
+/* Pour éviter les problèmes éventuels de perte de données, passez attentivement ce script en revue avant de l'exécuter en dehors du contexte du Concepteur de bases de données.*/
+BEGIN TRANSACTION
+SET QUOTED_IDENTIFIER ON
+SET ARITHABORT ON
+SET NUMERIC_ROUNDABORT OFF
+SET CONCAT_NULL_YIELDS_NULL ON
+SET ANSI_NULLS ON
+SET ANSI_PADDING ON
+SET ANSI_WARNINGS ON
+COMMIT
+BEGIN TRANSACTION
+GO
+ALTER TABLE dbo.temp_dgf_form_contrat
+  DROP CONSTRAINT FK_dgf_form_contrat_ref_groupe
+GO
+ALTER TABLE dbo.ref_groupe SET (LOCK_ESCALATION = TABLE)
+GO
+COMMIT
+BEGIN TRANSACTION
+GO
+ALTER TABLE dbo.temp_dgf_form_contrat
+  DROP CONSTRAINT FK_temp_dgf_form_contrat_dgf
+GO
+ALTER TABLE dbo.dgf SET (LOCK_ESCALATION = TABLE)
+GO
+COMMIT
+BEGIN TRANSACTION
+GO
+ALTER TABLE dbo.temp_dgf_form_contrat
+  DROP CONSTRAINT DF_dgf_form_contrat_is_delete
+GO
+CREATE TABLE dbo.Tmp_temp_dgf_form_contrat
+  (
+  id int NOT NULL IDENTITY (1, 1),
+  id_dgf int NOT NULL,
+  id_ref_type_contrat int NULL,
+  id_ref_esclave_type_contrat char(25) NULL,
+  id_ref_esclave_convention_collective char(25) NULL,
+  id_ref_groupe int NULL,
+  date_debut date NULL,
+  date_fin date NULL,
+  duree_contrat_mois int NULL,
+  duree_contrat_jour int NULL,
+  duree_essai_jour int NULL,
+  duree_hebdo_travail_heure int NULL,
+  duree_hebdo_travail_minute int NULL,
+  coefficient int NULL,
+  salaire_brut_mensuel decimal(10, 2) NULL,
+  emploi_occupe nvarchar(MAX) NULL,
+  date_creation datetime NOT NULL,
+  id_user_creation int NOT NULL,
+  date_last_edit datetime NULL,
+  id_user_last_edit int NULL,
+  date_delete datetime NULL,
+  id_user_delete int NULL,
+  is_delete bit NOT NULL,
+  niveau int NULL
+  )  ON [PRIMARY]
+   TEXTIMAGE_ON [PRIMARY]
+GO
+ALTER TABLE dbo.Tmp_temp_dgf_form_contrat SET (LOCK_ESCALATION = TABLE)
+GO
+ALTER TABLE dbo.Tmp_temp_dgf_form_contrat ADD CONSTRAINT
+  DF_dgf_form_contrat_is_delete DEFAULT ((0)) FOR is_delete
+GO
+SET IDENTITY_INSERT dbo.Tmp_temp_dgf_form_contrat ON
+GO
+IF EXISTS(SELECT * FROM dbo.temp_dgf_form_contrat)
+   EXEC('INSERT INTO dbo.Tmp_temp_dgf_form_contrat (id, id_dgf, id_ref_type_contrat, id_ref_esclave_type_contrat, id_ref_esclave_convention_collective, id_ref_groupe, date_debut, date_fin, duree_contrat_mois, duree_essai_jour, duree_hebdo_travail_heure, duree_hebdo_travail_minute, coefficient, salaire_brut_mensuel, emploi_occupe, date_creation, id_user_creation, date_last_edit, id_user_last_edit, date_delete, id_user_delete, is_delete, niveau)
+    SELECT id, id_dgf, id_ref_type_contrat, id_ref_esclave_type_contrat, id_ref_esclave_convention_collective, id_ref_groupe, date_debut, date_fin, duree_contrat_mois, duree_essai_jour, duree_hebdo_travail_heure, duree_hebdo_travail_minute, coefficient, salaire_brut_mensuel, emploi_occupe, date_creation, id_user_creation, date_last_edit, id_user_last_edit, date_delete, id_user_delete, is_delete, niveau FROM dbo.temp_dgf_form_contrat WITH (HOLDLOCK TABLOCKX)')
+GO
+SET IDENTITY_INSERT dbo.Tmp_temp_dgf_form_contrat OFF
+GO
+DROP TABLE dbo.temp_dgf_form_contrat
+GO
+EXECUTE sp_rename N'dbo.Tmp_temp_dgf_form_contrat', N'temp_dgf_form_contrat', 'OBJECT' 
+GO
+ALTER TABLE dbo.temp_dgf_form_contrat ADD CONSTRAINT
+  PK_dgf_form_contrat PRIMARY KEY CLUSTERED 
+  (
+  id
+  ) WITH( STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+
+GO
+ALTER TABLE dbo.temp_dgf_form_contrat ADD CONSTRAINT
+  FK_temp_dgf_form_contrat_dgf FOREIGN KEY
+  (
+  id_dgf
+  ) REFERENCES dbo.dgf
+  (
+  id
+  ) ON UPDATE  NO ACTION 
+   ON DELETE  NO ACTION 
+  
+GO
+ALTER TABLE dbo.temp_dgf_form_contrat ADD CONSTRAINT
+  FK_dgf_form_contrat_ref_groupe FOREIGN KEY
+  (
+  id_ref_groupe
+  ) REFERENCES dbo.ref_groupe
+  (
+  id
+  ) ON UPDATE  NO ACTION 
+   ON DELETE  NO ACTION 
+  
+GO
+COMMIT

@@ -1,0 +1,101 @@
+<?php
+/**
+ * @file
+ * ecofolio_rule_bloc_cxm.field_group.inc
+ */
+
+/**
+ * Implements hook_field_group_info().
+ */
+function ecofolio_rule_bloc_cxm_field_group_info() {
+  $export = array();
+
+  $field_group = new stdClass();
+  $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
+  $field_group->api_version = 1;
+  $field_group->identifier = 'group_actu_blocs_rem|node|actu|form';
+  $field_group->group_name = 'group_actu_blocs_rem';
+  $field_group->entity_type = 'node';
+  $field_group->bundle = 'actu';
+  $field_group->mode = 'form';
+  $field_group->parent_name = '';
+  $field_group->data = array(
+    'label' => 'Blocs REM bas de page',
+    'weight' => '9',
+    'children' => array(
+      0 => 'field_actu_label_rem',
+      1 => 'field_actu_brg',
+      2 => 'field_actu_brd',
+    ),
+    'format_type' => 'fieldset',
+    'format_settings' => array(
+      'formatter' => 'collapsible',
+      'instance_settings' => array(
+        'description' => '',
+        'classes' => 'group-actu-blocs-rem field-group-fieldset',
+        'required_fields' => 1,
+      ),
+    ),
+  );
+  $export['group_actu_blocs_rem|node|actu|form'] = $field_group;
+
+  $field_group = new stdClass();
+  $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
+  $field_group->api_version = 1;
+  $field_group->identifier = 'group_basicpage_blocs_rem|node|page|form';
+  $field_group->group_name = 'group_basicpage_blocs_rem';
+  $field_group->entity_type = 'node';
+  $field_group->bundle = 'page';
+  $field_group->mode = 'form';
+  $field_group->parent_name = '';
+  $field_group->data = array(
+    'label' => 'Blocs REM',
+    'weight' => '2',
+    'children' => array(
+      0 => 'field_basicpage_label_rem',
+      1 => 'field_basicpage_brg',
+      2 => 'field_basicpage_brd',
+    ),
+    'format_type' => 'fieldset',
+    'format_settings' => array(
+      'formatter' => 'collapsible',
+      'instance_settings' => array(
+        'description' => '',
+        'classes' => 'group-basicpage-blocs-rem field-group-fieldset',
+        'required_fields' => 1,
+      ),
+    ),
+  );
+  $export['group_basicpage_blocs_rem|node|page|form'] = $field_group;
+
+  $field_group = new stdClass();
+  $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
+  $field_group->api_version = 1;
+  $field_group->identifier = 'group_criteres|node|rule_bloc_cxm|form';
+  $field_group->group_name = 'group_criteres';
+  $field_group->entity_type = 'node';
+  $field_group->bundle = 'rule_bloc_cxm';
+  $field_group->mode = 'form';
+  $field_group->parent_name = '';
+  $field_group->data = array(
+    'label' => 'Critères de validité',
+    'weight' => '3',
+    'children' => array(
+      0 => 'field_regles_sur_les_tags',
+      1 => 'field_critere_sur_la_date',
+      2 => 'field_critere_role',
+    ),
+    'format_type' => 'fieldset',
+    'format_settings' => array(
+      'formatter' => 'collapsible',
+      'instance_settings' => array(
+        'description' => '',
+        'classes' => 'group-criteres field-group-fieldset',
+        'required_fields' => 1,
+      ),
+    ),
+  );
+  $export['group_criteres|node|rule_bloc_cxm|form'] = $field_group;
+
+  return $export;
+}

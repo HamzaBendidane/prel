@@ -1,0 +1,5 @@
+name = "Administration des paramètres"
+description = "Administration des paramètres nécessaires pour la saisie des DGF"
+version = "7.1.0"
+core = "7.x"
+package = "OPCAIM"

@@ -1,0 +1,49 @@
+<?php
+/**
+ * 
+ * @author CGO
+ *
+ */
+class UserNonConnecte extends AbstractCallback
+{
+  
+  /**
+   * (non-PHPdoc)
+   * 
+   * @see AbstractCallback::getListeUser()
+   *
+   *
+   *
+   */
+  public function getListeUser() {
+    return null;
+  }
+  
+  /**
+   * (non-PHPdoc)
+   * 
+   * @see AbstractCallback::getListeDestinataireMail()
+   */
+  public function getListeDestinataireMail() {
+    $destinataires = array();
+    
+    if (isset($this->param->id_relance )) {
+      db_set_active(@DB_EXTRANET );
+      
+      $query = db_select('lien_relance_destinataire', 'lien' );
+      $query->fields('lien', array(
+        'autre_mail') );
+      $query->condition('lien.id_relance', $this->param->id_relance, '=' );
+      $result = $query->execute()->fetchAll();
+      foreach ($result as $destinataire) {
+        if (isset($destinataire->autre_mail )) {
+          $destinataires[] = array(
+            'email' => $destinataire->autre_mail,
+            'name' => $destinataire->autre_mail);
+        }
+      }
+      db_set_active();
+    }
+    return $destinataires;
+  }
+}

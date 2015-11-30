@@ -1,0 +1,437 @@
+.page-annonces-ajouter {
+
+    #zone-maincontent-wrapper {
+        padding: 70px 0 0 70px;
+    }
+
+    .region-first-content-inner {
+
+        h2 {
+            @include clearface-gothic-bold(50px, 50px);
+            color: #5c656d;
+            margin-bottom: 40px;
+            text-align: left;
+        }
+
+        #annonces-node-form {
+            padding-right: 70px;
+
+            fieldset {
+                margin-top: 30px;
+                padding: 0 !important;
+
+                legend {
+                    clear: both;
+                    @include avant-garde-bold(20px, 20px);
+                    float: none;
+                    display: block !important;
+                    text-align: left;
+                    padding: 0;
+                    width: 100%;
+
+                    span {
+                        display: block;
+                        color: #5c656d !important;
+                    }
+
+                    &:before {
+                        content: "";
+                        background-color: #009ddf;
+                        display: block;
+                        height: 5px;
+                        margin-bottom: 30px;
+                        width: 36px;
+                    }
+                }
+            }
+
+            .field-type-text {
+                padding: 0 !important;
+            }
+
+            select {
+                background-color: #f4f4f4 !important;
+                background-image: url("../images/2015/page/ico-select-down.png") !important;
+                background-position: 95% center !important;
+                background-repeat: no-repeat !important;
+                border: none;
+                width: 100%;
+                height: 42px;
+                padding: 0 10px;
+                @include open-sans-regular(14px, 42px);
+                color: #656565;
+                @include border-radius(0);
+            }
+
+            #edit-field-annonces-limite-contact,
+            #edit-field-annonces-autre-info
+            {
+                margin-top: 0;
+                padding: 0 !important;
+
+                legend {
+                    @include avant-garde-bold(20px, 20px);
+                    float: none;
+                    display: block !important;
+                    text-align: left;
+                    padding: 0 !important;
+                    width: 100%;
+                    margin: 0 !important;
+                    background-color: white;
+
+                    span {
+                        display: block;
+                        width: 100%;
+                        background-color: white;
+                        color: #5c656d !important;
+
+                        span {
+                            display: inline;
+                        }
+                    }
+
+                    &:before {
+                        display: none;
+                    }
+                }
+            }
+
+            #edit-field-annonces-limite-contact-und-0-value {
+
+                .description {
+                    margin-top: 10px;
+                }
+            }
+
+            #edit-field-annonces-autre-info {
+                margin-top: 20px;
+            }
+
+            #edit-field-annonce-cgu-und-0 {
+                width: auto !important;
+                height: auto !important;
+                display: inline-block !important;
+                vertical-align: middle;
+            }
+
+            #edit-field-annonce-cgu {
+                padding: 0 !important;
+
+                label {
+                    display: inline-block !important;
+                    vertical-align: middle;
+                    width: 90% !important;
+                    margin: 0 0 0 10px;
+                }
+            }
+
+            .form-type-checkbox {
+                padding: 0 !important;
+                margin-top: 0 !important;
+            }
+
+            input[type="submit"] {
+                display: inline-block;
+                vertical-align: middle;
+                position: relative;
+                margin: 0;
+                width: 250px;
+                padding: 0;
+                height: 45px;
+                background-color: white;
+                border: 1px solid $blue;
+                @include avant-garde-bold(15px, 42px);
+                text-align: center;
+                color: $blue !important;
+                text-decoration: none;
+                text-transform: uppercase;
+                @include single-transition(all, .2s, ease-out);
+                box-shadow: none;
+                @include border-radius(0);
+            }
+
+            input[type="submit"]:hover, input.form-submit[type="submit"]:active {
+                background-color: $blue;
+                border-color: $blue;
+                color: white !important;
+                padding: 0;
+                margin: 0;
+            }
+
+            #edit-actions {
+                padding: 0 !important;
+            }
+        }
+
+        .form-item {
+
+            label {
+                @include avant-garde-bold(16px, 16px);
+                float: none;
+                color: $blue;
+                display: block !important;
+                text-align: left;
+                margin: 0 0 13px 1px;
+                padding: 0;
+                width: 100%;
+            }
+
+            input {
+                background-color: #f4f4f4;
+                border: none;
+                width: 100% !important;
+                height: 42px;
+                padding: 0 10px;
+                @include open-sans-regular(14px, 42px);
+                color: #656565;
+                @include border-radius(0);
+            }
+
+            .field-suffix {
+                color: #656565;
+                font-family: "Open Sans",sans-serif;
+                font-size: 14px;
+                font-weight: 600;
+                line-height: 28px !important;
+                padding-left: 6px;
+                display: inline;
+            }
+
+        }
+
+        form.node-annonces-form .form-item-title.form-item {
+            padding-bottom: 0;
+        }
+
+        form.node-annonces-form .field-type-field-collection {
+            background-color: white !important;
+            padding: 0 !important;
+        }
+
+        .field-name-field-sorte-quantite tr.even, .field-name-field-sorte-quantite tr.odd, .field-name-field-sorte-quantite tr.even, .field-name-field-sorte-quantite tr.even {
+            background-color: white;
+
+            td {
+                background-color: white;
+                padding: 0 !important;
+
+                .field-type-list-text, .field-type-number-integer  {
+                    padding: 0 !important;
+                }
+            }
+        }
+
+        .field-type-number-integer {
+            padding: 0 !important;
+        }
+    }
+
+    #edit-field-sorte-quantite {
+        margin-top: 0;
+    }
+
+    #zone-maincontent-wrapper table td span {
+        display: inline;
+    }
+
+    #edit-field-annonces-reprise {
+        padding: 0 !important;
+    }
+
+    #edit-field-sorte-quantite-und-0-field-annonces-quantite-annuelle-und-0-value,
+    #edit-field-sorte-quantite-und-1-field-annonces-quantite-annuelle-und-0-value,
+    #edit-field-sorte-quantite-und-2-field-annonces-quantite-annuelle-und-0-value,
+    #edit-field-sorte-quantite-und-3-field-annonces-quantite-annuelle-und-0-value,
+    #edit-field-annonces-quantite-annuelle-und-0-value
+    {
+        width: 390px !important;
+    }
+
+    #field-sorte-quantite-und-2-field-annonces-quantite-annuelle-add-more-wrapper label::after, #field-sorte-quantite-und-3-field-annonces-quantite-annuelle-add-more-wrapper label::after {
+        color: #656565;
+        font-family: "Open Sans",sans-serif;
+        font-size: 14px;
+        font-weight: 600;
+        line-height: 28px !important;
+        padding-left: 6px;
+    }
+
+    #edit-field-sorte-quantite-und-0-field-annonces-reprise {
+        margin-top: 30px;
+    }
+
+    form.node-annonces-form legend span.fieldset-legend {
+        padding: 0 !important;
+    }
+
+    #field-annonces-limite-contact-add-more-wrapper {
+
+        .fieldset-wrapper {
+            margin-top: 20px;
+        }
+    }
+
+    .region-first-content-inner .field-name-field-sorte-quantite tr.even, .region-first-content-inner .field-name-field-sorte-quantite tr.odd {
+
+        .field-name-field-annonces-reprise {
+
+            &:before {
+                content: "";
+                background-color: #a3a3a3;
+                display: block;
+                height: 5px;
+                margin-bottom: 30px;
+                width: 36px;
+            }
+        }
+
+    }
+
+    #edit-field-sorte-quantite-und-0-field-annonces-reprise {
+        &:before {
+            display: none;
+        }
+    }
+}
+
+.page-annonces {
+
+    .views-row-last {
+        margin-top: 96px;
+    }
+
+    .annonces div.views-row {
+        background-color: white;
+    }
+
+    .field-name-title {
+        padding: 0 !important;
+        margin-top: 0 !important;
+        margin-bottom: 50px !important;
+    }
+
+    .view-content {
+        position: relative;
+        overflow: hidden;
+        padding-bottom: 96px;
+
+        .annonce_item {
+            width: 100%;
+            margin-top: 96px;
+            overflow: hidden;
+
+            &:first-child {
+                margin-top: 0;
+            }
+
+            .head {
+                background-color: $blue;
+                @include avant-garde-bold(20px, 26px);
+                padding: 40px 30px;
+                color: white;
+
+                a {
+                    color: white;
+
+                    &:hover {
+                        text-decoration: underline;
+                    }
+                }
+            }
+
+            .annonce_content {
+                padding-top: 20px;
+                padding-left: 30px;
+
+                .field_container {
+                    overflow: hidden;
+                }
+
+                .inline_txt {
+                    clear: both;
+                    float: left;
+                    margin-top: 20px;
+
+                    .label {
+                        display: inline-block;
+                        vertical-align: middle;
+                        @include avant-garde-bold(16px, 16px);
+                        color: $blue;
+                        text-align: left;
+                        padding: 0;
+                    }
+
+                    .text_content {
+                        margin-left: 4px;
+                        display: inline-block;
+                        vertical-align: middle;
+                        @include open-sans-semi-bold(14px, 16px);
+                        color: #656565;
+                    }
+                }
+
+                .two_line_txt {
+                    margin-top: 20px;
+                    float: left;
+                    min-width: 200px;
+
+                    .label {
+                        display: block;
+                        @include avant-garde-bold(16px, 16px);
+                        color: $blue;
+                        text-align: left;
+                        padding: 0;
+                    }
+
+                    .text_content {
+                        margin-top: 12px;
+                        display: block;
+                        vertical-align: middle;
+                        @include open-sans-semi-bold(14px, 16px);
+                        color: #656565;
+                    }
+                }
+
+                .entity-field-collection-item {
+                    margin-top: 20px;
+                    float: left;
+                    min-width: 200px;
+
+                    .field-label {
+                        display: block;
+                        float: none !important;
+                        @include avant-garde-bold(16px, 16px);
+                        color: $blue;
+                        text-align: left;
+                        font-weight: normal;
+                        padding: 0;
+                    }
+
+                    .field-items {
+                        margin-top: 12px;
+                        display: block;
+                        vertical-align: middle;
+                        @include open-sans-semi-bold(14px, 16px);
+                        color: #656565;
+                    }
+
+                    .field-name-field-annonces-quantite-annuelle {
+                        margin-top: 20px;
+                    }
+                }
+
+                .inline_txt + .two_line_txt {
+                    clear: both;
+                }
+
+                .sep {
+                    background-color: #009ddf;
+                    display: block;
+                    height: 5px;
+                    margin: 30px 0 10px 0;
+                    width: 36px;
+                }
+            }
+        }
+    }
+}

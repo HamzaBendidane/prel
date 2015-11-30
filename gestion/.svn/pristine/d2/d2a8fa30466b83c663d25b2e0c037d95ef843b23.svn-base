@@ -1,0 +1,253 @@
+.grid-12.suffix-2.prefix-2.region.region-footer-first {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    width: 100% !important;
+}
+
+#section-footer {
+    width: 100%;
+    max-width: 100%;
+    border: none;
+    background-color: #009ddf;
+
+    #region-full-footer {
+        padding: 0;
+        margin: 0;
+    }
+
+    .zone-footer {
+        background-color: transparent;
+        width: 100%;
+    }
+
+    .container-24 .grid-1 {
+        width: 100%;
+    }
+
+    .grid-12.region, .grid-12.suffix-2.prefix-2.region.region-footer-first {
+        padding: 0;
+        margin: 0;
+        width: 100%;
+    }
+
+    .footer_full {
+        width: 960px;
+        margin: 0 auto;
+        position: relative;
+        padding-bottom: 30px;
+
+        .encart_footer {
+            position: relative;
+            background-color: #ffffff;
+            width: 960px;
+            height: 140px;
+            margin: 0 auto;
+
+            .logo {
+                padding-left: 26px;
+                padding-top: 22px;
+
+                a {
+                    width: 300px;
+                }
+            }
+
+            .menu_top_right {
+                position: absolute;
+                top: 0;
+                right: 0;
+                width: 320px;
+                height: 28px;
+                background-color: #009ddf;
+
+                ul {
+                    line-height: 28px;
+                    text-align: center;
+
+                    li {
+                        display: inline-block;
+                        vertical-align: middle;
+                        margin-left: 36px;
+
+                        a {
+                            display: inline-block;
+                            color: white;
+                            font-size: 10px;
+                            @include avant-garde-demi(10px, 10px);
+                            text-decoration: none;
+                            text-transform: uppercase;
+
+                            &:hover {
+                                text-decoration: underline;
+                            }
+                        }
+
+                        &:before {
+                            display: none;
+                        }
+
+                        &:first-child {
+                            margin-left: 0;
+                        }
+                    }
+                }
+            }
+
+            .follow_us {
+                position: absolute;
+                right: 50px;
+                top: 70px;
+
+                .view-content {
+
+                    div {
+                        display: inline-block;
+                        vertical-align: middle;
+                    }
+
+                    .view-header {
+                        @include avant-garde-bold(15px, 15px);
+                        color: #009ddf;
+                        text-transform: uppercase;
+                    }
+
+
+                    .views-row-1 {
+                        margin-left: 8px;
+
+                        a {
+                            display: block;
+                            background: transparent url("../images/2015/footer/ico-twitter-off.png") no-repeat left top;
+                            width: 25px;
+                            height: 26px;
+                            @include single-transition(all, .2s, ease-out);
+
+                            img {
+                                display: none;
+                            }
+
+                            &:hover {
+                                background-image: url("../images/2015/footer/ico-twitter-on.png");
+                            }
+                        }
+                    }
+
+                    .views-row-2 {
+                        margin-left: 4px;
+
+                        a {
+                            display: block;
+                            background: transparent url("../images/2015/footer/ico-facebook-off.png") no-repeat left top;
+                            width: 26px;
+                            height: 26px;
+                            @include single-transition(all, .2s, ease-out);
+
+                            img {
+                                display: none;
+                            }
+
+                            &:hover {
+                                background-image: url("../images/2015/footer/ico-facebook-on.png");
+                            }
+                        }
+                    }
+
+                    .views-row-3 {
+                        margin-left: 4px;
+
+                        a {
+                            display: block;
+                            background: transparent url("../images/2015/footer/ico-youtube-off.png") no-repeat left top;
+                            width: 25px;
+                            height: 26px;
+                            @include single-transition(all, .2s, ease-out);
+
+                            img {
+                                display: none;
+                            }
+
+                            &:hover {
+                                background-image: url("../images/2015/footer/ico-youtube-on.png");
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        .main_menu {
+            position: relative;
+            width: 960px;
+            padding: 60px 30px;
+            margin: 0 auto;
+
+            > ul {
+
+                > li {
+                    float: left;
+                    width: 300px;
+                    min-height: 170px;
+
+                    > a {
+                        @include avant-garde-medium(16px, 16px);
+                        color: white;
+                        text-transform: uppercase;
+                    }
+
+                    > ul {
+                        padding-left: 23px;
+
+                        > li {
+                            color: white;
+                            list-style: disc;
+
+                            a {
+                                @include open-sans-regular(14px, 18px);
+                                color: white;
+                                text-decoration: none;
+
+                                &:hover {
+                                    text-decoration: underline;
+                                }
+                            }
+
+                            &:before {
+                                display: none;
+                            }
+                        }
+                    }
+
+                    &.notoptitle {
+                        margin-top: -10px;
+                    }
+                }
+
+            }
+
+        }
+
+        .copyright {
+            clear: both;
+            width: 960px;
+            margin: 0 auto;
+            padding: 0 30px;
+            @include open-sans-regular(12px, 12px);
+            color: white;
+        }
+
+        .go_up {
+            cursor: pointer;
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            width: 92px;
+            height: 92px;
+            background: white url("../images/2015/footer/ico-arrow-top-off.png") no-repeat center center;
+            @include single-transition(all, .2s, ease-out);
+
+            &:hover {
+                background-image: url("../images/2015/footer/ico-arrow-top-on.png");
+            }
+        }
+    }
+}

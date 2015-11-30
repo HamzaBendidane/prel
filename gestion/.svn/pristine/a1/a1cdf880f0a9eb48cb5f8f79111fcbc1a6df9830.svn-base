@@ -1,0 +1,229 @@
+<?php
+class MBSoapClient extends SoapClient {
+	const URL = 'https://services.message-business.com/v3/api/PublicInterface.svc/wsdl';
+	const ACCOUNT_ID = 40932;
+	const API_KEY = 'a0b333ee-8123-4897-b7b0-2b49e876d360';
+	
+	public function __construct() { 
+		parent::__construct(self::URL);
+	}
+}
+
+define('SIMPLENEWS_ENTREPRISE_CATEGORY', 'Entreprises');
+define('SIMPLENEWS_COLLECTIVITE_CATEGORY', 'Collectivités');
+
+define('ENTREPRISE_MB_FIELD_ID', 37);
+define('ENTREPRISE_MB_FIELD_VALUE_NO_ID', 1);
+define('ENTREPRISE_MB_FIELD_VALUE_YES_ID', 2);
+
+define('COLLECTIVITE_MB_FIELD_ID', 38);
+define('COLLECTIVITE_MB_FIELD_VALUE_NO_ID', 3);
+define('COLLECTIVITE_MB_FIELD_VALUE_YES_ID', 4);
+
+/**
+ * Gets xml contact data (MessageBusiness format) from Drupal subscriber
+ *
+ */
+function get_contact_xml($subscriber)
+{
+	$drupal_mb_fields_mapping = array(
+		"field_civility" => array("name"=>"salutation", "id"=>"salutation"),
+		"field_first_name" => array("name"=>"firstname", "id"=>"firstname"),
+		"field_last_name" => array("name"=>"lastname", "id"=>"lastname"),
+		"field_entreprise_name" => array("name"=>"companyname", "id"=>"companyname"),
+		"field_fonction" => array("name"=>"jobtitle", "id"=>"jobtitle"),
+		"field_telephone" => array("name"=>"phone", "id"=>"phone"),
+		"field_street" => array("name"=>"address1", "id"=>"address1"),
+		"field_postal_code" => array("name"=>"zipcode", "id"=>"zipcode"),
+		"field_city" => array("name"=>"city", "id"=>"city"),
+		"field_roles" => array("name"=>"type", "id"=>"type")
+	);
+	
+	//Get Drupal user information
+	$user = user_load($subscriber->uid);
+	if (!$user->uid) {
+		$user->mail = $subscriber->mail;
+	}
+	
+	//Create xml that will be sent to MessageBusiness
+	$xml = new DOMDocument('1.0', 'UTF-8');
+	
+	$contacts = $xml->createElement('Contacts');
+	$contact = $xml->createElement('Contact');
+	
+	//Mail attribute
+	$attribute = $xml->createElement('Attribute', $user->mail);
+	$attribute->setAttribute("Name", "email");
+	$attribute->setAttribute("Id", "email");
+	$contact->appendChild($attribute);
+	
+	//Rest of the attributes (custom fields in Drupal)
+	foreach ($drupal_mb_fields_mapping as $drupal_field => $mb_field){
+		$attribute = $xml->createElement('Attribute', $user->{$drupal_field}['und']['0']['value']);
+		$attribute->setAttribute("Name", $mb_field["name"]);
+		$attribute->setAttribute("Id", $mb_field["id"]);
+		$contact->appendChild($attribute);
+	}
+	
+	$contacts->appendChild($contact);
+	$xml->appendChild($contacts);
+	
+	return $xml->saveXML();
+}
+
+
+/**
+*	Gets simplenews newsletter category from subscription tid
+*/
+function get_newsletter_category($subscription) {
+	$category = false;
+	
+	switch (simplenews_category_load($subscription->tid)->name) {
+		case SIMPLENEWS_ENTREPRISE_CATEGORY:
+			$category = 'ENTREPRISE';
+			break;
+		case SIMPLENEWS_COLLECTIVITE_CATEGORY:
+			$category = 'COLLECTIVITE';
+			break;
+	}
+	
+	return $category;
+}
+
+/**
+ * Act after a subscriber is updated.
+ *
+ * @ingroup subscriber
+ */
+function messagebusiness_simplenews_subscriber_update($subscriber) {
+	$soapClient = new MBSoapClient();
+	try {
+		return $soapClient-> SetContactDatas(array(
+			'accountId' => $soapClient::ACCOUNT_ID,
+			'apiKey' => $soapClient::API_KEY,
+			'contactKey' => $subscriber->mail,
+			'xmlDatas' => get_contact_xml($subscriber), 
+			'createIfKeyNotExisting' => false
+		))->SetContactDatasResult;
+	}
+	catch (Exception $e) {
+		watchdog('MessageBusiness', $e->getMessage(), NULL, WATCHDOG_ERROR, $link = NULL);
+	}
+}
+
+/**
+ * Act after a new subscriber has been created.
+ *
+ * @ingroup subscriber
+ */
+function messagebusiness_simplenews_subscriber_insert($subscriber) {
+	$soapClient = new MBSoapClient();
+	try {
+		return $soapClient-> SetContactDatas(array(
+			'accountId' => $soapClient::ACCOUNT_ID,
+			'apiKey' => $soapClient::API_KEY,
+			'contactKey' => $subscriber->mail,
+			'xmlDatas' => get_contact_xml($subscriber), 
+			'createIfKeyNotExisting' => true
+		))->SetContactDatasResult;
+	}
+	catch (Exception $e) {
+		watchdog('MessageBusiness', $e->getMessage(), NULL, WATCHDOG_ERROR, $link = NULL);
+	}
+}
+
+/**
+ * Act after a subscriber has been deleted.
+ *
+ * @ingroup subscriber
+ */
+function messagebusiness_simplenews_subscriber_delete($subscriber) {
+	$category = get_newsletter_category($subscription);
+	
+	if ($category) {
+		$soapClient = new MBSoapClient();
+		try {
+			return $soapClient-> SetContactData(array(
+				'accountId' => $soapClient::ACCOUNT_ID,
+				'apiKey' => $soapClient::API_KEY,
+				'contactKey' => $subscriber->mail,
+				'attributeId' =>  constant($category."_MB_FIELD_ID"),
+				'data' => constant($category."_MB_FIELD_VALUE_NO_ID"),
+				'createIfKeyNotExisting' => false
+			))->SetContactDataResult;
+		}
+		catch (Exception $e) {
+			watchdog('MessageBusiness', $e->getMessage(), NULL, WATCHDOG_ERROR, $link = NULL);
+		}
+	} else {
+		watchdog('MessageBusiness', 'Unknown newsletter category to unsubscribe from', NULL, WATCHDOG_WARNING, $link = NULL);
+	}
+}
+
+/**
+ * Invoked if a user is subscribed to a newsletter.
+ *
+ * @param $subscriber
+ *   The subscriber object including all subscriptions of this user.
+ *
+ * @param $subscription
+ *   The subscription object for this specific subscribe action.
+ *
+ * @ingroup subscriber
+ */
+function messagebusiness_simplenews_subscribe_user($subscriber, $subscription) {
+	$category = get_newsletter_category($subscription);
+	
+	if ($category) {
+		$soapClient = new MBSoapClient();
+		try {
+			return $soapClient-> SetContactData(array(
+				'accountId' => $soapClient::ACCOUNT_ID,
+				'apiKey' => $soapClient::API_KEY,
+				'contactKey' => $subscriber->mail,
+				'attributeId' =>  constant($category."_MB_FIELD_ID"),
+				'data' => constant($category."_MB_FIELD_VALUE_YES_ID"),
+				'createIfKeyNotExisting' => true
+			))->SetContactDataResult;
+		}
+		catch (Exception $e) {
+			watchdog('MessageBusiness', $e->getMessage(), NULL, WATCHDOG_ERROR, $link = NULL);
+		}
+	} else {
+		watchdog('MessageBusiness', 'Unknown newsletter category to subscribe to', NULL, WATCHDOG_WARNING, $link = NULL);
+	}
+}
+
+/**
+ * Invoked if a user is unsubscribed from a newsletter.
+ *
+ * @param $subscriber
+ *   The subscriber object including all subscriptions of this user.
+ *
+ * @param $subscription
+ *   The subscription object for this specific unsubscribe action.
+ *
+ * @ingroup subscriber
+ */
+function messagebusiness_simplenews_unsubscribe_user($subscriber, $subscription) {
+	$category = get_newsletter_category($subscription);
+	
+	if ($category) {
+		$soapClient = new MBSoapClient();
+		try {
+			return $soapClient-> SetContactData(array(
+				'accountId' => $soapClient::ACCOUNT_ID,
+				'apiKey' => $soapClient::API_KEY,
+				'contactKey' => $subscriber->mail,
+				'attributeId' =>  constant($category."_MB_FIELD_ID"),
+				'data' => constant($category."_MB_FIELD_VALUE_NO_ID"),
+				'createIfKeyNotExisting' => false
+			))->SetContactDataResult;
+		}
+		catch (Exception $e) {
+			watchdog('MessageBusiness', $e->getMessage(), NULL, WATCHDOG_ERROR, $link = NULL);
+		}
+	} else {
+		watchdog('MessageBusiness', 'Unknown newsletter category to unsubscribe from', NULL, WATCHDOG_WARNING, $link = NULL);
+	}
+}

@@ -1,0 +1,61 @@
+<?php
+
+function historique_get_all_relance($idDgf) {
+  $historique_relance = array();
+  db_set_active(@DB_EXTRANET);
+  $query = db_select('dgf_relance', 'r')
+  ->fields('r')
+  ->condition('id_dgf', $idDgf, '=')
+  ->execute();
+
+  $result = $query->fetchAll();
+  
+  foreach ($result as $relance) {
+    $historique_relance[] = (array)$relance;;
+  }
+  db_set_active();
+  return $historique_relance;
+}
+
+function historique_get_all_justificatif($id_relance) {
+  db_set_active(@DB_EXTRANET);
+  $justificatifs = array();
+  
+  $query = db_select('lien_relance_justificatif' , 'lien');
+  $query->fields('ref', array('label'));
+  $query->join('ref_justificatif' , 'ref' , 'ref.id = lien.id_ref_justificatif ' );
+  $query->condition('lien.id_relance' , $id_relance, '=');
+
+  $result = $query->execute()->fetchAll();
+  foreach ($result as $justif) {
+    $justificatifs[] = (array)$justif;;
+  }
+  db_set_active();
+  return $justificatifs;
+}
+
+function historique_get_all_destinataire($id_relance) {
+  db_set_active(@DB_EXTRANET);
+  $destinataires = array();
+  $i=0;
+  $query = db_select('lien_relance_destinataire', 'lien')
+  ->fields('lien')
+  ->condition('id_relance', $id_relance, '=')
+  ->execute();
+  $result = $query->fetchAll();
+  foreach ($result as $destinataire) {
+    $query = db_select('drupal_user', 'user')
+    ->fields('user')
+    ->condition('id', $destinataire->id_contact, '=')
+    ->execute();
+    $result = $query->fetchAssoc();
+    $destinataires[$i] = (array)$destinataire;
+    if($result!=false) {
+      $destinataires[$i]['id_contact']=$result;
+    }
+    $i++;
+   
+  }
+  db_set_active();
+  return $destinataires;
+}

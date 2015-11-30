@@ -1,0 +1,11 @@
+(function ($) {
+  $(document).ready(function(){
+    $("#tablesorter").tablesorter({
+      headers: {
+        0: {
+          sorter: false
+        }
+      }
+    });
+  });
+}(jQuery));

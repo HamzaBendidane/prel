@@ -1,0 +1,278 @@
+
+/*********************************/
+.bloc-dashboard {
+	height: 275px;
+	position: relative;
+}
+
+.bloc-dashboard a {
+    text-decoration: none;
+    display: block;
+    height: 100%;
+    width: 100%;
+}
+
+.blocs .blocs-content {
+	padding: 5px;
+}
+
+.blocs {
+    display: inline-block;
+}
+
+.bloc-titre {
+	height: 66.66%;
+    text-align: center;
+	position: relative;
+}
+
+
+.bloc-text {
+    height: 33.33%;
+}
+    
+.bloc-titre-text {
+    text-transform: uppercase;
+    font-weight: 700;
+    color: white;
+	position: absolute;
+    top: 75%;
+    width: 100%;
+}
+
+.grise {
+	color: gray !important;
+}
+
+
+/* BLOC COULEUR */
+
+/* blocs partie haute */
+.bloc-titre.BC10 {
+	background-color: #0095B6;
+}
+
+.bloc-titre.VE10 {
+	background-color: #ABC818;
+}
+
+.bloc-titre.JA10 {
+	background-color: #fabb00;
+}
+
+.bloc-titre.OR10 {
+	background-color: #e57b18;
+}
+
+.bloc-titre.BF10 {
+	background-color: #196681;
+}
+
+.bloc-titre.GR10 {
+	background-color: #D8D8D8;
+}
+
+/* blocs partie basse */
+.bloc-text.BC11 {
+	background-color: #005783;
+}
+
+.bloc-text.VE11 {
+	background-color: #739b02;
+}
+
+.bloc-text.JA11 {
+	background-color: #f58900;
+}
+
+.bloc-text.OR11 {
+	background-color: #ce3b02;
+}
+
+.bloc-text.BF11 {
+	background-color: #022941;
+}
+
+.bloc-text.GR11 {
+	background-color: #BDBDBD;
+}
+
+/* blocs partie basse flèche */
+
+.text-content-arrow.BC10 {
+	border-left-color: #0095B6;
+}
+
+.text-content-arrow.VE10 {
+	border-left-color: #ABC818;
+}
+
+.text-content-arrow.JA10 {
+	border-left-color: #fabb00;
+}
+
+.text-content-arrow.OR10 {
+	border-left-color: #e57b18;
+}
+
+.text-content-arrow.BF10 {
+	border-left-color: #196681;
+}
+
+.text-content-arrow.GR10 {
+	border-left-color: #D8D8D8;
+}
+
+/* bloc partie plus */
+.bloc-text-cross.BC12 {
+	background-color: #00335e;
+}
+
+.bloc-text-cross.VE12 {
+	background-color: #4d7900;
+}
+
+.bloc-text-cross.JA12 {
+	background-color: #f06400;
+}
+
+.bloc-text-cross.OR12 {
+	background-color: #b91c00;
+}
+
+.bloc-text-cross.BF12 {
+	background-color: #001021;
+}
+
+.bloc-text-cross.GR12 {
+	background-color: #9E9E9E;
+}
+
+/* afiichage des pictogrammes */
+.img-dossier {
+	background : url('../images/pictodossier.png') no-repeat center;
+}
+
+.img-croissance {
+	background : url('../images/pictocroissance.png') no-repeat center;
+}
+
+.img-agraphe {
+	background : url('../images/pictoagraphe.png') no-repeat center;
+}
+
+.img-document {
+	background : url('../images/pictodocument.png') no-repeat center;
+}
+
+.img-outils {
+	background : url('../images/pictooutils.png') no-repeat center;
+}
+
+.bloc-text {
+    color: white;
+	padding: 1em;
+}
+
+.bloc-nb-notifications {
+	width: 24px;
+    height: 24px;
+	font-weight: 700;
+    color: white;
+    text-align: center;
+    padding-top: 3px;
+    position: absolute;
+    left: 60%;
+    top: 27%;
+	background : url('../images/notification.png') no-repeat center;
+}
+
+.text-line {
+	position: relative;
+    padding-left: 10px;
+}
+
+div .text-content-arrow {
+	width: 0; 
+	height: 0;
+	position: absolute;
+    left: 0;
+    top: 4px;
+	display: inline-block;
+	border-left: 5px solid;
+	border-right: 5px solid transparent;
+	border-bottom: 5px solid transparent;
+	border-top: 5px solid transparent;
+}
+
+.bloc-text-cross {
+    font-weight: 700;
+	color: white;
+    font-size: 15px;
+    position: absolute;
+    width: 35px;
+    height: 35px;
+    text-align: center;
+    line-height: 35px;
+    bottom: 0;
+    right: 0;
+    margin-right: 0;
+}
+
+
+/* BLOC BLANC */
+.bloc-dashboard.blanc {
+	border: 1px solid #196681;
+}
+
+.bloc-text-haut {
+	color: #d54015;
+    font-size: 21px;
+    font-weight: 600;
+    height: 40%;
+}
+
+
+.blanc .bloc-content {
+	height: 100%;
+	padding: 25px;
+}
+
+.blanc .bloc-liens {
+	color: #196681;
+    font-size: 18px;
+    background: url('../images/orangearrow.png') no-repeat 0px 5px;
+    padding-left: 15px;
+}
+
+/* ICONS */
+.icon-entreprise {
+	background: url('../images/icon-entreprise.png') no-repeat 0px 0px;
+	width: 18px;
+    height: 18px;
+    display: inline-block;
+}
+
+.icon-utilisateur {
+	background: url('../images/icon-utilisateur.png') no-repeat 0px 0px;
+	width: 18px;
+    height: 18px;
+    display: inline-block;
+	
+}
+
+.bloc-nb-notifications {
+	text-decoration: none;
+	color: white !important;
+}
+
+
+
+.tooltip-inner {
+/*     max-width: 100%; */
+    /* If max-width does not work, try using width instead */
+    width: 100%; 
+}
+
+
+

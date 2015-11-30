@@ -1,0 +1,111 @@
+<?php
+/* A déplacer dans une modal */
+require_once 'relance_db.inc';
+require_once 'relance_validate.inc';
+require_once 'relance_submit.inc';
+require_once 'relance_langs.inc';
+
+drupal_add_js(drupal_get_path('module', 'dgf_visualisation_finale' ) . '/inc/relance/js/relance.js' );
+drupal_add_css(drupal_get_path('module', 'dgf_visualisation_finale' ) . '/inc/relance/css/relance.css' );
+
+function dgf_relance_form($form, &$form_state) {
+  shared_security_access_user(2, 'DGF' );
+  $id_dgf = arg(2 );
+ $contact = relance_get_all_destinataire($id_dgf );
+  
+  $demandeur = relance_get_contact($id_dgf );
+  
+  shared_get_referentiel_data('ref_justificatif' );
+  $form['id_dgf'] = array(
+    '#type' => 'hidden',
+    '#default_value' => $id_dgf);
+  $form['pieces'] = array(
+    '#type' => 'checkboxes',
+    '#title' => t('Liste des pièces demandées' ),
+    '#options' => $_SESSION['referentiel_extranet_datas']['ref_justificatif']);
+  
+  $form['destinataire'] = array(
+    '#type' => 'select',
+    '#title' => t('Destinataire' ),
+    '#default_value' => $demandeur,
+    '#options' => $contact,
+
+  );
+  $form['autre_mail'] = array(
+      '#type' => 'textfield',
+      '#title' => t('Autre destinataire' ),
+      '#attributes' => array('readonly' => 'readonly'),
+  
+  );
+  
+  $form['envoi'] = array(
+    '#type' => 'radios',
+    '#title' => t('Mode d\'envoi' ),
+    '#options' => array(
+      0 => t('Notification' ),
+      1 => t('Envoi de mail' )));
+  
+  $form['commentaire'] = array(
+    '#type' => 'textarea',
+    '#title' => t('Commentaire libre' ));
+  
+  $form['file_to_upload'] = array(
+    '#type' => 'file',
+    '#title' => t('Joindre un fichier' ),
+    '#title_display' => 'invisible',
+    '#size' => 60,
+    '#attributes' => array(
+      'class' => array(
+        'cssfile')),
+    '#upload_validators' => array(
+      'file_validate_size' => array(
+        1024 * 1024),
+      'file_validate_extensions' => array(
+        'gif jpg jpeg')));
+  
+  $form['back'] = array(
+    '#type' => 'submit',
+    '#value' => t('Annuler' ),
+    '#attributes' => array(
+      'class' => array(
+        'btn btn-danger modalQuit')),
+    '#limit_validation_errors' => array());
+  $form['next'] = array(
+    '#type' => 'submit',
+    '#value' => t('Valider' ),
+    '#attributes' => array(
+      'class' => array(
+        'btn btn-primary modalSave')),
+    '#validate' => array(
+      'dgf_relance_standard_validate',
+      'dgf_relance_piece_form_specific'),
+    '#submit' => array(
+      'dgf_relance_form_submit',
+      'dgf_relance_piece_form_submit_file'));
+  
+  _dgf_destinataire_modal($form, $form_state );
+  return $form;
+}
+
+/**
+ * Modal ajout d'un destinataire
+ */
+function _dgf_destinataire_modal(&$form, $form_state) {
+  $form['add'] = array(
+    '#type' => 'button',
+    '#value' => t('Ajouter un destinataire' ),
+    '#attributes' => array(
+      'class' => array(
+        'btn btn-primary add-button'),
+      'type' => array(
+        'button')));
+  
+  $form['contact_modal'] = array(
+    '#type' => 'container',
+    '#title' => t('' ));
+  
+  $form['contact_modal']['modal_contact_mail'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Email' ));
+}
+

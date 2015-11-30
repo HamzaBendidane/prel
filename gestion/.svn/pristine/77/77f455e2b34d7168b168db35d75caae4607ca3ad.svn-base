@@ -1,0 +1,28 @@
+<?php
+
+/**
+ * Validation for the trainee step
+ *
+ * @param type $form
+ * @param type $form_state
+ */
+function dgf_demande_form_validate($form, &$form_state) {
+  if ($form_state['triggering_element']['#value'] == 'Annuler') {
+    drupal_goto('/dashboard' );
+  }
+}
+
+function dgf_demande_form_modal_validate ($form, &$form_state) {
+  if ($form_state['triggering_element']['#value'] == 'Non') {
+    drupal_goto('/dgf/demande' );
+  }
+  
+  if ($form_state['triggering_element']['#value'] == 'Oui') {
+    //a remplacer
+    $_SESSION['demande']['nature_demande'] = $form_state['values']['nature_demande'];
+    $_SESSION['demande']['nature_formation'] = $form_state['values']['nature_formation'];
+    var_dump($form_state['values']);die;
+    $_SESSION['demande']['multi_etab']= $form_state['values']['liste_multi-etablissement'];
+    drupal_goto('/dgf/demande/formation' );
+  }
+}

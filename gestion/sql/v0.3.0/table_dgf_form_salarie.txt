@@ -1,0 +1,126 @@
+/* Pour éviter les problèmes éventuels de perte de données, passez attentivement ce script en revue avant de l'exécuter en dehors du contexte du Concepteur de bases de données.*/
+BEGIN TRANSACTION
+SET QUOTED_IDENTIFIER ON
+SET ARITHABORT ON
+SET NUMERIC_ROUNDABORT OFF
+SET CONCAT_NULL_YIELDS_NULL ON
+SET ANSI_NULLS ON
+SET ANSI_PADDING ON
+SET ANSI_WARNINGS ON
+COMMIT
+BEGIN TRANSACTION
+GO
+ALTER TABLE dbo.dgf_form_salarie
+  DROP CONSTRAINT FK_dgf_form_salarie_dgf
+GO
+ALTER TABLE dbo.dgf SET (LOCK_ESCALATION = TABLE)
+GO
+COMMIT
+BEGIN TRANSACTION
+GO
+ALTER TABLE dbo.dgf_form_salarie
+  DROP CONSTRAINT DF_dgf_form_salarie_mobilisation_cpf_1
+GO
+ALTER TABLE dbo.dgf_form_salarie
+  DROP CONSTRAINT DF_dgf_form_salarie_is_delete_1
+GO
+CREATE TABLE dbo.Tmp_dgf_form_salarie
+  (
+  id int NOT NULL IDENTITY (1, 1),
+  id_dgf int NOT NULL,
+  t_entreprise nvarchar(MAX) NULL,
+  t_entreprise_rue nvarchar(MAX) NULL,
+  t_entreprise_complement_rue nvarchar(MAX) NULL,
+  t_entreprise_complement_rue_2 nvarchar(MAX) NULL,
+  t_entreprise_code_postal int NULL,
+  t_entreprise_ville nvarchar(MAX) NULL,
+  t_entreprise_telephone nvarchar(MAX) NULL,
+  t_entreprise_fax nvarchar(MAX) NULL,
+  t_entreprise_email nvarchar(MAX) NULL,
+  t_nom nvarchar(MAX) NULL,
+  t_prenom nvarchar(MAX) NULL,
+  t_date_naissance date NULL,
+  t_age int NULL,
+  t_sexe bit NULL,
+  t_travailleur_handicape bit NULL,
+  t_rue nvarchar(MAX) NULL,
+  t_complement_rue nvarchar(MAX) NULL,
+  t_complement_rue_2 nvarchar(MAX) NULL,
+  t_code_postal int NULL,
+  t_ville nvarchar(MAX) NULL,
+  t_telephone nvarchar(MAX) NULL,
+  t_email nvarchar(MAX) NULL,
+  t_derniere_situation nvarchar(MAX) NULL,
+  t_caisse_retraite nvarchar(MAX) NULL,
+  t_caisse_prevoyance nvarchar(MAX) NULL,
+  t_diplome nvarchar(MAX) NULL,
+  t_beneficiaire_minimas_sociaux nvarchar(MAX) NULL,
+  t_numero_pole_emploi nvarchar(MAX) NULL,
+  t_nombre_mois_inscrit_pole_emploi int NULL,
+  t_salaire_horaire_brut decimal(10, 2) NULL,
+  t_salaire_horaire_net decimal(10, 2) NULL,
+  t_cout_pedagogique decimal(10, 2) NULL,
+  t_cout_evaluation_preformative decimal(10, 2) NULL,
+  t_frais_transport decimal(10, 2) NULL,
+  t_frais_repas decimal(10, 2) NULL,
+  t_nb_repas int NULL,
+  t_frais_nuitee decimal(10, 2) NULL,
+  t_nb_nuitee int NULL,
+  t_mobilisation_cpf bit NULL,
+  t_heure_cpf int NULL,
+  t_numero_securite_sociale nvarchar(MAX) NULL,
+  t_duree_action decimal(10, 2) NULL,
+  t_duree_action_tt decimal(10, 2) NULL,
+  t_duree_action_htt decimal(10, 2) NULL,
+  t_duree_eval_preformative_heure int NULL,
+  t_duree_eval_preformative_minute int NULL,
+  t_particularite nvarchar(MAX) NULL,
+  date_creation datetime NOT NULL,
+  id_user_creation int NOT NULL,
+  date_last_edit datetime NULL,
+  id_user_last_edit int NULL,
+  date_delete datetime NULL,
+  id_user_delete int NULL,
+  is_delete bit NOT NULL
+  )  ON [PRIMARY]
+   TEXTIMAGE_ON [PRIMARY]
+GO
+ALTER TABLE dbo.Tmp_dgf_form_salarie SET (LOCK_ESCALATION = TABLE)
+GO
+ALTER TABLE dbo.Tmp_dgf_form_salarie ADD CONSTRAINT
+  DF_dgf_form_salarie_mobilisation_cpf_1 DEFAULT ((0)) FOR t_mobilisation_cpf
+GO
+ALTER TABLE dbo.Tmp_dgf_form_salarie ADD CONSTRAINT
+  DF_dgf_form_salarie_is_delete_1 DEFAULT ((0)) FOR is_delete
+GO
+SET IDENTITY_INSERT dbo.Tmp_dgf_form_salarie ON
+GO
+IF EXISTS(SELECT * FROM dbo.dgf_form_salarie)
+   EXEC('INSERT INTO dbo.Tmp_dgf_form_salarie (id, id_dgf, t_entreprise, t_entreprise_rue, t_entreprise_complement_rue, t_entreprise_complement_rue_2, t_entreprise_code_postal, t_entreprise_ville, t_entreprise_telephone, t_entreprise_fax, t_entreprise_email, t_nom, t_prenom, t_date_naissance, t_age, t_sexe, t_travailleur_handicape, t_rue, t_complement_rue, t_complement_rue_2, t_code_postal, t_ville, t_telephone, t_email, t_derniere_situation, t_caisse_retraite, t_caisse_prevoyance, t_diplome, t_beneficiaire_minimas_sociaux, t_numero_pole_emploi, t_nombre_mois_inscrit_pole_emploi, t_salaire_horaire_brut, t_salaire_horaire_net, t_cout_pedagogique, t_cout_evaluation_preformative, t_frais_transport, t_frais_repas, t_nb_repas, t_frais_nuitee, t_nb_nuitee, t_mobilisation_cpf, t_heure_cpf, t_numero_securite_sociale, t_duree_action, t_duree_action_tt, t_duree_action_htt, t_duree_eval_preformative_heure, t_duree_eval_preformative_minute, t_particularite, date_creation, id_user_creation, date_last_edit, id_user_last_edit, date_delete, id_user_delete, is_delete)
+    SELECT id, id_dgf, t_entreprise, t_entreprise_numero_rue, t_entreprise_complement_rue, t_entreprise_rue, t_entreprise_code_postal, t_entreprise_ville, t_entreprise_telephone, t_entreprise_fax, t_entreprise_email, t_nom, t_prenom, t_date_naissance, t_age, t_sexe, t_travailleur_handicape, t_rue, t_complement_rue, t_numero_rue, t_code_postal, t_ville, t_telephone, t_email, t_derniere_situation, t_caisse_retraite, t_caisse_prevoyance, t_diplome, t_beneficiaire_minimas_sociaux, t_numero_pole_emploi, t_nombre_mois_inscrit_pole_emploi, t_salaire_horaire_brut, t_salaire_horaire_net, t_cout_pedagogique, t_cout_evaluation_preformative, t_frais_transport, t_frais_repas, t_nb_repas, t_frais_nuitee, t_nb_nuitee, t_mobilisation_cpf, t_heure_cpf, t_numero_securite_sociale, t_duree_action, t_duree_action_tt, t_duree_action_htt, t_duree_eval_preformative_heure, t_duree_eval_preformative_minute, t_particularite, date_creation, id_user_creation, date_last_edit, id_user_last_edit, date_delete, id_user_delete, is_delete FROM dbo.dgf_form_salarie WITH (HOLDLOCK TABLOCKX)')
+GO
+SET IDENTITY_INSERT dbo.Tmp_dgf_form_salarie OFF
+GO
+DROP TABLE dbo.dgf_form_salarie
+GO
+EXECUTE sp_rename N'dbo.Tmp_dgf_form_salarie', N'dgf_form_salarie', 'OBJECT' 
+GO
+ALTER TABLE dbo.dgf_form_salarie ADD CONSTRAINT
+  PK_t_dgf_form_salarie PRIMARY KEY CLUSTERED 
+  (
+  id
+  ) WITH( STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+
+GO
+ALTER TABLE dbo.dgf_form_salarie ADD CONSTRAINT
+  FK_dgf_form_salarie_dgf FOREIGN KEY
+  (
+  id_dgf
+  ) REFERENCES dbo.dgf
+  (
+  id
+  ) ON UPDATE  NO ACTION 
+   ON DELETE  NO ACTION 
+  
+GO
+COMMIT

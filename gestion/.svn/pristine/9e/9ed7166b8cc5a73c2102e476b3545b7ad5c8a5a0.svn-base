@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the Ecofolio Espace Editeur feature.
+ */
+
+include_once 'ecofolio_espace_editeur.features.inc';

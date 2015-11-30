@@ -1,0 +1,15 @@
+<?php
+
+function dgf_toutes_actions_menu() {
+  $items = array();
+//   $items['dgf/contratpro/demande'] = array(
+//       'title' => t('Demande de gestion et financement - contrat pro'),
+//       'page callback' => 'drupal_get_form',
+//       'page arguments' => array('dgf_contrat_pro_salarie_form'),
+//       'access arguments' => array('access content'),
+//       'file' => 'inc/stagiaire/stagiaire_form.inc',
+//       'type' => MENU_NORMAL_ITEM,
+//   );
+
+  return $items;
+}

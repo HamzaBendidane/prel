@@ -1,0 +1,99 @@
+<?php
+
+function dgf_suivi_demande_list_filter_form($form, &$form_state) {
+
+  $form['action_number'] = array(
+    '#type' => 'textfield',
+    '#title' => t('N° action'),
+    '#default_value' => isset($_SESSION['suivi_demande_filter']['action_number']) ?
+      $_SESSION['suivi_demande_filter']['action_number'] : '',
+  );
+
+  $options = populate_select_fields_nature_formation();
+  $form['action_nature'] = array(
+      '#type' => 'select',
+      '#title' => t('Nature de l\'action'),
+      '#options' => $options,
+      '#default_value' => isset($_SESSION['suivi_demande_filter']['action_nature']) ?
+        $_SESSION['suivi_demande_filter']['action_nature'] : '',
+  );
+
+  // si appel depuis le dashboard
+  $default_statut = isset($_SESSION['suivi_demande_filter']['statut']) ? $_SESSION['suivi_demande_filter']['statut'] : null;
+  if(!isset($default_statut) || $default_statut == 0) {
+    $default_statut = isset($_GET['statut']) ? $_GET['statut'] : null;
+  } 
+  $form['statut'] = array(
+      '#type' => 'select',
+      '#title' => t('Etat'),
+      '#options' => unserialize(@LIST_STATUT_ACTION),
+      '#default_value' => $default_statut,
+  );
+
+  $form['year_exercise'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Année (ou exercice)'),
+      '#default_value' => isset($_SESSION['suivi_demande_filter']['year_exercise']) ?
+        $_SESSION['suivi_demande_filter']['year_exercise'] : '',
+      '#attributes' => array('class' => array('min-lenght')),
+  );
+
+  $form['worker_name'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Nom du Salarié'),
+    '#default_value' => isset($_SESSION['suivi_demande_filter']['worker_name']) ?
+      $_SESSION['suivi_demande_filter']['worker_name'] : '',
+    '#field_suffix' => '<span class="spinner">&nbsp;</span>',
+  );
+
+  /*
+   * Remplacé par l'autocomplete ci-dessous
+   * 
+  $options = shared_db_functions_get_ref_esclave_entreprise();
+  $form['etablishment'] = array(
+      '#type' => 'select',
+      '#title' => t('Etablissement'),
+      '#options' => $options,
+      '#default_value' => isset($_SESSION['suivi_demande_filter']['etablishment']) ?
+        $_SESSION['suivi_demande_filter']['etablishment'] : null,
+  );
+   * 
+   */
+  
+  $raison_social = '';
+  
+  if (isset($_SESSION['suivi_demande_filter']['etablishment'])) {
+    $raison_social = shared_get_raison_sociale_siret_entreprise(
+            $_SESSION['suivi_demande_filter']['etablishment']);  
+  }
+  
+  $form['tout_etablissement'] = array(
+          '#type' => 'textfield',
+          '#title' => t('Etablissement'),
+          '#attributes' => array(
+                  'placeholder' => t('SIRET ou raison sociale'),
+                  'class' => array('autocomplete-siret')),
+          '#default_value' => $raison_social,
+          '#field_suffix' => '<img src='.base_path() . path_to_theme() . '/' . 'images/search.png'.' />
+            <span class="spinner">&nbsp;</span>',
+  );
+  
+  $form['etablishment'] = array(
+          '#type' => 'hidden',
+          '#default_value' => isset($_SESSION['suivi_demande_filter']['etablishment']) ?
+          $_SESSION['suivi_demande_filter']['etablishment'] : null,
+  );
+
+  $form['reset'] = array(
+      '#type' => 'submit',
+      '#value' => t('Réinitialiser'),
+      '#attributes' => array('class' => array('btn', 'btn-warning')),
+  );
+
+  $form['filter'] = array(
+    '#type' => 'submit',
+    '#value' => t('Rechercher'),
+    '#attributes' => array('class' => array('btn', 'btn-primary')),
+  );
+  return $form;
+}

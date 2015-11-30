@@ -1,0 +1,334 @@
+#modalContent, #cboxWrapper {
+    @include border-radius(0);
+}
+
+#cboxContent #user-login-form .user-login-block-subtitle, h3 {
+    @include avant-garde-bold(16px, 16px);
+    float: none;
+    color: $blue;
+    display: block !important;
+    text-align: left;
+    margin: 0 0 18px 0;
+    padding: 0;
+}
+
+#colorbox #user-login-form .form-text, .form-item.form-type-password.form-item-pass{
+    background-color: #f4f4f4;
+    border: none;
+    width: 100%;
+    height: 42px;
+    padding: 0 10px;
+    @include open-sans-regular(14px, 42px);
+    color: #656565;
+    @include border-radius(0);
+}
+
+#user-login-block-form-fields {
+    text-align: center;
+}
+
+#colorbox #user-login-form input[type="submit"] {
+    float: none;
+    display: inline-block !important;
+    vertical-align: middle;
+    position: relative;
+    margin: 0;
+    width: 150px;
+    height: 42px;
+    background-color: white;
+    border: 1px solid $blue;
+    @include avant-garde-bold(15px, 40px);
+    text-align: center;
+    color: $blue !important;
+    text-decoration: none;
+    text-transform: uppercase;
+    @include single-transition(all, .2s, ease-out);
+    box-shadow: none;
+    margin-top: 20px;
+    padding: 0;
+    @include border-radius(0);
+
+    &:hover {
+        background-color: $blue;
+        color: white !important;
+    }
+}
+
+#cboxContent #user-login-form .form-item-reset {
+    @include open-sans-regular(12px, 12px);
+    text-transform: none;
+    text-decoration: underline;
+    color: #a3a3a3;
+    font-style: normal;
+    border: none;
+    margin: 20px 0 0 0;
+    text-align: left;
+}
+
+#cboxContent #user-login-form .form-actions {
+    text-align: center;
+    padding: 0 !important;
+}
+
+#cboxContent #user-login-form a#create-new-account:link, #cboxContent #user-login-form a#create-new-account
+{
+    display: inline-block;
+    vertical-align: middle;
+    position: relative;
+    width: 254px;
+    height: 44px;
+    background-color: white;
+    border: 1px solid $blue;
+    @include avant-garde-bold(15px, 44px);
+    text-align: center;
+    color: $blue !important;
+    padding: 0;
+    text-decoration: none;
+    text-transform: uppercase;
+    @include single-transition(all, .2s, ease-out);
+    margin-left: 0;
+    box-shadow: none;
+
+    &:after {
+        content: "";
+        position: absolute;
+        width: 15px;
+        height: 20px;
+        background: transparent url("../images/2015/home/ico-arrow-white-blue-right.png") no-repeat left top;
+        right: -7.5px;
+        top: 50%;
+        margin-top: -10px;
+        z-index: 1;
+        @include single-transition(all, .2s, ease-out);
+    }
+
+    &.selected, &:hover {
+        background-color: $blue;
+        color: white !important;
+
+        &:after {
+            right: -20px;
+        }
+    }
+}
+
+#cboxLoadedContent {
+    h1#page-title {
+        @include avant-garde-bold(16px, 16px);
+        float: none;
+        color: $blue;
+        display: block !important;
+        text-align: left;
+        margin: 0;
+        padding: 0;
+    }
+}
+
+#cboxContent #main-content-inner {
+    @include open-sans-regular(14px, 20px);
+    color: #656565;
+}
+
+#ecofolio-manage-mediatheque-cgu-form {
+
+    #edit-cgu {
+        display: inline-block;
+        vertical-align: middle;
+        width: 14px;
+        height: 14px;
+    }
+
+    span.option {
+        display: inline-block;
+        vertical-align: middle;
+        @include avant-garde-bold(14px, 14px);
+        color: #656565;
+        margin-left: 10px;
+    }
+
+    input[type="submit"] {
+        margin-top: 20px;
+        width: 570px !important;
+    }
+}
+
+#cboxContent .intro {
+    @include open-sans-semi-bold(14px, 28px);
+    color: #656565;
+    margin-bottom: 20px;
+}
+
+.page-mediatheque #cboxContent #cboxLoadedContent {
+    height: 602px !important;
+}
+
+#cboxClose {
+    width: 40px;
+    height: 40px;
+    background: transparent url("../images/2015/common/bt-close.png") no-repeat center center;
+    cursor: pointer;
+
+    &:hover {
+        width: 40px;
+        height: 40px;
+        background: transparent url("../images/2015/common/bt-close.png") no-repeat center center;
+    }
+}
+
+#cboxContent #user-login-form .form-item-pass {
+    margin: 0;
+    width: 100%;
+}
+
+h3 {
+    margin: 30px 0;
+}
+
+#modalContent {
+    background-color: white;
+
+    .modal-header {
+        padding-left: 40px !important;
+
+        #modal-title {
+            @include clearface-gothic-bold(40px, 40px);
+            float: none;
+            color: #5c656d;
+            display: block !important;
+            text-align: left;
+            margin: 0 0 18px 0;
+            padding: 0;
+        }
+
+        .popups-close {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 40px;
+            height: 40px;
+            background: transparent url("../images/2015/common/bt-close.png") no-repeat center center;
+            cursor: pointer;
+
+            &:hover {
+                width: 40px;
+                height: 40px;
+                background: transparent url("../images/2015/common/bt-close.png") no-repeat center center;
+            }
+        }
+    }
+
+    #modal-content {
+        height: 450px !important;
+        padding-left: 40px !important;
+
+        h2 {
+            display: none;
+        }
+
+        form {
+            background-color: white !important;
+
+            > div {
+                margin-top: 0 !important;
+                padding-top: 0 !important;
+            }
+
+            label {
+                @include avant-garde-bold(16px, 16px);
+                float: none;
+                color: $blue;
+                display: block !important;
+                text-align: left;
+                margin: 0 0 13px 1px;
+                padding: 0;
+                width: 100%;
+            }
+
+            input {
+                background-color: #f4f4f4;
+                border: none;
+                width: 100% !important;
+                height: 42px;
+                padding: 0 10px;
+                @include open-sans-regular(14px, 42px);
+                color: #656565;
+                @include border-radius(0);
+            }
+
+            select {
+                background-color: #f4f4f4 !important;
+                background-image: url("../images/2015/page/ico-select-down.png") !important;
+                background-position: 95% center !important;
+                background-repeat: no-repeat !important;
+                border: none;
+                width: 100%;
+                height: 42px;
+                padding: 0 10px;
+                @include open-sans-regular(14px, 42px);
+                color: #656565;
+                @include border-radius(0);
+            }
+
+            input[type="submit"] {
+                display: inline-block;
+                vertical-align: middle;
+                position: relative;
+                margin: 0;
+                width: 140px !important;
+                padding: 0;
+                height: 45px;
+                background-color: white;
+                border: 1px solid $blue;
+                @include avant-garde-bold(15px, 42px);
+                text-align: center;
+                color: $blue !important;
+                text-decoration: none;
+                text-transform: uppercase;
+                @include single-transition(all, .2s, ease-out);
+                box-shadow: none;
+                @include border-radius(0);
+            }
+
+            input[type="submit"]:hover, input.form-submit[type="submit"]:active {
+                background-color: $blue;
+                border-color: $blue;
+                color: white !important;
+                padding: 0;
+                margin: 0;
+            }
+
+            .form-item {
+                padding: 0 !important;
+
+                &:first-child {
+                    margin-top: 0;
+                }
+            }
+        }
+
+        #edit-submitted-cgu, #edit-submitted-enregistrer-mes-informations {
+            margin-top: 20px;
+
+            label {
+                padding-left: 40px;
+            }
+
+            input[type="checkbox"] + label {
+                display: inline-block;
+                vertical-align: middle;
+                background: white url("../images/2015/media/background-check.png") no-repeat left center;
+                height: 20px;
+                padding-left: 40px;
+                padding-top: 3px;
+            }
+
+            input[type="checkbox"]:checked + label {
+                background: white url("../images/2015/media/ico-check-on.png") no-repeat left center;
+            }
+        }
+    }
+
+    div.ctools-modal-content .modal-content {
+        height: 450px;
+    }
+}

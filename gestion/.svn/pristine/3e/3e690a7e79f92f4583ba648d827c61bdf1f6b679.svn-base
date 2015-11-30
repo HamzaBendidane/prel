@@ -1,0 +1,16 @@
+<div class="row">
+    <?php print render($stagiaire['#prefix']); ?>
+</div>
+<form id="<?php print $stagiaire['#id'] ?>" accept-charset="UTF-8" 
+      method="<?php print $stagiaire['#method'] ?>" class = "form-inline" 
+      action="<?php print $stagiaire['#action'] ?>">
+    <div class="padding15">
+        <?php print theme('dgf_stagiaire_form_mono', array('stagiaire' => $stagiaire));?>
+    </div>
+    <div id="boutonAction" class="row">
+        <?php print drupal_render($stagiaire['back']); ?>
+        <?php print drupal_render($stagiaire['quit']); ?>
+        <?php print drupal_render($stagiaire['next']); ?>
+    </div>
+    <?php print drupal_render_children($stagiaire, array('form_build_id', 'form_token', 'form_id')); ?>
+</form>

@@ -1,0 +1,10 @@
+<a id="rem-<?php print $node_target_nid; ?>" href="<?php print $node_target_link; ?>" class="bloc-rem-custom rem-custom-link">
+	<div class="bloc-rem">
+		<div class="bloc-image">
+			<?php print render($content['field_bloc_rem_image']); ?>
+		</div>
+		<div class="bloc-accroche">
+			<p><?php print $node->field_bloc_rem_teaser[LANGUAGE_NONE][0]['value']; ?></p>
+		</div>
+	</div>
+</a>

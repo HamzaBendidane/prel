@@ -1,0 +1,882 @@
+<?php
+/**
+ * @file
+ * ecofolio_mediatheque.views_default.inc
+ */
+
+/**
+ * Implements hook_views_default_views().
+ */
+function ecofolio_mediatheque_views_default_views() {
+  $export = array();
+
+  $view = new view();
+  $view->name = 'media';
+  $view->description = '';
+  $view->tag = 'default';
+  $view->base_table = 'node';
+  $view->human_name = 'Médiathèque Jeunesse';
+  $view->core = 7;
+  $view->api_version = '3.0';
+  $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
+
+  /* Display: Master */
+  $handler = $view->new_display('default', 'Master', 'default');
+  $handler->display->display_options['title'] = 'Médiathèque Collectivités Entreprises';
+  $handler->display->display_options['use_ajax'] = TRUE;
+  $handler->display->display_options['use_more_always'] = FALSE;
+  $handler->display->display_options['access']['type'] = 'perm';
+  $handler->display->display_options['cache']['type'] = 'none';
+  $handler->display->display_options['query']['type'] = 'views_query';
+  $handler->display->display_options['exposed_form']['type'] = 'better_exposed_filters';
+  $handler->display->display_options['exposed_form']['options']['submit_button'] = 'OK';
+  $handler->display->display_options['exposed_form']['options']['exposed_sorts_label'] = 'Filtres';
+  $handler->display->display_options['exposed_form']['options']['autosubmit'] = TRUE;
+  $handler->display->display_options['exposed_form']['options']['bef'] = array(
+    'general' => array(
+      'allow_secondary' => 0,
+      'secondary_label' => 'Advanced options',
+    ),
+    'field_media_univers_tid' => array(
+      'bef_format' => 'bef',
+      'more_options' => array(
+        'bef_select_all_none' => 0,
+        'bef_collapsible' => 0,
+        'is_secondary' => 0,
+        'any_label' => '',
+        'bef_filter_description' => '',
+        'tokens' => array(
+          'available' => array(
+            0 => 'global_types',
+          ),
+        ),
+        'rewrite' => array(
+          'filter_rewrite_values' => '',
+        ),
+      ),
+    ),
+    'type_2' => array(
+      'bef_format' => 'bef',
+      'more_options' => array(
+        'bef_select_all_none' => 0,
+        'bef_collapsible' => 0,
+        'is_secondary' => 0,
+        'any_label' => '',
+        'bef_filter_description' => '',
+        'tokens' => array(
+          'available' => array(
+            0 => 'global_types',
+          ),
+        ),
+        'rewrite' => array(
+          'filter_rewrite_values' => '',
+        ),
+      ),
+    ),
+    'type_1' => array(
+      'bef_format' => 'bef',
+      'more_options' => array(
+        'bef_select_all_none' => 0,
+        'bef_collapsible' => 0,
+        'is_secondary' => 0,
+        'any_label' => '',
+        'bef_filter_description' => '',
+        'tokens' => array(
+          'available' => array(
+            0 => 'global_types',
+          ),
+        ),
+        'rewrite' => array(
+          'filter_rewrite_values' => '',
+        ),
+      ),
+    ),
+    'type_3' => array(
+      'bef_format' => 'bef',
+      'more_options' => array(
+        'bef_select_all_none' => 0,
+        'bef_collapsible' => 0,
+        'is_secondary' => 0,
+        'any_label' => '',
+        'bef_filter_description' => '',
+        'tokens' => array(
+          'available' => array(
+            0 => 'global_types',
+          ),
+        ),
+        'rewrite' => array(
+          'filter_rewrite_values' => '',
+        ),
+      ),
+    ),
+    'type_4' => array(
+      'bef_format' => 'bef',
+      'more_options' => array(
+        'bef_select_all_none' => 0,
+        'bef_collapsible' => 0,
+        'is_secondary' => 0,
+        'any_label' => '',
+        'bef_filter_description' => '',
+        'tokens' => array(
+          'available' => array(
+            0 => 'global_types',
+          ),
+        ),
+        'rewrite' => array(
+          'filter_rewrite_values' => '',
+        ),
+      ),
+    ),
+    'field_media_tags_media_tid_1' => array(
+      'bef_format' => 'bef',
+      'more_options' => array(
+        'bef_select_all_none' => 0,
+        'bef_collapsible' => 0,
+        'is_secondary' => 0,
+        'any_label' => '',
+        'bef_filter_description' => '',
+        'tokens' => array(
+          'available' => array(
+            0 => 'global_types',
+          ),
+        ),
+        'rewrite' => array(
+          'filter_rewrite_values' => '',
+        ),
+      ),
+    ),
+    'field_media_tags_media_tid' => array(
+      'bef_format' => 'default',
+      'more_options' => array(
+        'is_secondary' => 0,
+        'any_label' => '',
+        'bef_filter_description' => '',
+        'tokens' => array(
+          'available' => array(
+            0 => 'global_types',
+          ),
+        ),
+        'rewrite' => array(
+          'filter_rewrite_values' => '',
+        ),
+      ),
+    ),
+  );
+  $handler->display->display_options['exposed_form']['options']['input_required'] = 0;
+  $handler->display->display_options['exposed_form']['options']['text_input_required_format'] = 'filtered_html';
+  $handler->display->display_options['pager']['type'] = 'full';
+  $handler->display->display_options['pager']['options']['items_per_page'] = '10';
+  $handler->display->display_options['pager']['options']['offset'] = '0';
+  $handler->display->display_options['pager']['options']['id'] = '0';
+  $handler->display->display_options['pager']['options']['quantity'] = '9';
+  $handler->display->display_options['pager']['options']['expose']['items_per_page'] = TRUE;
+  $handler->display->display_options['pager']['options']['expose']['items_per_page_label'] = 'Résultats par page';
+  $handler->display->display_options['style_plugin'] = 'default';
+  $handler->display->display_options['row_plugin'] = 'fields';
+  /* Relationship: Entity Reference: Referenced Entity */
+  $handler->display->display_options['relationships']['field_media_doc_target_id']['id'] = 'field_media_doc_target_id';
+  $handler->display->display_options['relationships']['field_media_doc_target_id']['table'] = 'field_data_field_media_doc';
+  $handler->display->display_options['relationships']['field_media_doc_target_id']['field'] = 'field_media_doc_target_id';
+  $handler->display->display_options['relationships']['field_media_doc_target_id']['label'] = 'Media Asset Document entity referenced from field_media_doc';
+  /* Relationship: Entity Reference: Referenced Entity */
+  $handler->display->display_options['relationships']['field_media_video_target_id']['id'] = 'field_media_video_target_id';
+  $handler->display->display_options['relationships']['field_media_video_target_id']['table'] = 'field_data_field_media_video';
+  $handler->display->display_options['relationships']['field_media_video_target_id']['field'] = 'field_media_video_target_id';
+  $handler->display->display_options['relationships']['field_media_video_target_id']['label'] = 'Media Asset Video entity referenced from field_media_video';
+  /* Relationship: Entity Reference: Referenced Entity */
+  $handler->display->display_options['relationships']['field_media_pdf_target_id']['id'] = 'field_media_pdf_target_id';
+  $handler->display->display_options['relationships']['field_media_pdf_target_id']['table'] = 'field_data_field_media_pdf';
+  $handler->display->display_options['relationships']['field_media_pdf_target_id']['field'] = 'field_media_pdf_target_id';
+  $handler->display->display_options['relationships']['field_media_pdf_target_id']['label'] = 'Media PDF Asset entity referenced from field_media_pdf';
+  /* Relationship: Entity Reference: Referenced Entity */
+  $handler->display->display_options['relationships']['field_media_image_target_id']['id'] = 'field_media_image_target_id';
+  $handler->display->display_options['relationships']['field_media_image_target_id']['table'] = 'field_data_field_media_image';
+  $handler->display->display_options['relationships']['field_media_image_target_id']['field'] = 'field_media_image_target_id';
+  $handler->display->display_options['relationships']['field_media_image_target_id']['label'] = 'Media Asset Image entity referenced from field_media_image';
+  /* Field: Content: Taxonomie Univers */
+  $handler->display->display_options['fields']['field_media_univers']['id'] = 'field_media_univers';
+  $handler->display->display_options['fields']['field_media_univers']['table'] = 'field_data_field_media_univers';
+  $handler->display->display_options['fields']['field_media_univers']['field'] = 'field_media_univers';
+  $handler->display->display_options['fields']['field_media_univers']['exclude'] = TRUE;
+  /* Field: Content: Taxonomie Tags Média */
+  $handler->display->display_options['fields']['field_media_tags_media']['id'] = 'field_media_tags_media';
+  $handler->display->display_options['fields']['field_media_tags_media']['table'] = 'field_data_field_media_tags_media';
+  $handler->display->display_options['fields']['field_media_tags_media']['field'] = 'field_media_tags_media';
+  $handler->display->display_options['fields']['field_media_tags_media']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['field_media_tags_media']['hide_empty'] = TRUE;
+  /* Field: Content: Sélectionnez les utilisateurs qui pourront visualiser le contenu de cette page : */
+  $handler->display->display_options['fields']['field_media_user_allowed']['id'] = 'field_media_user_allowed';
+  $handler->display->display_options['fields']['field_media_user_allowed']['table'] = 'field_data_field_media_user_allowed';
+  $handler->display->display_options['fields']['field_media_user_allowed']['field'] = 'field_media_user_allowed';
+  $handler->display->display_options['fields']['field_media_user_allowed']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['field_media_user_allowed']['hide_empty'] = TRUE;
+  $handler->display->display_options['fields']['field_media_user_allowed']['delta_offset'] = '0';
+  /* Field: Content: CPU */
+  $handler->display->display_options['fields']['field_media_cpu']['id'] = 'field_media_cpu';
+  $handler->display->display_options['fields']['field_media_cpu']['table'] = 'field_data_field_media_cpu';
+  $handler->display->display_options['fields']['field_media_cpu']['field'] = 'field_media_cpu';
+  $handler->display->display_options['fields']['field_media_cpu']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['field_media_cpu']['hide_empty'] = TRUE;
+  $handler->display->display_options['fields']['field_media_cpu']['type'] = 'node_reference_node';
+  $handler->display->display_options['fields']['field_media_cpu']['settings'] = array(
+    'node_reference_view_mode' => 'full',
+  );
+  /* Field: Content: Path */
+  $handler->display->display_options['fields']['path']['id'] = 'path';
+  $handler->display->display_options['fields']['path']['table'] = 'node';
+  $handler->display->display_options['fields']['path']['field'] = 'path';
+  $handler->display->display_options['fields']['path']['label'] = '';
+  $handler->display->display_options['fields']['path']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['path']['hide_empty'] = TRUE;
+  $handler->display->display_options['fields']['path']['absolute'] = TRUE;
+  /* Field: Media Asset: Image */
+  $handler->display->display_options['fields']['field_asset_module_image']['id'] = 'field_asset_module_image';
+  $handler->display->display_options['fields']['field_asset_module_image']['table'] = 'field_data_field_asset_module_image';
+  $handler->display->display_options['fields']['field_asset_module_image']['field'] = 'field_asset_module_image';
+  $handler->display->display_options['fields']['field_asset_module_image']['relationship'] = 'field_media_image_target_id';
+  $handler->display->display_options['fields']['field_asset_module_image']['hide_empty'] = TRUE;
+  $handler->display->display_options['fields']['field_asset_module_image']['click_sort_column'] = 'fid';
+  $handler->display->display_options['fields']['field_asset_module_image']['settings'] = array(
+    'image_style' => '',
+    'image_link' => '',
+  );
+  /* Field: Media Asset: Asset type */
+  $handler->display->display_options['fields']['type']['id'] = 'type';
+  $handler->display->display_options['fields']['type']['table'] = 'asset';
+  $handler->display->display_options['fields']['type']['field'] = 'type';
+  $handler->display->display_options['fields']['type']['relationship'] = 'field_media_image_target_id';
+  $handler->display->display_options['fields']['type']['hide_empty'] = TRUE;
+  /* Field: Media Asset: Video */
+  $handler->display->display_options['fields']['field_asset_module_video_file']['id'] = 'field_asset_module_video_file';
+  $handler->display->display_options['fields']['field_asset_module_video_file']['table'] = 'field_data_field_asset_module_video_file';
+  $handler->display->display_options['fields']['field_asset_module_video_file']['field'] = 'field_asset_module_video_file';
+  $handler->display->display_options['fields']['field_asset_module_video_file']['relationship'] = 'field_media_video_target_id';
+  $handler->display->display_options['fields']['field_asset_module_video_file']['hide_empty'] = TRUE;
+  $handler->display->display_options['fields']['field_asset_module_video_file']['click_sort_column'] = 'url';
+  $handler->display->display_options['fields']['field_asset_module_video_file']['type'] = 'emvideo_snapshot';
+  $handler->display->display_options['fields']['field_asset_module_video_file']['settings'] = array(
+    'width' => '82',
+    'class' => '82',
+  );
+  /* Field: Media Asset: Asset type */
+  $handler->display->display_options['fields']['type_1']['id'] = 'type_1';
+  $handler->display->display_options['fields']['type_1']['table'] = 'asset';
+  $handler->display->display_options['fields']['type_1']['field'] = 'type';
+  $handler->display->display_options['fields']['type_1']['relationship'] = 'field_media_video_target_id';
+  $handler->display->display_options['fields']['type_1']['hide_empty'] = TRUE;
+  /* Field: Content: Title */
+  $handler->display->display_options['fields']['title']['id'] = 'title';
+  $handler->display->display_options['fields']['title']['table'] = 'node';
+  $handler->display->display_options['fields']['title']['field'] = 'title';
+  $handler->display->display_options['fields']['title']['label'] = '';
+  $handler->display->display_options['fields']['title']['alter']['word_boundary'] = FALSE;
+  $handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
+  $handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['title']['hide_empty'] = TRUE;
+  $handler->display->display_options['fields']['title']['link_to_node'] = FALSE;
+  /* Field: Content: Date */
+  $handler->display->display_options['fields']['field_media_date']['id'] = 'field_media_date';
+  $handler->display->display_options['fields']['field_media_date']['table'] = 'field_data_field_media_date';
+  $handler->display->display_options['fields']['field_media_date']['field'] = 'field_media_date';
+  $handler->display->display_options['fields']['field_media_date']['label'] = '';
+  $handler->display->display_options['fields']['field_media_date']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_media_date']['hide_empty'] = TRUE;
+  $handler->display->display_options['fields']['field_media_date']['settings'] = array(
+    'format_type' => 'jour_mois_annee',
+    'fromto' => 'both',
+    'multiple_number' => '',
+    'multiple_from' => '',
+    'multiple_to' => '',
+  );
+  /* Field: Content: Accroche */
+  $handler->display->display_options['fields']['field_media_teaser']['id'] = 'field_media_teaser';
+  $handler->display->display_options['fields']['field_media_teaser']['table'] = 'field_data_field_media_teaser';
+  $handler->display->display_options['fields']['field_media_teaser']['field'] = 'field_media_teaser';
+  $handler->display->display_options['fields']['field_media_teaser']['label'] = '';
+  $handler->display->display_options['fields']['field_media_teaser']['alter']['strip_tags'] = TRUE;
+  $handler->display->display_options['fields']['field_media_teaser']['alter']['preserve_tags'] = '<p> <div> <br>';
+  $handler->display->display_options['fields']['field_media_teaser']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_media_teaser']['hide_empty'] = TRUE;
+  $handler->display->display_options['fields']['field_media_teaser']['type'] = 'text_plain';
+  /* Field: Content: Body */
+  $handler->display->display_options['fields']['body']['id'] = 'body';
+  $handler->display->display_options['fields']['body']['table'] = 'field_data_body';
+  $handler->display->display_options['fields']['body']['field'] = 'body';
+  $handler->display->display_options['fields']['body']['label'] = 'Row réécrite';
+  $handler->display->display_options['fields']['body']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['body']['alter']['alter_text'] = TRUE;
+  $handler->display->display_options['fields']['body']['alter']['text'] = '<div class="views-field-field-actu-univers-date">
+         <div class="views-field views-field-field-actu-univers">
+                  <div class="field-content">
+                           [field_actu_univers]
+                  </div>
+          </div>
+         <div class="views-field views-field-field-actu-date">
+                     <div class="field-content">
+                              [field_actu_date]
+                     </div>
+         </div>
+</div>
+<div class="views-field views-field-field-actu-teaser">
+          <div class="field-content">
+                  [field_actu_teaser]
+         </div>
+</div>
+<div class="views-field views-field-body">
+            <div class="field-content">
+                      [body]
+            </div>
+</div>';
+  $handler->display->display_options['fields']['body']['alter']['make_link'] = TRUE;
+  $handler->display->display_options['fields']['body']['alter']['path'] = '[path]';
+  /* Field: Content: Média Document */
+  $handler->display->display_options['fields']['field_media_doc']['id'] = 'field_media_doc';
+  $handler->display->display_options['fields']['field_media_doc']['table'] = 'field_data_field_media_doc';
+  $handler->display->display_options['fields']['field_media_doc']['field'] = 'field_media_doc';
+  $handler->display->display_options['fields']['field_media_doc']['alter']['alter_text'] = TRUE;
+  $handler->display->display_options['fields']['field_media_doc']['alter']['text'] = '<img src="/sites/default/files/default_doc.png" title="Document" alt="Document" />';
+  $handler->display->display_options['fields']['field_media_doc']['hide_empty'] = TRUE;
+  $handler->display->display_options['fields']['field_media_doc']['settings'] = array(
+    'link' => 0,
+  );
+  /* Field: Media Asset: Asset type */
+  $handler->display->display_options['fields']['type_2']['id'] = 'type_2';
+  $handler->display->display_options['fields']['type_2']['table'] = 'asset';
+  $handler->display->display_options['fields']['type_2']['field'] = 'type';
+  $handler->display->display_options['fields']['type_2']['relationship'] = 'field_media_doc_target_id';
+  $handler->display->display_options['fields']['type_2']['hide_empty'] = TRUE;
+  /* Sort criterion: Content: Post date */
+  $handler->display->display_options['sorts']['created']['id'] = 'created';
+  $handler->display->display_options['sorts']['created']['table'] = 'node';
+  $handler->display->display_options['sorts']['created']['field'] = 'created';
+  $handler->display->display_options['sorts']['created']['order'] = 'DESC';
+  $handler->display->display_options['filter_groups']['groups'] = array(
+    1 => 'AND',
+    2 => 'OR',
+  );
+  /* Filter criterion: Content: Published */
+  $handler->display->display_options['filters']['status']['id'] = 'status';
+  $handler->display->display_options['filters']['status']['table'] = 'node';
+  $handler->display->display_options['filters']['status']['field'] = 'status';
+  $handler->display->display_options['filters']['status']['value'] = 1;
+  $handler->display->display_options['filters']['status']['group'] = 1;
+  $handler->display->display_options['filters']['status']['expose']['operator'] = FALSE;
+  /* Filter criterion: Content: Type */
+  $handler->display->display_options['filters']['type']['id'] = 'type';
+  $handler->display->display_options['filters']['type']['table'] = 'node';
+  $handler->display->display_options['filters']['type']['field'] = 'type';
+  $handler->display->display_options['filters']['type']['value'] = array(
+    'media' => 'media',
+  );
+  $handler->display->display_options['filters']['type']['group'] = 1;
+  /* Filter criterion: Content: Taxonomie Univers (field_media_univers) */
+  $handler->display->display_options['filters']['field_media_univers_tid']['id'] = 'field_media_univers_tid';
+  $handler->display->display_options['filters']['field_media_univers_tid']['table'] = 'field_data_field_media_univers';
+  $handler->display->display_options['filters']['field_media_univers_tid']['field'] = 'field_media_univers_tid';
+  $handler->display->display_options['filters']['field_media_univers_tid']['group'] = 2;
+  $handler->display->display_options['filters']['field_media_univers_tid']['exposed'] = TRUE;
+  $handler->display->display_options['filters']['field_media_univers_tid']['expose']['operator_id'] = 'field_media_univers_tid_op';
+  $handler->display->display_options['filters']['field_media_univers_tid']['expose']['operator'] = 'field_media_univers_tid_op';
+  $handler->display->display_options['filters']['field_media_univers_tid']['expose']['identifier'] = 'field_media_univers_tid';
+  $handler->display->display_options['filters']['field_media_univers_tid']['expose']['remember'] = TRUE;
+  $handler->display->display_options['filters']['field_media_univers_tid']['expose']['multiple'] = TRUE;
+  $handler->display->display_options['filters']['field_media_univers_tid']['expose']['remember_roles'] = array(
+    2 => '2',
+    3 => '3',
+    4 => '4',
+    5 => '5',
+    6 => '6',
+    7 => '7',
+    8 => '8',
+    1 => 0,
+  );
+  $handler->display->display_options['filters']['field_media_univers_tid']['group_info']['label'] = 'Taxonomie Univers (field_media_univers)';
+  $handler->display->display_options['filters']['field_media_univers_tid']['group_info']['identifier'] = 'field_media_univers_tid';
+  $handler->display->display_options['filters']['field_media_univers_tid']['group_info']['remember'] = FALSE;
+  $handler->display->display_options['filters']['field_media_univers_tid']['group_info']['group_items'] = array(
+    1 => array(),
+    2 => array(),
+    3 => array(),
+  );
+  $handler->display->display_options['filters']['field_media_univers_tid']['reduce_duplicates'] = TRUE;
+  $handler->display->display_options['filters']['field_media_univers_tid']['type'] = 'select';
+  $handler->display->display_options['filters']['field_media_univers_tid']['vocabulary'] = 'univers';
+  /* Filter criterion: Media Asset: Asset type */
+  $handler->display->display_options['filters']['type_2']['id'] = 'type_2';
+  $handler->display->display_options['filters']['type_2']['table'] = 'asset';
+  $handler->display->display_options['filters']['type_2']['field'] = 'type';
+  $handler->display->display_options['filters']['type_2']['relationship'] = 'field_media_video_target_id';
+  $handler->display->display_options['filters']['type_2']['value'] = array(
+    'video' => 'video',
+  );
+  $handler->display->display_options['filters']['type_2']['group'] = 2;
+  $handler->display->display_options['filters']['type_2']['exposed'] = TRUE;
+  $handler->display->display_options['filters']['type_2']['expose']['operator_id'] = 'type_2_op';
+  $handler->display->display_options['filters']['type_2']['expose']['operator'] = 'type_2_op';
+  $handler->display->display_options['filters']['type_2']['expose']['identifier'] = 'filter-media-video';
+  $handler->display->display_options['filters']['type_2']['expose']['remember'] = TRUE;
+  $handler->display->display_options['filters']['type_2']['expose']['multiple'] = TRUE;
+  $handler->display->display_options['filters']['type_2']['expose']['remember_roles'] = array(
+    2 => '2',
+    3 => '3',
+    4 => '4',
+    5 => '5',
+    6 => '6',
+    7 => '7',
+    8 => '8',
+    1 => 0,
+  );
+  $handler->display->display_options['filters']['type_2']['expose']['reduce'] = TRUE;
+  /* Filter criterion: Media Asset: Asset type */
+  $handler->display->display_options['filters']['type_1']['id'] = 'type_1';
+  $handler->display->display_options['filters']['type_1']['table'] = 'asset';
+  $handler->display->display_options['filters']['type_1']['field'] = 'type';
+  $handler->display->display_options['filters']['type_1']['relationship'] = 'field_media_image_target_id';
+  $handler->display->display_options['filters']['type_1']['value'] = array(
+    'image' => 'image',
+  );
+  $handler->display->display_options['filters']['type_1']['group'] = 2;
+  $handler->display->display_options['filters']['type_1']['exposed'] = TRUE;
+  $handler->display->display_options['filters']['type_1']['expose']['operator_id'] = 'type_1_op';
+  $handler->display->display_options['filters']['type_1']['expose']['operator'] = 'type_1_op';
+  $handler->display->display_options['filters']['type_1']['expose']['identifier'] = 'filter-media-img';
+  $handler->display->display_options['filters']['type_1']['expose']['remember'] = TRUE;
+  $handler->display->display_options['filters']['type_1']['expose']['multiple'] = TRUE;
+  $handler->display->display_options['filters']['type_1']['expose']['remember_roles'] = array(
+    2 => '2',
+    3 => '3',
+    4 => '4',
+    5 => '5',
+    6 => '6',
+    7 => '7',
+    8 => '8',
+    1 => 0,
+  );
+  $handler->display->display_options['filters']['type_1']['expose']['reduce'] = TRUE;
+  /* Filter criterion: Media Asset: Asset type */
+  $handler->display->display_options['filters']['type_3']['id'] = 'type_3';
+  $handler->display->display_options['filters']['type_3']['table'] = 'asset';
+  $handler->display->display_options['filters']['type_3']['field'] = 'type';
+  $handler->display->display_options['filters']['type_3']['relationship'] = 'field_media_doc_target_id';
+  $handler->display->display_options['filters']['type_3']['value'] = array(
+    'document' => 'document',
+  );
+  $handler->display->display_options['filters']['type_3']['group'] = 2;
+  $handler->display->display_options['filters']['type_3']['exposed'] = TRUE;
+  $handler->display->display_options['filters']['type_3']['expose']['operator_id'] = 'type_3_op';
+  $handler->display->display_options['filters']['type_3']['expose']['operator'] = 'type_3_op';
+  $handler->display->display_options['filters']['type_3']['expose']['identifier'] = 'filter-media-doc';
+  $handler->display->display_options['filters']['type_3']['expose']['remember'] = TRUE;
+  $handler->display->display_options['filters']['type_3']['expose']['multiple'] = TRUE;
+  $handler->display->display_options['filters']['type_3']['expose']['remember_roles'] = array(
+    2 => '2',
+    3 => '3',
+    4 => '4',
+    5 => '5',
+    6 => '6',
+    7 => '7',
+    8 => '8',
+    1 => 0,
+  );
+  $handler->display->display_options['filters']['type_3']['expose']['reduce'] = TRUE;
+  /* Filter criterion: Media Asset: Asset type */
+  $handler->display->display_options['filters']['type_4']['id'] = 'type_4';
+  $handler->display->display_options['filters']['type_4']['table'] = 'asset';
+  $handler->display->display_options['filters']['type_4']['field'] = 'type';
+  $handler->display->display_options['filters']['type_4']['relationship'] = 'field_media_pdf_target_id';
+  $handler->display->display_options['filters']['type_4']['value'] = array(
+    'document_pdf' => 'document_pdf',
+  );
+  $handler->display->display_options['filters']['type_4']['group'] = 2;
+  $handler->display->display_options['filters']['type_4']['exposed'] = TRUE;
+  $handler->display->display_options['filters']['type_4']['expose']['operator_id'] = 'type_4_op';
+  $handler->display->display_options['filters']['type_4']['expose']['operator'] = 'type_4_op';
+  $handler->display->display_options['filters']['type_4']['expose']['identifier'] = 'filter-media-pdf';
+  $handler->display->display_options['filters']['type_4']['expose']['remember'] = TRUE;
+  $handler->display->display_options['filters']['type_4']['expose']['multiple'] = TRUE;
+  $handler->display->display_options['filters']['type_4']['expose']['remember_roles'] = array(
+    2 => '2',
+    3 => '3',
+    4 => '4',
+    5 => '5',
+    6 => '6',
+    7 => '7',
+    8 => '8',
+    1 => 0,
+  );
+  $handler->display->display_options['filters']['type_4']['expose']['reduce'] = TRUE;
+  /* Filter criterion: Content: Taxonomie Tags Média (field_media_tags_media) */
+  $handler->display->display_options['filters']['field_media_tags_media_tid_1']['id'] = 'field_media_tags_media_tid_1';
+  $handler->display->display_options['filters']['field_media_tags_media_tid_1']['table'] = 'field_data_field_media_tags_media';
+  $handler->display->display_options['filters']['field_media_tags_media_tid_1']['field'] = 'field_media_tags_media_tid';
+  $handler->display->display_options['filters']['field_media_tags_media_tid_1']['value'] = array(
+    12 => '12',
+    13 => '13',
+    11 => '11',
+  );
+  $handler->display->display_options['filters']['field_media_tags_media_tid_1']['group'] = 2;
+  $handler->display->display_options['filters']['field_media_tags_media_tid_1']['exposed'] = TRUE;
+  $handler->display->display_options['filters']['field_media_tags_media_tid_1']['expose']['operator_id'] = 'field_media_tags_media_tid_1_op';
+  $handler->display->display_options['filters']['field_media_tags_media_tid_1']['expose']['operator'] = 'field_media_tags_media_tid_1_op';
+  $handler->display->display_options['filters']['field_media_tags_media_tid_1']['expose']['identifier'] = 'field_media_tags_media_tid_1';
+  $handler->display->display_options['filters']['field_media_tags_media_tid_1']['expose']['remember'] = TRUE;
+  $handler->display->display_options['filters']['field_media_tags_media_tid_1']['expose']['multiple'] = TRUE;
+  $handler->display->display_options['filters']['field_media_tags_media_tid_1']['expose']['remember_roles'] = array(
+    2 => '2',
+    3 => '3',
+    4 => '4',
+    5 => '5',
+    6 => '6',
+    7 => '7',
+    8 => '8',
+    1 => 0,
+  );
+  $handler->display->display_options['filters']['field_media_tags_media_tid_1']['expose']['reduce'] = TRUE;
+  $handler->display->display_options['filters']['field_media_tags_media_tid_1']['reduce_duplicates'] = TRUE;
+  $handler->display->display_options['filters']['field_media_tags_media_tid_1']['type'] = 'select';
+  $handler->display->display_options['filters']['field_media_tags_media_tid_1']['vocabulary'] = 'tags_mediatheque';
+  /* Filter criterion: Content: Taxonomie Tags Média (field_media_tags_media) */
+  $handler->display->display_options['filters']['field_media_tags_media_tid']['id'] = 'field_media_tags_media_tid';
+  $handler->display->display_options['filters']['field_media_tags_media_tid']['table'] = 'field_data_field_media_tags_media';
+  $handler->display->display_options['filters']['field_media_tags_media_tid']['field'] = 'field_media_tags_media_tid';
+  $handler->display->display_options['filters']['field_media_tags_media_tid']['value'] = '';
+  $handler->display->display_options['filters']['field_media_tags_media_tid']['group'] = 2;
+  $handler->display->display_options['filters']['field_media_tags_media_tid']['exposed'] = TRUE;
+  $handler->display->display_options['filters']['field_media_tags_media_tid']['expose']['operator_id'] = 'field_media_tags_media_tid_op';
+  $handler->display->display_options['filters']['field_media_tags_media_tid']['expose']['label'] = 'Rechercher par mots clés';
+  $handler->display->display_options['filters']['field_media_tags_media_tid']['expose']['description'] = '"Rapport annuel"';
+  $handler->display->display_options['filters']['field_media_tags_media_tid']['expose']['operator'] = 'field_media_tags_media_tid_op';
+  $handler->display->display_options['filters']['field_media_tags_media_tid']['expose']['identifier'] = 'field_media_tags_media_tid';
+  $handler->display->display_options['filters']['field_media_tags_media_tid']['expose']['remember'] = TRUE;
+  $handler->display->display_options['filters']['field_media_tags_media_tid']['expose']['multiple'] = TRUE;
+  $handler->display->display_options['filters']['field_media_tags_media_tid']['expose']['remember_roles'] = array(
+    2 => '2',
+    3 => '3',
+    4 => '4',
+    5 => '5',
+    6 => '6',
+    7 => '7',
+    8 => '8',
+    1 => 0,
+  );
+  $handler->display->display_options['filters']['field_media_tags_media_tid']['group_info']['label'] = 'Taxonomie Tags Média (field_media_tags_media)';
+  $handler->display->display_options['filters']['field_media_tags_media_tid']['group_info']['identifier'] = 'field_media_tags_media_tid';
+  $handler->display->display_options['filters']['field_media_tags_media_tid']['group_info']['multiple'] = TRUE;
+  $handler->display->display_options['filters']['field_media_tags_media_tid']['group_info']['remember'] = 1;
+  $handler->display->display_options['filters']['field_media_tags_media_tid']['group_info']['group_items'] = array(
+    1 => array(
+      'title' => 'Textes légaux',
+      'operator' => 'or',
+      'value' => 'Textes légaux',
+    ),
+    2 => array(
+      'title' => 'Etudes et livres blancs',
+      'operator' => 'or',
+      'value' => 'Etudes et livres blancs',
+    ),
+    3 => array(
+      'title' => 'Guides pratiques',
+      'operator' => 'or',
+      'value' => 'Guides pratiques',
+    ),
+  );
+  $handler->display->display_options['filters']['field_media_tags_media_tid']['reduce_duplicates'] = TRUE;
+  $handler->display->display_options['filters']['field_media_tags_media_tid']['vocabulary'] = 'tags_mediatheque';
+
+  /* Display: Page Médiathèque Collectivités Entreprises */
+  $handler = $view->new_display('page', 'Page Médiathèque Collectivités Entreprises', 'page');
+  $handler->display->display_options['defaults']['css_class'] = FALSE;
+  $handler->display->display_options['css_class'] = 'page-mediatheque';
+  $handler->display->display_options['path'] = 'collectivites-entreprises/collectivites/mediatheque';
+  $handler->display->display_options['menu']['type'] = 'normal';
+  $handler->display->display_options['menu']['title'] = 'Médiathèque';
+  $handler->display->display_options['menu']['weight'] = '0';
+  $handler->display->display_options['menu']['name'] = 'main-menu';
+  $handler->display->display_options['menu']['context'] = 0;
+  $handler->display->display_options['menu']['context_only_inline'] = 0;
+
+  /* Display: Block */
+  $handler = $view->new_display('block', 'Block', 'block');
+  $handler->display->display_options['defaults']['pager'] = FALSE;
+  $handler->display->display_options['pager']['type'] = 'some';
+  $handler->display->display_options['pager']['options']['items_per_page'] = '5';
+  $handler->display->display_options['defaults']['filter_groups'] = FALSE;
+  $handler->display->display_options['filter_groups']['groups'] = array(
+    1 => 'AND',
+    2 => 'OR',
+  );
+  $handler->display->display_options['defaults']['filters'] = FALSE;
+  /* Filter criterion: Content: Published */
+  $handler->display->display_options['filters']['status']['id'] = 'status';
+  $handler->display->display_options['filters']['status']['table'] = 'node';
+  $handler->display->display_options['filters']['status']['field'] = 'status';
+  $handler->display->display_options['filters']['status']['value'] = 1;
+  $handler->display->display_options['filters']['status']['group'] = 1;
+  $handler->display->display_options['filters']['status']['expose']['operator'] = FALSE;
+  /* Filter criterion: Content: Type */
+  $handler->display->display_options['filters']['type']['id'] = 'type';
+  $handler->display->display_options['filters']['type']['table'] = 'node';
+  $handler->display->display_options['filters']['type']['field'] = 'type';
+  $handler->display->display_options['filters']['type']['value'] = array(
+    'media' => 'media',
+  );
+  $handler->display->display_options['filters']['type']['group'] = 1;
+  /* Filter criterion: Content: Taxonomie Univers (field_media_univers) */
+  $handler->display->display_options['filters']['field_media_univers_tid']['id'] = 'field_media_univers_tid';
+  $handler->display->display_options['filters']['field_media_univers_tid']['table'] = 'field_data_field_media_univers';
+  $handler->display->display_options['filters']['field_media_univers_tid']['field'] = 'field_media_univers_tid';
+  $handler->display->display_options['filters']['field_media_univers_tid']['group'] = 2;
+  $handler->display->display_options['filters']['field_media_univers_tid']['exposed'] = TRUE;
+  $handler->display->display_options['filters']['field_media_univers_tid']['expose']['operator_id'] = 'field_media_univers_tid_op';
+  $handler->display->display_options['filters']['field_media_univers_tid']['expose']['label'] = 'Taxonomie Univers (field_media_univers)';
+  $handler->display->display_options['filters']['field_media_univers_tid']['expose']['operator'] = 'field_media_univers_tid_op';
+  $handler->display->display_options['filters']['field_media_univers_tid']['expose']['identifier'] = 'field_media_univers_tid';
+  $handler->display->display_options['filters']['field_media_univers_tid']['expose']['remember'] = TRUE;
+  $handler->display->display_options['filters']['field_media_univers_tid']['expose']['multiple'] = TRUE;
+  $handler->display->display_options['filters']['field_media_univers_tid']['expose']['remember_roles'] = array(
+    2 => '2',
+    3 => '3',
+    4 => '4',
+    5 => '5',
+    6 => '6',
+    7 => '7',
+    8 => '8',
+    1 => 0,
+  );
+  $handler->display->display_options['filters']['field_media_univers_tid']['group_info']['label'] = 'Taxonomie Univers (field_media_univers)';
+  $handler->display->display_options['filters']['field_media_univers_tid']['group_info']['identifier'] = 'field_media_univers_tid';
+  $handler->display->display_options['filters']['field_media_univers_tid']['group_info']['remember'] = FALSE;
+  $handler->display->display_options['filters']['field_media_univers_tid']['group_info']['group_items'] = array(
+    1 => array(),
+    2 => array(),
+    3 => array(),
+  );
+  $handler->display->display_options['filters']['field_media_univers_tid']['reduce_duplicates'] = TRUE;
+  $handler->display->display_options['filters']['field_media_univers_tid']['type'] = 'select';
+  $handler->display->display_options['filters']['field_media_univers_tid']['vocabulary'] = 'univers';
+  /* Filter criterion: Media Asset: Asset type */
+  $handler->display->display_options['filters']['type_2']['id'] = 'type_2';
+  $handler->display->display_options['filters']['type_2']['table'] = 'asset';
+  $handler->display->display_options['filters']['type_2']['field'] = 'type';
+  $handler->display->display_options['filters']['type_2']['relationship'] = 'field_media_video_target_id';
+  $handler->display->display_options['filters']['type_2']['value'] = array(
+    'video' => 'video',
+  );
+  $handler->display->display_options['filters']['type_2']['group'] = 2;
+  $handler->display->display_options['filters']['type_2']['exposed'] = TRUE;
+  $handler->display->display_options['filters']['type_2']['expose']['operator_id'] = 'type_2_op';
+  $handler->display->display_options['filters']['type_2']['expose']['operator'] = 'type_2_op';
+  $handler->display->display_options['filters']['type_2']['expose']['identifier'] = 'type_2';
+  $handler->display->display_options['filters']['type_2']['expose']['remember'] = TRUE;
+  $handler->display->display_options['filters']['type_2']['expose']['multiple'] = TRUE;
+  $handler->display->display_options['filters']['type_2']['expose']['remember_roles'] = array(
+    2 => '2',
+    3 => '3',
+    4 => '4',
+    5 => '5',
+    6 => '6',
+    7 => '7',
+    8 => '8',
+    1 => 0,
+  );
+  $handler->display->display_options['filters']['type_2']['expose']['reduce'] = TRUE;
+  /* Filter criterion: Media Asset: Asset type */
+  $handler->display->display_options['filters']['type_1']['id'] = 'type_1';
+  $handler->display->display_options['filters']['type_1']['table'] = 'asset';
+  $handler->display->display_options['filters']['type_1']['field'] = 'type';
+  $handler->display->display_options['filters']['type_1']['relationship'] = 'field_media_img_target_id';
+  $handler->display->display_options['filters']['type_1']['value'] = array(
+    'image' => 'image',
+  );
+  $handler->display->display_options['filters']['type_1']['group'] = 2;
+  $handler->display->display_options['filters']['type_1']['exposed'] = TRUE;
+  $handler->display->display_options['filters']['type_1']['expose']['operator_id'] = 'type_1_op';
+  $handler->display->display_options['filters']['type_1']['expose']['operator'] = 'type_1_op';
+  $handler->display->display_options['filters']['type_1']['expose']['identifier'] = 'type_1';
+  $handler->display->display_options['filters']['type_1']['expose']['remember'] = TRUE;
+  $handler->display->display_options['filters']['type_1']['expose']['multiple'] = TRUE;
+  $handler->display->display_options['filters']['type_1']['expose']['remember_roles'] = array(
+    2 => '2',
+    3 => '3',
+    4 => '4',
+    5 => '5',
+    6 => '6',
+    7 => '7',
+    8 => '8',
+    1 => 0,
+  );
+  $handler->display->display_options['filters']['type_1']['expose']['reduce'] = TRUE;
+  /* Filter criterion: Media Asset: Asset type */
+  $handler->display->display_options['filters']['type_3']['id'] = 'type_3';
+  $handler->display->display_options['filters']['type_3']['table'] = 'asset';
+  $handler->display->display_options['filters']['type_3']['field'] = 'type';
+  $handler->display->display_options['filters']['type_3']['relationship'] = 'field_media_doc_target_id';
+  $handler->display->display_options['filters']['type_3']['value'] = array(
+    'document' => 'document',
+  );
+  $handler->display->display_options['filters']['type_3']['group'] = 2;
+  $handler->display->display_options['filters']['type_3']['exposed'] = TRUE;
+  $handler->display->display_options['filters']['type_3']['expose']['operator_id'] = 'type_3_op';
+  $handler->display->display_options['filters']['type_3']['expose']['operator'] = 'type_3_op';
+  $handler->display->display_options['filters']['type_3']['expose']['identifier'] = 'type_3';
+  $handler->display->display_options['filters']['type_3']['expose']['remember'] = TRUE;
+  $handler->display->display_options['filters']['type_3']['expose']['multiple'] = TRUE;
+  $handler->display->display_options['filters']['type_3']['expose']['remember_roles'] = array(
+    2 => '2',
+    3 => '3',
+    4 => '4',
+    5 => '5',
+    6 => '6',
+    7 => '7',
+    8 => '8',
+    1 => 0,
+  );
+  $handler->display->display_options['filters']['type_3']['expose']['reduce'] = TRUE;
+  /* Filter criterion: Content: Taxonomie Tags Média (field_media_tags_media) */
+  $handler->display->display_options['filters']['field_media_tags_media_tid_1']['id'] = 'field_media_tags_media_tid_1';
+  $handler->display->display_options['filters']['field_media_tags_media_tid_1']['table'] = 'field_data_field_media_tags_media';
+  $handler->display->display_options['filters']['field_media_tags_media_tid_1']['field'] = 'field_media_tags_media_tid';
+  $handler->display->display_options['filters']['field_media_tags_media_tid_1']['value'] = array(
+    12 => '12',
+    13 => '13',
+    11 => '11',
+  );
+  $handler->display->display_options['filters']['field_media_tags_media_tid_1']['group'] = 2;
+  $handler->display->display_options['filters']['field_media_tags_media_tid_1']['exposed'] = TRUE;
+  $handler->display->display_options['filters']['field_media_tags_media_tid_1']['expose']['operator_id'] = 'field_media_tags_media_tid_1_op';
+  $handler->display->display_options['filters']['field_media_tags_media_tid_1']['expose']['label'] = 'Taxonomie Tags Média';
+  $handler->display->display_options['filters']['field_media_tags_media_tid_1']['expose']['operator'] = 'field_media_tags_media_tid_1_op';
+  $handler->display->display_options['filters']['field_media_tags_media_tid_1']['expose']['identifier'] = 'field_media_tags_media_tid_1';
+  $handler->display->display_options['filters']['field_media_tags_media_tid_1']['expose']['remember'] = TRUE;
+  $handler->display->display_options['filters']['field_media_tags_media_tid_1']['expose']['multiple'] = TRUE;
+  $handler->display->display_options['filters']['field_media_tags_media_tid_1']['expose']['remember_roles'] = array(
+    2 => '2',
+    3 => '3',
+    4 => '4',
+    5 => '5',
+    6 => '6',
+    7 => '7',
+    8 => '8',
+    1 => 0,
+  );
+  $handler->display->display_options['filters']['field_media_tags_media_tid_1']['expose']['reduce'] = TRUE;
+  $handler->display->display_options['filters']['field_media_tags_media_tid_1']['reduce_duplicates'] = TRUE;
+  $handler->display->display_options['filters']['field_media_tags_media_tid_1']['type'] = 'select';
+  $handler->display->display_options['filters']['field_media_tags_media_tid_1']['vocabulary'] = 'tags_mediatheque';
+  /* Filter criterion: Content: Taxonomie Tags Média (field_media_tags_media) */
+  $handler->display->display_options['filters']['field_media_tags_media_tid']['id'] = 'field_media_tags_media_tid';
+  $handler->display->display_options['filters']['field_media_tags_media_tid']['table'] = 'field_data_field_media_tags_media';
+  $handler->display->display_options['filters']['field_media_tags_media_tid']['field'] = 'field_media_tags_media_tid';
+  $handler->display->display_options['filters']['field_media_tags_media_tid']['value'] = '';
+  $handler->display->display_options['filters']['field_media_tags_media_tid']['group'] = 2;
+  $handler->display->display_options['filters']['field_media_tags_media_tid']['exposed'] = TRUE;
+  $handler->display->display_options['filters']['field_media_tags_media_tid']['expose']['operator_id'] = 'field_media_tags_media_tid_op';
+  $handler->display->display_options['filters']['field_media_tags_media_tid']['expose']['label'] = 'Rechercher par mots clés';
+  $handler->display->display_options['filters']['field_media_tags_media_tid']['expose']['operator'] = 'field_media_tags_media_tid_op';
+  $handler->display->display_options['filters']['field_media_tags_media_tid']['expose']['identifier'] = 'field_media_tags_media_tid';
+  $handler->display->display_options['filters']['field_media_tags_media_tid']['expose']['remember'] = TRUE;
+  $handler->display->display_options['filters']['field_media_tags_media_tid']['expose']['multiple'] = TRUE;
+  $handler->display->display_options['filters']['field_media_tags_media_tid']['expose']['remember_roles'] = array(
+    2 => '2',
+    3 => '3',
+    4 => '4',
+    5 => '5',
+    6 => '6',
+    7 => '7',
+    8 => '8',
+    1 => 0,
+  );
+  $handler->display->display_options['filters']['field_media_tags_media_tid']['group_info']['label'] = 'Taxonomie Tags Média (field_media_tags_media)';
+  $handler->display->display_options['filters']['field_media_tags_media_tid']['group_info']['identifier'] = 'field_media_tags_media_tid';
+  $handler->display->display_options['filters']['field_media_tags_media_tid']['group_info']['multiple'] = TRUE;
+  $handler->display->display_options['filters']['field_media_tags_media_tid']['group_info']['remember'] = 1;
+  $handler->display->display_options['filters']['field_media_tags_media_tid']['group_info']['group_items'] = array(
+    1 => array(
+      'title' => 'Textes légaux',
+      'operator' => 'or',
+      'value' => 'Textes légaux',
+    ),
+    2 => array(
+      'title' => 'Etudes et livres blancs',
+      'operator' => 'or',
+      'value' => 'Etudes et livres blancs',
+    ),
+    3 => array(
+      'title' => 'Guides pratiques',
+      'operator' => 'or',
+      'value' => 'Guides pratiques',
+    ),
+  );
+  $handler->display->display_options['filters']['field_media_tags_media_tid']['reduce_duplicates'] = TRUE;
+  $handler->display->display_options['filters']['field_media_tags_media_tid']['vocabulary'] = 'tags_mediatheque';
+  /* Filter criterion: Content: Remonter le média dans la liste des &quot;Essentiels&quot; (field_media_essentials) */
+  $handler->display->display_options['filters']['field_media_essentials_value']['id'] = 'field_media_essentials_value';
+  $handler->display->display_options['filters']['field_media_essentials_value']['table'] = 'field_data_field_media_essentials';
+  $handler->display->display_options['filters']['field_media_essentials_value']['field'] = 'field_media_essentials_value';
+  $handler->display->display_options['filters']['field_media_essentials_value']['value'] = array(
+    0 => '0',
+  );
+  $translatables['media'] = array(
+    t('Master'),
+    t('Médiathèque Collectivités Entreprises'),
+    t('more'),
+    t('OK'),
+    t('Reset'),
+    t('Filtres'),
+    t('Asc'),
+    t('Desc'),
+    t('Select any filter and click on Apply to see results'),
+    t('Résultats par page'),
+    t('- All -'),
+    t('Offset'),
+    t('« first'),
+    t('‹ previous'),
+    t('next ›'),
+    t('last »'),
+    t('Media Asset Document entity referenced from field_media_doc'),
+    t('Media Asset Video entity referenced from field_media_video'),
+    t('Media PDF Asset entity referenced from field_media_pdf'),
+    t('Media Asset Image entity referenced from field_media_image'),
+    t('Taxonomie Univers'),
+    t('Taxonomie Tags Média'),
+    t('Sélectionnez les utilisateurs qui pourront visualiser le contenu de cette page :'),
+    t('CPU'),
+    t('Image'),
+    t('Asset type'),
+    t('Video'),
+    t('Row réécrite'),
+    t('<div class="views-field-field-actu-univers-date">
+         <div class="views-field views-field-field-actu-univers">
+                  <div class="field-content">
+                           [field_actu_univers]
+                  </div>
+          </div>
+         <div class="views-field views-field-field-actu-date">
+                     <div class="field-content">
+                              [field_actu_date]
+                     </div>
+         </div>
+</div>
+<div class="views-field views-field-field-actu-teaser">
+          <div class="field-content">
+                  [field_actu_teaser]
+         </div>
+</div>
+<div class="views-field views-field-body">
+            <div class="field-content">
+                      [body]
+            </div>
+</div>'),
+    t('Média Document'),
+    t('<img src="/sites/default/files/default_doc.png" title="Document" alt="Document" />'),
+    t('Taxonomie Univers (field_media_univers)'),
+    t('Rechercher par mots clés'),
+    t('"Rapport annuel"'),
+    t('Taxonomie Tags Média (field_media_tags_media)'),
+    t('Page Médiathèque Collectivités Entreprises'),
+    t('Block'),
+  );
+  $export['media'] = $view;
+
+  return $export;
+}

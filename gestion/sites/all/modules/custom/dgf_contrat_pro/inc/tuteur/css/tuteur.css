@@ -1,0 +1,46 @@
+.required label:after {
+    color: #e32;
+    content: ' *';
+    display:inline;
+}
+
+#edit-visucerfa {
+  display: block;
+  margin: auto;
+}
+
+.tooltip-inner {
+    max-width: 400px;
+    width: 400px; 
+}
+
+.form-item-certifier {
+  position: relative;
+}
+
+.form-item-certifier .field-suffix {
+  position: absolute;
+  top: 0;
+  left: 300px;
+}
+
+div.width100p {
+  width: 100%
+}
+
+div.form-type-file.form-item-files-file-to-upload input {
+  border-radius: 5px;
+  color: #196681!important;
+  background-color: #FFFFFF !important;
+  border-color: #ABC7D5!important;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.content .form-item-telephone {
+  margin-bottom: 0;
+}
+
+.content .form-item-email {
+  margin-top: 0;
+}

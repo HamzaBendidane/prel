@@ -1,0 +1,58 @@
+<?php
+
+/**
+ * _administration_utilisateurs_validation_require_once
+ *
+ * Fonction qui charge les fichiers nécessaires
+ */
+function _administration_utilisateurs_validation_require_once() {
+  require_once drupal_get_path('module', 'administration_utilisateurs')
+    .'/common/administration_utilisateurs_common_controller.inc';
+}
+
+/**
+ * _administration_utilisateurs_validation_require_js_css
+ *
+ * Fonction qui charge le js/css de la page
+ *
+ */
+function _administration_utilisateurs_validation_require_js_css() {
+    drupal_add_js(drupal_get_path('module', 'administration_utilisateurs' ) . '/validation/js/administration_utilisateurs_validation.js' );
+//     drupal_add_css(drupal_get_path('module', 'administration_utilisateurs' ) . '/liste/css/administration_utilisateurs_liste.css' );
+}
+
+/**
+ * administration_utilisateurs_validation_page
+ *
+ * Fonction qui permet de faire l'affichage de la page validation
+ *
+ * @param unknown $id_drupal_user
+ * @return Ambigous <An, string>
+ */
+function administration_utilisateurs_validation_page($id_drupal_user) {
+  _administration_utilisateurs_validation_require_once();
+  _administration_utilisateurs_validation_require_js_css();
+
+ 
+    $user_entreprise = shared_users_verify_get_infos_from_id($id_drupal_user)[0];
+
+    $GLOBALS['user_info'] = $user_entreprise;
+    //refresh information for the token
+    token_replace('[user_civilite:user_civilite]', array("civilite" => getUserCivilite($user_entreprise->civilite)));
+    token_replace('[user_info:user_first_name]', array("first_name" => $user_entreprise->first_name));
+    token_replace('[user_last_name:user_last_name]', array("last_name" => $user_entreprise->last_name));
+
+  $return = administration_utilisateurs_common_controller_get_infos($id_drupal_user, 'valider');
+
+  $variables =  array(
+      'form' => $return['form'],
+      'table_rows' => $return['table_rows'],
+      'id_drupal_user' => $id_drupal_user,
+      'page' => 'valider'
+  );
+
+  $output = theme('administration_utilisateurs_validation_page_theme', $variables);
+
+  return $output;
+}
+

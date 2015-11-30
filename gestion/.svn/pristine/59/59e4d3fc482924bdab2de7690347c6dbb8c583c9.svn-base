@@ -1,0 +1,11 @@
+name = Table
+description = Used for rendering tables in forms.
+core = 7.x
+files[] = table.module
+
+; Information added by drupal.org packaging script on 2013-10-18
+version = "7.x-1.x-dev"
+core = "7.x"
+project = "table"
+datestamp = "1382135518"
+

@@ -1,0 +1,88 @@
+
+
+.date > div {
+    display: inline !important;
+}
+div.width100p, #edit-alerte-age, .group-item {
+  width: 100%;
+}
+
+
+/* #edit-weekly-hour, #edit-weekly-minute { */
+/*   width: 30px; */
+/* } */
+
+/* .form-item-weekly-hour label { */
+/*   width: 58%; */
+/* } */
+
+/* .edit-weekly { */
+/*     width: 27%; */
+/* } */
+/* .weekly-duration { */
+  
+/* } */
+
+.form-item-weekly-hour {
+  width: 100% !important;
+}
+
+.messageInfo {
+  font-size: 12px;
+  font-weight: 700;
+  color: #0095B7;
+  text-transform: uppercase;
+}
+
+/* #edit-training-duration { */
+/*     width: 40%; */
+/* } */
+/* label[for="edit-training-duration"] { */
+/*     width: 58% */
+/* } */
+/* #edit-training-duration-days { */
+/*     width: 95%; */
+/* } */
+
+/* .form-item-training-duration { */
+/*     float: left; */
+/*     width: 80%; */
+/* } */
+.edit-training-duration-label {
+    float: left;
+    margin-top: 1.25em;
+    margin-bottom: 1em;
+    padding-left: 3px;
+}
+.form-item-training-duration-days {
+    float: left;
+    width: 48%;
+}
+
+.form-item input.coller-serrer-1 {
+  width: 10%;
+}
+
+.form-item input.coller-serrer-2 {
+  width: 51%;
+}
+/* .contrat-duration { */
+/* 	position: relative; */
+/* } */
+
+/* .form-item-weekly-minute { */
+/*     min-width: initial; */
+/*     width: initial; */
+/*     position: absolute; */
+/*     left: 297px; */
+/* } */
+
+/* .group-items { */
+/* 	padding: 0; */
+/* } */
+
+/* .form-item-collective-convention div.styled-select, */
+/* div.required.collective-convention, */
+/* div.form-item-collective-convention { */
+/* 	width: initial;	 */
+/* } */

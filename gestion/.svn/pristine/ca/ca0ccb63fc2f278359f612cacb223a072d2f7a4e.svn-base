@@ -1,0 +1,58 @@
+
+
+.form-item-address-complement {
+  margin: 0px !important;
+}
+
+.blue_color{
+	color: #196681;
+	font-weight: bold;
+}
+
+
+#orga-info label {
+/*     font-weight: 700; */
+/*     color: #196681; */
+    color : #000000;
+    margin-bottom: 8px;
+    width: 18%;
+}
+
+#orga-info label {
+	margin: 0;
+	margin-right: 1%;
+}
+
+#orga-info .adresse {
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+#tva-number-adresse {
+      width: 25%;
+}
+
+#edit-cost label {
+    width: 60%;
+}
+
+.content .margin-0 .form-item {
+  margin: 0;
+}
+
+#new-contact-modal .form-item-modal-contact-mail,
+#new-contact-modal .form-item-modal-contact-phone {
+  margin-bottom: 0;
+}
+
+#new-contact-modal .form-item-modal-contact-phone {
+  margin-top: 0;
+}
+
+#edit-title-markup {
+  margin-bottom: 0px;
+  padding-bottom: 0;
+}
+
+#view-info-generale {
+  padding-top: 0;
+}

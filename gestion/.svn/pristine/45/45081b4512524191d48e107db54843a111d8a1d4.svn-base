@@ -1,0 +1,457 @@
+<?php
+
+
+function _dgf_formation_include_js_css($formations_recurrentes) {
+  drupal_add_js(array('DGF' => array('formations_recurentes' => $formations_recurrentes)), array('type' => 'setting'));
+  drupal_add_js ( drupal_get_path ( 'module', 'dgf' ) . '/inc/formation/js/formation.js' );
+  drupal_add_css ( drupal_get_path ( 'module', 'dgf' ) . '/inc/formation/css/formation.css' );
+}
+
+function _dgf_formation_require_once_files() {
+  require_once drupal_get_path('module', 'dgf' ) . '/inc/contrat/contrat_db.inc';
+  require_once drupal_get_path('module', 'dgf' ) . '/inc/contrat/contrat_validate.inc';
+  require_once 'formation_db.inc';
+  require_once 'formation_langs.inc';
+  require_once 'formation_submit.inc';
+  require_once 'formation_validate.inc';
+}
+
+/**
+ * Form for the training step.
+ *
+ * @see dgf_cp_form().
+ *
+ * @param type $form
+ * @param type $form_state
+ * @return type
+ */
+function dgf_formation_form($form, &$form_state) {
+  _dgf_formation_require_once_files();
+  $formations_recurrentes = formation_db_get_formations_recurrentes();
+   _dgf_formation_include_js_css ($formations_recurrentes);
+
+  // on regarde le 3eme argument de l'url
+  $temp_dgf_form_formation = array();
+  $temp_dgf_form_formation_repartition = array();
+  // s'il est rempli, on récupère les informations de la bdd
+
+    $id_dgf = shared_security_access_user(3, 'DGF');
+    save_step_url($id_dgf,4);
+    $temp_dgf_form_formation = formation_db_get_temp_dgf_form_formation($id_dgf);
+    $temp_dgf_form_contrat = contrat_db_get_temp_dgf_form_salarie($id_dgf);
+    // on récupère les répartitions si on a un id
+    if ($temp_dgf_form_formation) {
+      $temp_dgf_form_formation_repartition = formation_db_get_temp_dgf_form_formation_repartition(
+          $temp_dgf_form_formation['id']);
+    }
+
+    $id_categorie = check_entreprise_nb_salarie($id_dgf);
+
+    if ($id_categorie == 'I.1'){
+        $showFormationinterne = false;
+    }else $showFormationinterne = true;
+
+  $_SESSION['referentiel_extranet_datas'] = null;
+  
+  
+  shared_get_referentiel_data(array('ref_diplome'), false);
+  shared_get_referentiel_data_tri('ref_finalite_formation', false, false, array('code' => 'ASC'));
+  
+  $data_referentiel_esclave = formation_db_get_referentiel_esclave_data();
+
+  $date_jour = new DateTime();
+  $annee_formation = (int)($date_jour->format('Y'));
+
+//   $form['padding'] = array(
+//       '#type' => 'markup',
+//       '#markup' => '<div class="padding15"><div class="row form">',
+//   );
+
+  $form['cerfa-step'] = array(
+      '#type' => 'hidden',
+      '#default_value' => '/'.drupal_get_path('theme', 'opcaim').'/images/cerfa-4.png',
+  );
+
+  $form['id_dgf'] = array(
+      '#type' => 'hidden',
+      '#default_value' => $id_dgf,
+      '#title' => t('Id demande' )
+  );
+
+  $form['id_dgf_formation'] = array(
+      '#type' => 'hidden',
+      '#default_value' => $temp_dgf_form_formation ? $temp_dgf_form_formation['id'] : null,
+      '#title' => t('Id demande formation' )
+  );
+
+  $form['formations_recurrentes'] = array(
+      '#type' => 'item',
+      '#title' => t(''),
+      '#markup' => dgf_formation_formations_recurrentes($formations_recurrentes),
+  );
+
+  $form['type_qualification'] = array(
+      '#type' => 'radios',
+      '#title' => 'Type de qualification',
+      '#options' => $_SESSION['referentiel_extranet_datas']['ref_finalite_formation'],
+      '#default_value' => $temp_dgf_form_formation ? $temp_dgf_form_formation['id_type_qualification']
+        : null,
+  );
+
+  // num_CQPI_CQPM obligatoire
+  $form['num_CQPI_CQPM'] = array(
+      '#type'     => 'textfield',
+      '#title'    => t('Intitulé de la formation'),
+      '#default_value' => $temp_dgf_form_formation['num_cqpi'] ? $temp_dgf_form_formation['num_cqpi'] : null,
+      '#attributes' => array(
+          'placeholder' => t('N° CQPI'),
+          'class' => array('coller-serrer-1')
+      ),
+  );
+
+  // libelle obligatoire
+  $form['libelle'] = array(
+      '#type'     => 'textfield',
+      '#title'    => t(''),
+      '#default_value' => $temp_dgf_form_formation ? $temp_dgf_form_formation['intitule_formation']
+        : null,
+      '#field_suffix' => '<img src='.base_path() . path_to_theme() . '/' . 'images/search.png'.' />',
+      '#attributes' => array(
+          'placeholder' => t('Min. 3 premiers caractères'),
+          'class' => array('coller-serrer-2')
+      ),
+  );
+
+  // Lié le numéro de CQPI avec l'intitulé de formation
+//   $form['num_CQPI_CQPM'] = array(
+//       '#type' => 'textfield',
+//       '#title' => 'N° CQPI/CQPM',
+//       '#default_value' => $temp_dgf_form_formation['num_cqpi'] ? $temp_dgf_form_formation['num_cqpi'] : null,
+// //       '#element_validate' => array(
+// //           'element_validate_integer_positive'
+// //       ),
+//   );
+
+//   $form['libelle'] = array(
+//       '#type' => 'textfield',
+//       '#title' => t ( 'Intitulé de la formation' ),
+// //       '#required' => TRUE,
+// //       '#prefix' => '<div class="width100p">',
+// //       '#suffix' => '</div>',
+//       '#default_value' => $temp_dgf_form_formation ? $temp_dgf_form_formation['intitule_formation']
+//         : null,
+//       '#field_suffix' => '<img src='.base_path() . path_to_theme() . '/' . 'images/search.png'.' />',
+//       '#attributes' =>array('placeholder' => t('Min. 3 premiers caractères'))
+//   );
+
+  $form['id_libelle'] = array(
+      '#type' => 'hidden',
+      '#title' => 'N° CQPI/CQPM',
+      '#default_value' => $temp_dgf_form_formation ? $temp_dgf_form_formation['id_ref_esclave_intitule_formation']
+        : null
+  );
+
+  $form['fieldset1'] = array(
+      '#type' => 'fieldset',
+      '#attributes' => array('class' => array('group-items')),
+  );
+  $datepicker_icon = '<span class="glyphicon glyphicon-calendar add-on"></span>';
+
+  $datepicker_icon = '<span class="glyphicon glyphicon-calendar add-on add-calendar"></span>';
+
+  $form['fieldset1']['date_begin'] = array(
+      '#type' => 'textfield',
+//       '#required' => TRUE,
+//       '#prefix' => '<div class="left-col">',
+//       '#suffix' => '</div>',
+      '#field_suffix' => $datepicker_icon,
+      '#element_validate' => array('element_shared_date_validate'),
+      '#title' => t('Date de début de contrat'),
+      '#default_value' => $temp_dgf_form_contrat ? shared_parse_mssql_date($temp_dgf_form_contrat['date_debut'])->format('d/m/Y') : NULL,
+      '#attributes' => array('class' => array('datePicker'),"autocomplete"=>"off" )
+  );
+
+  $form['fieldset1']['date_end'] = array(
+      '#type' => 'textfield',
+//       '#required' => TRUE,
+      '#field_suffix' => $datepicker_icon,
+      '#title' => t('Date de fin de contrat'),
+      '#element_validate' => array('element_shared_date_validate'),
+      '#default_value' => $temp_dgf_form_contrat ? shared_parse_mssql_date($temp_dgf_form_contrat['date_fin'])->format('d/m/Y') : NULL,
+     // '#attributes' => array('class' => array('datePicker'),"autocomplete"=>"off" )
+  );
+
+  $form['fieldset2'] = array(
+      '#type' => 'fieldset',
+      '#attributes' => array('class' => array('group-items')),
+  );
+
+  $form['fieldset2']['training_start'] = array(
+      '#type' => 'textfield',
+      '#title' => t ( 'Date de début de la formation' ),
+      '#element_validate' => array('element_shared_date_validate'),
+//       '#required' => TRUE,
+//       '#prefix' => '<div class="left-col">',
+//       '#suffix' => '</div>',
+      '#field_suffix' => $datepicker_icon,
+      '#default_value' => $temp_dgf_form_formation ? shared_parse_mssql_date($temp_dgf_form_formation['date_debut'])->format('d/m/Y') : null,
+      '#attributes' => array('class' => array('datePicker'),"autocomplete"=>"off" )
+  );
+
+  $form['fieldset2']['date_exam'] = array(
+      '#type' => 'textfield',
+      '#title' => t ( 'Date de l\'examen' ),
+      '#element_validate' => array('element_shared_date_validate'),
+//       '#required' => TRUE,
+      '#field_suffix' => $datepicker_icon,
+      '#default_value' => $temp_dgf_form_formation ? shared_parse_mssql_date($temp_dgf_form_formation['date_examen'])->format('d/m/Y') : null,
+      '#attributes' => array('class' => array('datePicker'),"autocomplete"=>"off" )
+  );
+
+  $form['fieldset3'] = array(
+      '#type' => 'fieldset',
+      '#attributes' => array('class' => array('group-items')),
+  );
+
+  $form['fieldset3']['total_duration'] = array(
+      '#type' => 'textfield',
+      '#title' => t ( 'Durée totale' ),
+      '#default_value' => $temp_dgf_form_formation ? $temp_dgf_form_formation['duree_totale_heure'] : null,
+      '#element_validate' => array(
+          'element_shared_not_numeric_validate'
+      ),
+      '#field_suffix' => '<a id="total_duration_info" class="glyphicon glyphicon-question-sign" data-toggle="tooltip"
+        data-original-title="'. @MSG_INFO_FORMATION_DUREES .'" style ="float:none;"></a>',
+  );
+
+  $form['fieldset3']['duration_main_learning'] = array(
+      '#type' => 'textfield',
+      '#title' => t ( 'dont enseignements généraux en heures' ),
+      '#default_value' => $temp_dgf_form_formation ? $temp_dgf_form_formation['duree_ens_gen_heure'] : null,
+      '#element_validate' => array(
+          'element_shared_not_numeric_validate'
+      ),
+
+      '#field_suffix' => '<a id="duration_main_learning_info" class="glyphicon glyphicon-question-sign"
+        data-toggle="tooltip" data-original-title="'. @MSG_INFO_FORMATION_DUREES .'" style ="float:none;"></a>',
+  );
+
+  $form['fieldset3']['accompanying_actions'] = array(
+      '#type' => 'textfield',
+      '#title' => t ( 'dont actions d’accompagnement et évaluations en heures' ) ,
+      '#default_value' => $temp_dgf_form_formation ? $temp_dgf_form_formation['duree_acc_heure'] : null,
+      '#element_validate' => array(
+          'element_shared_not_numeric_validate'
+      ),
+      '#field_suffix' => '<a id="accompanying_actions_info" class="glyphicon glyphicon-question-sign"
+        data-toggle="tooltip" data-original-title="'. @MSG_INFO_FORMATION_DUREES .'" style ="float:none;"></a>',
+  );
+
+  $form['finalite_formation'] = array(
+      '#type' => 'hidden',
+      '#title' => t ( '' ),
+      '#default_value' => $temp_dgf_form_formation ? trim($temp_dgf_form_formation['id_ref_finalite_formation']) : null,
+  );
+
+  $form['finalite_formation_code'] = array(
+      '#type' => 'textfield',
+      '#title' => t ( 'Diplôme ou titre visé' ),
+      '#attributes' => array(
+          'class' => array('coller-serrer-3')
+      ),
+      '#default_value' => $temp_dgf_form_formation ? trim($temp_dgf_form_formation['ref_diplome']['code']) : null,
+  );
+  
+  $form['finalite_formation_label'] = array(
+      '#type' => 'textfield',
+      '#title' => t ( '' ),
+      '#attributes' => array(
+          'class' => array('coller-serrer-4')
+      ),
+      '#default_value' => $temp_dgf_form_formation ? trim($temp_dgf_form_formation['ref_diplome']['label']) : null,
+  );
+  
+  $form['specialty_training'] = array(
+      '#type' => 'hidden',
+      '#default_value' => $temp_dgf_form_formation ? trim($temp_dgf_form_formation['id_ref_esclave_specialite']) : null,
+  );
+  
+  $form['specialty_training_code'] = array(
+      '#type' => 'textfield',
+      '#title' => t ( 'Spécialité formation' ),
+      '#attributes' => array(
+          'class' => array('coller-serrer-3')
+      ),
+      '#default_value' => $temp_dgf_form_formation ? trim($temp_dgf_form_formation['specialites_de_formation']['code']) : null,
+  );
+  
+  $form['specialty_training_libelle'] = array(
+      '#type' => 'textfield',
+      '#attributes' => array(
+          'class' => array('coller-serrer-4')
+      ),
+      '#title' => t ( '' ),
+
+      '#default_value' => $temp_dgf_form_formation ? trim($temp_dgf_form_formation['specialites_de_formation']['libelle']) : null,
+  );
+
+    if ($showFormationinterne) {
+
+        $form['internal_training'] = array(
+            '#type' => 'checkbox',
+            '#title' => t('Formation interne'),
+            '#default_value' => ($temp_dgf_form_formation) ? trim($temp_dgf_form_formation['formation_interne']) : false,
+        );
+    }
+  $form['internal_training_value'] = array(
+      '#type' => 'hidden',
+      '#title' => t('Formation interne value'),
+      '#value' => ($temp_dgf_form_formation) ? $temp_dgf_form_formation['formation_interne'] : false
+  );
+
+  $form['annual_distribution'] = array(
+      '#type' => 'fieldset',
+      '#title' => t ( 'Répartition annuelle' )
+  );
+
+  $form['annual_distribution']['year1'] = array(
+      '#type' => 'textfield',
+      '#title' => (!empty($temp_dgf_form_formation_repartition[0]->annee)) ?
+          $temp_dgf_form_formation_repartition[0]->annee : (string)($annee_formation),
+      '#default_value' => (!empty($temp_dgf_form_formation_repartition[0]) ?
+          $temp_dgf_form_formation_repartition[0]->repartition_heure : null),
+      '#field_suffix' => 'heures',
+      '#element_validate' => array(
+          'element_validate_integer_positive'
+      ),
+  );
+
+  $form['annual_distribution']['year2'] = array(
+      '#type' => 'textfield',
+      '#title' => (!empty($temp_dgf_form_formation_repartition[1]->annee)) ?
+          $temp_dgf_form_formation_repartition[1]->annee : (string)($annee_formation+1),
+      '#default_value' => (!empty($temp_dgf_form_formation_repartition[1]) ?
+          $temp_dgf_form_formation_repartition[1]->repartition_heure : null),
+      '#field_suffix' => 'heures',
+      '#element_validate' => array(
+          'element_validate_integer_positive'
+      ),
+  );
+
+  $form['annual_distribution']['year3'] = array(
+      '#type' => 'textfield',
+      '#title' => (!empty($temp_dgf_form_formation_repartition[2]->annee)) ?
+          $temp_dgf_form_formation_repartition[2]->annee : (string)($annee_formation+2),
+      '#default_value' => (!empty($temp_dgf_form_formation_repartition[2]) ?
+          $temp_dgf_form_formation_repartition[2]->repartition_heure : null),
+      '#field_suffix' => 'heures',
+      '#element_validate' => array(
+          'element_validate_integer_positive'
+      ),
+  );
+
+//   $form['clearfix'] = array(
+//       '#type' => 'markup',
+//       '#markup' => '<div class="clearfix"></div>',
+//   );
+
+//   $form['padding_fin'] = array(
+//       '#type' => 'markup',
+//       '#markup' => '</div></div>',
+//   );
+
+//   $modal_internal_training_content = '<div id="modalinternaltraining" class="modal" tabindex="-1" role="dialog" aria-hidden="true" aria-labelledby="mySmallModalLabel">
+//       <div class="modal-dialog modal-md">
+//           <div class="modal-content">
+//               <div class="modal-header">
+//                   <h4 class="modal-title">Formation interne</h4>
+//               </div>
+//               <div class="modal-body">
+//                 <p>
+//                     L\'employeur atteste que le service de formation interne dispose
+//                     des moyens nécessaires à la réalisation de la formation du salarié.
+//                 </p>
+//               </div>
+//               <div class="modal-footer">
+//               <input class="btn btn-submit form-submit" data-dismiss="modal" type="button" id="internal_training_quit_modal" value="Oui">
+//               </div>
+//           </div><!-- /.modal-content -->
+//       </div><!-- /.modal-dialog -->
+//     </div><!-- /.modal -->';
+
+//   $form['modal_internal_training'] = array(
+//       '#type' => 'markup',
+//       '#markup' => $modal_internal_training_content,
+//   );
+
+  // Ajout des boutons d'actions
+  $validatorsBoutonNext = array(
+      'dgf_formation_form_validate_standard',
+      'dgf_formation_form_validate',
+  );
+  $submitsBoutonNext = array('dgf_formation_form_submit');
+  dgf_boutons_action_form($form, $validatorsBoutonNext, $submitsBoutonNext);
+
+  // Ajout de la modal quitter
+  $validatorsQuit = array('dgf_formation_form_validate_standard');
+  $validatorsSave = array(
+//           'dgf_formation_form_validate_standard'
+  );
+  $submitsSave = array('dgf_formation_form_submit');
+  dgf_modal_quit_form($form, $validatorsQuit, $validatorsSave, $submitsSave);
+
+  return $form;
+}
+
+function dgf_formation_formations_recurrentes($formations_recurrentes) {
+  // Recherche des formations récurrentes
+  //  max(count(libellé de formations)) pour l'utilisateur
+  $listgroupitem_formations_recurrentes = null;
+  $page = '';
+  $i = 0;
+  foreach ($formations_recurrentes as $formation) {
+    $i++;
+    if(($i % 2) == 0) {
+      $paire = 'even';
+    }
+    else {
+      $paire = 'odd';
+    }
+    $listgroupitem_formations_recurrentes .= '<li class="list-group-item '. $paire . 
+        '" data-id_formation="'. trim($formation['id_formation']) . '" ' .
+        '" data-type-qualification="'. trim($formation['type_qualification']) . '" ' .
+        '" data-num-cqpi="'. trim($formation['num_cqpi']) . '" ' .
+        '" data-libelle="'. trim($formation['libelle']) . '" ' .
+        '" data-duree-totale-heure="'. trim($formation['duree_totale_heure']) . '" ' .
+        '" data-duree-ens-gen-heure="'. trim($formation['duree_ens_gen_heure']) . '" ' .
+        '" data-duree-acc-heure="'. trim($formation['duree_acc_heure']) . '" ' .
+        '" data-formation-interne="'. trim($formation['formation_interne']) . '" ' .
+        '" data-specialite="'. trim($formation['specialite']) . '" ' .
+        '" data-duree-acc-heure="'. trim($formation['duree_totale_heure']) . '" ' .
+        '" data-finalite-formation="'. trim($formation['finalite_formation']) . '" ' .
+        '" data-repartition-1="'. trim($formation['formation_repartition1']) . '" ' .
+        '" data-repartition-2="'. trim($formation['formation_repartition2']) . '" ' .
+        '" data-repartition-3="'. trim($formation['formation_repartition3']) . '" ' .
+        '>' .
+     trim($formation['libelle']) . '</li>';
+  }
+
+  if (isset($listgroupitem_formations_recurrentes)) {
+    $page = '
+        <div class="panel panel-info">
+          <div class="panel-heading">
+            <h3 class="panel-title">Formations récurrentes</h3>
+        <div class="panel-arrow-header"></div>
+          </div>
+          <div class="panel-body">
+            <ul class="list-group">'.$listgroupitem_formations_recurrentes.'</ul>
+          </div>
+          <div class="panel-footer">
+            <div class="panel-arrow-footer"></div>
+          </div>
+        </div>
+    ';
+  }
+
+  return $page;
+}

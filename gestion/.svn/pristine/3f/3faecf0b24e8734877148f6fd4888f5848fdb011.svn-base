@@ -1,0 +1,28 @@
+div#table-container a.btn {
+  border-radius: 5px;
+  color: #196681!important;
+  background-color: #FFFFFF !important;
+  border-color: #ABC7D5!important;
+  font-weight: bold;
+  text-transform: uppercase;
+  float: none;
+}
+
+.sticky-enabled a.action {
+  color: #337ab7;
+  margin: 0 5px;
+}
+
+#center .modal label {
+  display: block;
+  width: auto;
+}
+
+#loading {
+  text-align: center;
+  display: none;
+}
+
+table {
+  margin-bottom: 20px;
+}

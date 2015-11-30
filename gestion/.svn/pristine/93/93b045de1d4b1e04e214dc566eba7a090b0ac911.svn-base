@@ -1,0 +1,164 @@
+<?php
+require (drupal_get_path('module', 'dgf_visualisation_finale' ) . '/inc/historique/historique_db.inc' );
+function relance_get_entreprise($id_dgf) {
+  db_set_active(DB_EXTRANET);
+  
+  $query = db_select('lien_dgf_ref_esclave_entreprise', 'lien')
+  ->fields('lien')
+  ->condition('id_dgf', $id_dgf, '=')
+  ->execute();
+  $result = $query->fetchAssoc();
+  
+  db_set_active();
+  
+  return $result;
+}
+
+function relance_get_historique($id_dgf) {
+  //A MODIFIER !!!
+  db_set_active(DB_EXTRANET);
+  $query = db_select('lien_dgf_ref_esclave_entreprise', 'lien')
+  ->fields('lien')
+  ->condition('id_dgf', $id_dgf, '=')
+  ->execute();
+  
+  $result = $query->fetchAll();
+  db_set_active();
+  
+  return $result;
+}
+
+function relance_get_contact($id_dgf) {
+  db_set_active(DB_EXTRANET);
+  $demandeur=array();
+  $query = db_select('dgf' , 'd');
+  $query->fields('u', array('id','mail'));
+  $query->join('drupal_user' , 'u' , 'd.id_user_creation = u.id_user_drupal ' );
+  $query->condition('d.id' , $id_dgf, '=');
+  
+  $result = $query->execute()->fetchAssoc();
+  $demandeur[$result['id']] = $result ['mail'];
+  db_set_active();
+  return $result;
+}
+
+function relance_get_all_destinataire($id_dgf) {
+  
+db_set_active(DB_EXTRANET);
+
+
+  $query = db_select('lien_dgf_ref_esclave_entreprise' , 'lien');
+  $query->fields('lien', array('id_ref_esclave_entreprise'));
+  $query->condition('lien.id_dgf' , $id_dgf, '=');
+  $result = $query->execute()->fetchAssoc();
+  $id_entreprise=$result['id_ref_esclave_entreprise'];
+  
+  $demandeur=array();
+  $query = db_select('drupal_user' , 'u');
+  $query->fields('u', array('id','mail'));
+  $query->join('lien_user_entreprise_ref_esclave_entreprise' , 'lien' , 'lien.id_user_entreprise = u.id' );
+  $query->condition('lien.id_ref_esclave_entreprise' , $id_entreprise, '=');
+  $result = $query->execute()->fetchAll();
+  db_set_active();
+  $demandeur[0] = "Veuillez choisir dans la liste.";
+  foreach ($result as $contact) {
+    $demandeur[$contact->id] = $contact->mail;
+  }
+  
+  return $demandeur;
+}
+
+function relance_insert_relance($form) {
+  db_set_active(DB_EXTRANET);
+  global $user;
+  $envoi="Notification";
+  $form['envoi']=='0'?$envoi="Notification":$envoi="Mail";
+  $query = db_insert('dgf_relance')->fields(array(
+      'id_dgf' => $form['id_dgf'],
+      'mode_envoi' => $envoi,
+      'commentaire' => $form['commentaire'],
+      'date_creation' => shared_send_to_mssql_date(null, 'datetime'),
+      'id_user_creation' => $user->uid,
+  ));
+  $id = $query->execute();
+  return $id;
+}
+
+function update_relance_justificatif($id_relance,$chemin) {
+  db_set_active(DB_EXTRANET);
+  $query = db_update('dgf_relance')
+  ->fields(array(
+      'fichier_comp' => $chemin,
+  ))
+  ->condition('id' , $id_relance, '=');
+  $query->execute();
+  db_set_active();
+}
+
+function relance_insert_lien_relance_justificatif($relance, $form) {
+  db_set_active(DB_EXTRANET);
+  $justif = $form['pieces'];
+  foreach ($justif as $piece) {
+    if($piece !='0') {
+      $query = db_insert('lien_relance_justificatif')->fields(array(
+          'id_relance' => $relance,
+          'id_ref_justificatif' => $piece,
+      ));
+      $query->execute();
+    }
+  }
+  db_set_active();
+}
+
+function relance_insert_lien_relance_destinataire($relance, $form) {
+  db_set_active(DB_EXTRANET);
+  if($form['destinataire']){
+    $query = db_insert('lien_relance_destinataire')->fields(array(
+        'id_relance' => $relance,
+        'id_contact' =>$form['destinataire'],
+    ));
+    $query->execute();
+  } if ($form['autre_mail']) {
+    $query = db_insert('lien_relance_destinataire')->fields(array(
+        'id_relance' => $relance,
+        'autre_mail' =>$form['autre_mail'],
+    ));
+    $query->execute();
+  }
+  db_set_active();
+}
+
+function relance_get_user($id_user) {
+  db_set_active(DB_EXTRANET);
+  $query = db_select('drupal_user', 'user')
+  ->fields('user')
+  ->condition('id', $id_user, '=')
+  ->execute();
+  $result = $query->fetchAssoc();
+  db_set_active();
+  return $result;
+}
+
+function relance_get_relance($relance) {
+  db_set_active(DB_EXTRANET);
+  $query = db_select('dgf_relance', 'rel')
+  ->fields('rel')
+  ->condition('id', $relance, '=')
+  ->execute();
+  $result = $query->fetchAssoc();
+  db_set_active();
+  return $result;
+}
+
+function get_relance_mail($form,$relance) {
+  $information = array();
+  
+  $information['id_dgf'] = $form['id_dgf'];
+  $information['autre_mail'] = $form['autre_mail'];
+  $information['entreprise'] = relance_get_entreprise($form['id_dgf'])['t_raison_sociale'];
+  $information['id_entreprise'] = relance_get_entreprise($form['id_dgf'])['id_ref_esclave_entreprise'];
+  $information['pieces'] = historique_get_all_justificatif($relance);
+  $information['commentaire'] = relance_get_relance($relance)['commentaire'];
+
+  return $information;
+}

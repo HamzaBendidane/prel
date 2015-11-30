@@ -1,0 +1,432 @@
+<?php
+/**
+ * @file
+ * ZipCart pages.
+ */
+
+function zipcart_zipcart() {
+  if (empty($_SESSION['zipcart']['files'])) {
+    $content = t('Sorry, there are no files queued for you to download.');
+  }
+  else {
+    $files = $_SESSION['zipcart']['files'];
+    $content = '';
+    if (!empty($files)) {
+    	$options = array(
+	      'html' => FALSE,
+	      'query' => array('destination' => current_path()),
+	      'attributes' => array('class' => array('zipcart-zipcart')),
+	    );
+    	$content .= '<table class="zipcart-zipcart-table">';
+    	foreach ($files AS $fid => $file) {
+    		$item = file_load($fid);
+    		$link_text = t('Remove from cart');
+        $link_options = $options;
+        $link_options['attributes']['id'] = 'zipcart-id-' . $item->fid;
+        $path = ZIPCART_PATH_REMOVE . '/' . $item->fid;
+        $mime = check_plain($item->filemime);
+        $icon_url = file_icon_url((object) $item);
+        $icon = '<img class="file-icon" alt="" title="' . $mime . '" src="' . $icon_url . '" /> ';
+        
+        $content .= '<tr class="zipcart-zipcart-row" id="zipcart-zipcart-fid-' . $item->fid . '"><td>' . $icon . '</td>'
+        	. '<td>' . $item->filename . ' (' . format_size($item->filesize) . ')' . '</td>'
+        	. '<td>' . l($link_text, $path, $link_options) . '</td></tr>';
+    	}
+    	$content .= '</table>';
+    	$options = array();
+    	$options['attributes']['class'] = array('button', 'update-cart');
+    	$content .= '<p>' . l(t('Download zipcart'), 'zipcart/get', $options) . '</p>';
+    }
+  }
+  return $content;
+}
+
+function zipcart_validation_form($form, &$form_state) {
+  $form = array();
+
+  $form['navigation'] = array(
+    '#type' => 'item',
+    '#markup' => _form_navigation(),
+  );
+
+  $form['title'] = array(
+    '#type' => 'item',
+    '#markup' => '<h1>Mon panier</h1>',
+  );
+
+  $form['parution'] = array(
+    '#type' => 'fieldset',
+    '#prefix' => '<h3>'.t('Merci de renseigner le ou les supports où vont paraître les annonces sélectionnées.').'</h3><div id="parution-wrapper">',
+    '#suffix' => '</div>',
+  );
+
+  if (empty($form_state['nombre_de_parution'])) {
+    $form_state['nombre_de_parution'] = 1;
+  }
+
+  for ($j = 1; $j <= $form_state['nombre_de_parution']; $j++) {
+    $form['parution']['parution_' . $j] = array(
+      '#type' => 'fieldset',
+    );
+
+    $form['parution']['parution_' . $j]['nom' . $j] = array(
+      '#type' => 'textfield',
+      '#title' => t('Nom du support'),
+      '#default_value' => NULL,
+      '#required' => TRUE,
+    );
+
+    $form['parution']['parution_' . $j]['support' . $j] = array(
+      '#type' => 'select',
+      '#title' => t('Support de parution'),
+      '#options' => _get_terms_select_list('support_de_parution'),
+      '#default_value' => NULL,
+      '#required' => TRUE,
+    );
+
+    $form['parution']['parution_' . $j]['fieldset_date' . $j] = array(
+      '#type' => 'fieldset',
+      '#title' => t('Date de parution'),
+      '#prefix' => '<div id="date-wrapper-' . $j . '">',
+      '#suffix' => '</div>',
+    );
+
+    if (empty($form_state['date_de_parution_' . $j])) {
+      $form_state['date_de_parution_' . $j] = 1;
+    }
+
+    for ($i = 1; $i <= $form_state['date_de_parution_' . $j]; $i++) {
+      $form['parution']['parution_' . $j]['fieldset_date' . $j]['date_' . $j . '_' . $i] = array(
+        '#type' => 'date_popup',
+        '#date_format' => 'd/m/Y',
+        '#date_year_range' => '0:+2',
+        '#default_value' => NULL,
+      );
+    }
+
+    if ($form_state['date_de_parution_' . $j] >= 1) {
+      $form['parution']['parution_' . $j]['fieldset_date' . $j]['add_date_' . $j . '_' . $i] = array(
+        '#type' => 'submit',
+        '#value' => t('Ajouter une date'),
+        '#submit' => array('ajax_date_add_more_add_one'),
+        '#limit_validation_errors' => array(),
+        '#id' => 'add-' . $j,
+        '#name' => 'add-' . $j,
+        '#ajax' => array(
+          'callback' => 'ajax_date_add_more_callback',
+          'wrapper' => 'date-wrapper',
+        ),
+      );
+    }
+    if ($form_state['date_de_parution_' . $j] > 1) {
+      $form['parution']['parution_' . $j]['fieldset_date' . $j]['remove_date_' . $j . '_' . $i] = array(
+        '#type' => 'submit',
+        '#value' => t('Retirer une date'),
+        '#submit' => array('ajax_date_add_more_remove_one'),
+        '#limit_validation_errors' => array(),
+        '#id' => 'remove-' . $j,
+        '#name' => 'remove-' . $j,
+        '#ajax' => array(
+          'callback' => 'ajax_date_add_more_callback',
+          'wrapper' => 'date-wrapper',
+        ),
+      );
+    }
+  }
+
+  if ($form_state['nombre_de_parution'] >= 1) {
+    $form['parution']['add_parution'] = array(
+      '#type' => 'submit',
+      '#value' => t('Ajouter une parution'),
+      '#submit' => array('ajax_parution_add_more_add_one'),
+      '#limit_validation_errors' => array(),
+      '#ajax' => array(
+        'callback' => 'ajax_parution_add_more_callback',
+        'wrapper' => 'parution-wrapper',
+      ),
+    );
+  }
+  if ($form_state['nombre_de_parution'] > 1) {
+    $form['parution']['remove_beneficiaire'] = array(
+      '#type' => 'submit',
+      '#value' => t('Retirer une parution'),
+      '#submit' => array('ajax_parution_add_more_remove_one'),
+      '#limit_validation_errors' => array(),
+      '#ajax' => array(
+        'callback' => 'ajax_parution_add_more_callback',
+        'wrapper' => 'parution-wrapper',
+      ),
+    );
+  }
+
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('SUBMIT'),
+    '#ajax' => array(
+      'callback' => 'submit_callback',
+      'effect' => 'fade',
+      'wrapper' => 'submit-wrapper',
+      'event' => 'click',
+      'progress' => array('message' => '', 'type' => 'throbber'),
+    ),
+  );
+
+  $form['mandatory_fields'] = array(
+    '#type' => 'item',
+    '#markup' => '<div class="mandatory-fields">' . t('Les champs marqués d\'un * sont obligatoires') . '</div>',
+  );
+
+  $form['check_link'] = array(
+    '#type' => 'item',
+    '#markup' => '<div class="check-button">' . t('Télécharger') . '</div>',
+  );
+
+  $options['attributes']['id'] = 'download-cart';
+  $options['attributes']['class'] = array('button');
+  $form['download_link'] = array(
+    '#type' => 'item',
+    '#markup' => l(t('Download cart'), 'zipcart/get', $options),
+  );
+
+  $form['popin_confirmation'] = array(
+    '#type' => 'item',
+    '#markup' => _popin_confirmation(),
+  );
+
+  $form['end_confirmation'] = array(
+    '#type' => 'item',
+    '#markup' => _end_confirmation(),
+  );
+
+  return $form;
+}
+
+function submit_callback($form, $form_state) {
+  if (form_get_errors()) {
+    $form_state['rebuild'] = TRUE;
+    return $form;
+  }
+
+  $response = zipcart_node_submit($form, $form_state);
+  return $response;
+}
+
+function _form_navigation() {
+  $output = '<div class="espace-editeur-header-navigation">';
+    $output .= l(t('Choix des annonces'), 'espace-editeur/annonces-presse', array('attributes' => array('class' => array('left-link'))));
+    $output .= l(t('Mes Parutions'), 'espace-editeur/mes-parutions', array('attributes' => array('class' => array('right-link'))));
+  $output .= '</div>';
+  $output .= '<div class="espace-editeur-navigation">';
+    $output .= l(t('Annonces presse'), 'espace-editeur/annonces-presse', array('attributes' => array('class' => array('left-link'))));
+    $output .= l(t('Bannières web'), 'espace-editeur/bannieres-web', array('attributes' => array('class' => array('right-link'))));
+  $output .= '</div>';
+
+  return $output;
+}
+
+function _popin_confirmation() {
+  $output = '<div class="popin-wrapper">';
+    $output .= '<div class="popin-overlay"></div>';
+    $output .= '<div class="popin-confirmation">';
+      $output .= '<div class="popin-header">';
+        $output .= '<div class="popin-title">Confirmation</div>';
+        $output .= '<div class="popin-close">X</div>';
+      $output .= '</div>';
+      $output .= '<div class="popin-content">';
+        $output .= '<p>Êtes vous sûr de vouloir télécharger votre panier ?</p>';
+        $output .= '<div class="button-popin-confirmation">OK</div>';
+      $output .= '</div>';
+    $output .= '</div>';
+  $output .= '</div>';
+
+  return $output;
+}
+
+function _end_confirmation() {
+  $output = '<div class="popin-wrapper">';
+    $output .= '<div class="popin-overlay"></div>';
+    $output .= '<div class="popin-confirmation">';
+      $output .= '<div class="popin-header">';
+        $output .= '<div class="popin-title">Merci de votre téléchargement</div>';
+      $output .= '</div>';
+      $output .= '<div class="popin-content">';
+        $output .= l('Télécharger d\'autres annonces', 'espace-editeur/annonces-presse', array('attributes' => array('class' => array('button-popin-confirmation'))));
+        $output .= l('Me déconnecter', 'user/logout', array('attributes' => array('class' => array('button-popin-confirmation'))));
+      $output .= '</div>';
+    $output .= '</div>';
+  $output .= '</div>';
+
+  return $output;
+}
+
+/**
+ * Custom function to load all terms for a given vocabulary.
+ *
+ * @param $vocabulary
+ * @return mixed
+ */
+function _get_terms_select_list($vocabulary) {
+  $options = '';
+  $load_vocabulary = taxonomy_vocabulary_machine_name_load($vocabulary);
+  $get_terms = taxonomy_get_tree($load_vocabulary->vid);
+  foreach ($get_terms as $term) {
+    $options[$term->tid] = $term->name;
+  }
+
+  return $options;
+}
+
+/**
+ * AJAX callback to add one item (bénéficiaire).
+ *
+ * @param $form
+ * @param $form_state
+ */
+function ajax_parution_add_more_add_one($form, &$form_state) {
+  $form_state['nombre_de_parution']++;
+  $form_state['rebuild'] = TRUE;
+}
+
+/**
+ * AJAX callback to remove one item (bénéficiaires).
+ *
+ * @param $form
+ * @param $form_state
+ */
+function ajax_parution_add_more_remove_one($form, &$form_state) {
+  if ($form_state['nombre_de_parution'] > 1) {
+    $form_state['nombre_de_parution']--;
+  }
+  $form_state['rebuild'] = TRUE;
+}
+
+/**
+ * AJAX callback to update bénéficiaires wrapper.
+ *
+ * @param $form
+ * @param $form_state
+ * @return mixed
+ */
+function ajax_parution_add_more_callback($form, $form_state) {
+  return array(
+    '#type' => 'ajax',
+    '#commands' => array(
+      ajax_command_replace("#parution-wrapper", render($form['parution'])),
+    )
+  );
+}
+
+/**
+ * AJAX callback to add one item (bénéficiaire).
+ *
+ * @param $form
+ * @param $form_state
+ */
+function ajax_date_add_more_add_one($form, &$form_state) {
+  $i = explode('-', $form_state['triggering_element']['#id']);
+  $form_state['date_de_parution_' . $i[1]]++;
+  $form_state['rebuild'] = TRUE;
+}
+
+/**
+ * AJAX callback to remove one item (bénéficiaires).
+ *
+ * @param $form
+ * @param $form_state
+ */
+function ajax_date_add_more_remove_one($form, &$form_state) {
+  $i = explode('-', $form_state['triggering_element']['#id']);
+  if ($form_state['date_de_parution_' . $i[1]] > 1) {
+    $form_state['date_de_parution_' . $i[1]]--;
+  }
+  $form_state['rebuild'] = TRUE;
+}
+
+/**
+ * AJAX callback to update bénéficiaires wrapper.
+ *
+ * @param $form
+ * @param $form_state
+ * @return mixed
+ */
+function ajax_date_add_more_callback($form, $form_state) {
+  $i = explode('-', $form_state['triggering_element']['#id']);
+  return array(
+    '#type' => 'ajax',
+    '#commands' => array(
+      ajax_command_replace('#date-wrapper-' . $i[1], render($form['parution']['parution_' . $i[1]]['fieldset_date' . $i[1]])),
+    )
+  );
+}
+
+function zipcart_node_submit($form, &$form_state) {
+  global $user;
+  $files = $_SESSION['zipcart']['files'];
+
+  for ($i = 1; $i <= $form_state['nombre_de_parution']; $i++) {
+    $node = new stdClass();
+    $node->type = "parution";
+    $node->title = $form_state['values']['nom' . $i];
+    $node->uid = $user->uid;
+    $node->field_support_de_parution['und'][0]['tid'] = $form_state['values']['support' . $i];
+    for ($j = 1; $j <= $form_state['date_de_parution_' . $i]; $j++) {
+      $node->field_parution_date['und'][$j - 1]['value'] = $form_state['values']['date_' . $i . '_' . $j];
+    }
+    node_save($node);
+    foreach ($files as $key => $file) {
+      if (strpos($file, '/gabarits/') !== false) {
+        $inner = new EntityFieldQuery();
+        $inner_r = $inner->entityCondition('entity_type', 'node')
+          ->fieldCondition('field_gabarit', 'fid', $key, '=')
+          ->execute();
+        if(!empty($inner_r['node'])) {
+          $ret = node_load_multiple(array_keys($inner_r['node']));
+          foreach ($ret as $node_loaded) {
+            $field_collection_item = entity_create('field_collection_item', array('field_name' => 'field_fichier_lies'));
+            $field_collection_item->setHostEntity('node', $node);
+            $field_collection_item->field_nom_fichier[LANGUAGE_NONE][]['value'] = $node_loaded->title;
+            $field_collection_item->field_type_document[LANGUAGE_NONE][]['tid'] = $node_loaded->field_type_document['und'][0]['tid'];
+            $field_collection_item->field_thematique[LANGUAGE_NONE][]['tid'] = $node_loaded->field_thematique['und'][0]['tid'];
+            $field_collection_item->field_format[LANGUAGE_NONE][]['tid'] = $node_loaded->field_format['und'][0]['tid'];
+            $field_collection_item->field_largeur[LANGUAGE_NONE][]['value'] = 'Gabarit';
+            $field_collection_item->field_hauteur[LANGUAGE_NONE][]['value'] = 'Gabarit';
+            $field_collection_item->save();
+          }
+        }
+      } else {
+        $inner = new EntityFieldQuery();
+        $inner_r = $inner->entityCondition('entity_type', 'field_collection_item')
+          ->fieldCondition('field_fichier', 'fid', $key, '=')
+          ->execute();
+        if(!empty($inner_r['field_collection_item'])) {
+          $keys = array_keys($inner_r['field_collection_item']);
+          $fc = entity_load('field_collection_item', array($keys));
+          foreach ($fc as $field_collection) {
+            $largeur = $field_collection->field_largeur['und'][0]['value'];
+            $hauteur = $field_collection->field_hauteur['und'][0]['value'];
+            $query = new EntityFieldQuery();
+            $species_r = $query->entityCondition('entity_type', 'node')
+              ->entityCondition('bundle', 'document')
+              ->fieldCondition('field_document', 'value', $keys)
+              ->execute();
+            if(!empty($species_r['node'])) {
+              $ret = node_load_multiple(array_keys($species_r['node']));
+              foreach ($ret as $node_loaded) {
+                $field_collection_item = entity_create('field_collection_item', array('field_name' => 'field_fichier_lies'));
+                $field_collection_item->setHostEntity('node', $node);
+                $field_collection_item->field_nom_fichier[LANGUAGE_NONE][]['value'] = $node_loaded->title;
+                $field_collection_item->field_type_document[LANGUAGE_NONE][]['tid'] = $node_loaded->field_type_document['und'][0]['tid'];
+                $field_collection_item->field_thematique[LANGUAGE_NONE][]['tid'] = $node_loaded->field_thematique['und'][0]['tid'];
+                $field_collection_item->field_format[LANGUAGE_NONE][]['tid'] = $node_loaded->field_format['und'][0]['tid'];
+                $field_collection_item->field_largeur[LANGUAGE_NONE][]['value'] = $largeur;
+                $field_collection_item->field_hauteur[LANGUAGE_NONE][]['value'] = $hauteur;
+                $field_collection_item->save();
+              }
+            }
+          }
+        }
+      }
+    }
+    node_save($node);
+  }
+}

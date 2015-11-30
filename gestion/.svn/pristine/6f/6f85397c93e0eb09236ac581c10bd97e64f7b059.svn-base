@@ -1,0 +1,99 @@
+<?php
+/**
+ * @file
+ * ecofolio_sidebar.features.field_base.inc
+ */
+
+/**
+ * Implements hook_field_default_field_bases().
+ */
+function ecofolio_sidebar_field_default_field_bases() {
+  $field_bases = array();
+
+  // Exported field_base: 'field_bloc_discovery_link_ext'
+  $field_bases['field_bloc_discovery_link_ext'] = array(
+    'active' => 1,
+    'cardinality' => 1,
+    'deleted' => 0,
+    'entity_types' => array(),
+    'field_name' => 'field_bloc_discovery_link_ext',
+    'foreign keys' => array(),
+    'indexes' => array(),
+    'locked' => 0,
+    'module' => 'link',
+    'settings' => array(
+      'attributes' => array(
+        'class' => '',
+        'rel' => '',
+        'target' => 'default',
+      ),
+      'display' => array(
+        'url_cutoff' => 80,
+      ),
+      'enable_tokens' => 1,
+      'title' => 'optional',
+      'title_maxlength' => 128,
+      'title_value' => '',
+      'url' => 0,
+    ),
+    'translatable' => 0,
+    'type' => 'link_field',
+  );
+
+  // Exported field_base: 'field_bloc_discovery_link_int'
+  $field_bases['field_bloc_discovery_link_int'] = array(
+    'active' => 1,
+    'cardinality' => 1,
+    'deleted' => 0,
+    'entity_types' => array(),
+    'field_name' => 'field_bloc_discovery_link_int',
+    'foreign keys' => array(
+      'nid' => array(
+        'columns' => array(
+          'nid' => 'nid',
+        ),
+        'table' => 'node',
+      ),
+    ),
+    'indexes' => array(
+      'nid' => array(
+        0 => 'nid',
+      ),
+    ),
+    'locked' => 0,
+    'module' => 'node_reference',
+    'settings' => array(
+      'referenceable_types' => array(
+        'actu' => 'actu',
+        'bloc_discovery' => 0,
+        'bloc_dossier' => 0,
+        'bloc_espace_declaration' => 0,
+        'bloc_html' => 0,
+        'bloc_img' => 0,
+        'bloc_intra' => 0,
+        'bloc_lsv' => 0,
+        'bloc_push' => 0,
+        'bloc_rem' => 0,
+        'home_univers' => 'home_univers',
+        'homepage' => 'homepage',
+        'media' => 0,
+        'mediatheque' => 0,
+        'newsletter' => 0,
+        'page' => 'page',
+        'slider_homepage' => 0,
+        'slider_univers' => 0,
+        'social_networks_footer' => 0,
+        'webform' => 'webform',
+      ),
+      'view' => array(
+        'args' => array(),
+        'display_name' => '',
+        'view_name' => '',
+      ),
+    ),
+    'translatable' => 0,
+    'type' => 'node_reference',
+  );
+
+  return $field_bases;
+}

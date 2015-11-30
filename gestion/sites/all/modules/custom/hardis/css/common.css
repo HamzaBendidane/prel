@@ -1,0 +1,47 @@
+.sql {
+    bottom: 0;
+    position: fixed;
+    right: 50%;
+}
+.popover-content {
+    max-height: 500px;
+    overflow: auto;
+    width: 500px;
+}
+.red {
+    color: red;
+}
+.orange {
+    color: orange;
+}
+.sql-bg-red{
+    background-color: red;
+}
+.sql-bg-orange{
+    background-color: coral;
+}
+.sql-bg-green{
+    background-color: green;
+}
+
+/* coller-serrer */
+.form-item input.coller-serrer-1 {
+    width: 15%;
+}
+
+.form-item input.coller-serrer-2 {
+    width: 44%;
+}
+
+.form-item input.coller-serrer-3 {
+    width: 10%;
+}
+
+.form-item input.coller-serrer-4 {
+    width: 51%;
+}
+.container {
+    margin-left: 0 !important;
+    margin-right: auto;
+    padding-left: 0 !important;
+}

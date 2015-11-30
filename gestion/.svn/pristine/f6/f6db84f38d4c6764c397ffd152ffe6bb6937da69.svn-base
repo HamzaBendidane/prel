@@ -1,0 +1,25 @@
+(function($){
+	
+	jQuery(document).ready(function($) {
+		
+		// Initialisation du datepicker
+		var now = new Date();
+        
+        jQuery('.datePicker').datepicker({
+            format: 'dd/mm/yyyy',
+            language: 'fr',
+            endDate: new Date(),
+            orientation: 'right',
+            showOnFocus: false,
+            defaultViewDate: {
+                year: now.getFullYear() - 18,
+                month: now.getMonth(),
+                day: now.getDate()
+            }
+        });
+        
+        
+		
+	});
+	
+})(jQuery)

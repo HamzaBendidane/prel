@@ -1,0 +1,93 @@
+<?php
+/**
+ * @file
+ * ecofolio_ct_blocs.features.inc
+ */
+
+/**
+ * Implements hook_ctools_plugin_api().
+ */
+function ecofolio_ct_blocs_ctools_plugin_api($module = NULL, $api = NULL) {
+  if ($module == "ds" && $api == "ds") {
+    return array("version" => "1");
+  }
+  if ($module == "field_group" && $api == "field_group") {
+    return array("version" => "1");
+  }
+  if ($module == "strongarm" && $api == "strongarm") {
+    return array("version" => "1");
+  }
+}
+
+/**
+ * Implements hook_node_info().
+ */
+function ecofolio_ct_blocs_node_info() {
+  $items = array(
+    'bloc_dossier' => array(
+      'name' => t('Bloc Dossier'),
+      'base' => 'node_content',
+      'description' => '',
+      'has_title' => '1',
+      'title_label' => t('Title'),
+      'help' => '',
+    ),
+    'bloc_espace_declaration' => array(
+      'name' => t('Bloc Espace Déclaration'),
+      'base' => 'node_content',
+      'description' => '',
+      'has_title' => '1',
+      'title_label' => t('Titre'),
+      'help' => '',
+    ),
+    'bloc_html' => array(
+      'name' => t('Bloc HTML'),
+      'base' => 'node_content',
+      'description' => '',
+      'has_title' => '1',
+      'title_label' => t('Title'),
+      'help' => '',
+    ),
+    'bloc_img' => array(
+      'name' => t('Bloc IMG'),
+      'base' => 'node_content',
+      'description' => '',
+      'has_title' => '1',
+      'title_label' => t('Titre'),
+      'help' => '',
+    ),
+    'bloc_intra' => array(
+      'name' => t('Bloc INTRA'),
+      'base' => 'node_content',
+      'description' => '',
+      'has_title' => '1',
+      'title_label' => t('Title'),
+      'help' => '',
+    ),
+    'bloc_lsv' => array(
+      'name' => t('Bloc LSV'),
+      'base' => 'node_content',
+      'description' => t('Bloc sur homepage "Le saviez-vous"'),
+      'has_title' => '1',
+      'title_label' => t('Titre'),
+      'help' => '',
+    ),
+    'bloc_push' => array(
+      'name' => t('Bloc PUSH'),
+      'base' => 'node_content',
+      'description' => '',
+      'has_title' => '1',
+      'title_label' => t('Title'),
+      'help' => '',
+    ),
+    'bloc_rem' => array(
+      'name' => t('Bloc REM'),
+      'base' => 'node_content',
+      'description' => '',
+      'has_title' => '1',
+      'title_label' => t('Titre'),
+      'help' => '',
+    ),
+  );
+  return $items;
+}

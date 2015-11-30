@@ -1,0 +1,106 @@
+<?php
+    global $user;
+    drupal_add_js(drupal_get_path('module', 'ecofolio_display_mediatheque') . '/js/mediatheque.js');
+  
+    global $base_url;
+
+    print '<div id="view-mediatheque">';
+    
+    // Afficher le titre de la page et le lien vers les médiathèques si un univers
+    print '<div class="title-mediatheque">' . t('Mediatheque');
+    if ($univers != '') :
+        print ' - ' . $univers;
+
+        print '<div class="back-mediatheque">';
+            $path_mediatheque = $base_url . '/mediatheque';
+            $text_mediatheque = t('Voir toutes les médiathèques');
+            print l($text_mediatheque, $path_mediatheque);
+        print '</div>';
+
+    endif;
+    print '</div>';
+    print '<br />';
+    
+    // Appeler le template pour afficher les filtres :
+    print theme(
+        'mediatheque_filter_theme',
+        array(
+            'formFilters' => $formFilters,
+            'univers' => $univers
+        )
+    );
+        
+    // Appeler le template pour afficher la liste des essentiels :
+    /* Médiathèque Bloc Les Essentiels */
+   /* print theme(
+        'mediatheque_essential_theme',
+        array(
+            'essentials' => $essentials,
+        )
+    );*/
+
+    //print '<br />';
+    
+    // Appeler le template pour afficher la liste des résultats :
+    /* Médiathèque rows results */
+    print theme(
+        'mediatheque_result_theme',
+        array(
+            'results' => $results,
+            'formOrder' => $formOrder,
+            'nbResultTot' => $nbResultTot,
+            'pageCurrent' => $pageCurrent,
+            'nbElementDisplay' => $nbElementDisplay,
+            'essentials' => $essentials,
+        )
+    );
+    
+    print '<input id="ajaxPostUrl" type="hidden" value="'.url('mediatheque/ajax').'" />';
+    print '<input id="ajaxUnivers" type="hidden" value="'.$univers.'" />';
+    print '<input id="ajaxPage" type="hidden" value="1" />';
+    
+if ($CGU['display']) {
+    print '<div id="CGU" class="colorbox" style="display:none;">';
+        print $CGU['content'];
+            print '<div id="messagesCGU">';
+                print '<div class="messages error">';
+                    print '<h2 class="element-invisible">Error message</h2>';
+                    if ($CGU['errors']) :
+                        print $CGU['errors'];
+                    endif;
+                print '</div>';
+             print '</div>';        
+        print $CGU['form'];
+    print '</div>';
+}
+
+if ($CPU['display']) {
+    print '<div id="CPUform" style="display:none;">';
+        print '<div id="CPUContent"></div>';
+            print '<div id="messagesCPU">';
+                print '<div class="messages error">';
+                    print '<h2 class="element-invisible">Error message</h2>';
+                    if ($CPU['errors']) :
+                        print $CPU['errors'];
+                    endif;
+                print '</div>';
+            print '</div>';
+        
+        print $CPU['form'];
+    print '</div>';
+}
+
+if ($user->uid === 0):
+    print '<div id="login-block-media" class="colorbox" style="display:none;">';
+        print $loginForm;
+    print '</div>';
+else:
+    print '<div id="access-not-allowed" class="colorbox" style="display:none;">
+        <div class = "update-user-msg">
+        Ce docment est réservé aux <span id="docRole"></span>, Veuillez sélectionner ci-dessous le profil corresondant pour y accéder    </div>';
+
+    print $updateUserAccessForm['form'];
+    print '</div>';
+endif;
+
+    print '</div>';

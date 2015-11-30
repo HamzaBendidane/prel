@@ -1,0 +1,68 @@
+<?php
+global $base_url;
+
+    /* Médiathèque Filters */
+  
+  print '<h1>Médiathèque</h1>';  
+  
+  if (empty($univers)):
+      print '<div class="filters-search-range">';
+  else:
+   print '<div class="filters-search-range larger">';
+  endif;
+    print '<div class="label_search">Rechercher par mot-clés</div>';
+    print '<div class="search_submit">';
+      print render($formFilters['filters_search']);
+      //print '<div class="clearfix">&nbsp;</div>';
+      print render($formFilters['submit']);
+    print '</div>';
+
+
+    print '<div class="media-user">';
+
+        if (user_is_logged_in() == TRUE) {
+            global $user;
+            print '<div class="id_user_block">';
+                print  '<div class= "usermail">'. $user->mail;
+            print '</div>';
+            print '</div><div class="user_profil_link" ><a href= "/user/me/edit">(profil)</a></div>';
+            print '<div class="id_user_block_button">';
+            print '<a class="media-user-button" data-userlogged="true" href= "/user/logout">';
+            print "déconnexion";
+            print '</a>';
+            print '</div>';
+        }
+        else {
+            print '<div class="id_user_block">';
+            print "Accés aux documents privés";
+            print '</div>';
+            print '<a class="media-user-button" data-userlogged="false"  href= "">';
+            print "connexion";
+            print '</a>';
+        }
+
+
+    print '</div>';
+
+
+    print '<div class="media-filters">';
+        print '<div class="label-filters">' . t('Filtres');
+        //print '<span class="hideFilter float-right"><img src="' . $base_url . '/' . drupal_get_path('module', 'ecofolio_display_mediatheque').'/images/minus.png" /></span>';
+        //print '<span class="plusFilter float-right"><img src="' . $base_url . '/'. drupal_get_path('module', 'ecofolio_display_mediatheque').'/images/plus.png" /></span>';
+        print '</div>';
+        print '<div class="filters-items">';
+            if (empty($univers)):
+                print '<div class="filters-taxo">';
+                print render($formFilters['filters_taxo']);
+                print '</div>';
+            endif;
+            
+            print '<div class="filters-assets">';
+            	print render($formFilters['filters_assets']);
+            print '</div>';
+            	//print render($formFilters['filters_range']);
+            	print '<div class="clearfix">&nbsp;</div>';
+            print '</div>';
+            print '<div class="clearfix">&nbsp;</div>';
+        print '</div>';
+    print '</div>';

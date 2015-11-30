@@ -1,0 +1,133 @@
+<?php
+/**
+ * @file
+ * ecofolio_actu.field_group.inc
+ */
+
+/**
+ * Implements hook_field_group_info().
+ */
+function ecofolio_actu_field_group_info() {
+  $export = array();
+
+  $field_group = new stdClass();
+  $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
+  $field_group->api_version = 1;
+  $field_group->identifier = 'group_actu_bloc|node|actu|form';
+  $field_group->group_name = 'group_actu_bloc';
+  $field_group->entity_type = 'node';
+  $field_group->bundle = 'actu';
+  $field_group->mode = 'form';
+  $field_group->parent_name = '';
+  $field_group->data = array(
+    'label' => 'Bloc actu sur homepage',
+    'weight' => '4',
+    'children' => array(
+      0 => 'field_actu_bloc_teaser',
+      1 => 'field_actu_bloc_image',
+    ),
+    'format_type' => 'fieldset',
+    'format_settings' => array(
+      'formatter' => 'collapsible',
+      'instance_settings' => array(
+        'description' => '',
+        'classes' => 'group-actu-bloc field-group-fieldset',
+        'required_fields' => 1,
+      ),
+    ),
+  );
+  $export['group_actu_bloc|node|actu|form'] = $field_group;
+
+  $field_group = new stdClass();
+  $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
+  $field_group->api_version = 1;
+  $field_group->identifier = 'group_actu_sidebar|node|actu|form';
+  $field_group->group_name = 'group_actu_sidebar';
+  $field_group->entity_type = 'node';
+  $field_group->bundle = 'actu';
+  $field_group->mode = 'form';
+  $field_group->parent_name = '';
+  $field_group->data = array(
+    'label' => 'Sidebar',
+    'weight' => '10',
+    'children' => array(
+      0 => 'field_actu_bs',
+      1 => 'field_actu_bds',
+    ),
+    'format_type' => 'fieldset',
+    'format_settings' => array(
+      'formatter' => 'collapsible',
+      'instance_settings' => array(
+        'description' => '',
+        'classes' => 'group-actu-sidebar field-group-fieldset',
+        'required_fields' => 1,
+      ),
+    ),
+  );
+  $export['group_actu_sidebar|node|actu|form'] = $field_group;
+
+  $field_group = new stdClass();
+  $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
+  $field_group->api_version = 1;
+  $field_group->identifier = 'group_actu_taxo_date|node|actu|listing_actualites';
+  $field_group->group_name = 'group_actu_taxo_date';
+  $field_group->entity_type = 'node';
+  $field_group->bundle = 'actu';
+  $field_group->mode = 'listing_actualites';
+  $field_group->parent_name = '';
+  $field_group->data = array(
+    'label' => 'Taxo-Date',
+    'weight' => '4',
+    'children' => array(),
+    'format_type' => 'div',
+    'format_settings' => array(
+      'label' => 'Taxo-Date',
+      'instance_settings' => array(
+        'id' => '',
+        'classes' => 'group-actu-taxo-date field-group-div',
+        'description' => '',
+        'show_label' => '0',
+        'label_element' => 'h3',
+        'effect' => 'none',
+        'speed' => 'none',
+      ),
+      'formatter' => 'open',
+    ),
+  );
+  $export['group_actu_taxo_date|node|actu|listing_actualites'] = $field_group;
+
+  $field_group = new stdClass();
+  $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
+  $field_group->api_version = 1;
+  $field_group->identifier = 'group_actu_title_date|node|actu|full';
+  $field_group->group_name = 'group_actu_title_date';
+  $field_group->entity_type = 'node';
+  $field_group->bundle = 'actu';
+  $field_group->mode = 'full';
+  $field_group->parent_name = '';
+  $field_group->data = array(
+    'label' => 'Title-Date',
+    'weight' => '0',
+    'children' => array(
+      0 => 'field_actu_date',
+      1 => 'title',
+    ),
+    'format_type' => 'div',
+    'format_settings' => array(
+      'label' => 'Title-Date',
+      'instance_settings' => array(
+        'id' => '',
+        'classes' => 'group-actu-title-date field-group-div',
+        'description' => '',
+        'show_label' => '0',
+        'label_element' => 'h3',
+        'effect' => 'none',
+        'speed' => 'none',
+      ),
+      'formatter' => 'open',
+    ),
+  );
+  $export['group_actu_title_date|node|actu|full'] = $field_group;
+
+  return $export;
+}

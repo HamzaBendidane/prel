@@ -1,0 +1,170 @@
+/*********************
+FONTS
+*********************/
+
+/*********************
+COMPASS
+*********************/
+
+@import "compass/reset";
+@import "compass/css3";
+
+/*********************
+IMPORTS
+*********************/
+
+@import "colors";
+@import "helpers";
+@import "fonts";
+@import "base";
+@import "chosen";
+@import "common";
+
+/*********************
+COMMON
+*********************/
+html {
+    overflow-x: hidden;
+}
+
+body {
+    background-color: white;
+    @include open-sans-regular(14px, 14px);
+    color: #000000;
+}
+
+body.front .zone-content, body .zone-content {
+    width: 100% !important;
+    max-width: 960px !important;
+}
+
+#page {
+    position: relative;
+}
+
+.container-24 .grid-1 {
+    width: 100%;
+}
+
+.front #zone-content-wrapper {
+    background: transparent url("../images/2015/home/background-blue.png") repeat-x left top;
+}
+
+.not-front #zone-content-wrapper {
+    background: transparent url("../images/2015/page/background-blue-large.png") repeat-x left top;
+}
+
+/*********************
+ESPACE EDITEUR
+*********************/
+@import "espace_editeur";
+
+
+/*********************
+PAGE
+*********************/
+@import "page";
+
+/*********************
+SINGLE
+*********************/
+@import "single";
+
+/*********************
+HEADER
+*********************/
+@import "header";
+
+/*********************
+HOME
+*********************/
+@import "home";
+
+/*********************
+MEDIA
+*********************/
+@import "media";
+
+/*********************
+ACTUS
+*********************/
+@import "actus";
+
+/*********************
+FOOTER
+*********************/
+@import "footer";
+
+/*********************
+CONTACT
+*********************/
+@import "contact";
+
+/*********************
+OVERLAY
+*********************/
+@import "overlay";
+
+/*********************
+USER
+*********************/
+@import "user";
+
+/*********************
+SEARCH
+*********************/
+@import "search";
+
+/*********************
+ANNONCES
+*********************/
+@import "listes";
+@import "annonce";
+
+div#views_infinite_scroll-ajax-loader {
+    width: 100px;
+    height: 104px;
+    overflow: hidden;
+    margin: 60px auto;
+    background: transparent url("../images/2015/loader/loader.png") no-repeat left top;
+    animation: play 1.7s steps(34) infinite;
+
+    img {
+        display: none;
+    }
+}
+
+@keyframes play {
+    from { background-position: 0px; }
+    to { background-position: -3400px; }
+}
+
+/*********************
+TABLET
+*********************/
+@media screen and (max-width: 980px) and (min-width: 770px) {
+    @import "tablet";
+}
+
+/*********************
+MOBILE
+*********************/
+@media screen and (max-width: 769px) {
+    @import "mobile";
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

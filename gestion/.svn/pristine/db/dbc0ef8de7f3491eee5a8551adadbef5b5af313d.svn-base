@@ -1,0 +1,102 @@
+<?php
+require_once 'synthese_db.inc';
+drupal_add_js(drupal_get_path('module', 'dgf_visualisation_finale' ) . '/inc/synthese/js/synthese.js' );
+
+
+function dgf_visualisation_finale_synthese() {
+
+  shared_security_access_user(2,'DGF');
+
+  $natureDemande = array();
+  $employeur =array();
+  $formFormation=array();
+  $formStagiaire = array();
+  $formDemande = array();
+  $formOrganismeFormation=array();
+  $pieceJustificative=array();
+  $synthese = array();
+  $id_dgf = arg(2);
+  //TO DO récupérer via l'url
+
+  $formation = synthese_get_form_formation($id_dgf);
+  $contrats = synthese_get_form_contrat($id_dgf);
+  $demande = synthese_get_demande($id_dgf);
+  $dgf = synthese_get_dgf($id_dgf);
+  $organisme_formation = synthese_get_form_organisme_formation($id_dgf);
+  $stagiaire = synthese_get_form_salarie($id_dgf);
+  $entreprise_demandeur = synthese_get_entreprise_demandeur($id_dgf);
+  $justificatif = synthese_get_pieceJustificatice($id_dgf);
+
+
+  foreach ($demande as $d){
+    $natureDemande['t_nature_demande'] = isset($d->t_nature_demande)? $d->t_nature_demande : ' ';
+  }
+
+  foreach ($entreprise_demandeur as $entreprise){
+    $employeur['t_raison_sociale'] = isset($entreprise->t_raison_sociale) ?  $entreprise->t_raison_sociale : ' ';
+    $employeur['t_siret'] = isset($entreprise->t_siret )? $entreprise->t_siret : ' ';
+    $employeur['t_nom_demandeur'] = isset($entreprise->t_nom_demandeur )? $entreprise->t_nom_demandeur : ' ';
+  }
+
+  foreach ($formation as $form){
+    $formFormation['t_saisie_libre_intitule_formation'] = isset( $form->t_saisie_libre_intitule_formation )? $form->t_saisie_libre_intitule_formation : ' ';
+    $formFormation['t_date_debut'] = strftime('%d-%m-%Y', strtotime($form->t_date_debut));
+    $formFormation['t_date_fin'] = strftime('%d-%m-%Y', strtotime($form->t_date_fin));
+    $formFormation['t_duree_jours'] = isset($form->t_duree_jours )? $form->t_duree_jours : ' ';
+    $formFormation['t_duree_heures'] = isset($form->t_duree_heures )? $form->t_duree_heures : ' ';
+  }
+
+  foreach ($contrats as $contrat){
+    $formFormation['t_duree_jours'] = isset($contrat->t_duree_contrat_mois )? $contrat->t_duree_contrat_mois : ' ';
+    $formFormation['t_duree_heures'] = isset($contrat->t_duree_contrat_jour )? $contrat->t_duree_contrat_jour : ' ';
+  }
+
+  foreach ($stagiaire as $st){
+    $formStagiaire['t_nom'] = isset( $st->t_nom )? $st->t_nom : ' ';
+    $formStagiaire['t_prenom'] = isset($st->t_prenom )? $st->t_prenom : ' ';
+    $formStagiaire['t_date_naissance'] = strftime('%d-%m-%Y',strtotime($st->t_date_naissance));
+    $formStagiaire['t_cout_pedagogique'] = isset($st->t_cout_pedagogique )? rtrim($st->t_cout_pedagogique) : ' ';
+  }
+
+  foreach ($dgf as $demande){
+    $formDemande['numero_demande'] =isset( $demande->numero_demande )? $demande->numero_demande : ' ';
+    $formDemande['date_synthese'] = strftime('%d-%m-%Y à %Hh%M',strtotime($demande->date_synthese));
+  }
+
+
+  foreach ($organisme_formation as $organisme){
+    $formOrganismeFormation['t_raison_sociale'] = isset($organisme->t_raison_sociale )? $organisme->t_raison_sociale : ' ';
+    $formOrganismeFormation['t_numero_declaration'] = isset( $organisme->t_numero_declaration )? $organisme->t_numero_declaration : ' ';
+    $formOrganismeFormation['t_siret'] = isset($organisme->t_siret )? $organisme->t_siret : ' ';
+    $formOrganismeFormation['t_numero_adresse'] = isset($organisme->t_numero_adresse )? $organisme->t_numero_adresse : ' ';
+    $formOrganismeFormation['t_rue'] = isset($organisme->t_rue )? $organisme->t_rue : ' ';
+    $formOrganismeFormation['t_complement_rue'] = isset( $organisme->t_complement_rue )? $organisme->t_complement_rue : ' ';
+    $formOrganismeFormation['t_code_postal'] = isset( $organisme->t_code_postal )? $organisme->t_code_postal : ' ';
+    $formOrganismeFormation['t_ville'] = isset( $organisme->t_ville )? $organisme->t_ville : ' ';
+    $formOrganismeFormation['t_pays'] = isset( $organisme->t_pays )? $organisme->t_pays : ' ';
+    $formOrganismeFormation['t_contact_prenom'] = isset( $organisme->t_contact_prenom )? $organisme->t_contact_prenom : ' ';
+    $formOrganismeFormation['t_contact_nom'] = isset( $organisme->t_contact_nom )? $organisme->t_contact_nom : ' ';
+    $formOrganismeFormation['t_contact_email'] = isset( $organisme->t_contact_email )? $organisme->t_contact_email : ' ';
+    $formOrganismeFormation['t_contact_telephone'] = isset( $organisme->t_contact_telephone )? $organisme->t_contact_telephone : ' ';
+    $formOrganismeFormation['t_cout_pedagogique'] = isset( $organisme->t_cout_pedagogique )? $organisme->t_cout_pedagogique : ' ';
+    $formOrganismeFormation['t_paiement_direct'] = $organisme->t_paiement_direct;
+  }
+
+  foreach ($justificatif as $just){
+    $pieceJustificative[$just->t_nom_ref_fichier]['t_nom_ref_fichier'] = isset($just->t_nom_ref_fichier )? $just->t_nom_ref_fichier : ' ';
+    $pieceJustificative[$just->t_nom_ref_fichier]['t_fichier'] = isset($just->t_fichier )? $just->t_fichier : ' ';
+    $pieceJustificative[$just->t_nom_ref_fichier]['t_chemin_fichier'] = isset($just->t_nom_ref_fichier )? $just->t_nom_ref_fichier : ' ';
+  }
+
+  $synthese['Demande'] = $natureDemande;
+  $synthese['Stagiaire'][] = $formStagiaire;
+  $synthese['Organisme'] = $formOrganismeFormation;
+  $synthese['Dgf'] = $formDemande;
+  $synthese['Formation']= $formFormation;
+  $synthese['Demandeur'] = $employeur;
+  $synthese['Justificatif'] = $pieceJustificative;
+
+  return $synthese;
+
+}
+

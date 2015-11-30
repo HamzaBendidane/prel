@@ -1,0 +1,340 @@
+<?php
+/**
+ * @file
+ * ecofolio_espace_editeur.strongarm.inc
+ */
+
+/**
+ * Implements hook_strongarm().
+ */
+function ecofolio_espace_editeur_strongarm() {
+  $export = array();
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'block_refresh_settings';
+  $strongarm->value = array(
+    'block-zipcart-0' => array(
+      'element' => 'block-zipcart-0',
+      'auto' => 0,
+      'manual' => 1,
+      'init' => 0,
+      'arguments' => 1,
+      'panels' => 0,
+      'timer' => '5',
+      'block' => array(
+        'block' => 'zipcart',
+        'delta' => '0',
+      ),
+      'bypass_page_cache' => 0,
+      'bypass_external_cache' => '',
+    ),
+    'block-ecofolio-cart-0' => array(
+      'element' => 'block-ecofolio-cart-0',
+      'auto' => 0,
+      'manual' => 1,
+      'init' => 0,
+      'arguments' => 1,
+      'panels' => 0,
+      'timer' => '120',
+      'block' => array(
+        'block' => 'ecofolio_cart',
+        'delta' => '0',
+      ),
+      'bypass_page_cache' => 0,
+      'bypass_external_cache' => '',
+    ),
+  );
+  $export['block_refresh_settings'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'field_bundle_settings_node__document';
+  $strongarm->value = array(
+    'view_modes' => array(
+      'teaser' => array(
+        'custom_settings' => TRUE,
+      ),
+      'full' => array(
+        'custom_settings' => FALSE,
+      ),
+      'rss' => array(
+        'custom_settings' => FALSE,
+      ),
+      'search_index' => array(
+        'custom_settings' => FALSE,
+      ),
+      'search_result' => array(
+        'custom_settings' => FALSE,
+      ),
+      'colorbox' => array(
+        'custom_settings' => FALSE,
+      ),
+      'print' => array(
+        'custom_settings' => FALSE,
+      ),
+      'email_plain' => array(
+        'custom_settings' => FALSE,
+      ),
+      'email_html' => array(
+        'custom_settings' => FALSE,
+      ),
+      'email_textalt' => array(
+        'custom_settings' => FALSE,
+      ),
+      'token' => array(
+        'custom_settings' => FALSE,
+      ),
+      'bloc_big_menu' => array(
+        'custom_settings' => FALSE,
+      ),
+      'bloc_espace_declaration' => array(
+        'custom_settings' => FALSE,
+      ),
+      'bloc_home' => array(
+        'custom_settings' => FALSE,
+      ),
+      'bloc_univers' => array(
+        'custom_settings' => FALSE,
+      ),
+      'listing_actualites' => array(
+        'custom_settings' => FALSE,
+      ),
+      'bloc_cxm' => array(
+        'custom_settings' => FALSE,
+      ),
+      'revision' => array(
+        'custom_settings' => FALSE,
+      ),
+    ),
+    'extra_fields' => array(
+      'form' => array(
+        'metatags' => array(
+          'weight' => '9',
+        ),
+        'title' => array(
+          'weight' => '0',
+        ),
+        'path' => array(
+          'weight' => '8',
+        ),
+      ),
+      'display' => array(),
+    ),
+  );
+  $export['field_bundle_settings_node__document'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'field_bundle_settings_node__parution';
+  $strongarm->value = array(
+    'view_modes' => array(),
+    'extra_fields' => array(
+      'form' => array(
+        'metatags' => array(
+          'weight' => '6',
+        ),
+        'title' => array(
+          'weight' => '0',
+        ),
+        'path' => array(
+          'weight' => '5',
+        ),
+      ),
+      'display' => array(),
+    ),
+  );
+  $export['field_bundle_settings_node__parution'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'field_bundle_settings_profile2__espace_editeur';
+  $strongarm->value = array(
+    'view_modes' => array(),
+    'extra_fields' => array(
+      'form' => array(),
+      'display' => array(),
+    ),
+  );
+  $export['field_bundle_settings_profile2__espace_editeur'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'language_content_type_document';
+  $strongarm->value = '0';
+  $export['language_content_type_document'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'language_content_type_parution';
+  $strongarm->value = '0';
+  $export['language_content_type_parution'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'menu_options_document';
+  $strongarm->value = array(
+    0 => 'main-menu',
+  );
+  $export['menu_options_document'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'menu_options_parution';
+  $strongarm->value = array(
+    0 => 'main-menu',
+  );
+  $export['menu_options_parution'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'menu_parent_document';
+  $strongarm->value = 'main-menu:0';
+  $export['menu_parent_document'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'menu_parent_parution';
+  $strongarm->value = 'main-menu:0';
+  $export['menu_parent_parution'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'node_options_document';
+  $strongarm->value = array(
+    0 => 'status',
+  );
+  $export['node_options_document'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'node_options_parution';
+  $strongarm->value = array(
+    0 => 'status',
+  );
+  $export['node_options_parution'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'node_preview_document';
+  $strongarm->value = '0';
+  $export['node_preview_document'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'node_preview_parution';
+  $strongarm->value = '1';
+  $export['node_preview_parution'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'node_submitted_document';
+  $strongarm->value = 0;
+  $export['node_submitted_document'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'node_submitted_parution';
+  $strongarm->value = 1;
+  $export['node_submitted_parution'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'pdfthumb_convertpath';
+  $strongarm->value = '/usr/bin/convert';
+  $export['pdfthumb_convertpath'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'pdfthumb_document_field_asset_document_file';
+  $strongarm->value = 'none';
+  $export['pdfthumb_document_field_asset_document_file'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'pdfthumb_document_field_document_pdf';
+  $strongarm->value = 'field_illustration';
+  $export['pdfthumb_document_field_document_pdf'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'pdfthumb_document_field_gabarit';
+  $strongarm->value = 'none';
+  $export['pdfthumb_document_field_gabarit'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'pdfthumb_document_pdf_field_asset_document_pdf_file';
+  $strongarm->value = 'none';
+  $export['pdfthumb_document_pdf_field_asset_document_pdf_file'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'pdfthumb_field_document_field_fichier';
+  $strongarm->value = 'none';
+  $export['pdfthumb_field_document_field_fichier'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'pdfthumb_link_files';
+  $strongarm->value = 0;
+  $export['pdfthumb_link_files'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'texte_annonces';
+  $strongarm->value = 'L\'annonce que vous avez choisie est disponible dans de nombreuses dimensions. Vous pouvez sélectionner une ou plusieurs dimensions en cochant la ou les cases correspondantes.<br><br>
+Cliquez ensuite sur "Ajouter à votre panier" pour sélectionner tous les formats dont vous avez besoin.<br><br>
+En cliquant ensuite sur "Valider votre panier" vous téléchargerez un fichier ZIP contenant les Pdf HD - 300 dpi pour chaque format.<br><br>';
+  $export['texte_annonces'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'texte_bannieres';
+  $strongarm->value = 'Vous pouvez sélectionner une ou plusieurs dimensions en cochant la ou les cases correspondantes.<br><br>
+Cliquez ensuite sur "Ajouter à votre panier" pour sélectionner tous les formats dont vous avez besoin.<br><br>
+En cliquant ensuite sur "Valider votre panier" vous téléchargerez un fichier ZIP contenant les fichiers .gif .fla et .swf<br><br>';
+  $export['texte_bannieres'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'texte_document';
+  $strongarm->value = '<div><b>Vous recherchez un gabarit spécifique ?</b><br><br>
+
+Si votre format n\'est pas disponible vous pouvez télécharger les gabarits des annonces presse et réaliser vous-mêmes les adaptations nécessaires, dans le respect des conditions générales d’utilisation. 
+<br><br>
+<b>Besoin d‘information?</b>
+<br><br>
+Notre service relation partenaires est à votre disposition du lundi au vendredi
+de 9h à 12h30 et de 14h à 17h30 au 01 53 32 86 40 ou editeurs@ecofolio.fr
+</div>';
+  $export['texte_document'] = $strongarm;
+
+  return $export;
+}

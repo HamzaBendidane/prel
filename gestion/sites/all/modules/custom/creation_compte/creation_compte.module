@@ -1,0 +1,182 @@
+<?php
+
+require_once 'creation_compte_mail_langs.inc';
+require_once 'breadcrumb.inc';
+
+ /**
+ * Implements hook_menu().
+ *
+ * Cette fonction rajoute un menu d'accès pour la création de compte des entreprises.
+ * Return: Drupal menu items
+ */
+function creation_compte_menu() {
+  $items = array();
+
+  // Création d'un compte utilisateur entreprise
+  $items['creation/compte/entreprise'] = array(
+      'title' => 'Création de compte entreprise',
+      'page callback' => 'creation_compte_entreprise_page',
+      'access arguments' => array('SAI_COM_ENT'),
+      'file' => 'compte_entreprise/creation_compte_controller.inc',
+      'type' => MENU_NORMAL_ITEM,
+  );
+
+  // Validation d'un compte entreprise
+  $items['creation/compte/entreprise/fin'] = array(
+      'title' => 'Création de compte entreprise',
+      'page callback' => 'creation_compte_entreprise_fin_page',
+      'access arguments' => array('SAI_COM_ENT'),
+      'file' => 'compte_entreprise/creation_compte_controller.inc',
+      'type' => MENU_CALLBACK,
+  );
+
+  // AUTOCOMPLETION SIRET
+//   $items['autocomplete/siret'] = array(
+//     'page callback' => 'company_siret_autocomplete',
+//     'access callback' => TRUE,
+//     'file' => 'inc/company_register_db.inc',
+//     'type' => MENU_CALLBACK,
+//   );
+
+  // Retourne le menu
+  return $items;
+}
+
+/**
+ * hook theme()
+ *
+ * Fonction qui permet de définir le template
+ *
+ * @param unknown $existing
+ * @param unknown $type
+ * @param unknown $theme
+ * @param unknown $path
+ * @return multitype:multitype:string
+ */
+function creation_compte_theme($existing, $type, $theme, $path) {
+  $theme_array = array(
+      // Template général pour afficher la page création de compte entreprise
+      'creation_compte_entreprise_page_theme' => array(
+          'template' => 'creation_compte_entreprise_page',
+          'path' => drupal_get_path('module', 'creation_compte') .'/compte_entreprise/theme'
+      ),
+      // Template général pour afficher la page création de compte entreprise / partie entreprise
+      'creation_compte_entreprise_page_entreprise_theme' => array(
+          'template' => '_creation_compte_entreprise_page_entreprise',
+          'path' => drupal_get_path('module', 'creation_compte') .'/compte_entreprise/theme/form'
+      ),
+      // Template général pour afficher la page création de compte entreprise / partie responsable
+      'creation_compte_entreprise_page_responsable_theme' => array(
+          'template' => '_creation_compte_entreprise_page_responsable',
+          'path' => drupal_get_path('module', 'creation_compte') .'/compte_entreprise/theme/form'
+      ),
+      // Template général pour afficher la page création de compte entreprise / partie utilisateur
+      'creation_compte_entreprise_page_utilisateur_theme' => array(
+          'template' => '_creation_compte_entreprise_page_utilisateur',
+          'path' => drupal_get_path('module', 'creation_compte') .'/compte_entreprise/theme/form'
+      ),
+      // Template général pour afficher la page création de compte entreprise / partie confirmation entreprise
+      'creation_compte_entreprise_page_confirm_entreprise_theme' => array(
+          'template' => '_creation_compte_entreprise_page_confirm_entreprise',
+          'path' => drupal_get_path('module', 'creation_compte') .'/compte_entreprise/theme/confirm'
+      ),
+      // Template général pour afficher la page création de compte entreprise / partie confirmation responsable
+      'creation_compte_entreprise_page_confirm_responsable_theme' => array(
+          'template' => '_creation_compte_entreprise_page_confirm_responsable',
+          'path' => drupal_get_path('module', 'creation_compte') .'/compte_entreprise/theme/confirm'
+      ),
+      // Template général pour afficher la page création de compte entreprise / partie confirmation utilisateur
+      'creation_compte_entreprise_page_confirm_utilisateur_theme' => array(
+          'template' => '_creation_compte_entreprise_page_confirm_utilisateur',
+          'path' => drupal_get_path('module', 'creation_compte') .'/compte_entreprise/theme/confirm'
+      ),
+      // Template général pour afficher la page de fin de création de compte entreprise
+      'creation_compte_entreprise_page_fin_theme' => array(
+          'template' => 'creation_compte_entreprise_page_fin',
+          'path' => drupal_get_path('module', 'creation_compte') .'/compte_entreprise/theme'
+      ),
+
+  );
+
+  return $theme_array;
+}
+
+/**
+ * creation_compte_mail
+ *
+ * hook mail()
+ *
+ * @param unknown $key
+ * @param unknown $message
+ * @param unknown $params
+ */
+function creation_compte_mail($key, &$message, $params) {
+  switch ($key) {
+    // Mail à l'utilisateur pour confirmer sa création de compte
+    case 'creation_compte_entreprise_user':
+      $message['subject'] = t(@MAIL_SUBJECT_CREATION_COMPTE_ENTREPRISE_USER);
+      // Note that the message body is an array, not a string.
+      $message['body'][] = htmlspecialchars(
+          t(@MAIL_BODY_CREATION_COMPTE_ENTREPRISE_USER,
+              array(
+                  '@name' => $params['name'],
+                  '@numero_demande' => $params['numero_demande']
+      )), ENT_COMPAT, 'UTF-8');
+      break;
+    // Mail au responsable pour l'informer de la création d'un compte entreprise
+    case 'creation_compte_entreprise_responsable':
+      $message['subject'] = t(@MAIL_SUBJECT_CREATION_COMPTE_ENTREPRISE_RESPONSABLE);
+      // Note that the message body is an array, not a string.
+      $message['body'][] = htmlspecialchars(
+          t(@MAIL_BODY_CREATION_COMPTE_ENTREPRISE_RESPONSABLE,
+              array(
+                  '@name_responsable' => $params['name_responsable'],
+                  '@name_collaborateur' => $params['name_collaborateur'],
+                  '@fonctionnalites' => $params['fonctionnalites'],
+      )), ENT_COMPAT, 'UTF-8');
+      break;
+    // Mail à l'adefim pour l'informer de la création d'un compte entreprise (validation)
+    case 'creation_compte_entreprise_adefim':
+      $message['subject'] = t(@MAIL_SUBJECT_CREATION_COMPTE_ENTREPRISE_ADEFIM);
+      // Note that the message body is an array, not a string.
+      $message['body'][] = htmlspecialchars(
+          t(@MAIL_BODY_CREATION_COMPTE_ENTREPRISE_ADEFIM,
+              array(
+                  '@name' => $params['name'],
+                  '@numero_demande' => $params['numero_demande'],
+                  '@name_utilisateur' => $params['name_utilisateur'],
+                  '@etablissements' => $params['etablissements'],
+      )), ENT_COMPAT, 'UTF-8');
+      break;
+  }
+}
+
+/**
+ * Implements hook_element_info_alter().
+ */
+function creation_compte_element_info_alter(&$types) {
+  if (isset($types['password_confirm']['#process'])
+      && (($position = array_search('user_form_process_password_confirm', $types['password_confirm']['#process'])) !== FALSE)) {
+    unset($types['password_confirm']['#process'][$position]);
+  }
+}
+
+/**
+ * Implements hook_form_alter().
+ */
+function creation_compte_form_alter(&$form_id, &$form) {
+  $etapes = array(
+      'Identification' => array('formulaire'),
+      'Récapitulatif' => array('confirmation'),
+      'Charte' => array('charte'),
+      'Confirmation' => array('fin'),
+  );
+
+  if(isset($form_id['page']['#value']) && isset($form_id['#form_id']) &&
+      (in_array_r($form_id['page']['#value'], $etapes))) {
+        // Affichage en amont des formulaires
+        if ($form_id['#form_id'] == 'creation_compte_entreprise_form' || $form_id['#form_id'] == 'creation_compte_fin_form') {
+          $form_id['#prefix'] = creation_compte_get_breadcrumb($etapes, $form_id['page']['#value']);
+        }
+      }
+}

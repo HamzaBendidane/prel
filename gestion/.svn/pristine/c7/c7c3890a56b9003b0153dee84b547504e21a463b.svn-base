@@ -1,0 +1,93 @@
+<?php
+/**
+ * @file
+ * ecofolio_users.context.inc
+ */
+
+/**
+ * Implements hook_context_default_contexts().
+ */
+function ecofolio_users_context_default_contexts() {
+  $export = array();
+
+  $context = new stdClass();
+  $context->disabled = FALSE; /* Edit this to true to make a default context disabled initially */
+  $context->api_version = 3;
+  $context->name = 'userpage';
+  $context->description = '';
+  $context->tag = '';
+  $context->conditions = array(
+    'user_page' => array(
+      'values' => array(
+        'form' => 'form',
+        'register' => 'register',
+        'view' => 'view',
+      ),
+      'options' => array(
+        'mode' => 'all',
+      ),
+    ),
+  );
+  $context->reactions = array(
+    'region' => array(
+      'ecofolio' => array(
+        'disable' => array(
+          'sidebar_first' => 'sidebar_first',
+          'top_menu' => 0,
+          'user' => 0,
+          'logo' => 0,
+          'search' => 0,
+          'main_menu' => 0,
+          'big_menu' => 0,
+          'slider' => 0,
+          'breadcrumb' => 0,
+          'first_content' => 0,
+          'second_content' => 0,
+          'third_content' => 0,
+          'fourth_content' => 0,
+          'social_networks' => 0,
+          'footer_first' => 0,
+          'footer_second' => 0,
+          'copyright' => 0,
+        ),
+      ),
+      'omega' => array(
+        'disable' => array(
+          'page_top' => 0,
+          'page_bottom' => 0,
+          'content' => 0,
+          'user_first' => 0,
+          'user_second' => 0,
+          'branding' => 0,
+          'menu' => 0,
+          'sidebar_first' => 0,
+          'sidebar_second' => 0,
+          'header_first' => 0,
+          'header_second' => 0,
+          'preface_first' => 0,
+          'preface_second' => 0,
+          'preface_third' => 0,
+          'postscript_first' => 0,
+          'postscript_second' => 0,
+          'postscript_third' => 0,
+          'postscript_fourth' => 0,
+          'footer_first' => 0,
+          'footer_second' => 0,
+        ),
+      ),
+      'seven' => array(
+        'disable' => array(
+          'content' => 0,
+          'help' => 0,
+          'page_top' => 0,
+          'page_bottom' => 0,
+          'sidebar_first' => 0,
+        ),
+      ),
+    ),
+  );
+  $context->condition_mode = 0;
+  $export['userpage'] = $context;
+
+  return $export;
+}

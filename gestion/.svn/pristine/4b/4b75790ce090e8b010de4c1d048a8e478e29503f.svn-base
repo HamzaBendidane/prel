@@ -1,0 +1,87 @@
+/* Pour éviter les problèmes éventuels de perte de données, passez attentivement ce script en revue avant de l'exécuter en dehors du contexte du Concepteur de bases de données.*/
+BEGIN TRANSACTION
+SET QUOTED_IDENTIFIER ON
+SET ARITHABORT ON
+SET NUMERIC_ROUNDABORT OFF
+SET CONCAT_NULL_YIELDS_NULL ON
+SET ANSI_NULLS ON
+SET ANSI_PADDING ON
+SET ANSI_WARNINGS ON
+COMMIT
+BEGIN TRANSACTION
+GO
+ALTER TABLE dbo.dgf_form_justificatif
+  DROP CONSTRAINT FK_dgf_form_justificatif_dgf
+GO
+ALTER TABLE dbo.dgf SET (LOCK_ESCALATION = TABLE)
+GO
+COMMIT
+BEGIN TRANSACTION
+GO
+ALTER TABLE dbo.dgf_form_justificatif
+  DROP CONSTRAINT DF_t_dgf_justificatif_obligatoire
+GO
+ALTER TABLE dbo.dgf_form_justificatif
+  DROP CONSTRAINT DF_dgf_form_justificatif_is_delete_1
+GO
+CREATE TABLE dbo.Tmp_dgf_form_justificatif
+  (
+  id int NOT NULL IDENTITY (1, 1),
+  id_dgf int NOT NULL,
+  t_fichier nvarchar(MAX) NULL,
+  t_chemin_fichier nvarchar(MAX) NULL,
+  t_nom_ref_fichier nvarchar(MAX) NULL,
+  t_nom_fichier nvarchar(MAX) NULL,
+  t_repertoire_fichier nvarchar(MAX) NULL,
+  t_taille_fichier int NULL,
+  t_obligatoire bit NULL,
+  t_extension_fichier nchar(10) NULL,
+  date_creation datetime NOT NULL,
+  id_user_creation int NOT NULL,
+  date_last_edit datetime NULL,
+  id_user_last_edit int NULL,
+  date_delete datetime NULL,
+  id_user_delete int NULL,
+  is_delete bit NOT NULL
+  )  ON [PRIMARY]
+   TEXTIMAGE_ON [PRIMARY]
+GO
+ALTER TABLE dbo.Tmp_dgf_form_justificatif SET (LOCK_ESCALATION = TABLE)
+GO
+ALTER TABLE dbo.Tmp_dgf_form_justificatif ADD CONSTRAINT
+  DF_t_dgf_justificatif_obligatoire DEFAULT ((0)) FOR t_obligatoire
+GO
+ALTER TABLE dbo.Tmp_dgf_form_justificatif ADD CONSTRAINT
+  DF_dgf_form_justificatif_is_delete_1 DEFAULT ((0)) FOR is_delete
+GO
+SET IDENTITY_INSERT dbo.Tmp_dgf_form_justificatif ON
+GO
+IF EXISTS(SELECT * FROM dbo.dgf_form_justificatif)
+   EXEC('INSERT INTO dbo.Tmp_dgf_form_justificatif (id, id_dgf, t_fichier, t_chemin_fichier, t_nom_ref_fichier, t_nom_fichier, t_repertoire_fichier, t_obligatoire, t_extension_fichier, date_creation, id_user_creation, date_last_edit, id_user_last_edit, date_delete, id_user_delete, is_delete)
+    SELECT id, id_dgf, t_fichier, t_chemin_fichier, t_nom_ref_fichier, t_nom_fichier, t_repertoire_fichier, t_obligatoire, t_extension_fichier, date_creation, id_user_creation, date_last_edit, id_user_last_edit, date_delete, id_user_delete, is_delete FROM dbo.dgf_form_justificatif WITH (HOLDLOCK TABLOCKX)')
+GO
+SET IDENTITY_INSERT dbo.Tmp_dgf_form_justificatif OFF
+GO
+DROP TABLE dbo.dgf_form_justificatif
+GO
+EXECUTE sp_rename N'dbo.Tmp_dgf_form_justificatif', N'dgf_form_justificatif', 'OBJECT' 
+GO
+ALTER TABLE dbo.dgf_form_justificatif ADD CONSTRAINT
+  PK_t_dgf_justificatif PRIMARY KEY CLUSTERED 
+  (
+  id
+  ) WITH( STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+
+GO
+ALTER TABLE dbo.dgf_form_justificatif ADD CONSTRAINT
+  FK_dgf_form_justificatif_dgf FOREIGN KEY
+  (
+  id_dgf
+  ) REFERENCES dbo.dgf
+  (
+  id
+  ) ON UPDATE  NO ACTION 
+   ON DELETE  NO ACTION 
+  
+GO
+COMMIT

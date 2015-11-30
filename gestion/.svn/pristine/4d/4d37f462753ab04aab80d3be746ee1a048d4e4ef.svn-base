@@ -1,0 +1,268 @@
+<?php
+/**
+ * @file
+ * ecofolio_actu.views_default.inc
+ */
+
+/**
+ * Implements hook_views_default_views().
+ */
+function ecofolio_actu_views_default_views() {
+  $export = array();
+
+  $view = new view();
+  $view->name = 'actualites';
+  $view->description = '';
+  $view->tag = 'default';
+  $view->base_table = 'node';
+  $view->human_name = 'Actualités';
+  $view->core = 7;
+  $view->api_version = '3.0';
+  $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
+
+  /* Display: Master */
+  $handler = $view->new_display('default', 'Master', 'default');
+  $handler->display->display_options['title'] = 'Actualités';
+  $handler->display->display_options['css_class'] = 'actualites';
+  $handler->display->display_options['use_ajax'] = TRUE;
+  $handler->display->display_options['use_more_always'] = FALSE;
+  $handler->display->display_options['use_more_text'] = 'plus';
+  $handler->display->display_options['access']['type'] = 'perm';
+  $handler->display->display_options['cache']['type'] = 'none';
+  $handler->display->display_options['query']['type'] = 'views_query';
+  $handler->display->display_options['exposed_form']['type'] = 'better_exposed_filters';
+  $handler->display->display_options['exposed_form']['options']['submit_button'] = 'Appliquer';
+  $handler->display->display_options['exposed_form']['options']['reset_button_label'] = 'Réinitialiser';
+  $handler->display->display_options['exposed_form']['options']['exposed_sorts_label'] = 'Trier par';
+  $handler->display->display_options['exposed_form']['options']['expose_sort_order'] = FALSE;
+  $handler->display->display_options['exposed_form']['options']['autosubmit'] = TRUE;
+  $handler->display->display_options['exposed_form']['options']['bef'] = array(
+    'general' => array(
+      'allow_secondary' => 0,
+      'secondary_label' => 'Options avancées',
+    ),
+    'field_actu_date_value' => array(
+      'bef_format' => 'bef_datepicker',
+      'more_options' => array(
+        'is_secondary' => 0,
+        'any_label' => '',
+        'bef_filter_description' => '',
+        'tokens' => array(
+          'available' => array(
+            0 => 'global_types',
+          ),
+        ),
+        'rewrite' => array(
+          'filter_rewrite_values' => '',
+        ),
+      ),
+    ),
+    'field_actu_univers_tid' => array(
+      'bef_format' => 'bef',
+      'more_options' => array(
+        'bef_select_all_none' => 0,
+        'bef_collapsible' => 0,
+        'is_secondary' => 0,
+        'any_label' => '',
+        'bef_filter_description' => '',
+        'tokens' => array(
+          'available' => array(
+            0 => 'global_types',
+          ),
+        ),
+        'rewrite' => array(
+          'filter_rewrite_values' => '',
+        ),
+      ),
+    ),
+  );
+  $handler->display->display_options['exposed_form']['options']['input_required'] = 0;
+  $handler->display->display_options['exposed_form']['options']['text_input_required_format'] = 'filtered_html';
+  $handler->display->display_options['pager']['type'] = 'full';
+  $handler->display->display_options['pager']['options']['items_per_page'] = '5';
+  $handler->display->display_options['pager']['options']['offset'] = '0';
+  $handler->display->display_options['pager']['options']['id'] = '0';
+  $handler->display->display_options['pager']['options']['total_pages'] = '10';
+  $handler->display->display_options['pager']['options']['quantity'] = '5';
+  $handler->display->display_options['pager']['options']['expose']['items_per_page'] = TRUE;
+  $handler->display->display_options['pager']['options']['expose']['items_per_page_label'] = 'Par page';
+  $handler->display->display_options['pager']['options']['expose']['items_per_page_options_all_label'] = 'Tout';
+  $handler->display->display_options['pager']['options']['expose']['offset_label'] = 'Décalage';
+  $handler->display->display_options['pager']['options']['tags']['first'] = '«';
+  $handler->display->display_options['pager']['options']['tags']['previous'] = '‹';
+  $handler->display->display_options['pager']['options']['tags']['next'] = '›';
+  $handler->display->display_options['pager']['options']['tags']['last'] = '»';
+  $handler->display->display_options['style_plugin'] = 'default';
+  $handler->display->display_options['row_plugin'] = 'fields';
+  /* Champ: Contenu : Titre */
+  $handler->display->display_options['fields']['title']['id'] = 'title';
+  $handler->display->display_options['fields']['title']['table'] = 'node';
+  $handler->display->display_options['fields']['title']['field'] = 'title';
+  $handler->display->display_options['fields']['title']['label'] = '';
+  $handler->display->display_options['fields']['title']['alter']['word_boundary'] = FALSE;
+  $handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
+  /* Champ: Contenu : Bloc image */
+  $handler->display->display_options['fields']['field_actu_bloc_image']['id'] = 'field_actu_bloc_image';
+  $handler->display->display_options['fields']['field_actu_bloc_image']['table'] = 'field_data_field_actu_bloc_image';
+  $handler->display->display_options['fields']['field_actu_bloc_image']['field'] = 'field_actu_bloc_image';
+  $handler->display->display_options['fields']['field_actu_bloc_image']['label'] = '';
+  $handler->display->display_options['fields']['field_actu_bloc_image']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_actu_bloc_image']['click_sort_column'] = 'fid';
+  $handler->display->display_options['fields']['field_actu_bloc_image']['settings'] = array(
+    'image_style' => '',
+    'image_link' => '',
+  );
+  /* Champ: Contenu : Taxonomie Univers */
+  $handler->display->display_options['fields']['field_actu_univers']['id'] = 'field_actu_univers';
+  $handler->display->display_options['fields']['field_actu_univers']['table'] = 'field_data_field_actu_univers';
+  $handler->display->display_options['fields']['field_actu_univers']['field'] = 'field_actu_univers';
+  $handler->display->display_options['fields']['field_actu_univers']['label'] = '';
+  $handler->display->display_options['fields']['field_actu_univers']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_actu_univers']['type'] = 'taxonomy_term_reference_plain';
+  $handler->display->display_options['fields']['field_actu_univers']['delta_offset'] = '0';
+  /* Champ: Contenu : Date */
+  $handler->display->display_options['fields']['field_actu_date']['id'] = 'field_actu_date';
+  $handler->display->display_options['fields']['field_actu_date']['table'] = 'field_data_field_actu_date';
+  $handler->display->display_options['fields']['field_actu_date']['field'] = 'field_actu_date';
+  $handler->display->display_options['fields']['field_actu_date']['label'] = '';
+  $handler->display->display_options['fields']['field_actu_date']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_actu_date']['settings'] = array(
+    'format_type' => 'jour_mois_annee',
+    'fromto' => 'both',
+    'multiple_number' => '',
+    'multiple_from' => '',
+    'multiple_to' => '',
+  );
+  /* Champ: Contenu : Accroche */
+  $handler->display->display_options['fields']['field_actu_teaser']['id'] = 'field_actu_teaser';
+  $handler->display->display_options['fields']['field_actu_teaser']['table'] = 'field_data_field_actu_teaser';
+  $handler->display->display_options['fields']['field_actu_teaser']['field'] = 'field_actu_teaser';
+  $handler->display->display_options['fields']['field_actu_teaser']['label'] = '';
+  $handler->display->display_options['fields']['field_actu_teaser']['element_label_colon'] = FALSE;
+  /* Champ: Contenu : Nid */
+  $handler->display->display_options['fields']['nid']['id'] = 'nid';
+  $handler->display->display_options['fields']['nid']['table'] = 'node';
+  $handler->display->display_options['fields']['nid']['field'] = 'nid';
+  $handler->display->display_options['fields']['nid']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['nid']['node_in_colorbox_width'] = '600';
+  $handler->display->display_options['fields']['nid']['node_in_colorbox_height'] = '600';
+  $handler->display->display_options['fields']['nid']['node_in_colorbox_rel'] = '';
+  /* Champ: Contenu : Body */
+  $handler->display->display_options['fields']['body']['id'] = 'body';
+  $handler->display->display_options['fields']['body']['table'] = 'field_data_body';
+  $handler->display->display_options['fields']['body']['field'] = 'body';
+  $handler->display->display_options['fields']['body']['label'] = '';
+  $handler->display->display_options['fields']['body']['alter']['max_length'] = '400';
+  $handler->display->display_options['fields']['body']['alter']['word_boundary'] = FALSE;
+  $handler->display->display_options['fields']['body']['alter']['more_link'] = TRUE;
+  $handler->display->display_options['fields']['body']['alter']['more_link_text'] = 'LIRE LA SUITE';
+  $handler->display->display_options['fields']['body']['alter']['more_link_path'] = 'node/[nid] ';
+  $handler->display->display_options['fields']['body']['alter']['trim'] = TRUE;
+  $handler->display->display_options['fields']['body']['alter']['html'] = TRUE;
+  $handler->display->display_options['fields']['body']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['body']['type'] = 'text_trimmed';
+  $handler->display->display_options['fields']['body']['settings'] = array(
+    'trim_length' => '600',
+  );
+  /* Critère de tri: Contenu : Date (field_actu_date) */
+  $handler->display->display_options['sorts']['field_actu_date_value']['id'] = 'field_actu_date_value';
+  $handler->display->display_options['sorts']['field_actu_date_value']['table'] = 'field_data_field_actu_date';
+  $handler->display->display_options['sorts']['field_actu_date_value']['field'] = 'field_actu_date_value';
+  $handler->display->display_options['sorts']['field_actu_date_value']['order'] = 'DESC';
+  /* Critère de filtrage: Contenu : Publié */
+  $handler->display->display_options['filters']['status']['id'] = 'status';
+  $handler->display->display_options['filters']['status']['table'] = 'node';
+  $handler->display->display_options['filters']['status']['field'] = 'status';
+  $handler->display->display_options['filters']['status']['value'] = 1;
+  $handler->display->display_options['filters']['status']['group'] = 1;
+  $handler->display->display_options['filters']['status']['expose']['operator'] = FALSE;
+  /* Critère de filtrage: Contenu : Type */
+  $handler->display->display_options['filters']['type']['id'] = 'type';
+  $handler->display->display_options['filters']['type']['table'] = 'node';
+  $handler->display->display_options['filters']['type']['field'] = 'type';
+  $handler->display->display_options['filters']['type']['value'] = array(
+    'actu' => 'actu',
+  );
+  /* Critère de filtrage: Contenu : Date (field_actu_date) */
+  $handler->display->display_options['filters']['field_actu_date_value']['id'] = 'field_actu_date_value';
+  $handler->display->display_options['filters']['field_actu_date_value']['table'] = 'field_data_field_actu_date';
+  $handler->display->display_options['filters']['field_actu_date_value']['field'] = 'field_actu_date_value';
+  $handler->display->display_options['filters']['field_actu_date_value']['exposed'] = TRUE;
+  $handler->display->display_options['filters']['field_actu_date_value']['expose']['operator_id'] = 'field_actu_date_value_op';
+  $handler->display->display_options['filters']['field_actu_date_value']['expose']['operator'] = 'field_actu_date_value_op';
+  $handler->display->display_options['filters']['field_actu_date_value']['expose']['identifier'] = 'field_actu_date_value';
+  $handler->display->display_options['filters']['field_actu_date_value']['expose']['remember_roles'] = array(
+    2 => '2',
+    1 => 0,
+    3 => 0,
+    4 => 0,
+    5 => 0,
+    6 => 0,
+    7 => 0,
+    8 => 0,
+    9 => 0,
+  );
+  $handler->display->display_options['filters']['field_actu_date_value']['granularity'] = 'year';
+  $handler->display->display_options['filters']['field_actu_date_value']['year_range'] = '-2:+0';
+  /* Critère de filtrage: Contenu : Taxonomie Univers (field_actu_univers) */
+  $handler->display->display_options['filters']['field_actu_univers_tid']['id'] = 'field_actu_univers_tid';
+  $handler->display->display_options['filters']['field_actu_univers_tid']['table'] = 'field_data_field_actu_univers';
+  $handler->display->display_options['filters']['field_actu_univers_tid']['field'] = 'field_actu_univers_tid';
+  $handler->display->display_options['filters']['field_actu_univers_tid']['value'] = array(
+    6 => '6',
+    5 => '5',
+    20 => '20',
+    3 => '3',
+    7 => '7',
+  );
+  $handler->display->display_options['filters']['field_actu_univers_tid']['exposed'] = TRUE;
+  $handler->display->display_options['filters']['field_actu_univers_tid']['expose']['operator_id'] = 'field_actu_univers_tid_op';
+  $handler->display->display_options['filters']['field_actu_univers_tid']['expose']['label'] = 'Catégories';
+  $handler->display->display_options['filters']['field_actu_univers_tid']['expose']['operator'] = 'field_actu_univers_tid_op';
+  $handler->display->display_options['filters']['field_actu_univers_tid']['expose']['identifier'] = 'field_actu_univers_tid';
+  $handler->display->display_options['filters']['field_actu_univers_tid']['expose']['multiple'] = TRUE;
+  $handler->display->display_options['filters']['field_actu_univers_tid']['expose']['remember_roles'] = array(
+    2 => '2',
+    1 => 0,
+    3 => 0,
+    4 => 0,
+    5 => 0,
+    6 => 0,
+    7 => 0,
+    8 => 0,
+    9 => 0,
+  );
+  $handler->display->display_options['filters']['field_actu_univers_tid']['expose']['reduce'] = TRUE;
+  $handler->display->display_options['filters']['field_actu_univers_tid']['reduce_duplicates'] = TRUE;
+  $handler->display->display_options['filters']['field_actu_univers_tid']['type'] = 'select';
+  $handler->display->display_options['filters']['field_actu_univers_tid']['vocabulary'] = 'univers';
+  $handler->display->display_options['filters']['field_actu_univers_tid']['error_message'] = FALSE;
+
+  /* Display: Actualités */
+  $handler = $view->new_display('page', 'Actualités', 'page');
+  $handler->display->display_options['path'] = 'actualites';
+  $translatables['actualites'] = array(
+    t('Master'),
+    t('Actualités'),
+    t('plus'),
+    t('Appliquer'),
+    t('Réinitialiser'),
+    t('Trier par'),
+    t('Asc'),
+    t('Desc'),
+    t('Sélectionnez n\'importe quel filtre et cliquez sur Appliquer pour voir les résultats'),
+    t('Par page'),
+    t('Tout'),
+    t('Décalage'),
+    t('«'),
+    t('‹'),
+    t('›'),
+    t('»'),
+    t('Nid'),
+    t('LIRE LA SUITE'),
+    t('Catégories'),
+  );
+  $export['actualites'] = $view;
+
+  return $export;
+}

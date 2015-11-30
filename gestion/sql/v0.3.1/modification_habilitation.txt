@@ -1,0 +1,14 @@
+USE [opcaim_extranet]
+
+DELETE FROM [dbo].[lien_drupal_user_habilitation]
+GO
+DELETE FROM [dbo].[habilitation]
+GO
+INSERT [dbo].[habilitation] ([cle], [libelle]) VALUES (N'GES_CON             ', N'Déclarer les contributions (collecte TA et FPC)')
+GO
+INSERT [dbo].[habilitation] ([cle], [libelle]) VALUES (N'GES_CP              ', N'Gérer les contrats de professionnalisation (de la demande au suivi)')
+GO
+INSERT [dbo].[habilitation] ([cle], [libelle]) VALUES (N'GES_PAI             ', N'Suivre les paiements')
+GO
+INSERT [dbo].[habilitation] ([cle], [libelle]) VALUES (N'GES_TA              ', N'Gérer les actions de formation (et VAE, CPF, etc.) (de la demande au suivi)')
+GO

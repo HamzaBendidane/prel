@@ -1,0 +1,130 @@
+<?php
+
+/**
+ *  Fonction required()
+ *
+ */
+function _validation_liste_required(){
+  require_once 'validation_liste_db.inc';
+  require_once 'validation_liste_form.inc';
+}
+
+/**
+ *   Add JS & CSS
+ *
+ */
+function _validation_liste_add_js_css() {
+  $path  = drupal_get_path('module', 'dgf_administration_etablissements' );
+  drupal_add_js( $path . '/inc/validation_etablissements/listes/js/validation_liste.js' );
+  drupal_add_css($path . '/inc/validation_etablissements/listes/css/validation_liste.css' );
+}
+
+/**
+ *  Appel de fonctions
+ */
+_validation_liste_required();
+_validation_liste_add_js_css();
+
+/**
+ *  Hook_init()
+ *
+ */
+function validation_liste_init_page() {
+  _validation_liste_add_js_css();
+  return ('<div id="table-container"></div>');
+}
+
+/**
+ *  Tableau des résultats concernant les entreprises
+ *
+ */
+function validation_liste_results_data() {
+
+  if(shared_user_access('GES_AJO_ETA')){
+    $add = l('Ajouter', 'gestion/etablissement/creer');
+  }
+  $validation_liste_form  = drupal_get_form('validation_liste_form');
+  $output .= drupal_render($validation_liste_form);
+
+  $output .= '<span class="btn btn-danger">'.$add. '</span>';
+  $header = array(
+      array('data' => 'SIRET', 'field' => 'siret'),
+      array('data' => 'Type', 'field' => 'ya_pas'),
+      array('data' => 'Raison sociale', 'field' => 'raison_sociale'),
+      array('data' => 'Téléphone', 'field' => 'telephone_principal_entreprise'),
+      array('data' => 'Contact', 'field' => 'corporate_name'),
+      array('data' => 'Action', 'field' => 'action'),
+  );
+  if(isset($_GET['sort']) && isset($_GET['order'])) {
+    if($_GET['sort'] == 'asc')
+      $sort = 'ASC';
+    else
+      $sort = 'DESC';
+    switch($_GET['order']) {
+    	case 'SIRET':
+    	  $order = 'siret';
+    	  break;
+    	case 'Raison sociale':
+    	  $order = 'raison_sociale';
+    	  break;
+//     	case 'Contact':
+//     	  $order = 'nom_contact';
+//     	  break;
+    	default:
+    	  $order = 'siret';
+    }
+  }
+  else {
+    $sort  = 'ASC';
+    $order = 'raison_sociale';
+  }
+  // Siret, raison sociale, contact entreprise
+  $siret = $_GET['siret'];
+  $corporateName = $_GET['corporateName'];
+  $responsibleName = $_GET['responsibleName'];
+
+  $data = liste_entreprise_a_valider($order, $sort, $siret, $corporateName, $responsibleName);
+  $rows = display_table_rows($data);
+
+  //   $output .= '<input type="button" id="edit-add-top" name="op" value="Ajouter" class="col-md-2 col-md-offset-10 edit-add btn btn-default" href="">';
+  // Setting the output of the field
+  $output .= theme_table(
+      array(
+          'header' => $header,
+          'rows' => $rows,
+          'attributes' => array('id' => 'listes'),
+          'sticky' => true,
+          'caption' => '',
+          'colgroups' => array(),
+          'empty' => t("Il n'y a pas de données à afficher...")
+      )
+  );
+
+  $output .= theme('pager' );
+  die($output); // On choisit laméthode die() pour éviter l'affichage en double du template
+}
+
+/**
+ *  Affichage des lignes du tableau
+ *
+ *  @param: $data / Données entreprises
+ *
+ *
+ */
+function display_table_rows($data) {
+  // construction du tableau
+  foreach ($data as $items) {
+    $id_contact = rtrim($items->id_contact_entreprise);
+    $contact_entreprise = rtrim($items->id_civilite) . ' ' . trim($items->prenom). ' ' . trim($items->nom) . ' <br/> ' . trim($items->email);
+    $id_entreprise = rtrim($items->id_entreprise);
+    $siret = rtrim($items->siret);
+    $raison_sociale = rtrim($items->raison_sociale);
+    $telephone_principal = $items->telephone_principal != 'NULL' ? rtrim($items->telephone_principal) : '';
+    $edit_bouton = '<a data-id='.$id_entreprise.' title='.$siret.' alt='.$raison_sociale.' class="action" href="/gestion/etablissement/modifier/' . $id_entreprise . '"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>';
+    $delete_bouton = '<button data-id='.$id_contact.' id="deleteBtn"><span class="glyphicon  glyphicon-remove deleteBtn" aria-hidden="true"></span></button>';
+    $buttons = $edit_bouton . '  ' . $delete_bouton;
+    $rows[] = array( $siret, $modification = 'Entreprise', $raison_sociale, $telephone_principal, $contact_entreprise, $buttons);
+  }
+
+  return $rows;
+ }

@@ -1,0 +1,709 @@
+<?php
+
+/**
+ *
+ * @author RME
+ *
+ * @param unknown $post_data
+ * @return array
+ */
+function suivi_demande_get_demandes($post_data, $export = false) {
+
+    db_set_active(@DB_EXTRANET);
+    $query = db_select('v_suivi_demande', 'vsd');
+
+    $query->fields('vsd',array('id'))->distinct('id');
+
+    $fields = array(
+            'statut',
+            'multi_etablissement',
+            'date_creation',
+            'numero_demande',
+            'date_envoi_myopca',
+            't_nature_demande',
+            't_duree_totale_heure',
+            't_date_debut',
+            't_date_fin',
+            't_nb_participant',
+            't_intitule_formation',
+            'fof_t_raison_sociale',
+            't_paiement_direct',
+            't_cout_pedagogique',
+            'etape_demande',
+            'id_ref_esclave_entreprise',
+            't_salarie',
+            'id_ref_esclave_salarie',
+            'id_ref_esclave_organisme_formation'
+    );
+
+    $query->fields('vsd', $fields);
+
+    _suivi_demande_db_filter_query($post_data, $query);
+
+    $query->orderBy('date_creation', 'DESC');
+
+    $results = $query->extend('PagerDefault')->limit(10)->execute();  // Pagination des résultats
+
+    db_set_active();
+
+    $aResults = array();
+    foreach($results->fetchAll() as $value){
+       $salarie = shared_db_get_infos_salarie($value->id_ref_esclave_salarie);
+        $value->t_salarie = $salarie['nom'] .' '. $salarie['prenom'];
+        if ($value->statut == 1) {
+          $organisme = shared_db_get_organisme_formation($value->id_ref_esclave_organisme_formation);
+          $value->fof_t_raison_sociale = $organisme['raison_sociale'];
+        }
+        $aResults[] = $value;
+    }
+    return _suivi_demande_db_construct_result($aResults);
+}
+
+/**
+ * Cette fonction est un doublon de suivi_demande_get_demandes()
+ * Ceci en prévision d'ajout de champs pour l'export qui ne serait pas 
+ * affichés dans la vue HTML
+ * 
+ * @param array $post_data
+ * @return array $aResults
+ */
+function suivi_demande_export_get_demandes($post_data) {
+
+  db_set_active(@DB_EXTRANET);
+  $query = db_select('v_suivi_demande', 'vsd');
+
+  $query->fields('vsd',array('id'))->distinct('id');
+
+  $fields = array(
+      'statut',
+      'multi_etablissement',
+      'date_creation',
+      'numero_demande',
+      'date_envoi_myopca',
+      't_nature_demande',
+      't_duree_totale_heure',
+      't_date_debut',
+      't_date_fin',
+      't_nb_participant',
+      't_intitule_formation',
+      'fof_t_raison_sociale',
+      't_paiement_direct',
+      't_cout_pedagogique',
+      'etape_demande',
+      'id_ref_esclave_entreprise',
+      't_salarie',
+      'id_ref_esclave_salarie',
+      'id_ref_esclave_organisme_formation'
+  );
+
+  $query->fields('vsd', $fields);
+
+  _suivi_demande_db_filter_query($post_data, $query);
+
+  $query->orderBy('date_creation', 'DESC');
+
+  $results = $query->extend('PagerDefault')->limit(10)->execute();  // Pagination des résultats
+
+  db_set_active();
+
+  $aResults = array();
+  foreach($results->fetchAll() as $value){
+    if ($value->id_ref_esclave_salarie) {
+      $salarie = shared_db_get_infos_salarie($value->id_ref_esclave_salarie);
+      $value->t_salarie = $salarie['nom'] .' '. $salarie['prenom'];
+    }
+    if ($value->id_ref_esclave_organisme_formation) {
+      $organisme = shared_db_get_organisme_formation($value->id_ref_esclave_organisme_formation);
+      $value->fof_t_raison_sociale = $organisme['raison_sociale'];
+    }
+    $aResults[] = $value;
+  }
+  return $aResults;
+
+}
+
+function getAllDemande($post_data) {
+  db_set_active(@DB_EXTRANET);
+  $query = db_select('v_suivi_demande', 'vsd');
+
+  $query->fields('vsd',array('id'))->distinct('id');
+
+  $fields = array(
+      'statut',
+      'multi_etablissement',
+      'date_creation',
+      'numero_demande',
+      'date_envoi_myopca',
+      't_nature_demande',
+      't_duree_totale_heure',
+      't_date_debut',
+      't_date_fin',
+      't_nb_participant',
+      't_intitule_formation',
+      'fof_t_raison_sociale',
+      't_paiement_direct',
+      't_cout_pedagogique',
+      'etape_demande',
+      'id_ref_esclave_entreprise',
+      't_salarie',
+      'id_ref_esclave_salarie',
+      'id_ref_esclave_organisme_formation'
+  );
+
+  $query->fields('vsd', $fields);
+
+  _suivi_demande_db_filter_query($post_data, $query);
+
+  $query->orderBy('date_creation', 'DESC');
+  $results = $query->execute();
+ db_set_active();
+
+    $aResults = array();
+    foreach($results as $value){
+
+        $salarie = shared_db_get_infos_salarie($value->id_ref_esclave_salarie);
+
+        $value->t_salarie = $salarie['nom'] .' '. $salarie['prenom'];
+        $organisme = shared_db_get_organisme_formation($value->id_ref_esclave_organisme_formation);
+
+        $value->fof_t_raison_sociale = $organisme['raison_sociale'];
+
+        $aResults[] = $value;
+    }
+    if ($export == false) {
+        db_set_active();
+        return _suivi_demande_db_construct_result($aResults);
+    } else {
+        db_set_active();
+        return $aResults;
+    }
+}
+
+/**
+ * Applique les conditions suivant les chmaps de filtre saisis
+ *
+ * @author RME
+ *
+ * @param array $post_data
+ * @param drupal query $query
+ *
+ */
+function _suivi_demande_db_filter_query($post_data, &$query) {
+
+    global $user;
+
+    //Condition par défaut
+    if (has_role_adefim() || has_role_entreprise()){
+        if (isset($user->data['extranet_user']) && $user->data['extranet_user']->entreprises) {
+            $query->condition('vsd.id_ref_esclave_entreprise', array_keys($user->data['extranet_user']->entreprises), 'in');
+        }
+        else $query->condition('vsd.id_ref_esclave_entreprise', array('XX'), 'in');
+    }
+
+    // si appel depuis le dashboard
+    if(isset($_GET['paiement-direct'])) {
+        $query->condition('vsd.t_paiement_direct', $_GET['paiement-direct'], '=');
+    }
+
+    $etablissemnt = explode("-",$post_data['tout_etablissement']);
+    $search_fields = false;
+    if (isset($post_data)) {
+        $action_number         = isset($post_data['action_number']) ? $post_data['action_number'] : null;
+        $action_nature      = isset($post_data['action_nature']) ? $post_data['action_nature'] : null;
+        $statut      = isset($post_data['statut']) ? $post_data['statut'] : null;
+        $year_exercise = isset($post_data['year_exercise']) ? $post_data['year_exercise'] : null;
+        $worker_name       = isset($post_data['worker_name']) ? $post_data['worker_name'] : null;
+        $etablishment       = isset($post_data['tout_etablissement']) ? shared_isset_trim($etablissemnt[0]) : null;
+        $search_fields = true;
+    }
+    //   $search_fields = false;
+    if ($search_fields) {
+        if (isset($action_number)) {
+            $query->condition('numero_demande', intval($action_number), '=');
+        }
+        if (isset($action_nature) && $action_nature != '0') {
+            $query->condition('t_nature_demande', $action_nature, '=');
+        }
+
+        if (isset($statut) && $statut != '0') {
+            $query->condition('statut', $statut, '=');
+        }
+        if (isset($year_exercise)) {
+            // TODO : condition avec les dates de début et de fin
+            // Attente de validation du client D’engagement ? ou de réalisation ?
+            //     $query->condition('colonne', '%'.$year_exercise.'%', 'LIKE');
+        }
+        // dans le cas d'un dossier
+        if (isset($worker_name)) {
+            $data = shared_get_salarie_by_name($worker_name);
+
+            $query->condition('id_ref_esclave_salarie', $data, 'in');
+
+        }
+        // Filtre des établissements
+        if (isset($etablishment) && $etablishment != '0') {
+
+            $data = shared_get_entreprise_by_name($etablishment);
+
+            $query->condition('id_ref_esclave_entreprise', $data, 'in');
+
+        }
+    }
+
+    shared_update_requete_adefim_entreprise($query,'vsd.id_ref_esclave_entreprise','extranet');
+}
+
+/**
+ *
+ * Construit les lignes du tableau pour les demandes à afficher
+ *
+ * @param unknown $results
+ * @return array
+ */
+function _suivi_demande_db_construct_result($results) {
+    $rows = array();
+
+    foreach ($results as $demande) {
+
+        $date_creation = ($demande->date_envoi_myopca != null) ?
+        _suivi_demande_change_date_format_to_french($demande->date_envoi_myopca) :
+        _suivi_demande_change_date_format_to_french($demande->date_creation);
+
+        // On affiche le paiment direct en toutes lettres
+        if (intval($demande->t_paiement_direct) === 0) {
+            $direct_paiement = 'Non';
+        } else if (intval($demande->t_paiement_direct) === 1) {
+            $direct_paiement = 'Oui';
+        } else {
+            $direct_paiement = '-';
+        }
+
+        // les boutons d'actions par ligne
+
+        $statut_id = rtrim($demande->statut);
+
+        if ($statut_id == 1) {
+        $action_edit = _write_edit_dgf_url($demande->etape_demande, $demande->id);
+        } else {
+        $action_edit = '<a href="../dgf/visualisation/' . rtrim($demande->id) .'" class="action action-edit" data-id="'
+        . $demande->id . '"><span class="glyphicon glyphicon-pencil"></span></a>';
+        }
+
+        $action_doc = '<a href="#justif-modal" data-toggle="modal" class="action action-doc" data-id="'
+          . $demande->id . '"><span class="glyphicon glyphicon-folder-open"></span></a><br />';
+        $action_delete = '<a href="/delete/suivi/demande/'.$demande->id.'" data-toggle="modal" class="action action-delete" data-id="'
+          . $demande->id . '"><span class="glyphicon glyphicon-trash"></span></a>';
+        $action_duplicate = '<a href="#duplicate-modal" data-toggle="modal" class="action action-duplicate" data-id="'
+          . $demande->id . '" data-url="/dgf/duplication/'. rtrim($demande->id) .'"><span class="glyphicon glyphicon-duplicate"></span></a>';
+        $td_action = $action_edit . $action_doc . $action_delete . $action_duplicate;
+
+        //Mantis 143 on tronque nature de la demande
+        $nature = $demande->t_nature_demande;
+        if( $demande->t_nature_demande =='Contrat de professionnalisation') {
+          $nature = 'Contrat de proF';
+        }
+
+
+        // Adding the rows
+        $rows[] = array(
+                'data' => array(
+                        array('data' => $date_creation, 'class' =>'cell class'),
+                        $demande->numero_demande,
+                        _suivi_demande_get_etablishment($demande->id, $demande->multi_etablissement,$demande->id_ref_esclave_entreprise),
+                        $nature,
+                        (isset($demande->t_intitule_formation)) ? $demande->t_intitule_formation : '-',
+                        $demande->t_duree_totale_heure,
+                        _suivi_demande_change_date_format_to_french($demande->t_date_debut).' '
+                        ._suivi_demande_change_date_format_to_french($demande->t_date_fin),
+                        (isset($demande->fof_t_raison_sociale)) ? $demande->fof_t_raison_sociale : '-',
+                      //  _display_intern_number_or_intern_name($demande->id, $demande->t_nb_participant),
+                        $demande->t_salarie,
+                        $demande->t_cout_pedagogique,
+                        $direct_paiement,
+                        array('data' => _suivi_demande_set_statut_icons($statut_id), 'class' => 'status-td'),
+                        array('data' => $td_action, 'class' => 'action-td'),
+                ),
+                'class' => array('demande-tr'),
+        );
+
+    }
+
+
+    return $rows;
+
+}
+
+
+/**
+ * Ecrit l'url ramenant à l'étape arrêtée de la demande
+ *
+ * @param unknown $step
+ * @return string
+ */
+function _write_edit_dgf_url($step, $id_dgf) {
+  $url = '';
+
+  switch ($step) {
+    case 2:
+      $url = '<a href="' . @PATH_STAGIAIRE . '/' . $id_dgf .'" class="action action-edit" data-id="'
+         . $id_dgf . '"><span class="glyphicon glyphicon-pencil"></span></a>';
+      break;
+    case 3:
+      $url = '<a href="' . @PATH_DGF_CONTRAT . '/' . $id_dgf .'" class="action action-edit" data-id="'
+         . $id_dgf . '"><span class="glyphicon glyphicon-pencil"></span></a>';
+      break;
+    case 4:
+      $url = '<a href="' . @PATH_DGF_FORMATION . '/' . $id_dgf .'" class="action action-edit" data-id="'
+         . $id_dgf . '"><span class="glyphicon glyphicon-pencil"></span></a>';
+      break;
+    case 5:
+      $url = '<a href="' . @PATH_DGF_ORGANISME_FORMATION . '/' . $id_dgf .'" class="action action-edit" data-id="'
+         . $id_dgf . '"><span class="glyphicon glyphicon-pencil"></span></a>';
+      break;
+    case 6:
+      $url = '<a href="' . @PATH_TUTEUR . '/' . $id_dgf .'" class="action action-edit" data-id="'
+         . $id_dgf . '"><span class="glyphicon glyphicon-pencil"></span></a>';
+      break;
+    case 7:
+      $url = '<a href="' . @PATH_DGF_VISUALISATION . '/' . $id_dgf .'" class="action action-edit" data-id="'
+         . $id_dgf . '"><span class="glyphicon glyphicon-pencil"></span></a>';
+      break;
+    case 8:
+      $url = '<a href="' . @PATH_DGF_JUSTIFICATIF . '/' . $id_dgf .'" class="action action-edit" data-id="'
+         . $id_dgf . '"><span class="glyphicon glyphicon-pencil"></span></a>';
+      break;
+    default:
+      $url = '<a href="' . @PATH_STAGIAIRE . '/' . $id_dgf .'" class="action action-edit" data-id="'
+          . $id_dgf . '"><span class="glyphicon glyphicon-pencil"></span></a>';
+      break;
+  }
+  return $url;
+}
+
+/**
+ * Retourne une liste d'établissement ou raison_sociale + SIRET
+ *
+ * @param int $id
+ * @param boolean $multi_etablishment
+ * @return string
+ */
+function _suivi_demande_get_etablishment($id, $multi_etablishment,$id_ref_esclave_entreprise) {
+  db_set_active(@DB_EXTRANET);
+
+    if ($multi_etablishment != 0) {
+        $value = '<a href="#etablishment-modal" data-toggle="modal" class="action action-etablishment-nb" data-id="'
+               . $id . '">Multi-établisssements</a>';
+    } else {
+        $data = shared_db_get_entreprise_data($id_ref_esclave_entreprise);
+        $value = @shared_isset_trim($data->raison_sociale) . '<br />' . @shared_isset_trim($data->siret);
+    }
+
+    db_set_active();
+
+    return $value;
+}
+
+/**
+ * transforme une date du format US au format français
+ *
+ * @param  String $date_us
+ * @return String $date_fr
+ */
+function _suivi_demande_change_date_format_to_french($date_us) {
+  $date_fr = '';
+  if (isset($date_us)) {
+   $date_fr = str_replace('-', '/', date('d-m-y', strtotime($date_us)));
+  }
+  return $date_fr;
+}
+
+/**
+ * Affiche le nombre de participants ou le nom
+ * du stagiaire si un seul est trouvé
+ * @return int $col_stagiaire or String $col_stagiaire
+ */
+function _display_intern_number_or_intern_name($id, $nb_intern) {
+
+    db_set_active(@DB_EXTRANET);
+    if ($nb_intern > 1) {
+    $value = '<a href="#intern-modal" data-toggle="modal" class="action action-intern-nb" data-id="'
+         . $id . '">' . $nb_intern . '</a>';
+
+    } else {
+        $query = db_select('v_suivi_demande', 'vsd');
+        $query->fields('vsd', array('t_salarie'));
+        $query->condition('id', $id, '=');
+
+        $datas = $query->execute()->fetchAll();
+
+        $value = ($datas[0]->t_salarie) ? $datas[0]->t_salarie : '-';
+    }
+
+    db_set_active();
+
+    return $value;
+
+}
+
+/**
+ * Créer les icones correspondants au statut de la demande
+ * @return html $statut_icon
+ */
+function _suivi_demande_set_statut_icons($statut_id) {
+  $table_statut = unserialize(@LIST_STATUT_ACTION);
+  $statut = $table_statut[$statut_id];
+
+  switch ($statut_id) {
+  	case 1:
+  	  $statut_icon = '<span class="glyphicon glyphicon-list-alt statut-color-' . $statut_id.'">';
+  	  break;
+  	case 2:
+  	  $statut_icon = '<span class="glyphicon glyphicon-send statut-color-' . $statut_id.'">';
+  	  break;
+  	case 3:
+  	  $statut_icon = '<span class="glyphicon glyphicon-paperclip statut-color-' . $statut_id.'">';
+  	  break;
+  	case 4:
+  	  $statut_icon = '<span class="glyphicon glyphicon-ok statut-color-' . $statut_id.'">';
+  	  break;
+  	case 5:
+  	  $statut_icon = '<span class="glyphicon glyphicon-ban-circle statut-color-' . $statut_id.'">';
+  	  break;
+  	case 6:
+  	  $statut_icon = '<span class="glyphicon glyphicon-remove statut-color-' . $statut_id.'">';
+  	  break;
+  	case 7:
+  	  $statut_icon = '<span class="glyphicon glyphicon-credit-card-open statut-color-' . $statut_id.'">';
+  	  break;
+  	case 8:
+  	  $statut_icon = '<span class="glyphicon glyphicon-hourglass statut-color-' . $statut_id.'">';
+  	  break;
+  	case 9:
+  	  $statut_icon = '<span class="glyphicon glyphicon-saved statut-color-' . $statut_id.'">';
+  	  break;
+  }
+  return $statut_icon;
+}
+
+
+/**
+ * Supprime la demande/dossier sélectionnée
+ * Répond à un service
+ *
+ * @return null
+ */
+function dgf_suivi_demande_delete() {
+    $id = arg(3);
+    delete_dgf($id);
+
+    drupal_goto($_SERVER['HTTP_REFERER']);
+}
+
+/**
+ * Récupère les stagiaires liés à la demande/dossier
+ * Répond à un service
+ *
+ * @return json $result
+ */
+function dgf_suivi_demande_get_list_etablishment() {
+  $id = arg(4);
+  db_set_active(@DB_EXTRANET);
+  $query = db_select('v_suivi_demande', 'vsd');
+  $query-> fields('vsd', array('t_raison_sociale', 't_siret'));
+  $query->condition('vsd.id', $id, '=');
+  $result = $query->execute()->fetchAll();
+  db_set_active();
+  drupal_json_output($result);
+}
+
+/**
+ * Récupère les stagiaires liés à la demande/dossier
+ * Répond à un service
+ *
+ * @return json $result
+ */
+function dgf_suivi_demande_get_list_intern() {
+  $id = arg(4);
+  db_set_active(@DB_EXTRANET);
+  $query = db_select('v_suivi_demande', 'vsd');
+  $query-> fields('vsd', array('t_salarie'));
+  $query->condition('vsd.id', $id, '=');
+  $result = $query->execute()->fetchAll();
+  db_set_active();
+  drupal_json_output($result);
+}
+
+/**
+ * Récupère les justificatifs liés à la demande/dossier
+ * Répond à un service
+ *
+ * @return json $result
+ */
+function dgf_suivi_demande_get_justifs() {
+  $id = arg(4);
+  db_set_active(@DB_EXTRANET);
+
+  $query = db_select('dgf_form_justificatif', 'fj');
+  $query-> join('dgf', 'dgf', 'fj.id_dgf = dgf.id');
+  $query-> fields('fj', array('t_fichier', 't_chemin_fichier', 't_nom_ref_fichier', 't_nom_fichier', 't_extension_fichier'));
+  $query->condition('dgf.id', $id, '=');
+  $result = $query->execute()->fetchAll();
+  db_set_active();
+  drupal_json_output($result);
+}
+
+/**
+ * charge les données dans le champ select "Etablissement"
+ *
+ * @return array $datas
+ */
+function populate_select_fields_entreprise() {
+  global $user;
+  db_set_active(@DB_SLAVE);
+  $query = db_select('entreprises', 't');
+  $query->fields('t', array('id', 'raison_sociale'));
+  $query->condition('est_actif', 1, '=');
+  $query->condition('est_valide', 1, '=');
+  $results = $query->execute() ->fetchAllAssoc('id', PDO::FETCH_ASSOC);
+  $datas = array();
+  foreach ($results as $key => $items) {
+    $key = rtrim($items['id']);
+    $datas[$key] = rtrim($items['raison_sociale']);
+  }
+  array_unshift($datas, 'Veuillez choisir dans la liste');
+  db_set_active();
+  return $datas;
+
+}
+
+/**
+ * charge les données dans le champ select "nature de la formation"
+ *
+ * @return array $datas
+ */
+function populate_select_fields_nature_formation() {
+  global $user;
+  db_set_active(@DB_EXTRANET);
+  $query = db_select('ref_nature_demande', 't');
+  $query->fields('t', array('id', 'label'));
+  $query->condition('is_delete', 0, '=');
+    $results = $query->execute() ->fetchAllAssoc('id', PDO::FETCH_ASSOC);
+  $datas = array();
+  foreach ($results as $key => $items) {
+    $key = rtrim($items['label']);
+    $datas[$key] = rtrim($items['label']);
+  }
+  array_unshift($datas, 'Veuillez choisir dans la liste');
+  db_set_active();
+  return $datas;
+}
+
+/**
+*
+* FONCTIONS RELATIVES A LA DUPLICATION DES DEMANDES
+*
+**/
+
+/**
+ * Récupère les données de la demande à dupliquer
+ *
+ * @param int $id_dgf
+ * @param string $table
+ * @return array $result
+ */
+function get_data_demande_by_id_dgf($id_dgf, $table) {
+  db_set_active(@DB_EXTRANET);
+  $query = db_select($table, 't');
+  $query->fields('t');
+
+  if ($table == 'dgf') {
+    $query->condition('id', $id_dgf, '=');
+  } else {
+    $query->condition('id_dgf', $id_dgf, '=');
+  }
+
+  $result = $query->execute()->fetchAssoc();
+  db_set_active();
+  return $result;
+}
+
+/**
+ * Récupère les données de la demande à dupliquer
+ *
+ * @param int $id_dgf
+ * @param string $table
+ * @return array $result
+ */
+function get_data_demande_by_id($id, $table,$key_name) {
+  db_set_active(@DB_EXTRANET);
+  $query = db_select($table, 't');
+  $query->fields('t');
+  $query->condition($key_name, $id, '=');
+  $result = $query->execute()->fetchAll(PDO::FETCH_ASSOC);
+  db_set_active();
+  return $result;
+}
+
+/**
+ * Vérifie si le type de contrat de l'action
+ *
+ * @param int $id_dgf
+ * @return boolean
+ */
+function get_type_contrat($id_dgf) {
+  db_set_active(@DB_EXTRANET);
+  $query = db_select('temp_dgf_form_demande', 't');
+  $query->fields('t', array('id_dgf_nature_demande'));
+  $query->condition('id_dgf', $id_dgf, '=');
+  $result = $query->execute()->fetchAssoc();
+  db_set_active();
+
+  return intval($result);
+}
+
+/**
+ * Insert les données de la nouvelle demande dans les tables correspondantes
+ *
+ * @param string $table
+ * @param array $datas
+ * @return string $insert_id
+ */
+function insert_duplicated_dgf_datas($table, $datas) {
+  db_set_active(@DB_EXTRANET);
+  $query = db_insert($table)
+  ->fields($datas);
+  $insert_id = $query->execute();
+
+  db_set_active();
+
+  return $insert_id;
+}
+
+function set_dgf_num_demande($id_dgf) {
+  global $user;
+  db_set_active(@DB_EXTRANET);
+  $query = db_update('dgf');
+  $query->fields(array(
+      'statut' => 1,
+      'numero_demande' => $id_dgf,
+      'id_user_last_edit' => $user->uid,
+      'date_last_edit' => shared_send_to_mssql_date(null, 'datetime'),
+  ));
+  $query->condition('id', $id_dgf, '=');
+
+  $query->execute();
+  db_set_active();
+}
+
+function prepare_empty_datas_with_id_dgf($table, $id_dgf) {
+  global $user;
+  db_set_active(@DB_EXTRANET);
+  $query = db_insert($table);
+  $query->fields(array(
+      'id_dgf' => $id_dgf,
+      'id_user_creation' => $user->uid,
+      'date_creation' => shared_send_to_mssql_date(null, 'datetime'),
+  ));
+  $query->execute();
+  db_set_active();
+}

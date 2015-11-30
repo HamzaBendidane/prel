@@ -1,0 +1,111 @@
+<?php
+
+/**
+ * Validation for the trainee step
+ *
+ * @param type $form
+ * @param type $form_state
+ */
+function dgf_contrat_pro_stagiaire_form_validate($form, &$form_state) {
+
+  if ($form_state['triggering_element']['#id'] == 'edit-back') {
+    $id_dgf =arg(4);
+    if($id_dgf) drupal_goto('/dgf/demande/'.$id_dgf);
+    else drupal_goto('/dgf/demande/');
+  } else if ($form_state['triggering_element']['#id'] == 'edit-modal-quit--2') {
+    drupal_goto('/dashboard');
+  }
+}
+
+function dgf_contrat_pro_stagiaire_specific_form_validate($form, &$form_state) {
+  if ($form_state['values']['zip_code'] && ! is_numeric($form_state['values']['zip_code'] )) {
+    form_set_error('zip_code', t('Veuillez saisir un Code postal valide.' ) );
+  }
+  if ($form_state['values']['phone_number'] && ! preg_match('`[0-9]{10}`', $form_state['values']['phone_number'] )) {
+    form_set_error('phone_number', t('Veuillez saisir un numéro de téléphone valide. ' ) );
+  }
+
+  if ($form_state['values']['email'] && ! valid_email_address($form_state['values']['email'] )) {
+    form_set_error('email', 'Veuillez saisir une adresse courriel valide.' );
+  }
+
+//   if ($form_state['values']['age'] > 26 && ! $form_state['values']['pole_emploi_number']) {
+//      echo ("Attention : Pour être éligible au contrat de professionnalisation, le stagiaire de plus de 26 ans doit posséder un numéro d’identification « demandeur d’emploi », pour ce faire, il suffit de s’inscrire au pôle emploi.");
+//   }
+
+  if ( $form_state['values']['pole_emploi_number'] && ! is_numeric($form_state['values']['since_month'] )) {
+    form_set_error('pole_emploi_number', 'Veuillez saisir un numéro du pole emploi valide.' );
+  }
+
+  if ( $form_state['values']['since_month'] && ! is_numeric($form_state['values']['since_month'] )) {
+    form_set_error('since_month', t('Veuillez saisir une durée valide. ' ) );
+  }
+  
+  if ( ($form_state['values']['last_status'] =='10' || $form_state['values']['last_status'] =='11')
+        && $form_state['values']['social_beneficiary'] =='' ) { 
+//         && $form_state['values']['social_beneficiary'] =='0' ) {
+    form_set_error('pole_emploi_number', t('Les personnes dont la situation avant le début du contrat est " Personne à la recherche d\'un emploi" ou "Inactif" et non bénéficiaire d\'un minima social, doivent être obligatoirement inscrites sur les listes de Pôle Emploi et renseigner le numéro de code IDE (Inscription des demandeurs d\'emploi). ' ) );
+  }
+
+ $pattern = "/^[a-zA-Z ']$/";
+ if (preg_match_all($pattern, $form_state['values']['lastname'])) {
+    form_set_error('lastname', t('Le champ Nom ne peut contenir que des lettres.'));
+}
+
+  if (preg_match_all($pattern, $form_state['values']['firstname'])) {
+    form_set_error('firstname', t('Le champ Prénom ne peut contenir que des lettres.'));
+  }
+}
+
+function dgf_contrat_pro_stagiaire_standard_form_validate($form, &$form_state) {
+    if (!$form_state['values']['etablishment']) {
+        form_set_error('etablishment', t('Le champ Etablissement est obligatoire.'));
+    }
+
+    if ( $form_state['values']['age'] < 15 ||  $form_state['values']['age'] > 70) {
+        form_set_error('age', t("L'âge du stagiaire doit être compris entre 15 ans et 70 ans maximum." ) );
+    }
+
+    if (!$form_state['values']['lastname']) {
+        form_set_error('lastname', t('Le champ Nom est obligatoire.'));
+    }
+    if (!$form_state['values']['firstname']) {
+        form_set_error('firstname', t('Le champ Prénom est obligatoire.'));
+    }
+    if (!$form_state['values']['birthday']) {
+        form_set_error('birthday', t('Le champ Date de naissance est obligatoire.'));
+    }
+    if (!$form_state['values']['man_woman']) {
+        form_set_error('man_woman', t('Le champ Civilité est obligatoire.'));
+    }
+    if (!$form_state['values']['zip_code'] || ! is_numeric($form_state['values']['zip_code'] )) {
+        form_set_error('zip_code', t('Le champ Code postal est obligatoire.'));
+    }
+    if (!$form_state['values']['nom_rue']) {
+        form_set_error('nom_rue', t('Le champ Adresse est obligatoire.'));
+    }
+    if (!$form_state['values']['city']) {
+      form_set_error('city', t('Le champ Ville est obligatoire.'));
+    }
+    if (!$form_state['values']['highest_level_code'] || !$form_state['values']['highest_level_label']) {
+        form_set_error('highest_level_code', t('Le champ Diplôme le plus élevé est obligatoire.'));
+        form_set_error('highest_level_label', t(''));
+    }
+    if (!$form_state['values']['last_status']) {
+        form_set_error('last_status', t('Le champ Dernière situation est obligatoire.'));
+    }
+    if (!$form_state['values']['contingency_fund']) {
+        form_set_error('contingency_fund', t('Le champ Caisse de prévoyance est obligatoire.'));
+    }
+    if (!$form_state['values']['pension_fund']) {
+        form_set_error('pension_fund', t('Le champ Caisse de retraite est obligatoire.'));
+    }
+    if (!$form_state['values']['phone_number']) {
+        form_set_error('phone_number', t('Le champ Téléphone est obligatoire.'));
+    }
+    if (!$form_state['values']['email']) {
+        form_set_error('email', t('Le champ Courriel est obligatoire.'));
+    }
+    return $form;
+
+}

@@ -1,0 +1,533 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML+RDFa 1.0//EN"
+  "http://www.w3.org/MarkUp/DTD/xhtml-rdfa-1.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" version="XHTML+RDFa 1.0" dir="ltr"
+  xmlns:og="http://ogp.me/ns#"
+  xmlns:article="http://ogp.me/ns/article#"
+  xmlns:book="http://ogp.me/ns/book#"
+  xmlns:profile="http://ogp.me/ns/profile#"
+  xmlns:video="http://ogp.me/ns/video#">
+
+<head profile="http://www.w3.org/1999/xhtml/vocab">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="shortcut icon" href="http://localhost:8888/sites/default/files/favicon_3.ico" type="image/vnd.microsoft.icon" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no" />
+<meta name="generator" content="Drupal 7 (http://drupal.org)" />
+<link rel="canonical" href="http://localhost:8888/recyclons-nos-papiers" />
+<link rel="shortlink" href="http://localhost:8888/node/35" />
+<meta property="og:site_name" content="Ecofolio" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://localhost:8888/recyclons-nos-papiers" />
+<meta property="og:title" content="Recyclons nos papiers" />
+<meta property="og:updated_time" content="2015-02-09T10:23:31+01:00" />
+<meta property="article:published_time" content="2014-08-04T11:24:21+02:00" />
+<meta property="article:modified_time" content="2015-02-09T10:23:31+01:00" />
+  <title>Recyclons nos papiers | Ecofolio</title>
+  <style type="text/css" media="all">@import url("http://localhost:8888/modules/system/system.base.css?njk0y7");
+@import url("http://localhost:8888/modules/system/system.menus.css?njk0y7");
+@import url("http://localhost:8888/modules/system/system.messages.css?njk0y7");
+@import url("http://localhost:8888/modules/system/system.theme.css?njk0y7");</style>
+<style type="text/css" media="screen">@import url("http://localhost:8888/sites/all/modules/contrib/views_slideshow/views_slideshow.css?njk0y7");</style>
+<style type="text/css" media="all">@import url("http://localhost:8888/sites/all/modules/contrib/simplenews/simplenews.css?njk0y7");
+@import url("http://localhost:8888/sites/all/modules/contrib/colorbox_node/colorbox_node.css?njk0y7");
+@import url("http://localhost:8888/sites/all/modules/contrib/date/date_api/date.css?njk0y7");
+@import url("http://localhost:8888/sites/all/modules/contrib/date/date_popup/themes/datepicker.1.7.css?njk0y7");
+@import url("http://localhost:8888/modules/field/theme/field.css?njk0y7");
+@import url("http://localhost:8888/sites/all/modules/contrib/menu_attach_block/menu_attach_block.css?njk0y7");
+@import url("http://localhost:8888/modules/node/node.css?njk0y7");
+@import url("http://localhost:8888/modules/search/search.css?njk0y7");
+@import url("http://localhost:8888/modules/user/user.css?njk0y7");
+@import url("http://localhost:8888/sites/all/modules/contrib/views/css/views.css?njk0y7");
+@import url("http://localhost:8888/sites/all/modules/contrib/ckeditor/css/ckeditor.css?njk0y7");</style>
+<style type="text/css" media="all">@import url("http://localhost:8888/sites/all/modules/contrib/colorbox/styles/default/colorbox_style.css?njk0y7");
+@import url("http://localhost:8888/sites/all/modules/contrib/ctools/css/ctools.css?njk0y7");
+@import url("http://localhost:8888/sites/all/modules/custom/ecofolio_display_mediatheque/css/mediatheque.css?njk0y7");
+@import url("http://localhost:8888/sites/all/modules/contrib/ctools/css/modal.css?njk0y7");
+@import url("http://localhost:8888/sites/all/modules/contrib/modal_forms/css/modal_forms_popup.css?njk0y7");
+@import url("http://localhost:8888/sites/all/modules/contrib/asset/css/assets.css?njk0y7");
+@import url("http://localhost:8888/sites/all/modules/contrib/print/print_ui/css/print_ui.theme.css?njk0y7");
+@import url("http://localhost:8888/sites/all/modules/contrib/views_slideshow/views_slideshow_controls_text.css?njk0y7");
+@import url("http://localhost:8888/sites/all/modules/contrib/views_slideshow/contrib/views_slideshow_cycle/views_slideshow_cycle.css?njk0y7");</style>
+<style type="text/css" media="all">
+<!--/*--><![CDATA[/*><!--*/
+#sliding-popup.sliding-popup-bottom{background:#009ddf;}#sliding-popup .popup-content #popup-text h2,#sliding-popup .popup-content #popup-text p{color:#ffffff !important;}
+
+/*]]>*/-->
+</style>
+<style type="text/css" media="all">@import url("http://localhost:8888/sites/all/modules/contrib/eu_cookie_compliance/css/eu_cookie_compliance.css?njk0y7");
+@import url("http://localhost:8888/sites/all/libraries/ResponsiveMultiLevelMenu/css/component.css?njk0y7");</style>
+<style type="text/css" media="all">@import url("http://localhost:8888/sites/all/themes/omega/alpha/css/alpha-reset.css?njk0y7");
+@import url("http://localhost:8888/sites/all/themes/omega/alpha/css/alpha-mobile.css?njk0y7");
+@import url("http://localhost:8888/sites/all/themes/omega/alpha/css/alpha-alpha.css?njk0y7");
+@import url("http://localhost:8888/sites/all/themes/omega/omega/css/omega-text.css?njk0y7");
+@import url("http://localhost:8888/sites/all/themes/omega/omega/css/omega-branding.css?njk0y7");
+@import url("http://localhost:8888/sites/all/themes/omega/omega/css/omega-menu.css?njk0y7");
+@import url("http://localhost:8888/sites/all/themes/omega/omega/css/omega-forms.css?njk0y7");
+@import url("http://localhost:8888/sites/all/themes/omega/omega/css/omega-visuals.css?njk0y7");
+@import url("http://localhost:8888/sites/all/themes/ecofolio/css/global.css?njk0y7");
+@import url("http://localhost:8888/sites/all/themes/ecofolio/css/ecofolio.css?njk0y7");</style>
+
+<!--[if (lt IE 9)&(!IEMobile)]>
+<style type="text/css" media="all">@import url("http://localhost:8888/sites/all/themes/ecofolio/css/ecofolio-ecofolio-default.css?njk0y7");
+@import url("http://localhost:8888/sites/all/themes/ecofolio/css/ecofolio-ecofolio-default-normal.css?njk0y7");
+@import url("http://localhost:8888/sites/all/themes/ecofolio/css/grid/ecofolio_default/normal/ecofolio-default-normal-24.css?njk0y7");
+@import url("http://localhost:8888/sites/all/themes/ecofolio/css/grid/ecofolio_default/normal/ecofolio-default-normal-16.css?njk0y7");</style>
+<![endif]-->
+
+<!--[if gte IE 9]><!-->
+<style type="text/css" media="all and (min-width: 741px) and (min-device-width: 741px), (max-device-width: 979px) and (min-width: 741px) and (orientation:landscape)">@import url("http://localhost:8888/sites/all/themes/ecofolio/css/ecofolio-ecofolio-default.css?njk0y7");
+@import url("http://localhost:8888/sites/all/themes/ecofolio/css/ecofolio-ecofolio-default-narrow.css?njk0y7");
+@import url("http://localhost:8888/sites/all/themes/ecofolio/css/grid/ecofolio_default/narrow/ecofolio-default-narrow-24.css?njk0y7");
+@import url("http://localhost:8888/sites/all/themes/ecofolio/css/grid/ecofolio_default/narrow/ecofolio-default-narrow-16.css?njk0y7");</style>
+<!--<![endif]-->
+
+<!--[if gte IE 9]><!-->
+<style type="text/css" media="all and (min-width: 980px) and (min-device-width: 980px), (max-device-width: 1219px) and (min-width: 980px)">@import url("http://localhost:8888/sites/all/themes/ecofolio/css/ecofolio-ecofolio-default.css?njk0y7");
+@import url("http://localhost:8888/sites/all/themes/ecofolio/css/ecofolio-ecofolio-default-normal.css?njk0y7");
+@import url("http://localhost:8888/sites/all/themes/ecofolio/css/grid/ecofolio_default/normal/ecofolio-default-normal-24.css?njk0y7");
+@import url("http://localhost:8888/sites/all/themes/ecofolio/css/grid/ecofolio_default/normal/ecofolio-default-normal-16.css?njk0y7");</style>
+<!--<![endif]-->
+
+<!--[if gte IE 9]><!-->
+<style type="text/css" media="all and (min-width: 1220px) and (min-device-width: 1220px)">@import url("http://localhost:8888/sites/all/themes/ecofolio/css/ecofolio-ecofolio-default.css?njk0y7");
+@import url("http://localhost:8888/sites/all/themes/ecofolio/css/ecofolio-ecofolio-default-wide.css?njk0y7");</style>
+<!--<![endif]-->
+  <script type="text/javascript" src="http://localhost:8888/sites/all/modules/contrib/jquery_update/replace/jquery/1.8/jquery.min.js?v=1.8.2"></script>
+<script type="text/javascript" src="http://localhost:8888/misc/jquery.once.js?v=1.2"></script>
+<script type="text/javascript" src="http://localhost:8888/misc/drupal.js?njk0y7"></script>
+<script type="text/javascript" src="http://localhost:8888/sites/all/modules/contrib/jquery_update/replace/ui/external/jquery.cookie.js?v=67fb34f6a866c40d0570"></script>
+<script type="text/javascript" src="http://localhost:8888/sites/all/modules/contrib/jquery_update/replace/misc/jquery.form.min.js?v=2.69"></script>
+<script type="text/javascript" src="http://localhost:8888/sites/all/modules/contrib/views_slideshow/js/views_slideshow.js?v=1.0"></script>
+<script type="text/javascript" src="http://localhost:8888/misc/ajax.js?v=7.28"></script>
+<script type="text/javascript" src="http://localhost:8888/sites/all/modules/contrib/jquery_update/js/jquery_update.js?v=0.0.1"></script>
+<script type="text/javascript" src="http://localhost:8888/sites/all/modules/contrib/admin_menu/admin_devel/admin_devel.js?njk0y7"></script>
+<script type="text/javascript" src="http://localhost:8888/sites/all/modules/contrib/menu_attach_block/menu_attach_block.js?njk0y7"></script>
+<script type="text/javascript" src="http://localhost:8888/sites/default/files/languages/fr_AgRgjO-Dy9QZ_b3GFd7OcSMG1EPZjp7laeOYe3brMaQ.js?njk0y7"></script>
+<script type="text/javascript" src="http://localhost:8888/sites/all/libraries/colorbox/jquery.colorbox-min.js?njk0y7"></script>
+<script type="text/javascript" src="http://localhost:8888/sites/all/modules/contrib/colorbox/js/colorbox.js?njk0y7"></script>
+<script type="text/javascript" src="http://localhost:8888/sites/all/modules/contrib/colorbox/styles/default/colorbox_style.js?njk0y7"></script>
+<script type="text/javascript" src="http://localhost:8888/sites/all/modules/contrib/colorbox/js/colorbox_load.js?njk0y7"></script>
+<script type="text/javascript" src="http://localhost:8888/misc/progress.js?v=7.28"></script>
+<script type="text/javascript" src="http://localhost:8888/sites/all/modules/contrib/ctools/js/modal.js?njk0y7"></script>
+<script type="text/javascript" src="http://localhost:8888/sites/all/modules/contrib/modal_forms/js/modal_forms_popup.js?njk0y7"></script>
+<script type="text/javascript" src="http://localhost:8888/sites/all/libraries/jquery.cycle/jquery.cycle.all.js?njk0y7"></script>
+<script type="text/javascript" src="http://localhost:8888/sites/all/modules/contrib/views_slideshow/contrib/views_slideshow_cycle/js/views_slideshow_cycle.js?njk0y7"></script>
+<script type="text/javascript" src="http://localhost:8888/sites/all/modules/contrib/responsive_menus/styles/ResponsiveMultiLevelMenu/js/responsive_menus_codrops_responsive_multi.js?njk0y7"></script>
+<script type="text/javascript" src="http://localhost:8888/sites/all/libraries/ResponsiveMultiLevelMenu/js/modernizr.custom.js?njk0y7"></script>
+<script type="text/javascript" src="http://localhost:8888/sites/all/libraries/ResponsiveMultiLevelMenu/js/jquery.dlmenu.js?njk0y7"></script>
+<script type="text/javascript" src="http://localhost:8888/sites/all/modules/contrib/colorbox_node/colorbox_node.js?njk0y7"></script>
+<script type="text/javascript" src="http://localhost:8888/sites/all/themes/ecofolio/js/scripts.js?njk0y7"></script>
+<script type="text/javascript" src="http://localhost:8888/sites/all/themes/ecofolio/js/ecofolio.js?njk0y7"></script>
+<script type="text/javascript">
+<!--//--><![CDATA[//><!--
+jQuery.extend(Drupal.settings, {"basePath":"\/","pathPrefix":"","ajaxPageState":{"theme":"ecofolio","theme_token":"SYjUJis1kInhcucBBKQK28nWNWGYR9d9Vwa3vJNohkg","jquery_version":"1.8","js":{"sites\/all\/modules\/contrib\/eu_cookie_compliance\/js\/eu_cookie_compliance.js":1,"sites\/all\/modules\/contrib\/jquery_update\/replace\/jquery\/1.8\/jquery.min.js":1,"misc\/jquery.once.js":1,"misc\/drupal.js":1,"sites\/all\/modules\/contrib\/jquery_update\/replace\/ui\/external\/jquery.cookie.js":1,"sites\/all\/modules\/contrib\/jquery_update\/replace\/misc\/jquery.form.min.js":1,"sites\/all\/modules\/contrib\/views_slideshow\/js\/views_slideshow.js":1,"misc\/ajax.js":1,"sites\/all\/modules\/contrib\/jquery_update\/js\/jquery_update.js":1,"sites\/all\/modules\/contrib\/admin_menu\/admin_devel\/admin_devel.js":1,"sites\/all\/modules\/contrib\/menu_attach_block\/menu_attach_block.js":1,"public:\/\/languages\/fr_AgRgjO-Dy9QZ_b3GFd7OcSMG1EPZjp7laeOYe3brMaQ.js":1,"sites\/all\/libraries\/colorbox\/jquery.colorbox-min.js":1,"sites\/all\/modules\/contrib\/colorbox\/js\/colorbox.js":1,"sites\/all\/modules\/contrib\/colorbox\/styles\/default\/colorbox_style.js":1,"sites\/all\/modules\/contrib\/colorbox\/js\/colorbox_load.js":1,"misc\/progress.js":1,"sites\/all\/modules\/contrib\/ctools\/js\/modal.js":1,"sites\/all\/modules\/contrib\/modal_forms\/js\/modal_forms_popup.js":1,"sites\/all\/libraries\/jquery.cycle\/jquery.cycle.all.js":1,"sites\/all\/modules\/contrib\/views_slideshow\/contrib\/views_slideshow_cycle\/js\/views_slideshow_cycle.js":1,"sites\/all\/modules\/contrib\/responsive_menus\/styles\/ResponsiveMultiLevelMenu\/js\/responsive_menus_codrops_responsive_multi.js":1,"sites\/all\/libraries\/ResponsiveMultiLevelMenu\/js\/modernizr.custom.js":1,"sites\/all\/libraries\/ResponsiveMultiLevelMenu\/js\/jquery.dlmenu.js":1,"sites\/all\/modules\/contrib\/colorbox_node\/colorbox_node.js":1,"sites\/all\/themes\/ecofolio\/js\/scripts.js":1,"sites\/all\/themes\/ecofolio\/js\/ecofolio.js":1},"css":{"modules\/system\/system.base.css":1,"modules\/system\/system.menus.css":1,"modules\/system\/system.messages.css":1,"modules\/system\/system.theme.css":1,"sites\/all\/modules\/contrib\/views_slideshow\/views_slideshow.css":1,"sites\/all\/modules\/contrib\/simplenews\/simplenews.css":1,"sites\/all\/modules\/contrib\/colorbox_node\/colorbox_node.css":1,"sites\/all\/modules\/contrib\/date\/date_api\/date.css":1,"sites\/all\/modules\/contrib\/date\/date_popup\/themes\/datepicker.1.7.css":1,"modules\/field\/theme\/field.css":1,"sites\/all\/modules\/contrib\/menu_attach_block\/menu_attach_block.css":1,"modules\/node\/node.css":1,"modules\/search\/search.css":1,"modules\/user\/user.css":1,"sites\/all\/modules\/contrib\/views\/css\/views.css":1,"sites\/all\/modules\/contrib\/ckeditor\/css\/ckeditor.css":1,"sites\/all\/modules\/contrib\/colorbox\/styles\/default\/colorbox_style.css":1,"sites\/all\/modules\/contrib\/ctools\/css\/ctools.css":1,"sites\/all\/modules\/custom\/ecofolio_display_mediatheque\/css\/mediatheque.css":1,"sites\/all\/modules\/contrib\/ctools\/css\/modal.css":1,"sites\/all\/modules\/contrib\/modal_forms\/css\/modal_forms_popup.css":1,"sites\/all\/modules\/contrib\/asset\/css\/assets.css":1,"sites\/all\/modules\/contrib\/print\/print_ui\/css\/print_ui.theme.css":1,"sites\/all\/modules\/contrib\/views_slideshow\/views_slideshow_controls_text.css":1,"sites\/all\/modules\/contrib\/views_slideshow\/contrib\/views_slideshow_cycle\/views_slideshow_cycle.css":1,"0":1,"sites\/all\/modules\/contrib\/eu_cookie_compliance\/css\/eu_cookie_compliance.css":1,"sites\/all\/libraries\/ResponsiveMultiLevelMenu\/css\/component.css":1,"sites\/all\/themes\/omega\/alpha\/css\/alpha-reset.css":1,"sites\/all\/themes\/omega\/alpha\/css\/alpha-mobile.css":1,"sites\/all\/themes\/omega\/alpha\/css\/alpha-alpha.css":1,"sites\/all\/themes\/omega\/omega\/css\/omega-text.css":1,"sites\/all\/themes\/omega\/omega\/css\/omega-branding.css":1,"sites\/all\/themes\/omega\/omega\/css\/omega-menu.css":1,"sites\/all\/themes\/omega\/omega\/css\/omega-forms.css":1,"sites\/all\/themes\/omega\/omega\/css\/omega-visuals.css":1,"sites\/all\/themes\/ecofolio\/css\/global.css":1,"sites\/all\/themes\/ecofolio\/css\/ecofolio.css":1,"ie::normal::sites\/all\/themes\/ecofolio\/css\/ecofolio-ecofolio-default.css":1,"ie::normal::sites\/all\/themes\/ecofolio\/css\/ecofolio-ecofolio-default-normal.css":1,"ie::normal::sites\/all\/themes\/ecofolio\/css\/grid\/ecofolio_default\/normal\/ecofolio-default-normal-24.css":1,"ie::normal::sites\/all\/themes\/ecofolio\/css\/grid\/ecofolio_default\/normal\/ecofolio-default-normal-16.css":1,"narrow::sites\/all\/themes\/ecofolio\/css\/ecofolio-ecofolio-default.css":1,"narrow::sites\/all\/themes\/ecofolio\/css\/ecofolio-ecofolio-default-narrow.css":1,"sites\/all\/themes\/ecofolio\/css\/grid\/ecofolio_default\/narrow\/ecofolio-default-narrow-24.css":1,"sites\/all\/themes\/ecofolio\/css\/grid\/ecofolio_default\/narrow\/ecofolio-default-narrow-16.css":1,"normal::sites\/all\/themes\/ecofolio\/css\/ecofolio-ecofolio-default.css":1,"normal::sites\/all\/themes\/ecofolio\/css\/ecofolio-ecofolio-default-normal.css":1,"sites\/all\/themes\/ecofolio\/css\/grid\/ecofolio_default\/normal\/ecofolio-default-normal-24.css":1,"sites\/all\/themes\/ecofolio\/css\/grid\/ecofolio_default\/normal\/ecofolio-default-normal-16.css":1,"wide::sites\/all\/themes\/ecofolio\/css\/ecofolio-ecofolio-default.css":1,"wide::sites\/all\/themes\/ecofolio\/css\/ecofolio-ecofolio-default-wide.css":1,"sites\/all\/themes\/ecofolio\/css\/grid\/ecofolio_default\/wide\/ecofolio-default-wide-24.css":1,"sites\/all\/themes\/ecofolio\/css\/grid\/ecofolio_default\/wide\/ecofolio-default-wide-16.css":1}},"colorbox":{"opacity":"0.85","current":"{current} sur {total}","previous":"\u00ab Pr\u00e9c.","next":"Suivant \u00bb","close":"Fermer","maxWidth":"98%","maxHeight":"98%","fixed":true,"mobiledetect":true,"mobiledevicewidth":"480px"},"CToolsModal":{"loadingText":"En cours de chargement...","closeText":"Close Window","closeImage":"\u003Cimg src=\u0022http:\/\/ecofolio.bientotenligne.com\/sites\/all\/modules\/contrib\/ctools\/images\/icon-close-window.png\u0022 alt=\u0022Close window\u0022 title=\u0022Close window\u0022 \/\u003E","throbber":"\u003Cimg src=\u0022http:\/\/ecofolio.bientotenligne.com\/sites\/all\/modules\/contrib\/ctools\/images\/throbber.gif\u0022 alt=\u0022En cours de chargement\u0022 title=\u0022En cours de chargement...\u0022 \/\u003E"},"modal-popup-small":{"modalSize":{"type":"fixed","width":300,"height":300},"modalOptions":{"opacity":0.85,"background":"#000"},"animation":"fadeIn","modalTheme":"ModalFormsPopup","throbber":"\u003Cimg src=\u0022http:\/\/ecofolio.bientotenligne.com\/sites\/all\/modules\/contrib\/modal_forms\/images\/loading_animation.gif\u0022 alt=\u0022En cours de chargement...\u0022 title=\u0022En cours de chargement\u0022 \/\u003E","closeText":"Fermer"},"modal-popup-medium":{"modalSize":{"type":"fixed","width":550,"height":450},"modalOptions":{"opacity":0.85,"background":"#000"},"animation":"fadeIn","modalTheme":"ModalFormsPopup","throbber":"\u003Cimg src=\u0022http:\/\/ecofolio.bientotenligne.com\/sites\/all\/modules\/contrib\/modal_forms\/images\/loading_animation.gif\u0022 alt=\u0022En cours de chargement...\u0022 title=\u0022En cours de chargement\u0022 \/\u003E","closeText":"Fermer"},"modal-popup-large":{"modalSize":{"type":"scale","width":0.8,"height":0.8},"modalOptions":{"opacity":0.85,"background":"#000"},"animation":"fadeIn","modalTheme":"ModalFormsPopup","throbber":"\u003Cimg src=\u0022http:\/\/ecofolio.bientotenligne.com\/sites\/all\/modules\/contrib\/modal_forms\/images\/loading_animation.gif\u0022 alt=\u0022En cours de chargement...\u0022 title=\u0022En cours de chargement\u0022 \/\u003E","closeText":"Fermer"},"viewsSlideshow":{"diaporama_homeunivers-block":{"methods":{"goToSlide":["viewsSlideshowPager","viewsSlideshowSlideCounter","viewsSlideshowCycle"],"nextSlide":["viewsSlideshowPager","viewsSlideshowSlideCounter","viewsSlideshowCycle"],"pause":["viewsSlideshowControls","viewsSlideshowCycle"],"play":["viewsSlideshowControls","viewsSlideshowCycle"],"previousSlide":["viewsSlideshowPager","viewsSlideshowSlideCounter","viewsSlideshowCycle"],"transitionBegin":["viewsSlideshowPager","viewsSlideshowSlideCounter"],"transitionEnd":[]},"paused":0}},"viewsSlideshowControls":{"diaporama_homeunivers-block":{"top":{"type":"viewsSlideshowControlsText"}}},"viewsSlideshowPager":{"diaporama_homeunivers-block":{"bottom":{"type":"viewsSlideshowPagerFields"}}},"viewsSlideshowPagerFields":{"diaporama_homeunivers-block":{"bottom":{"activatePauseOnHover":0}}},"viewsSlideshowCycle":{"#views_slideshow_cycle_main_diaporama_homeunivers-block":{"num_divs":2,"id_prefix":"#views_slideshow_cycle_main_","div_prefix":"#views_slideshow_cycle_div_","vss_id":"diaporama_homeunivers-block","effect":"fade","transition_advanced":1,"timeout":8000,"speed":1000,"delay":0,"sync":1,"random":0,"pause":1,"pause_on_click":0,"action_advanced":1,"start_paused":0,"remember_slide":0,"remember_slide_days":1,"pause_in_middle":0,"pause_when_hidden":0,"pause_when_hidden_type":"full","amount_allowed_visible":"","nowrap":0,"fixed_height":1,"items_per_slide":1,"wait_for_image_load":1,"wait_for_image_load_timeout":10000,"cleartype":1,"cleartypenobg":0,"advanced_options":"{}"}},"eu_cookie_compliance":{"popup_enabled":1,"popup_agreed_enabled":0,"popup_hide_agreed":0,"popup_clicking_confirmation":1,"popup_html_info":"\u003Cdiv\u003E\n  \u003Cdiv class =\u0022popup-content info\u0022\u003E\n    \u003Cdiv id=\u0022popup-text\u0022\u003E\n      \u003Cp\u003EEn poursuivant votre navigation sur Ecofolio.fr vous acceptez l\u0027utilisation de cookies destin\u00e9s \u00e0 am\u00e9liorer la performance de ce site et \u00e0 am\u00e9liorer votre exp\u00e9rience de navigation. \u003Ca href=\u0022\/mentions-legales\u0022 target=\u0022_blank\u0022\u003EEn savoir plus.\u003C\/a\u003E \u003C\/p\u003E\n    \u003C\/div\u003E\n    \u003Cdiv id=\u0022popup-buttons\u0022\u003E\n      \u003Cbutton type=\u0022button\u0022 class=\u0022agree-button\u0022\u003EJ\u0027accepte\u003C\/button\u003E\n    \u003C\/div\u003E\n  \u003C\/div\u003E\n\u003C\/div\u003E\n","popup_html_agreed":"\u003Cdiv\u003E\n  \u003Cdiv class =\u0022popup-content agreed\u0022\u003E\n    \u003Cdiv id=\u0022popup-text\u0022\u003E\n      \u003Cp\u003EThank you for accepting cookies\n\u003C\/p\u003E\u003Cp\u003EYou can now hide this message or find out more about cookies.\u003C\/p\u003E\n    \u003C\/div\u003E\n    \u003Cdiv id=\u0022popup-buttons\u0022\u003E\n      \u003Cbutton type=\u0022button\u0022 class=\u0022hide-popup-button\u0022\u003ECacher\u003C\/button\u003E\n      \u003Cbutton type=\u0022button\u0022 class=\u0022find-more-button\u0022 \u003EPlus d\u0027informations\u003C\/button\u003E\n    \u003C\/div\u003E\n  \u003C\/div\u003E\n\u003C\/div\u003E","popup_height":"auto","popup_width":"100%","popup_delay":1000,"popup_link":"\/\/mentions-legales","popup_link_new_window":1,"popup_position":null,"popup_language":"fr","domain":""},"responsive_menus":[{"selectors":".block-nice-menus .content","media_size":"741","animation_in":"dl-animate-in-2","animation_out":"dl-animate-out-2","responsive_menus_style":"codrops_responsive_multi"}]});
+//--><!]]>
+</script>
+</head>
+<body class="html not-front not-logged-in no-sidebars page-node page-node- page-node-35 node-type-home-univers ff ff35 mac desktop"  class="html not-front not-logged-in page-node page-node- page-node-35 node-type-home-univers ff ff35 mac desktop context-recyclons-nos-papiers recyclons-nos-papiers-term">
+  <div id="skip-link">
+    <a href="#main-content" class="element-invisible element-focusable">Aller au contenu principal</a>
+  </div>
+    <div class="page clearfix" id="page">
+      <header id="section-header" class="section section-header">
+    
+  <div id="zone-full-header" class="zone zone-full-header clearfix container-24">
+    <div class="grid-1 region region-full-header" id="region-full-header">
+  <div class="region-inner region-full-header-inner">
+    <div class="block block-ecofolio-header block-ecofolio-header-full block-ecofolio-header-ecofolio-header-full odd block-without-title" id="block-ecofolio-header-ecofolio-header-full">
+  <div class="block-inner clearfix">
+                
+    <div class="content clearfix">
+        <div class="header_full">
+    <div class="slider">
+      
+    </div>
+    <div class="encart_top">
+      <div class="logo"><a href="http://localhost:8888/"><img src="http://localhost:8888/sites/default/files/ecofolio_print.png" alt="Ecofolio" /></a></div>
+      <div class="menu_top_right">
+        <ul>
+          <li><a href="http://localhost:8888/a-propos"><span>A propos</span></a></li><li><a href="http://localhost:8888/contact-ecofolio"><span>Contact</span></a></li><li><a href="http://localhost:8888/mediatheque"><span>Médiathèque</span></a></li>
+        </ul>
+      </div>
+      <a href="" class="espace_decla">Espace déclarations</a>
+    </div>
+    <div class="menu_espace_decla">
+      <span class="picto"></span>
+      <div class="view view-bloc-espace-declaration view-id-bloc_espace_declaration view-display-id-block view-dom-id-">
+                
+  
+  
+      <div class="view-content">
+        <div class="views-row views-row-1 views-row-odd views-row-first views-row-last">
+    <div  id="node-bloc-espace-declaration-34" class="ds-1col node node-bloc-espace-declaration view-mode-bloc_espace_declaration node-not-promoted node-not-sticky author-rémi odd clearfix clearfix">
+
+  
+  <div class="">
+    <div class="field field-name-field-bloc-espdec-teaser field-type-text field-label-hidden"><div class="field-items"><div class="field-item even">Espaces déclaration</div></div></div><div class="field field-name-field-bloc-espdec-link-ext field-type-link-field field-label-hidden"><div class="field-items"><div class="field-item even"><a href="https://aval.ecofolio.fr" target="_blank">Je suis une collectivité</a></div><div class="field-item odd"><a href="https://mespapiers.ecofolio.fr" target="_blank">Je suis un adhérent</a></div><div class="field-item even"><a href="https://reprise.ecofolio.fr" target="_blank">Je suis un repreneur</a></div></div></div>  </div>
+
+</div>
+
+  </div>
+    </div>
+  
+  
+  
+  
+  
+  
+</div>
+      <a href="" class="close">close</a>
+    </div>
+    <div class="main_menu">
+      <ul>
+        <li class=""><a href="http://localhost:8888/"><span>Accueil</span></a></li><li class="active "><a href="http://localhost:8888/recyclons-nos-papiers"><span>Recyclons nos papiers</span></a></li><li class=""><a href="http://localhost:8888/jeunesse"><span>Jeunesse</span></a></li><li class=""><a href="http://localhost:8888/collectivites-entreprises"><span>Collectivités & entreprises</span></a></li><li class="last"><a href="http://localhost:8888/presse-univers"><span>Presse</span></a></li>
+        <li class="search"><span class="search"></span></li
+      </ul>
+      <div class="search">
+        <form action="/recyclons-nos-papiers" method="post" id="ecofolio-header-search-form" accept-charset="UTF-8"><div><div class="form-item form-type-textfield form-item-search">
+ <input type="text" id="edit-search" name="search" value="" size="40" maxlength="255" class="form-text" />
+</div>
+<input type="submit" id="edit-submit" name="op" value="OK" class="form-submit" /><input type="hidden" name="form_build_id" value="form-dw5HmSKIgWX_QT4rBmlNIxkEp_pFaj2nR1saBrrxIFc" />
+<input type="hidden" name="form_id" value="ecofolio_header_search_form" />
+</div></form>
+      </div>
+    </div>
+  </div>
+  <div class="header_mobile">
+    <div class="encart_top">
+      <div class="logo"><a href="http://localhost:8888/"><img src="http://localhost:8888/sites/default/files/ecofolio_print.png" alt="Ecofolio" /></a></div>
+      <div class="menu_top_right">
+        <ul>
+          <li><a href="http://localhost:8888/a-propos"><span>A propos</span></a></li><li><a href="http://localhost:8888/contact-ecofolio"><span>Contact</span></a></li><li><a href="http://localhost:8888/mediatheque"><span>Médiathèque</span></a></li>
+        </ul>
+        <div class="follow_us">
+          <div class="view view-social-networks-footer view-id-social_networks_footer view-display-id-block view-dom-id-">
+
+      <div class="view-content">
+
+              <div class="view-header">
+          <p>Retrouvez-nous sur :</p>
+        </div>
+      
+        <div class="views-row views-row-1 views-row-odd views-row-first">
+      
+  <div class="views-field views-field-field-social-image">        <div class="field-content"><a href="https://twitter.com/ecofolio" target="_blank"><img src="http://localhost:8888/sites/default/files/styles/social_networks_footer/public/twitter_footer.png?itok=3FjRcGjX" width="110" height="30" alt="Twitter" title="Twitter" /></a></div>  </div>  </div>
+  <div class="views-row views-row-2 views-row-even">
+      
+  <div class="views-field views-field-field-social-image">        <div class="field-content"><a href="https://www.facebook.com/RecyclonsLesPapiers" target="_blank"><img src="http://localhost:8888/sites/default/files/styles/social_networks_footer/public/facebook_footer.png?itok=NPfCMu7Z" width="110" height="30" alt="Facebook" title="Facebook" /></a></div>  </div>  </div>
+  <div class="views-row views-row-3 views-row-odd views-row-last">
+      
+  <div class="views-field views-field-field-social-image">        <div class="field-content"><a href="https://www.youtube.com/user/Ecofolio" target="_blank"><img src="http://localhost:8888/sites/default/files/styles/social_networks_footer/public/youtube.png?itok=Mk7tdnIB" width="110" height="30" alt="Youtube" title="Youtube" /></a></div>  </div>  </div>
+    </div>
+  
+</div>
+        </div>
+        <div class="search">
+          <form action="/recyclons-nos-papiers" method="post" id="ecofolio-header-search-form" accept-charset="UTF-8"><div><div class="form-item form-type-textfield form-item-search">
+ <input type="text" id="edit-search" name="search" value="" size="40" maxlength="255" class="form-text" />
+</div>
+<input type="submit" id="edit-submit" name="op" value="OK" class="form-submit" /><input type="hidden" name="form_build_id" value="form-dw5HmSKIgWX_QT4rBmlNIxkEp_pFaj2nR1saBrrxIFc" />
+<input type="hidden" name="form_id" value="ecofolio_header_search_form" />
+</div></form>
+        </div>
+
+      </div>
+      <div class="menu_contextuel">
+        <section class="block block-menu-block block-1 block-menu-block-1 odd" id="block-menu-block-1">
+  <div class="block-inner clearfix">
+              <h2 class="block-title">Recyclons nos papiers</h2>
+            
+    <div class="content clearfix">
+      <div class="menu-block-wrapper menu-block-1 menu-name-menu-sidebar-main-menu parent-mlid-0 menu-level-2">
+  <ul class="menu"><li class="first expanded menu-mlid-4040"><a href="/recyclons-nos-papiers/le-tri-du-papier" class="not-active">Mon geste</a><ul class="menu"><li class="first leaf menu-mlid-4045"><a href="/recyclons-nos-papiers/le-tri-du-papier" title="Le tri du papier">Le tri du papier</a></li>
+<li class="leaf menu-mlid-3939"><a href="/recyclons-nos-papiers/les-types-de-bac" title="Les types de bacs">Les types de bacs</a></li>
+<li class="last leaf menu-mlid-4035"><a href="/jeu" title="Le jeu">Le jeu</a></li>
+</ul></li>
+<li class="expanded menu-mlid-3934"><a href="/recyclons-nos-papiers/comment-ca-marche" class="not-active">Le recyclage</a><ul class="menu"><li class="first leaf menu-mlid-3940"><a href="/recyclons-nos-papiers/comment-ca-marche">Comment ça marche</a></li>
+<li class="last leaf menu-mlid-3941"><a href="/recyclons-nos-papiers/les-vies-du%20papier">Les vies du papier</a></li>
+</ul></li>
+<li class="expanded menu-mlid-3937"><a href="/recyclons-nos-papiers/economie" class="not-active">Les bénéfices</a><ul class="menu"><li class="first leaf menu-mlid-3942"><a href="/recyclons-nos-papiers/economie">Economie</a></li>
+<li class="leaf menu-mlid-3943"><a href="/recyclons-nos-papiers/environnement">Environnement</a></li>
+<li class="last leaf menu-mlid-4036"><a href="/calculatrice">La calculatrice</a></li>
+</ul></li>
+<li class="last leaf menu-mlid-3936"><a href="/mediatheque/Recyclons%20nos%20papiers">Médiathèque</a></li>
+</ul></div>
+    </div>
+  </div>
+</section>
+      </div>
+    </div>
+    <div class="slider">
+      
+    </div>
+  </div>    </div>
+  </div>
+</div>  </div>
+</div>  </div>
+<div id="zone-top-header-wrapper" class="zone-wrapper zone-top-header-wrapper clearfix">  
+  <div id="zone-top-header" class="zone zone-top-header clearfix container-16">
+    <div class="grid-6 prefix-6 region region-top-menu" id="region-top-menu">
+  <div class="region-inner region-top-menu-inner">
+      </div>
+</div>  </div>
+</div><div id="zone-logo-search-wrapper" class="zone-wrapper zone-logo-search-wrapper clearfix">  
+  <div id="zone-logo-search" class="zone zone-logo-search clearfix container-16">
+    <div class="grid-4 suffix-2 prefix-2 region region-logo" id="region-logo">
+  <div class="region-inner region-logo-inner">
+      </div>
+</div><div class="grid-4 suffix-2 prefix-2 region region-search" id="region-search">
+  <div class="region-inner region-search-inner">
+      </div>
+</div>  </div>
+</div><div id="zone-menu-wrapper" class="zone-wrapper zone-menu-wrapper clearfix">  
+  <div id="zone-menu" class="zone zone-menu clearfix container-16">
+      </div>
+</div></header>    
+      	<section id="section-content" class="section section-content">
+  <div id="zone-content-wrapper" class="zone-wrapper zone-content-wrapper clearfix">  
+  <div id="zone-content" class="zone zone-content clearfix container-16">    
+          <div id="breadcrumb" class="grid-16"><div class="breadcrumb"><a href="/">Accueil</a><span>&nbsp;&nbsp;>&nbsp;&nbsp;</span>Recyclons nos papiers</div></div>
+        
+        <aside class="grid-4 prefix-2 region region-sidebar-first" id="region-sidebar-first">
+  <div class="region-inner region-sidebar-first-inner">
+    <section class="block block-menu-block block-1 block-menu-block-1--2 even" id="block-menu-block-1--2">
+  <div class="block-inner clearfix">
+              <h2 class="block-title">Recyclons nos papiers</h2>
+            
+    <div class="content clearfix">
+      <div class="menu-block-wrapper menu-block-1 menu-name-menu-sidebar-main-menu parent-mlid-0 menu-level-2">
+  <ul class="menu"><li class="first expanded menu-mlid-4040"><a href="/recyclons-nos-papiers/le-tri-du-papier" class="not-active">Mon geste</a><ul class="menu"><li class="first leaf menu-mlid-4045"><a href="/recyclons-nos-papiers/le-tri-du-papier" title="Le tri du papier">Le tri du papier</a></li>
+<li class="leaf menu-mlid-3939"><a href="/recyclons-nos-papiers/les-types-de-bac" title="Les types de bacs">Les types de bacs</a></li>
+<li class="last leaf menu-mlid-4035"><a href="/jeu" title="Le jeu">Le jeu</a></li>
+</ul></li>
+<li class="expanded menu-mlid-3934"><a href="/recyclons-nos-papiers/comment-ca-marche" class="not-active">Le recyclage</a><ul class="menu"><li class="first leaf menu-mlid-3940"><a href="/recyclons-nos-papiers/comment-ca-marche">Comment ça marche</a></li>
+<li class="last leaf menu-mlid-3941"><a href="/recyclons-nos-papiers/les-vies-du%20papier">Les vies du papier</a></li>
+</ul></li>
+<li class="expanded menu-mlid-3937"><a href="/recyclons-nos-papiers/economie" class="not-active">Les bénéfices</a><ul class="menu"><li class="first leaf menu-mlid-3942"><a href="/recyclons-nos-papiers/economie">Economie</a></li>
+<li class="leaf menu-mlid-3943"><a href="/recyclons-nos-papiers/environnement">Environnement</a></li>
+<li class="last leaf menu-mlid-4036"><a href="/calculatrice">La calculatrice</a></li>
+</ul></li>
+<li class="last leaf menu-mlid-3936"><a href="/mediatheque/Recyclons%20nos%20papiers">Médiathèque</a></li>
+</ul></div>
+    </div>
+  </div>
+</section><div class="block block-ecofolio-fullsidebar block-ecofolio-fullsidebar-full block-ecofolio-fullsidebar-ecofolio-fullsidebar-full odd block-without-title" id="block-ecofolio-fullsidebar-ecofolio-fullsidebar-full">
+  <div class="block-inner clearfix">
+                
+    <div class="content clearfix">
+              <div class="nos_dossiers">
+          <h3>Nos dossiers</h3>
+          <ul>
+            <li><a href="/histoire-papier">Histoire du papier</a></li><li><a href="/foret">La forêt</a></li><li><a href="/papiers-futur">Papiers du futur</a></li>
+          </ul>
+        </div>          <div class="bloc_decouverte">
+            <a href="http://recyclonslespapiers.fr/">
+              <img src="http://localhost:8888/sites/default/files/styles/320-310/public/sans-titre-1.jpg?itok=eSmINCQb" />
+              <div class="footer_intra">
+                <p>Découvrez le web documentaire.<span class="more"></span></p>
+              </div>
+            </a>
+          </div>    </div>
+  </div>
+</div>  </div>
+</aside><div id="zone-maincontent-wrapper" class="zone-wrapper zone-maincontent-wrapper clearfix">  
+  <div id="zone-maincontent" class="zone zone-maincontent clearfix">
+    <div class="grid-8 suffix-2 region region-first-content" id="region-first-content">
+  <div class="region-inner region-first-content-inner">
+    <div class="block block-system block-main block-system-main odd block-without-title" id="block-system-main">
+  <div class="block-inner clearfix">
+                
+    <div class="content clearfix">
+      <article class="node node-home-univers node-published node-not-promoted node-not-sticky author-rémi even clearfix" id="node-home-univers-35">
+            
+  
+  <div class="content clearfix">
+      </div>
+  
+  <div class="clearfix">
+          <nav class="links node-links clearfix"></nav>
+    
+      </div>
+</article>    </div>
+  </div>
+</div><div class="block block-views block-diaporama-homeunivers-block block-views-diaporama-homeunivers-block even block-without-title" id="block-views-diaporama-homeunivers-block">
+  <div class="block-inner clearfix">
+                
+    <div class="content clearfix">
+      <div class="view view-diaporama-homeunivers view-id-diaporama_homeunivers view-display-id-block view-dom-id-db6aca45c1de5c2cb6ff63712e60b3df">
+                
+  
+  
+      <div class="view-content">
+      
+  <div class="skin-default">
+          <div class="views-slideshow-controls-top clearfix">
+        <div id="views_slideshow_controls_text_diaporama_homeunivers-block" class="views-slideshow-controls-text views_slideshow_controls_text">
+  <span id="views_slideshow_controls_text_previous_diaporama_homeunivers-block" class="views-slideshow-controls-text-previous views_slideshow_controls_text_previous"><a href="#">Précédent</a></span>
+  <span id="views_slideshow_controls_text_pause_diaporama_homeunivers-block" class="views-slideshow-controls-text-pause views_slideshow_controls_text_pause  views-slideshow-controls-text-status-play"><a href="#">Pause</a></span>
+  <span id="views_slideshow_controls_text_next_diaporama_homeunivers-block" class="views-slideshow-controls-text-next views_slideshow_controls_text_next"><a href="#">Suivant</a></span>
+</div>
+      </div>
+    
+    <div id="views_slideshow_cycle_main_diaporama_homeunivers-block" class="views_slideshow_cycle_main views_slideshow_main"><div id="views_slideshow_cycle_teaser_section_diaporama_homeunivers-block" class="views-slideshow-cycle-main-frame views_slideshow_cycle_teaser_section">
+  <div id="views_slideshow_cycle_div_diaporama_homeunivers-block_0" class="views-slideshow-cycle-main-frame-row views_slideshow_cycle_slide views_slideshow_slide views-row-1 views-row-odd">
+  <div class="views-slideshow-cycle-main-frame-row-item views-row views-row-0 views-row-odd views-row-first">
+    
+  <div class="views-field views-field-field-slider-homeunviers-image">        <div class="field-content"><a href="http://localhost:8888/jeu"><img src="http://localhost:8888/sites/default/files/styles/diaporama_univers/public/sliderunivers-jeu.png?itok=AMRyQ-7f" width="670" height="380" /></a></div>  </div>  
+  <div class="views-field views-field-title">        <span class="field-content"><a href="http://localhost:8888/jeu"><div class="slider-text">
+	<div class="slider-accroche">Le jeu du tri mettra vos nerfs à rude épreuve ! serez-vous assez rapide ?</div>
+</div></a></span>  </div></div>
+</div>
+<div id="views_slideshow_cycle_div_diaporama_homeunivers-block_1" class="views-slideshow-cycle-main-frame-row views_slideshow_cycle_slide views_slideshow_slide views-row-2 views_slideshow_cycle_hidden views-row-even">
+  <div class="views-slideshow-cycle-main-frame-row-item views-row views-row-1 views-row-even views-row-last">
+    
+  <div class="views-field views-field-field-slider-homeunviers-image">        <div class="field-content"><a href="http://localhost:8888/calculatrice"><img src="http://localhost:8888/sites/default/files/styles/diaporama_univers/public/sliderunivers-calculatrice.png?itok=brElnjvf" width="670" height="380" alt="" /></a></div>  </div>  
+  <div class="views-field views-field-title">        <span class="field-content"><a href="http://localhost:8888/calculatrice"><div class="slider-text">
+	<div class="slider-accroche">Connaissez vous votre impact sur l’environnent ? Vous serez surpris !</div>
+</div></a></span>  </div></div>
+</div>
+</div>
+</div>
+          <div class="views-slideshow-controls-bottom clearfix">
+        <div id="widget_pager_bottom_diaporama_homeunivers-block" class="views-slideshow-pager-fields widget_pager widget_pager_bottom views_slideshow_pager_field">
+  <div id="views_slideshow_pager_field_item_bottom_diaporama_homeunivers-block_0" class="views-slideshow-pager-field-item views_slideshow_pager_field_item views-row-odd views-row-first">
+  <div class="views-field-counter">
+    <div class="views-content-counter">
+    1  </div>
+</div>
+</div>
+<div id="views_slideshow_pager_field_item_bottom_diaporama_homeunivers-block_1" class="views-slideshow-pager-field-item views_slideshow_pager_field_item views-row-even views-row-last">
+  <div class="views-field-counter">
+    <div class="views-content-counter">
+    2  </div>
+</div>
+</div>
+</div>
+      </div>
+      </div>
+    </div>
+  
+  
+  
+  
+  
+  
+</div>    </div>
+  </div>
+</div><div class="block block-ecofolio-univers block-ecofolio-univers-full block-ecofolio-univers-ecofolio-univers-full odd block-without-title" id="block-ecofolio-univers-ecofolio-univers-full">
+  <div class="block-inner clearfix">
+                
+    <div class="content clearfix">
+            <div class="bloc_intra">
+        <h3>Les types de bacs</h3>
+        <p>Où que vous soyez, une solution simple existe pour trier vos vieux papier !</p>
+        <img src="http://localhost:8888/sites/default/files/styles/320-310/public/rem-typesbacs.jpg?itok=tSpK3xER" />
+        <div class="footer_intra">
+          <a href="/recyclons-nos-papiers/les-types-de-bac">Découvrir les conteneurs</a>
+        </div>
+      </div>  <div class="hp_top_center">
+    <a href="">
+      <img src="http://localhost:8888/sites/default/files/styles/hp_top_center/public/sans_titre-1.png?itok=9oUsLqQ-" />
+    </a>
+  </div>  <div class="hp_top_right">
+    <div class="top">
+      <h3>Dossier</h3>
+      <h2>La forêt</h2>
+      <p class="accroche">Protéger nos forêts, c’est apprendre à les gérer durablement.</p>
+    </div>
+    <img src="http://localhost:8888/sites/default/files/styles/hp_top_right/public/img-dossier-foret.jpg?itok=dCEPaIZI" />
+    <div class="encart"><a href="" class="decouvrir"><span>Découvrir</span></a></div>
+  </div>      <div class="bloc_intra">
+        <h3>Les vies du papier</h3>
+        <p>Il est important de trier ses papiers, mais que deviennent-ils après le recyclage ?</p>
+        <img src="http://localhost:8888/sites/default/files/styles/320-310/public/rem-vies.jpg?itok=peZ9Xh6G" />
+        <div class="footer_intra">
+          <a href="/recyclons-nos-papiers/les-vies-du%20papier">Découvrir leurs 5 vies</a>
+        </div>
+      </div>    </div>
+  </div>
+</div>  </div>
+</div><div class="grid-8 suffix-2 region region-third-content" id="region-third-content">
+  <div class="region-inner region-third-content-inner">
+    <div class="block block-views block-blocs-homeunivers-block-4 block-views-blocs-homeunivers-block-4 odd block-without-title" id="block-views-blocs-homeunivers-block-4">
+  <div class="block-inner clearfix">
+                
+    <div class="content clearfix">
+      <div class="view view-blocs-homeunivers view-id-blocs_homeunivers view-display-id-block_4 view-dom-id-6a8a278291b63af5f036462696079ecd">
+                
+  
+  
+      <div class="view-content">
+        <div class="views-row views-row-1 views-row-odd views-row-first views-row-last">
+      </div>
+    </div>
+  
+  
+  
+  
+  
+  
+</div>    </div>
+  </div>
+</div>  </div>
+</div>  </div>
+</div>  </div>
+</div></section>    
+  
+      <footer id="section-footer" class="section section-footer">
+  <div id="zone-footer-wrapper" class="zone-wrapper zone-footer-wrapper clearfix">  
+  <div id="zone-footer" class="zone zone-footer clearfix container-16">
+    <div class="grid-12 suffix-2 prefix-2 region region-footer-first" id="region-footer-first">
+  <div class="region-inner region-footer-first-inner">
+    <div class="block block-ecofolio-footer block-ecofolio-footer-full block-ecofolio-footer-ecofolio-footer-full odd block-without-title" id="block-ecofolio-footer-ecofolio-footer-full">
+  <div class="block-inner clearfix">
+                
+    <div class="content clearfix">
+        <div class="footer_full">
+    <div class="encart_footer">
+      <div class="logo"><a href="http://localhost:8888/"><img src="http://localhost:8888/sites/default/files/ecofolio_print.png" alt="Ecofolio" /></a></div>
+      <div class="menu_top_right">
+        <ul>
+          <li><a href="http://localhost:8888/a-propos">A propos</a></li><li><a href="http://localhost:8888/contact-ecofolio">Contact</a></li><li><a href="http://localhost:8888/mediatheque">Médiathèque</a></li>
+        </ul>
+      </div>
+      <div class="follow_us">
+        <div class="view view-social-networks-footer view-id-social_networks_footer view-display-id-block view-dom-id-">
+
+      <div class="view-content">
+
+              <div class="view-header">
+          <p>Retrouvez-nous sur :</p>
+        </div>
+      
+        <div class="views-row views-row-1 views-row-odd views-row-first">
+      
+  <div class="views-field views-field-field-social-image">        <div class="field-content"><a href="https://twitter.com/ecofolio" target="_blank"><img src="http://localhost:8888/sites/default/files/styles/social_networks_footer/public/twitter_footer.png?itok=3FjRcGjX" width="110" height="30" alt="Twitter" title="Twitter" /></a></div>  </div>  </div>
+  <div class="views-row views-row-2 views-row-even">
+      
+  <div class="views-field views-field-field-social-image">        <div class="field-content"><a href="https://www.facebook.com/RecyclonsLesPapiers" target="_blank"><img src="http://localhost:8888/sites/default/files/styles/social_networks_footer/public/facebook_footer.png?itok=NPfCMu7Z" width="110" height="30" alt="Facebook" title="Facebook" /></a></div>  </div>  </div>
+  <div class="views-row views-row-3 views-row-odd views-row-last">
+      
+  <div class="views-field views-field-field-social-image">        <div class="field-content"><a href="https://www.youtube.com/user/Ecofolio" target="_blank"><img src="http://localhost:8888/sites/default/files/styles/social_networks_footer/public/youtube.png?itok=Mk7tdnIB" width="110" height="30" alt="Youtube" title="Youtube" /></a></div>  </div>  </div>
+    </div>
+  
+</div>
+      </div>
+    </div>
+    <div class="main_menu">
+      <ul>
+        <li><a href="http://localhost:8888/a-propos">À propos d'ecofolio</a><ul><li><a href="http://localhost:8888/actualites">Actualités</a><li><a href="http://localhost:8888/nos-missions">Nos missions</a><li><a href="http://localhost:8888/qui-sommes-nous">Nos valeurs</a><li><a href="http://localhost:8888/notre-organisation">Notre organisation</a></ul></li><li><a href="http://localhost:8888/jeunesse">Espace Jeunesse</a><ul><li><a href="http://localhost:8888/jeunesse/premier-degre">Programme Léo Folio</a><li><a href="http://localhost:8888/jeunesse/livret-a-commander">Espace pédagogique</a><li><a href="http://localhost:8888/jeunesse/partenariats">Partenariats</a></ul></li><li><a href="http://localhost:8888/collectivites-entreprises">Entreprises & Collectivités</a><ul><li><a href="http://localhost:8888/adherents">Adhérents</a><li><a href="http://localhost:8888/collectivites">Collectivités</a><li><a href="http://localhost:8888/repreneurs">Repreneurs</a></ul></li><li><a href="http://localhost:8888/presse-univers">Espace Presse</a><ul><li><a href="http://localhost:8888/editeur-regie">Espace éditeur</a><li><a href="http://localhost:8888/mediatheque/presse">Communiqués de presse</a></ul></li><li class="active"><a href="http://localhost:8888/recyclons-nos-papiers">Recyclons nos papiers</a><ul><li><a href="http://localhost:8888/recyclons-nos-papiers/le-tri-du-papier">Mon geste</a><li><a href="http://localhost:8888/recyclons-nos-papiers/comment-ca-marche">Le recyclage</a><li><a href="http://localhost:8888/recyclons-nos-papiers/economie">Les bénéfices</a></ul></li><li class="notoptitle"><ul><li><a href="http://localhost:8888/contact-ecofolio">Contact</a><li><a href="http://localhost:8888/mentions-legales">Mentions légales</a></ul></li>
+      </ul>
+    </div>
+    <div class="copyright"><p>© Copyright 2014. Ecofolio, tous droits réservés</p>
+</div>
+    <div class="go_up">
+      <a href=""></a>
+    </div>
+  </div>    </div>
+  </div>
+</div>  </div>
+</div>  </div>
+</div></footer>  </div>  <script type="text/javascript" src="http://localhost:8888/sites/all/modules/contrib/eu_cookie_compliance/js/eu_cookie_compliance.js?njk0y7"></script>
+  <div id="customOverlay" style="display:none;"><p>Veuillez patienter, recherche en cours.</p></div>
+</body>
+</html>

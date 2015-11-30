@@ -1,0 +1,5 @@
+name = "Module commun à l'application"
+description = "Module permettant d'utiliser des fonctions communes à l'application"
+package = OPCAIM
+core = "7.x"
+version = "7.1.0"

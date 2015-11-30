@@ -1,0 +1,12 @@
+(function($){
+    jQuery(document).ready(function($) {
+        jQuery('#edit-siret').autocomplete({
+            source: '/autocomplete/entreprise',
+            dataType: 'json',
+            minLength : 3
+        });
+    });
+    // Gestion des champs codes postaux et villes
+    share_gestion_autocomplete_code_postal_ville("zip_code","city");
+    
+})(jQuery)

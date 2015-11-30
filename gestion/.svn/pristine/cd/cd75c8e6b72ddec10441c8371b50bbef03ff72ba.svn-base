@@ -1,0 +1,87 @@
+<?php
+
+  require_once 'inc/shared_boot.inc';
+/**
+ *  BOOT DES FONCTIONS DU SHARED
+ */
+_shared_boot_required();
+
+/**
+ *  Hook_menu()
+ *  shared Menu
+ */
+function shared_menu() {
+  $items['autocomplete/entreprise'] = array(
+    'page callback' => 'shared_autocomplete_entreprise',
+    'access callback' => TRUE,
+    'file' => 'inc/models/shared_db_entreprises.inc',
+    'type' => MENU_CALLBACK,
+  );
+  $items['autocomplete/entreprise-by-siret-or-raison-social'] = array(
+      'page callback' => 'shared_autocomplete_entreprise_by_siret_raison_sociale',
+      'access callback' => TRUE,
+      'file' => 'inc/models/shared_db_entreprises.inc',
+      'type' => MENU_CALLBACK,
+  );
+  $items['autocomplete/entreprise-all'] = array(
+      'page callback' => 'shared_autocomplete_all_entreprise',
+      'access callback' => TRUE,
+      'file' => 'inc/models/shared_db_entreprises.inc',
+      'type' => MENU_CALLBACK,
+  );
+  $items['autocomplete/organisme-formation'] = array(
+    'page callback' => 'shared_autocomplete_organisme_formation',
+    'access callback' => TRUE,
+    'file' =>  'inc/models/shared_db_organismes_formations.inc',
+    'type' => MENU_CALLBACK,
+  );
+  $items['autocomplete/salarie'] = array(
+      'page callback' => 'shared_autocomplete_salarie',
+      'access callback' => TRUE,
+      'file' =>  'inc/models/shared_db_salaries.inc',
+      'type' => MENU_CALLBACK,
+  );
+  $items['notiflu/notifications-all'] = array(
+      'page callback' => 'shared_db_set_lu_notif_categories_ajax',
+      'access callback' => TRUE,
+      'file' =>  'inc/shared_notification.inc',
+      'type' => MENU_CALLBACK,
+  );
+
+  $items['libelle/from/code'] = array(
+      'page callback' => 'shared_get_libelle_from_code',
+      'access callback' => TRUE,
+      'file' =>  'inc/models/shared_db_common.inc',
+      'type' => MENU_CALLBACK,
+  );
+
+  $items['code/from/libelle'] = array(
+      'page callback' => 'shared_autocomplete_libelle_get_code',
+      'access callback' => TRUE,
+      'file' =>  'inc/models/shared_db_common.inc',
+      'type' => MENU_CALLBACK,
+  ); $items['match/code-postal-ville'] = array(
+      'page callback' => 'shared_search_code_postal_ville',
+      'access callback' => TRUE,
+      'file' =>  'inc/models/shared_db_code_postal_ville.inc',
+      'type' => MENU_CALLBACK,
+  );
+  $items['autocomplete/code-postal'] = array(
+      'page callback' => 'shared_autocomplete_code_postal',
+      'access callback' => TRUE,
+      'file' =>  'inc/models/shared_db_code_postal_ville.inc',
+      'type' => MENU_CALLBACK,
+  );
+  $items['autocomplete/ville'] = array(
+      'page callback' => 'shared_autocomplete_ville',
+      'access callback' => TRUE,
+      'file' =>  'inc/models/shared_db_code_postal_ville.inc',
+      'type' => MENU_CALLBACK,
+  );
+  $items['update/code-postal'] = array(
+      'page callback' => 'shared_update_code_postal',
+      'access callback' => TRUE,
+      'file' =>  'inc/models/shared_db_code_postal_ville.inc',
+      'type' => MENU_CALLBACK,
+  );    return $items;
+}

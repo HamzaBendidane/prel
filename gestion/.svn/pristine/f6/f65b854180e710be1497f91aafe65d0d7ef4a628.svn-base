@@ -1,0 +1,211 @@
+<?php
+/**
+ *  Permission utilisateurs
+ *
+ */
+function _dgf_administration_etablissements_access_callback(){
+    return shared_user_access('GES_LIS_ETA');
+}
+
+function _access_callback_modifier_etab() {
+  global $user;
+
+  if (in_array('COLLABORATEUR ENTREPRISE', $user->roles)) {
+    if (array_key_exists(arg(3), $user->data['extranet_user']->entreprises)) {
+      return true;
+    } else {
+      return false;
+    }
+  } else {
+    return shared_user_access('GES_MOD_ETA');
+  }
+}
+
+/**
+ *  Implements Hook_menu()
+ *  Gestion / validation des etablissments et des organismes de formation
+ *
+ */
+function dgf_administration_etablissements_menu() {
+
+    // Créer un etablissement
+
+    $items['gestion/etablissement/creer'] = array(
+        'title' => t('Ajouter un établissement'),
+        'page callback' => 'common_admin_view',
+        'access arguments' => array('GES_MOD_ETA'),
+        'access callback' => '_access_callback_modifier_etab',
+        'file' => 'common_controller.inc',
+        'page arguments' => array('creation_entreprise'),
+        'type' => MENU_NORMAL_ITEM,
+    );
+
+    // Valider un etabblissement
+
+    $items['gestion/etablissement/valider'] = array(
+        'title' => t('Valider un établissement'),
+        'page callback' => 'common_admin_view',
+        'access arguments' => array('GES_MOD_ETA'),
+        'access callback' => '_access_callback_modifier_etab',
+        'file' => 'common_controller.inc',
+        'page arguments' => array('valider_entreprise'),
+        'type' => MENU_NORMAL_ITEM,
+    );
+
+    // Modifier un etablissemnt
+
+    $items['gestion/etablissement/modifier'] = array(
+        'title' => t('Modifier un établissement'),
+        'page callback' => 'common_admin_view',
+        'access callback'=> '_access_callback_modifier_etab',
+        'file' => 'common_controller.inc',
+        'page arguments' => array('modifier_entreprise'),
+        'type' => MENU_NORMAL_ITEM,
+    );
+
+    // Supression d'un etablissement
+
+    $items['gestion/etablissement/supprimer'] = array(
+        'page callback' => 'suppression_callback',
+        'access arguments' => array('GES_MOD_ETA'),
+        'file' => 'common_controller.inc',
+        'access callback' => '_access_callback_modifier_etab',
+        'page arguments' => array('supprimer_entreprise'),
+        'type' => MENU_NORMAL_ITEM,
+    );
+
+    // Créer un etablissement
+
+    $items['gestion/organisme/creer'] = array(
+        'title' => t('Créer un établissement'),
+        'page callback' => 'common_admin_view',
+        'access arguments' => array('GES_MOD_ETA'),
+        'access callback' => '_access_callback_modifier_etab',
+        'file' => 'common_controller.inc',
+        'page arguments' => array('creation_organisme'),
+        'type' => MENU_CALLBACK,
+    );
+
+    // Valider un organisme
+
+    $items['gestion/organisme/valider'] = array(
+        'title' => t('Valider un établissement'),
+        'page callback' => 'common_admin_view',
+        'access arguments' => array('GES_MOD_ETA'),
+        'access callback' => '_access_callback_modifier_etab',
+        'file' => 'common_controller.inc',
+        'page arguments' => array('valider_organisme'),
+        'type' => MENU_CALLBACK,
+    );
+
+    // Modifier un etablissemnt
+
+    $items['gestion/organisme/modifier'] = array(
+        'title' => t('Modifier un établissement'),
+        'page callback' => 'common_admin_view',
+        'access arguments' => array('GES_MOD_ETA'),
+        'access callback' => '_access_callback_modifier_etab',
+        'file' => 'common_controller.inc',
+        'page arguments' => array('modifier_organisme'),
+        'type' => MENU_CALLBACK,
+    );
+
+    // Supression d'un organisme
+
+    $items['gestion/organisme/supprimer'] = array(
+        'page callback' => 'validation_liste_delete',
+        'access arguments' => array('GES_MOD_ETA'),
+        'access callback' => '_access_callback_modifier_etab',
+        'file' => 'common_controller.inc',
+        'page arguments' => array('supprimer_organisme'),
+        'type' => MENU_CALLBACK,
+    );
+
+    // Liste gestion organisme de formation
+
+    $items['gestion/etablissement/organismes/listes'] = array(
+        'title' => t('Gestion des organismes de formation'),
+        'page callback' => 'validation_liste_table__view',
+        'access arguments' => array('GES_LIS_ETA'),
+        'access callback' => '_dgf_administration_etablissements_access_callback',
+        'file' => 'common_controller.inc',
+        'page arguments' => array('gestion_liste_organisme'),
+        'type' => MENU_NORMAL_ITEM,
+    );
+
+    // liste gestion etablissement
+
+    $items['gestion/etablissement/entreprises/listes'] = array(
+        'title' => t('Gestion des établissements'),
+        'page callback' => 'validation_liste_table__view',
+        'access arguments' => array('GES_LIS_ETA'),
+        'access callback' => '_dgf_administration_etablissements_access_callback',
+        'page arguments' => array('gestion_liste_entreprise'),
+        'file' => 'common_controller.inc',
+        'type' => MENU_NORMAL_ITEM,
+    );
+
+    // Liste valider des organismes de formation
+
+    $items['gestion/etablissement/valider/organismes/listes'] = array(
+        'title' => t('Validation des organismes de formation'),
+        'page callback' => 'validation_liste_table__view',
+        'access arguments' => array('GES_LIS_ETA'),
+        'access callback' => '_dgf_administration_etablissements_access_callback',
+        'page arguments' => array('valider_liste_organisme'),
+        'file' => 'common_controller.inc',
+        'type' => MENU_NORMAL_ITEM,
+    );
+
+    // Liste validation des etablissements
+
+    $items['gestion/etablissement/valider/entreprises/listes'] = array(
+        'title' => t('Validation des établissements'),
+        'page callback' => 'validation_liste_table__view',
+        'access arguments' => array('GES_LIS_ETA'),
+        'access callback' => '_dgf_administration_etablissements_access_callback',
+        'page arguments' => array('valider_liste_entreprise'),
+        'file' => 'common_controller.inc',
+        'type' => MENU_NORMAL_ITEM,
+    );
+
+    // AUTO COMPLETION SIRET, RAISON SOCIALE
+
+    $items['gestion/etablissement/list/autocomplete/siret'] = array(
+        'page callback' => 'siret_autocomplete',
+        'access callback' => TRUE,
+        'file' => 'common_controller.inc',
+        'type' => MENU_CALLBACK,
+    );
+    $items['gestion/etablissement/list/autocomplete/raison-sociale'] = array(
+        'page callback' => 'raison_sociale_autocomplete',
+        'access callback' => TRUE,
+        'file' => 'common_controller.inc',
+        'type' => MENU_CALLBACK,
+    );
+    $items['gestion/etablissement/list/autocomplete/contact'] = array(
+        'page callback' => 'contact_entreprise_autocomplete',
+        'access callback' => TRUE,
+        'file' => 'common_controller.inc',
+        'type' => MENU_CALLBACK,
+    );
+
+    return $items;
+}
+
+function dgf_administration_etablissements_theme($existing, $type, $theme, $path) {
+    return array(
+        'validation_liste' => array(
+            'variables' => array(),
+            'render element' => 'element',
+            'template' => 'validation_liste',
+            'path' => drupal_get_path('module', 'dgf_administration_etablissements') .'/theme',
+        ),
+        'gestion' => array(
+            'variables' => array(),
+            'render element' => 'element',
+            'template' => 'creation',
+            'path' => drupal_get_path('module', 'dgf_administration_etablissements') .'/theme',
+        )
+    );
+}

@@ -1,0 +1,162 @@
+<?php
+
+/**
+ * _creation_compte_entreprise_require_once
+ */
+function _creation_compte_entreprise_require_once() {
+  require_once 'inc/creation_compte_db.inc';
+  require_once 'inc/creation_compte_form.inc';
+  require_once 'inc/creation_compte_langs.inc';
+  require_once 'inc/creation_compte_submit.inc';
+  require_once 'inc/creation_compte_validate.inc';
+}
+
+/**
+ * _creation_compte_entreprise_require_js_css
+ */
+function _creation_compte_entreprise_require_js_css() {
+  drupal_add_css(drupal_get_path('module', 'creation_compte') . '/compte_entreprise/css/creation_compte.css' );
+  drupal_add_js(drupal_get_path('module', 'creation_compte') . '/compte_entreprise/js/creation_compte.js');
+}
+
+/**
+ * creation_compte_entreprise_page
+ *
+ * Fonction qui permet d'afficher la page création d'un compte entreprise
+ */
+function creation_compte_entreprise_page() {
+  global $user;
+
+  _creation_compte_entreprise_require_once();
+  _creation_compte_entreprise_require_js_css();
+
+  $form_creation_compte = drupal_get_form('creation_compte_entreprise_form');
+
+  $variables =  array(
+      'form_creation_compte' => $form_creation_compte,
+  );
+
+  $output = theme('creation_compte_entreprise_page_theme', $variables);
+
+  return $output;
+
+}
+
+/**
+ * creation_compte_entreprise_fin_page
+ *
+ * @return Ambigous <An, string>
+ */
+function creation_compte_entreprise_fin_page() {
+  _creation_compte_entreprise_require_js_css();
+  _creation_compte_entreprise_require_once();
+
+  $numero_demande = isset($_SESSION['creation_compte_entreprise']['numero_demande']) ?
+    $_SESSION['creation_compte_entreprise']['numero_demande'] : '';
+  
+  //$form_creation_compte = drupal_get_form('creation_compte_entreprise_form');
+  $form_creation_compte_fin = drupal_get_form('creation_compte_fin_form');
+
+  $variables =  array(
+      'numero_demande' => $numero_demande,
+      //'form_creation_compte' => $form_creation_compte,
+      'form_creation_compte_fin' => $form_creation_compte_fin,
+  );
+  $output = theme('creation_compte_entreprise_page_fin_theme', $variables);
+
+  return $output;
+}
+
+/**
+ * print_entreprise_confirmation_data
+ *
+ * @param array $siret
+ * @return array $infos
+ */
+function print_entreprise_adefim_data($siret) {
+  $infos_adefim = '';
+  $adefims = array();
+  // Extraction de la liste des adefims
+  $lst_adefim = shared_get_adefim_from_siret_entreprise($siret);
+  foreach ($lst_adefim as $row) {
+    $adefims[] = shared_get_adefim_info($row->id_adefim);
+  }
+
+  $row_adefims = array();
+  // Construction de la colonne adefim
+  foreach ($adefims as $adefim) {
+    $row_adefim = '';
+    $row_adefim .= trim($adefim['raison_sociale']) . ' ' . trim($adefim['siret']) . '<br />';
+    $row_adefim .= trim($adefim['rue']) . ' ' . trim($adefim['complement_de_rue']) . ' ' . trim($adefim['complement_de_rue_2']) . ' ';
+    $row_adefim .= trim($adefim['code_postal']) . ' ' . trim($adefim['ville']);
+    $row_adefims[] = array($row_adefim);
+  }
+
+  $table_adefim =  theme_table(array(
+      'header' => array(),
+      'rows' => $row_adefims,
+      'sticky' => false,
+      'attributes' => array(
+          'class' => 'infos-adefim'
+      ),
+      'caption' => '',
+      'colgroups' => array(),
+      'empty' => null
+  ));  
+
+  return $table_adefim;
+}
+
+
+
+/**
+ * print_entreprise_confirmation_data
+ *
+ * @param array $form_creation_compte
+ * @return array $rows
+ */
+function print_entreprise_confirmation_data($form_creation_compte) {
+  $rows = array();
+  if ($form_creation_compte['company']['nb_siret']['#value'] > 0 ) {
+    for ($i = 0; $i < $form_creation_compte['company']['nb_siret']['#value']; $i++) {
+      
+      $code_nace = $form_creation_compte['company']['code_nace'][$i]['#value'];
+      $filiere = $form_creation_compte['company']['code_filiere'][$i]['#value'];
+      $filiere2 = $form_creation_compte['company']['code_filiere2'][$i]['#value'];
+      // on construit l'html pour les données entreprises
+      $entreprise_data = $form_creation_compte['company']['raison_sociale'][$i]['#value']. ' ';
+      $entreprise_data .= $form_creation_compte['company']['siret'][$i]['#value'] . '<br />';
+      $entreprise_data .= $form_creation_compte['company']['adresse'][$i]['#value'] . ' ';
+      $entreprise_data .= $form_creation_compte['company']['code_postal'][$i]['#value'] . ' ';
+      $entreprise_data .= $form_creation_compte['company']['ville'][$i]['#value'];
+      
+      $entreprise_data_activite = 'Code NACE : '. $form_creation_compte['company']['code_nace'][$i]['#value'] . ' - ';
+      $entreprise_data_activite .= $form_creation_compte['company']['libelle_nace'][$i]['#value'] . '<br />';
+      $entreprise_data_activite .= 'Filière : '. $form_creation_compte['company']['code_filiere'][$i]['#value'] . ' - ';
+      $entreprise_data_activite .= $form_creation_compte['company']['libelle_filiere'][$i]['#value'];
+      if(isset($form_creation_compte['company']['code_filiere2'][$i]['#value']) 
+          && $form_creation_compte['company']['code_filiere2'][$i]['#value'] != '') {
+//         $entreprise_data_activite .= $filiere2 ? ' - ' . $form_creation_compte['company']['code_filiere2'][$i]['#value'] : '';
+//         $entreprise_data_activite .= $filiere2 ? ' - ' . $form_creation_compte['company']['code_filiere2'][$i]['#value'] : '';
+        $entreprise_data_activite .= '<br />Filière2 : ' . $form_creation_compte['company']['code_filiere2'][$i]['#value'] . ' - ';
+        $entreprise_data_activite .= $form_creation_compte['company']['libelle_filiere2'][$i]['#value'];
+      }
+      
+      // rendu des informations adefim 
+      $infos_adefim = print_entreprise_adefim_data($form_creation_compte['company']['siret'][$i]['#value']);
+
+      $rows[] = array(
+         'data' => array(
+             $entreprise_data,
+             $entreprise_data_activite,
+             array(
+                 'data' => $infos_adefim,
+                 'class' => array('col-adefim')
+             ),
+          ),
+      );
+    }
+  }
+
+  return $rows;
+}

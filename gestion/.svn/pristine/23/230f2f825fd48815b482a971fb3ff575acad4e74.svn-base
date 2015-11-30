@@ -1,0 +1,10 @@
+name = Ecofolio Blocs REM Pages de contenu
+core = 7.x
+package = Ecofolio
+version = 7.x-1.0
+project = ecofolio_blocs_rem_pages_contenu
+dependencies[] = views
+features[ctools][] = views:views_default:3.0
+features[features_api][] = api:2
+features[views_view][] = blocs_rem_pages_contenu
+features_exclude[dependencies][ctools] = ctools

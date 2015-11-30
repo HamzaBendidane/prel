@@ -1,0 +1,48 @@
+<?php 
+
+/**
+ * 
+ * Submit général
+ */
+function dgf_relance_form_submit($form, &$form_state) {
+
+  if ($form_state['triggering_element']['#id'] == 'edit-back'){
+    drupal_goto('/dgf/visualisation/'.arg(2));
+  }
+  $id_relance = relance_insert_relance($form_state['values']);
+  _dgf_relance_piece_upload_file($form , $form_state,$id_relance) ;
+  relance_insert_lien_relance_justificatif($id_relance,$form_state['values']);
+  relance_insert_lien_relance_destinataire($id_relance,$form_state['values']);
+  drupal_goto('/dgf/visualisation/'.$form_state['values']['id_dgf']);
+}
+
+/**
+ * 
+ * Joindre un fichier
+ */
+
+function _dgf_relance_piece_upload_file($form, &$form_state,$relance) {
+  
+  $file_name  =  $_FILES['files']['name']['file_to_upload'];
+  $file_error =  $_FILES['files']['error']['file_to_upload'];
+  $file_tmp   =  $_FILES['files']['tmp_name']['file_to_upload'];
+  
+  // On nettoie le nom de fichier à upload
+  $file_name_cleaned = shared_clean_file_name($file_name);
+  $id_dgf = $form_state['values']['id_dgf'];
+
+  // S'il n'y a pas d'erreur
+  if ($file_error == UPLOAD_ERR_OK) {
+    // On récupère le chemin où copier ce fichier
+    $directory_default_files = @DEFAULT_FILE_PATH;
+    // demande/[siren]/[siret]/[num_demande]/justificatifs
+    $repertoire_fichier = 'relance/'.$id_dgf.'/' ;
+    $destination = $directory_default_files.$repertoire_fichier;
+    if (!is_dir($destination)) {
+      mkdir($destination, 0775, true);
+    }
+    // UPLOAD DES INFOS FICHIER EN  BASE DE DONNEES
+    update_relance_justificatif($relance,$destination.$file_name_cleaned);
+    move_uploaded_file($file_tmp,$destination.$file_name_cleaned);
+  }
+}

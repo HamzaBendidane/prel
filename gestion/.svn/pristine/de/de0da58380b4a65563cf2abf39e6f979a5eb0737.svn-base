@@ -1,0 +1,6 @@
+name = "Page publique de connexion à l'extranet"
+description = "Permet de gérer la connexion à l'extranet ainsi que le mot de passe oublié et le suivi de demande de
+création de compte"
+package = OPCAIM
+core = 7.x
+version = "7.1.0"

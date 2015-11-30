@@ -1,0 +1,223 @@
+body {
+ line-height: 1.15;
+}
+
+.errorlogin {
+  color: #D54015;
+  font-weight: bold;
+  text-align: center;
+  margin: 20px;
+}
+
+#header .title {
+  margin-top: 15px;
+  margin-left: 22px;
+}
+
+#header .tagline {
+  font-weight: 600;
+  font-size: 25px;
+  line-height: 25px;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+
+label {
+  width: auto;
+  font-weight: normal;
+}
+
+input {
+  line-height: normal;
+}
+
+#login-container {
+  height: 256px;
+}
+
+#login-container {
+  position: relative;
+}
+
+#login-container .top-mask {
+  z-index: 1;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 31px;
+  width: 100%;
+  background: url('../images/login-container-topmask.png');
+}
+
+#login-container .left-zone {
+  height: 100%;
+  width: 653px;
+  background: url('../images/login-container-image.jpg');
+}
+
+#login-container .right-zone {
+  height: 100%;
+  width: 307px;
+  background: url('../images/login-container-right-zone.jpg');
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+#login-container .right-zone .text {
+  font-size: 38px;
+  font-weight: 300;
+  color: #FFFFFF;
+  margin-top: 45px;
+  margin-right: 22px;
+  text-align: right;
+}
+
+#login-container .bar {
+  position: absolute;
+  bottom: 15px;
+  left: 0;
+  background: url('../images/login-container-bar.png') repeat-x;
+  height: 59px;
+  width: 100%;
+  color: #FFFFFF;
+  font-size: 18px;
+  line-height: 24px;
+  font-weight: 300;
+}
+
+#login-container .bar .account-container {
+  margin-top: 8px;
+  height: 43px;
+  margin-left: 65px;
+}
+
+#login-container .bar .password-container {
+  margin-top: 8px;
+  height: 43px;
+  margin-left: 33px;
+}
+
+#login-container .bar .btn-container {
+  margin-top: 8px;
+  height: 43px;
+}
+
+#login-container .bar .arrow {
+  vertical-align: middle;
+  display: inline-block;
+  width: 12px;
+  height: 20px;
+  background: url('../images/arrow.png');
+}
+
+#login-container .bar label {
+  margin-left: 8px;
+  margin-right: 10px;
+  margin-bottom: 5px;
+  display: block;
+  vertical-align: bottom;
+  display: inline-block;
+  vertical-align: middle;
+  color: white;
+}
+
+#login-container .bar .btn {
+  font-size: 18px;
+  color: #FFFFFF;
+  margin-left: 20px;
+  vertical-align: middle;
+  display: inline-block;
+}
+
+#login-container .bar .field {
+  border: 1px solid #FFFFFF;
+  background-color: transparent;
+  color: #FFFFFF;
+}
+
+#links-blocks {
+  margin-top: 20px;
+  padding: 0 65px;
+}
+
+#links-blocks .link-block {
+  float: left;
+}
+
+#links-blocks .link-block.create-block {
+  width: 310px;
+}
+
+#links-blocks .link-block.forgot-block {
+  width: 305px;
+}
+
+#links-blocks .link-block .title {
+  font-weight: 600;
+  font-size: 13px;
+}
+
+#links-blocks .link-block .link {
+  font-weight: 300;
+  font-size: 18px;
+  text-decoration: none;
+}
+
+#LoginForm .form-item {
+  display: inline;
+}
+
+#LoginForm .form-text {
+  border: 1px solid #FFFFFF;
+  background-color: transparent !important;
+  color: #FFFFFF !important;
+  display: inline-block;
+  vertical-align: middle;
+  border-radius: 5px;
+  font-size: 13px;
+  padding: 5px 5px 5px;
+  width: 200px;
+  height: auto;
+  line-height: 1;
+}
+
+#LoginForm .form-text:focus {
+  border: 1px solid #FFFFFF;
+}
+
+.modal {
+  top: 110px; 
+}
+
+.modal label {
+  display: inline-block;
+  width: 40%;
+}
+
+.modal input.form-text {
+  width: 50%;
+}
+
+.modal .form-submit {
+  color: #d54015;
+  font-weight: bold;
+}
+
+.help {
+  font-size: 12px;
+  font-weight: 400;
+  margin-bottom: 15px;
+  text-align: left;
+}
+
+#LoginForm input[type='button'], #LoginForm input[type='submit'] {
+  background-color: transparent !important;;
+  border: none !important;
+  color:  #FFFFFF !important;
+  font-size: 12px;
+  font-weight: 300 !important;
+  padding: 0;
+  cursor: pointer;
+}

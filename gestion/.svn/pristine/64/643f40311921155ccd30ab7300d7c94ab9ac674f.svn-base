@@ -1,0 +1,444 @@
+<?php
+
+drupal_add_css(path_to_theme() . '/css/ecofolio.css', array('group' => CSS_THEME, 'weight' => 500));
+drupal_add_js(path_to_theme() . '/js/libs/ScrollToPlugin.min.js', array('group' => CSS_THEME, 'weight' => 115));
+drupal_add_js(path_to_theme() . '/js/libs/TweenMax.min.js', array('group' => CSS_THEME, 'weight' => 115));
+drupal_add_js(path_to_theme() . '/js/libs/jquery.actual.min.js', array('group' => CSS_THEME, 'weight' => 115));
+drupal_add_js(path_to_theme() . '/js/libs/jquery.placeholder.min.js', array('group' => CSS_THEME, 'weight' => 115));
+drupal_add_js(path_to_theme() . '/js/libs/chosen.jquery.min.js', array('group' => CSS_THEME, 'weight' => 115));
+drupal_add_js(path_to_theme() . '/js/libs/fastclick.js', array('group' => CSS_THEME, 'weight' => 115));
+drupal_add_js(path_to_theme() . '/js/ecofolio.js', array('group' => CSS_THEME, 'weight' => 500));
+
+/**
+ * Add the nodes taxonomy term names as css-class
+ * to all content types 'homeunivers' items menu ('univers' vocabulary)
+ */
+function ecofolio_menu_link($variables) {
+
+	$element = $variables['element'];
+	$menu_name = $element['#original_link']['menu_name'];
+
+	$sub_menu = '';
+	if ($element['#below']) {
+		$sub_menu = drupal_render($element['#below']);
+	}
+
+	$output = l($element['#title'], $element['#href'], $element['#localized_options']);
+
+	if (preg_match('/^node/',$element['#href'])) {
+		//Get node id et load node informations
+		$nid = explode("/", $element['#href']);
+		$nid = $nid[1];
+		$node = node_load($nid);
+
+		//Only for content type 'homeunivers'
+		if($node->type == 'home_univers' && !empty($node->field_homeunivers_univers) && !empty($node->field_homeunivers_mg)) {
+
+			if (is_array($node->field_homeunivers_univers)) {
+
+				foreach ($node->field_homeunivers_univers as $term) {
+					
+					// Load taxonomy name, and get path alias define with pathauto
+					$term = taxonomy_term_load($term['0']['tid']);
+					$path_alias = drupal_get_path_alias('taxonomy/term/'.$term->tid);
+
+          			/* 
+          			 * CHECK THAT THE ALIAS URL ARE WELL DEFINED AND VIA PATHAUTO AND 
+          			 * TRANSLITERATION modules (accents problem)
+          			 */
+					
+					$element['#attributes']['class'][] = 'menu-'. $path_alias;
+
+				}
+			}
+
+			// Only add items to main-menu in header-zone (not in sidebar-first zone)
+			if($menu_name == 'main-menu') {
+
+				if(!isset($element['#bid']['module']) || $element['#bid']['module'] != 'menu_block') {
+
+					if(!empty($node->field_homeunivers_mg) || !empty($node->field_homeunivers_md)) {
+						// Remove last sub_menu <ul> tag to insert new items
+				        $sub_menu = rtrim($sub_menu,'</ul>');
+				        $sub_menu .= '<div class="submenu-bloc-right">';
+					}
+				
+					if(!empty($node->field_homeunivers_mg)) {
+				        $bloc_big_menu = node_load($node->field_homeunivers_mg['und']['0']['nid']);	        
+
+				        // Only content type 'bloc_rem' is allowed
+				        if(!empty($bloc_big_menu) && $bloc_big_menu->type == 'bloc_rem') {
+
+				        	$title_bloc_rem_mg = $bloc_big_menu->title;
+
+				          	if(!empty($bloc_big_menu->field_bloc_rem_image_bigmenu)) {
+					        	$img_bloc_rem_mg = $bloc_big_menu->field_bloc_rem_image_bigmenu['und'][0];
+					        	$image_bloc_rem_mg = array();
+					          	$image_bloc_rem_mg = array(
+						            'path' 		 => $img_bloc_rem_mg['uri'],
+						            'alt' 		 => $img_bloc_rem_mg['alt'],
+						            'title' 	 => $img_bloc_rem_mg['title'],
+						            'width' 	 => '270px',
+						            'height' 	 => '130px',
+						            'attributes' => array('class' => 'bloc-rem-menu-image'),
+					          	);
+					          	$bloc_rem_menu_mg_img = theme('image', $image_bloc_rem_mg);
+				          	}
+
+				          	if(!empty($bloc_big_menu->field_bloc_rem_teaser)) {
+					          	$teaser_bloc_rem_mg = $bloc_big_menu->field_bloc_rem_teaser['und'][0]['safe_value'];
+				          	}
+
+				          	if(!empty($bloc_big_menu->field_bloc_rem_link)) {
+				          		$link_bloc_rem_mg = $bloc_big_menu->field_bloc_rem_link['und'][0]['nid'];
+				          		$alias_link_bloc_rem_mg = drupal_get_path_alias('node/'.$link_bloc_rem_mg);
+				          	}
+
+				          	// Rewrite the sub_menu output by adding field in <li> tags
+				          	if(!empty($bloc_big_menu->field_bloc_rem_image_bigmenu) && !empty($bloc_big_menu->field_bloc_rem_teaser) && !empty($bloc_big_menu->field_bloc_rem_link)) {
+				          		$sub_menu .= "<div class='block-menu-first'><a href='".$alias_link_bloc_rem_mg."' alt='".$img_bloc_rem_mg['alt']."' title='".$img_bloc_rem_mg['title']."'><p class='bloc-rem-menu-title'>".$title_bloc_rem_mg."</p>".$bloc_rem_menu_mg_img."<p class='bloc-rem-menu-teaser'>".$teaser_bloc_rem_mg."</p></a></div>";
+				          	}
+				        }
+
+				    }
+
+				    if(!empty($node->field_homeunivers_md)) {
+				        $bloc_big_menu = node_load($node->field_homeunivers_md['und']['0']['nid']);
+
+				        // Only content type 'bloc_rem' is allowed
+				        if(!empty($bloc_big_menu) && $bloc_big_menu->type == 'bloc_rem') {
+				        	
+				        	$title_bloc_rem_md = $bloc_big_menu->title;
+				        	
+				        	if(!empty($bloc_big_menu->field_bloc_rem_image_bigmenu)) {
+					        	$img_bloc_rem_md = $bloc_big_menu->field_bloc_rem_image_bigmenu['und'][0];
+					        	$image_bloc_rem_md = array();
+					          	$image_bloc_rem_md = array(
+						            'path' 		 => $img_bloc_rem_md['uri'],
+						            'alt' 		 =>  $img_bloc_rem_md['alt'],
+						            'title' 	 => $img_bloc_rem_md['title'],
+						            'width' 	 => '270px',
+						            'height' 	 => '130px',
+						            'attributes' => array('class' => 'bloc-rem-menu-image'),
+					          	);
+					          	$bloc_rem_menu_md_img = theme('image', $image_bloc_rem_md);
+				          	}
+
+				          	if(!empty($bloc_big_menu->field_bloc_rem_teaser)) {
+					          	$teaser_bloc_rem_md = $bloc_big_menu->field_bloc_rem_teaser['und'][0]['safe_value'];
+				          	}
+
+				          	if(!empty($bloc_big_menu->field_bloc_rem_link)) {
+				          		$link_bloc_rem_md = $bloc_big_menu->field_bloc_rem_link['und'][0]['nid'];
+				          		$alias_link_bloc_rem_md = drupal_get_path_alias('node/'.$link_bloc_rem_md);
+				          	}
+
+				          	// Rewrite the sub_menu output by adding field in <li> tags
+				          	if(!empty($bloc_big_menu->field_bloc_rem_image_bigmenu) && !empty($bloc_big_menu->field_bloc_rem_teaser) && !empty($bloc_big_menu->field_bloc_rem_link)) {
+				          		$sub_menu .= "<div class='block-menu-last'><a href='".$alias_link_bloc_rem_md."' alt='".$img_bloc_rem_md['alt']."' title='".$img_bloc_rem_md['title']."'><p class='bloc-rem-menu-title'>".$title_bloc_rem_md."</p>".$bloc_rem_menu_md_img."<p class='bloc-rem-menu-teaser'>".$teaser_bloc_rem_md."</p></a></div>";
+				        	}
+				        }
+
+				    }
+
+				    if(!empty($node->field_homeunivers_mg) || !empty($node->field_homeunivers_md)) {
+				    	$sub_menu .= '</div>';
+						// Closed sub-menu <ul> tag
+				    	$sub_menu .= '</ul>';
+					}
+				}
+			}
+
+		}
+	}
+
+	return '<li' . drupal_attributes($element['#attributes']) . '>' . $output . $sub_menu . "</li>\n";
+}
+
+/**
+ * CUSTOM USER LOGIN BLOCK
+ */
+function ecofolio_theme(&$existing, $type, $theme, $path) {
+	$hooks['user_login_block'] = array(
+		'template' => 'templates/user-login-block',
+		'render element' => 'form',
+	);
+	return $hooks;
+}
+
+/**
+ * CUSTOM USER LOGIN BLOCK
+ */
+function ecofolio_preprocess_block(&$vars){
+  global $user;
+  $block =& $vars['block'];
+
+  if ($block->module == 'system' && $block->delta == 'user-menu') {
+    if (user_is_logged_in()) {
+	  $vars['content'] =  "<ul class='menu'><li class='first leaf'><a href='/user/me/edit'>".t('Mon profil')."</a></li>".
+							"<li class='last leaf'><a href='/user/logout'>".t('Se déconnecter')."</a></li></ul>";
+    }
+  }
+  
+  if ($block->delta == 'blocs_decouverte-block_1' or $block->delta == 'blocs_decouverte-block_2' or $block->delta == 'blocs_decouverte-block_3') {
+    if (user_is_logged_in()) {
+		// Retrait du bloc decouverte si la vue est vide
+		$pos = stripos($vars['elements']['#markup'], 'views-field-title');
+		if($pos === false) {
+			$tmp = array();
+			foreach ($vars as $k => $l)
+				$tmp[$k] = ''; 
+			$vars = $tmp;
+		}
+    }
+  }  
+}
+
+/**
+ * Override theme_breadcrumb function
+ * Returns HTML for a breadcrumb trail.
+ *
+ * @param $variables
+ *   An associative array containing:
+ *   - breadcrumb: An array containing the breadcrumb links.
+ */
+function ecofolio_breadcrumb($variables) {
+  $breadcrumb = $variables['breadcrumb'];
+  $breadcrumb[] = drupal_get_title();
+
+  $current_path = current_path();
+  if(strstr($current_path, 'user/me')) {
+    $breadcrumb = array("<a href='/'>" . t('Home') . "</a>", "Mon profil"); 
+  } elseif(strstr($current_path, 'user/register')) {
+    $breadcrumb = array("<a href='/'>" . t('Home') . "</a>", "Inscription"); 
+  }
+  
+  if (!empty($breadcrumb)) {
+	$output = '<div class="breadcrumb">' . implode('<span>&nbsp;&nbsp;>&nbsp;&nbsp;</span>', $breadcrumb) . '</div>';
+    return $output;
+  }
+}
+
+/**
+ * Override the Print module icon: Format the Printer-friendly link
+ *
+ * @return array
+ *   An associative array containing:
+ *   - text: The content of the link
+ *   - html: TRUE if the text contains HTML tags, FALSE if it's plain text
+ *   - attributes: several attributes of the link tag (title, class, target,
+ *     onclick, rel)
+ *
+ * @see _print_ui_fill_attributes()
+ * @ingroup themeable
+ * @ingroup print_themeable
+ */
+function ecofolio_print_ui_format_link($vars) {
+  $format = $vars['format'];
+
+  foreach (module_implements('print_link') as $module) {
+    $function = $module . '_print_link';
+    if (function_exists($function)) {
+      $link = call_user_func_array($function, array());
+
+      if ($link['format'] == $format) {
+        $link_class = variable_get('print_' . $link['format'] . '_link_class', $link['class']);
+
+        $new_window = FALSE;
+        $func = $module . '_print_new_window_alter';
+        if (function_exists($func)) {
+          $func($new_window, $link['format']);
+        }
+
+        $show_link = variable_get('print_' . $link['format'] . '_show_link', PRINT_UI_SHOW_LINK_DEFAULT);
+        $link_text = filter_xss(variable_get('print_' . $link['format'] . '_link_text', $link['text']));
+
+        if ($show_link >= 2) {
+
+          /* Override icon image Printer */
+          $theme_name = 'ecofolio';
+          $img = drupal_get_path('theme', $theme_name) . '/images/' . $link['icon'];
+          /* Fin de Override icon image Printer */
+
+          switch ($show_link) {
+            case 2:
+              $text = theme('image', array('path' => $img, 'width' => '16px', 'height' => '16px', 'alt' => $link_text, 'title' => $link_text, 'attributes' => array('class' => array('print-icon'))));
+              break;
+            case 3:
+              $text = theme('image', array('path' => $img, 'width' => '16px', 'height' => '16px', 'alt' => $link_text, 'title' => $link_text, 'attributes' => array('class' => array('print-icon', 'print-icon-margin')))) . $link_text;
+              break;
+          }
+          $html = TRUE;
+        }
+        else {
+          $text = $link_text;
+          $html = FALSE;
+        }
+
+        return array(
+          'text' => $text,
+          'html' => $html,
+          'attributes' => _print_ui_fill_attributes($link['description'], strip_tags($link_class), $new_window),
+        );
+      }
+    }
+  }
+}
+
+/*
+ * Override template_preprocess_html function
+ * Add taxonomy 'univers' as body class to node type 'homeunivers'
+ */
+function ecofolio_preprocess_html(&$variables) {
+  // If on an individual node page, add the taxonomy term to body classes.
+  if ($node = menu_get_object()) {
+    // taxo sur le path
+    if($node->type == 'home_univers' || $node->type == 'mediatheque') {
+      if($node->type == 'home_univers') {
+        $idterm = $node->field_homeunivers_univers['und']['0']['tid'];
+      }
+      if($node->type == 'mediatheque') {
+        $idterm = $node->field_media_univers['und']['0']['tid'];
+      }
+      
+      $path_alias = drupal_get_path_alias('taxonomy/term/'.$idterm);
+      $variables['attributes_array']['class'][] = $path_alias;
+    }
+  }
+  
+  // Setup Google Webmasters Verification Meta Tag
+  $google_webmasters_verification = array(
+    '#type' => 'html_tag',
+    '#tag' => 'meta',
+    '#attributes' => array(
+      'name' => 'google-site-verification',
+      'content' => 'GqgQpgv1vapWXQpi4TeS_fT02t3g503Ha0tY57Bwl2I',
+    )
+  );
+  
+  // Add Google Webmasters Verification Meta Tag to head
+  drupal_add_html_head($google_webmasters_verification, 'google_webmasters_verification');
+}
+
+function ecofolio_preprocess_page(&$variables) {
+    metatag_page_build($variables['page']);
+}
+
+function ecofolio_preprocess_node(&$variables) {
+    // On initialise la variable CGU pour toutes les vues à false
+    $variables['node']->CGU = array(
+        'display' => false,
+        'content' => '',
+        'form' => '',
+        'errors' => ''
+    );
+    
+    // On initialise la variable CPU pour toutes les vues à false
+    $variables['node']->CPU = array(
+        'display' => false,
+        'content' => '',
+        'form' => '',
+        'errors' => ''
+    );
+    // Si on est sur une vue de type médiathèque, on regarde en session si l'utilisateur a accepté les CGU
+    if ($variables['type'] == 'media') {
+        if (!isset($_SESSION['CGU_accepted']) || $_SESSION['CGU_accepted'] === false) {
+            // On affiche la pop-up des CGU
+            // On récupère le node CGU (attention, nid 95 sur le développement)
+            $idPageCGU = 312;
+            $nodeCGU = node_load($idPageCGU);
+            if ($nodeCGU) {
+                $bodyCGU = field_get_items('node', $nodeCGU, 'body');
+            } else {
+                $bodyCGU[0]['value'] = "Attention : la page CGU n'a pas été trouvée. Veuillez vérifier la page avec l'id : ".$idPageCGU;
+            }
+            
+            $formCGU = drupal_get_form('ecofolio_manage_mediatheque_cgu_form');
+            $errorsCGU = form_get_errors();
+            form_clear_error();
+
+            // On met à jour la variable CGU a true utilisable dans le template views-view.tpl.php
+            $variables['node']->CGU = array(
+                'display' => true,
+                'content' => $bodyCGU[0]['value'],
+                'form' => drupal_render($formCGU),
+                'errors' => $errorsCGU['cgu']
+            );
+        }
+        
+        if (!empty($variables['node']->field_media_cpu)) {
+            if (!isset($_SESSION['CPU_accepted']) || !in_array($variables['node']->nid, $_SESSION['CPU_accepted']['nid'])) {
+                $idPageCPU = $variables['node']->field_media_cpu['und'][0]['nid'];
+                $nodeCPU = node_load($idPageCPU);
+                if ($nodeCPU) {
+                    $bodyCPU = field_get_items('node', $nodeCPU, 'body');
+                } else {
+                    $bodyCPU[0]['value'] = "Attention : la page CPU n'a pas été trouvé. Veuillez vérifier la page avec l'id : ".$idPageCPU;
+                }
+                
+                $formCPU = drupal_get_form('ecofolio_manage_mediatheque_cpu_form');
+                $formCPU['nid']['#value'] = $variables['node']->nid;
+                $errorsCPU = form_get_errors();
+                form_clear_error();
+                
+                // On met à jour la variable CPU a true utilisable dans le template views-view.tpl.php
+                $variables['node']->CPU = array(
+                    'display' => true,
+                    'content' => $bodyCPU[0]['value'],
+                    'form' => drupal_render($formCPU),
+                    'errors' => $errorsCPU['cgu'],
+                    
+                );
+            }
+        }
+        
+        drupal_add_js(drupal_get_path('theme', 'ecofolio') .'/js/mediatheque-view-media.js', 'file');
+        
+        
+        
+        $query_parameters = drupal_get_query_parameters();
+        if (isset($query_parameters['mediathequePath'])) {
+            menu_tree_set_path(null, $query_parameters['mediathequePath']);
+        } else {
+            menu_tree_set_path('menu-sidebar-main-menu', 'mediatheque');
+        }
+    }
+}
+
+function ecofolio_form_element_label($variables) {
+  $element = $variables['element'];
+  // This is also used in the installer, pre-database setup.
+  $t = get_t();
+
+  // If title and required marker are both empty, output no label.
+  if ((!isset($element['#title']) || $element['#title'] === '') && empty($element['#required'])) {
+    return '';
+  }
+
+  // If the element is required, a required marker is appended to the label.
+  $required = !empty($element['#required']) ? theme('form_required_marker', array('element' => $element)) : '';
+
+  $title = filter_xss_admin($element['#title']);
+
+  $attributes = array();
+  // Style the label as class option to display inline with the element.
+  if ($element['#title_display'] == 'after') {
+    $attributes['class'] = 'option';
+  }
+  // Show label only to screen readers to avoid disruption in visual flows.
+  elseif ($element['#title_display'] == 'invisible') {
+    $attributes['class'] = 'element-invisible';
+  }
+
+  if (!empty($element['#id'])) {
+    $attributes['for'] = $element['#id'];
+  }
+
+  if ($variables['element']['#name'] === 'cgu' || $variables['element']['#name'] === 'cpu') {
+      // The leading whitespace helps visually separate fields from inline labels.
+      return ' <span' . drupal_attributes($attributes) . '>' . $t('!title !required', array('!title' => $title, '!required' => $required)) . "</span>\n";
+  } else {
+      // The leading whitespace helps visually separate fields from inline labels.
+      return ' <label' . drupal_attributes($attributes) . '>' . $t('!title !required', array('!title' => $title, '!required' => $required)) . "</label>\n";
+  }
+}

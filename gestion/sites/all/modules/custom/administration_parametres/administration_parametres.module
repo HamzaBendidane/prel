@@ -1,0 +1,56 @@
+<?php
+
+
+
+/**
+ * Implements hook_menu().
+ *
+ * Cette fonction rajoute un menu d'accès pour la création de compte des entreprises.
+ * Return: Drupal menu items
+ */
+function administration_parametres_menu() {
+  $items = array();
+
+  // Gestion des paramètres
+  $items['opcaim-admin/parametres'] = array(
+      'title' => 'Gestion des paramètres des demandes de gestion et financement',
+      'page callback' => 'parametres_page',
+      'access arguments' => array('GES_DGF_PAR'),
+      'file' => 'inc/parametres_view.inc',
+      'type' => MENU_NORMAL_ITEM,
+  );
+
+  // Gestion des paramètres
+  $items['opcaim-admin/parametres/pager'] = array(
+      'title' => 'Gestion des paramètres des demandes de gestion et financement',
+      'page callback' => 'parametres_data',
+      'access arguments' => array('GES_DGF_PAR'),
+      'file' => 'inc/parametres_view.inc',
+      'type' => MENU_CALLBACK
+  );
+
+  return $items;
+}
+
+function administration_parametres_theme($existing, $type, $theme, $path){
+  $theme_array = array(
+      // Template général pour afficher la médiathèque
+      'parametres_page_theme' => array(
+          'variables' => array(
+              'parametres_form' => null,
+          ),
+          'template' => 'parametres_page',
+          'path' => drupal_get_path('module', 'administration_parametres') .'/inc/theme'
+      ),
+      'parametres_content_theme' => array(
+          'variables' => array(
+              'parametres_form' => null,
+          ),
+          'render element' => 'element',
+          'template' => 'parametres_content',
+          'path' => drupal_get_path('module', 'administration_parametres') .'/inc/theme'
+      ),
+  );
+
+  return $theme_array;
+}

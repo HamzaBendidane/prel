@@ -1,0 +1,59 @@
+<div class="row">
+    <?php print render($contrat['#prefix']); ?>
+</div>
+<form id="<?php print $contrat['#id'] ?>" accept-charset="UTF-8" method="<?php print $contrat['#method'] ?>" class = "form-inline" action="<?php print $contrat['#action'] ?>">
+    <div class="padding15">
+        <div class="row">
+            <div class="col-md-6 required">
+                <?php print drupal_render($contrat['fieldset1']['etablishment']); ?>
+            </div>
+        </div>
+        <div class="row  col-md-12">
+            <div class="col-md-6 required"><?php print drupal_render($contrat['alerte_age']); ?></div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 required"><?php print drupal_render($contrat['nature']); ?></div>
+            <div class="col-md-6 required"><?php print drupal_render($contrat['type']); ?></div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 required date datePicker">
+                <?php print drupal_render($contrat['fieldset1']['date_begin']); ?>
+            </div>
+            <div class="col-md-6 required date datePicker">
+                <?php print drupal_render($contrat['fieldset1']['date_end']); ?>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 required"><?php print drupal_render($contrat['fieldset1']['training_duration']); ?></div>
+            <div class="col-md-6 required"><?php print drupal_render($contrat['fieldset1']['test_period']); ?></div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 required"><?php print drupal_render($contrat['fieldset1']['weekly_hour']); ?></div>
+            <div class="col-md-6"><?php print drupal_render($contrat['fieldset1']['weekly_minute']); ?></div>
+        </div>
+        <div class="row">
+            <div class="col-md-6"><?php print drupal_render($contrat['niveau']); ?></div>
+            <div class="col-md-6"><?php print drupal_render($contrat['coefficient']); ?></div>
+        </div>
+        <div class="row">
+            <div class="col-md-6"><?php print drupal_render($contrat['group']); ?></div>
+            <div class="col-md-6 required"><?php print drupal_render($contrat['position_held']); ?></div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 required"><?php print drupal_render($contrat['monthly_gross_pay']); ?></div>
+            <div class="col-md-6 required"><?php print drupal_render($contrat['collective_convention']); ?></div>
+        </div>
+        <div class="row">
+        </div>
+    </div>
+    
+    <div id="boutonAction" class="row">
+        <?php print drupal_render($contrat['back']); ?>
+        <?php print drupal_render($contrat['quit']); ?>
+        <?php print drupal_render($contrat['next']); ?>
+    </div>
+    
+    <?php
+    print drupal_render_children($contrat);
+    ?>
+</form>

@@ -1,0 +1,11 @@
+<h3>
+  Demande de création de compte entreprise
+</h3>
+<div id="message-fin" class="center">
+  <?php print @MESSAGE_FIN_CREATION_COMPTE; ?>
+  <span id="numero-demande">
+     <?php print $numero_demande; ?>
+  </span>
+  <br />
+  <?php print @MESSAGE_FIN_CREATION_COMPTE_2; ?>
+</div>

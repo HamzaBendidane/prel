@@ -1,0 +1,6 @@
+name = "Notifications "
+description = "Administration des utilisateurs de l'extranet"
+description = "Gestion des notifications"
+version = "7.1.0"
+core = "7.x"
+package = "OPCAIM"

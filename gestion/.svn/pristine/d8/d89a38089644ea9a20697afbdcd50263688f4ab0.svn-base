@@ -1,0 +1,99 @@
+<?php
+
+/**
+ *  Implements hook_permission().
+ */
+function ecofolio_newsletters_permission() {
+  return array(
+    'export ecofolio newsletters' => array(
+      'title' => t('Export ecofolio newsletters'),
+      'description' => t('Export ecofolio newsletters'),
+    ),
+  );
+}
+
+/**
+ *  Implements hook_menu().
+ */
+function ecofolio_newsletters_export_menu() {
+  $items = array();
+  $items['node/%node/newsletter-export'] = array(
+    'title' => 'Export newsletter',
+    'page callback' => 'ecofolio_newsletters_export_tab_callback',
+    'page arguments' => array(1),
+    'access arguments' => array('export ecofolio newsletters'),
+    'weight' => 2,
+    'type' => MENU_LOCAL_TASK,
+  );
+  return $items;
+}
+
+/**
+ *  Implements hook_admin_paths().
+ */
+function ecofolio_newsletters_export_admin_paths() {
+  $paths = array(
+    'node/*/newsletter-export' => TRUE,
+  );
+  return $paths;
+}
+
+/**
+ *  Implements hook_menu_local_tasks_alter().
+ */
+function ecofolio_newsletters_export_menu_local_tasks_alter(&$data, $router_item, $root_path) {
+  $root_paths = explode('/', $root_path);
+  if($root_paths[0] == 'node' && count($root_paths) > 1 && isset($router_item['page_arguments'][0]->type)) {
+    if ($router_item['page_arguments'][0]->type != 'newsletter') {
+        if (isset($data['tabs'][0])) {
+          foreach ($data['tabs'][0]['output'] as $k => $item) {
+            if ($item['#link']['path'] == 'node/%/newsletter-export') {
+              unset($data['tabs'][0]['output'][$k]);
+              $data['tabs'][0]['count']--;
+            }
+          }
+        }
+    }
+  }
+}
+
+function ecofolio_newsletters_export_tab_callback($node) {
+  $node_view = node_view($node);
+  $html = render($node_view);
+
+  $form = array();
+  $form['copybox'] = array(
+    '#type' => 'textarea',
+    '#title' => 'Newsletter HTML',
+    '#value' => $html,
+    '#rows' => 10,
+  );
+
+  return $form;
+}
+
+
+/**
+ *  Implements hook_preprocess_HOOK().
+ */
+function ecofolio_newsletters_export_preprocess_node(&$variables) {
+  $args = arg();
+  if ($variables['type'] == 'newsletter' && isset($args[2]) && $args[2] == 'newsletter-export') {
+    $variables['theme_hook_suggestions'][] = 'node__newsletter__export';
+  }
+}
+
+/**
+ *  Implements hook_theme().
+ */
+function ecofolio_newsletters_export_theme($existing, $type, $theme, $path) {
+  $items = array(
+    'node__newsletter__export' => array(
+      'variables' => array(),
+      'path' => drupal_get_path('module', 'ecofolio_newsletters_export') . '/templates',
+      'template' => 'node--newsletter--export',
+    ),
+  );
+
+  return $items;
+}

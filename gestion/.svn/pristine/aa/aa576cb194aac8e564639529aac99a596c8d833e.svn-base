@@ -1,0 +1,51 @@
+<?php 
+
+/**
+ * Implementation of hook_webform_select_options_info().
+ */
+function ecofolio_webform_options_list_webform_select_options_info() {
+  $items = array();
+  $items['user_roles'] = array(
+      'title' => t('Users Roles'),
+      'options callback' => 'ecofolio_webform_options_roles'
+  );
+
+  $items['structure'] = array(
+      'title' => t('Webform Structure'),
+      'options callback' => 'ecofolio_webform_options_structure'
+  );
+
+  return $items;
+}
+
+/**
+ * Option list containing the users roles.
+ */
+function ecofolio_webform_options_roles() {
+  $roles = user_roles();
+  
+  $allowed_roles = array();
+
+  $user_roles = array_diff($roles, array('anonymous user', 'authenticated user', 'administrator'));
+
+  foreach ($user_roles as $role) {
+      $allowed_roles[$role] = t($role);
+  }
+
+  return $allowed_roles;
+}
+
+/**
+ * Option list containing the structure list.
+ */
+function ecofolio_webform_options_structure() {
+  $structure = array(
+    'ecole' => t('Ecole'),
+    'collectivite' => t('Collectivite'),
+    'association' => t('Association'),
+    'centre_loisirs' => t('Centre de loisirs'),
+    'autre' => t('Autre'),
+  );
+
+  return $structure;
+}

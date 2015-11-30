@@ -1,0 +1,7 @@
+name = Ecofolio Display Médiathèque
+description = Module to manage the mediatheque display.
+core = 7.x
+package = Ecofolio
+dependencies[] = "ecofolio_manage_mediatheque"
+
+files[] = ecofolio_display_mediatheque.module

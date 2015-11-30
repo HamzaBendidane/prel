@@ -1,0 +1,87 @@
+<?php
+/**
+ * @file
+ * ecofolio_annonces.rules_defaults.inc
+ */
+
+/**
+ * Implements hook_default_rules_configuration().
+ */
+function ecofolio_annonces_default_rules_configuration() {
+  $items = array();
+  $items['rules_auto_content_is_expired'] = entity_import('rules_config', '{ "rules_auto_content_is_expired" : {
+      "LABEL" : "Auto content unpublished",
+      "PLUGIN" : "reaction rule",
+      "OWNER" : "rules",
+      "REQUIRES" : [ "rules", "workbench_moderation", "node_expire" ],
+      "ON" : { "node_expired" : [] },
+      "IF" : [
+        { "node_is_of_type" : {
+            "node" : [ "node" ],
+            "type" : { "value" : { "annonces" : "annonces" } }
+          }
+        }
+      ],
+      "DO" : [
+        { "workbench_moderation_set_state" : {
+            "node" : [ "node" ],
+            "moderation_state" : "private",
+            "force_transition" : 1
+          }
+        }
+      ]
+    }
+  }');
+  $items['rules_auto_content_submit'] = entity_import('rules_config', '{ "rules_auto_content_submit" : {
+      "LABEL" : "Auto content submitted",
+      "PLUGIN" : "reaction rule",
+      "OWNER" : "rules",
+      "REQUIRES" : [ "rules" ],
+      "ON" : { "node_insert--annonces" : { "bundle" : "annonces" } },
+      "IF" : [
+        { "node_is_of_type" : {
+            "node" : [ "node" ],
+            "type" : { "value" : { "annonces" : "annonces" } }
+          }
+        }
+      ],
+      "DO" : [
+        { "mail" : {
+            "to" : "rrobichon@ecofolio.fr",
+            "subject" : "Une nouvelle annonce vient d\\u2019\\u00eatre ajouter.\\r\\n",
+            "message" : "Une nouvelle annonce vient d\\u2019\\u00eatre ajouter.",
+            "from" : "inforeprise@ecofolio.fr",
+            "language" : [ "" ]
+          }
+        }
+      ]
+    }
+  }');
+  $items['rules_auto_moderation_transition'] = entity_import('rules_config', '{ "rules_auto_moderation_transition" : {
+      "LABEL" : "Auto content published",
+      "PLUGIN" : "reaction rule",
+      "OWNER" : "rules",
+      "REQUIRES" : [ "rules", "workbench_moderation" ],
+      "ON" : { "workbench_moderation_after_moderation_transition" : [] },
+      "IF" : [
+        { "node_is_of_type" : {
+            "node" : [ "node" ],
+            "type" : { "value" : { "annonces" : "annonces" } }
+          }
+        },
+        { "contents_current_state" : { "node" : [ "node" ], "moderation_state" : "published" } }
+      ],
+      "DO" : [
+        { "mail" : {
+            "to" : "rrobichon@ecofolio.fr",
+            "subject" : "Un nouvel article vient d\\u2019\\u00eatre publier [node:title]",
+            "message" : "Un nouvel article est pr\\u00eat a \\u00eatre publi\\u00e9 [node:title]",
+            "from" : "inforeprise@ecofolio.fr",
+            "language" : [ "" ]
+          }
+        }
+      ]
+    }
+  }');
+  return $items;
+}

@@ -1,0 +1,2 @@
+<?php
+define('RAPPEL_CONTRAT_PRO', 'Vous vous apprêtez à saisir une demande de contrat de professionnalisation, tous les champs saisis seront reportés sur le CERFA que vous pourrez ensuite éditer pour signature. Nous vous rappelons que pour tout contrat de professionnalisation, vous devez finaliser la saisie du dossier et la valider au plus tard dans les 5 jours (calendaires) qui suivent la date de début du contrat.');

@@ -1,0 +1,5 @@
+name = "Module exemple hardis"
+description = "Module exemple hardis"
+package = HARDIS
+core = "7.x"
+version = "7.x.0.0"

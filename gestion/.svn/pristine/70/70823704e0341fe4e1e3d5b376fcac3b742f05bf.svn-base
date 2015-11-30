@@ -1,0 +1,45 @@
+<?php
+/**
+ * @file
+ * ecofolio_espace_editeur.features.taxonomy.inc
+ */
+
+/**
+ * Implements hook_taxonomy_default_vocabularies().
+ */
+function ecofolio_espace_editeur_taxonomy_default_vocabularies() {
+  return array(
+    'format_document' => array(
+      'name' => 'Format document',
+      'machine_name' => 'format_document',
+      'description' => '',
+      'hierarchy' => 0,
+      'module' => 'taxonomy',
+      'weight' => 0,
+    ),
+    'support_de_parution' => array(
+      'name' => 'Support de parution',
+      'machine_name' => 'support_de_parution',
+      'description' => '',
+      'hierarchy' => 0,
+      'module' => 'taxonomy',
+      'weight' => 0,
+    ),
+    'thematique_document' => array(
+      'name' => 'Thématique document',
+      'machine_name' => 'thematique_document',
+      'description' => '',
+      'hierarchy' => 0,
+      'module' => 'taxonomy',
+      'weight' => 0,
+    ),
+    'type_de_document' => array(
+      'name' => 'Type de document',
+      'machine_name' => 'type_de_document',
+      'description' => '',
+      'hierarchy' => 0,
+      'module' => 'taxonomy',
+      'weight' => 0,
+    ),
+  );
+}

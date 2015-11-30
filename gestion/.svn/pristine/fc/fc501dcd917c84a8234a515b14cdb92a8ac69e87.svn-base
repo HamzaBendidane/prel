@@ -1,0 +1,5 @@
+name = "Migration modules"
+description = "Modules migrations"
+version = "7.1.0"
+core = "7.x"
+package = "OPCAIM"

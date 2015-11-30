@@ -1,0 +1,305 @@
+.bloc_contact {
+    background: transparent url("../images/2015/page/background-paper.jpg") no-repeat left top;
+    @include avant-garde-bold(20px, 25px);
+    color: $blue;
+    padding-left: 70px;
+    padding-top: 54px;
+    width: 320px;
+    height: 402px;
+
+    .titre {
+        @include avant-garde-bold(40px, 40px);
+        color: $blue;
+    }
+
+    .separateur.vert {
+        display: block;
+        width: 36px;
+        height: 5px;
+        background-color: $green;
+        margin: 18px 0;
+    }
+
+    a {
+        font-size: 16px;
+        line-height: 16px;
+        text-decoration: none;
+        color: $blue;
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+}
+
+.page-user .region-first-content form, .page-user-editeur .region-first-content form, .node-type-webform .region-first-content form, #user-register-form, #user-profile-form form.node-form {
+    background-color: white;
+}
+
+.form-wrapper, .form-item.form-type-checkbox, #edit-account.form-wrapper .form-item, .webform-container-inline {
+    background-color: white;
+    margin: 30px 0 0 0;
+    padding: 0 70px !important;
+}
+
+.page-user .region-first-content .form-item label, .page-user-editeur .region-first-content .form-item label, .node-type-webform .region-first-content .form-item label {
+    @include avant-garde-bold(16px, 16px);
+    float: none;
+    color: $blue;
+    display: block !important;
+    text-align: left;
+    margin: 0 0 13px 1px;
+    padding: 0;
+    width: 100%;
+}
+
+.page-user .region-first-content .form-item input, .page-user-editeur .region-first-content .form-item input, .page-user .region-first-content .form-item select, .node-type-webform .region-first-content .form-item input, .node-type-webform .region-first-content .form-item select {
+    background-color: #f4f4f4;
+    border: none;
+    width: 100%;
+    height: 42px;
+    padding: 0 10px;
+    @include open-sans-regular(14px, 42px);
+    color: #656565;
+    @include border-radius(0);
+}
+
+.region-first-content .form-item textarea {
+    background-color: #f4f4f4;
+    border: none;
+    width: 500px !important;
+    padding: 0 10px;
+    @include open-sans-regular(14px, 18px);
+    color: #656565;
+    resize: none;
+    height: 274px;
+    @include border-radius(0);
+}
+
+.page-user .region-first-content .form-item select, .page-user-editeur .region-first-content .form-item select, .node-type-webform .region-first-content .form-item select {
+    background-color: #f4f4f4 !important;
+    background-image: url("../images/2015/page/ico-select-down.png") !important;
+    background-position: 95% center !important;
+    background-repeat: no-repeat !important;
+    border: none;
+    width: 100%;
+    height: 42px;
+    padding: 0 10px;
+    @include open-sans-regular(14px, 42px);
+    color: #656565;
+    @include border-radius(0);
+
+    option {
+        padding: 0 10px;
+    }
+}
+
+.node-type-webform form .form-actions, .node-form .form-actions {
+    background-color: white;
+    margin: 30px 30px 0 0;
+    padding: 0 70px;
+    text-align: right;
+}
+
+input[type="submit"] {
+    display: inline-block;
+    vertical-align: middle;
+    position: relative;
+    margin: 0;
+    width: 150px;
+    height: 45px;
+    background-color: white;
+    border: 1px solid $blue;
+    @include avant-garde-bold(15px, 42px);
+    text-align: center;
+    color: $blue !important;
+    text-decoration: none;
+    text-transform: uppercase;
+    @include single-transition(all, .2s, ease-out);
+    box-shadow: none;
+    padding: 0;
+    @include border-radius(0);
+}
+
+#user-pass {
+  .user-pass-title {
+    font-family: 'ClearfaceGothicW01-Bold_692127', sans-serif;
+    font-size: 40px;
+    line-height: 40px;
+    color: #009ddf;
+    text-transform: none;
+    background: transparent url("../images/2015/page/sidebar-title-blue-sep.png") no-repeat left bottom;
+    padding-bottom: 24px;
+    margin-bottom: 30px;
+  }
+
+  .user-pass-message {
+    margin-bottom: 20px;
+  }
+
+  .form-item {
+    padding: 0 5%;
+
+    input {
+      width: 100%;
+    }
+  }
+  input[type="submit"] {
+    width: 450px;
+  }
+}
+
+input[type="submit"]:hover, input.form-submit[type="submit"]:active {
+    background-color: $blue;
+    border-color: $blue;
+    color: white;
+    padding: 0;
+    margin: 0;
+}
+
+#edit-submitted-webform-recrutement-fichier-cv, #edit-submitted-webform-recrutement-fichier-lm, #edit-submitted-webform-recrutement-fichier-cv--2, #edit-submitted-webform-recrutement-fichier-lm--2{
+    position: relative;
+    display: block;
+    height: 44px;
+    width: 100%;
+    background: transparent url("../images/2015/page/background-input-file.png") no-repeat left center;
+
+    input[type="file"]
+    {
+        border: medium none;
+        cursor: pointer;
+        font-size: 24px;
+        height: 44px;
+        margin: 0;
+        opacity: 0.0001;
+        padding: 0;
+        left: 0;
+        top: 0;
+        position: absolute;
+        visibility: visible;
+        width: 290px;
+        z-index: 10000;
+    }
+
+    #edit-submitted-webform-recrutement-fichier-lm-upload-button--2, #edit-submitted-webform-recrutement-fichier-cv-upload-button--2, #edit-submitted-webform-recrutement-fichier-cv-upload-button, #edit-submitted-webform-recrutement-fichier-lm-upload-button
+    {
+        display: inline-block;
+        margin-left: 304px;
+        background: transparent url("../images/2015/page/ico-transfert-off.png") no-repeat center center;
+        width: 44px;
+        height: 44px;
+        overflow: hidden;
+        text-indent: 300%;
+        @include single-transition(all, .2s, ease-out);
+
+        &:hover {
+            background-image: url("../images/2015/page/ico-transfert-on.png");
+        }
+    }
+}
+
+#edit-submitted-webform-recrutement-fichier-lm-ajax-wrapper, #edit-submitted-webform-recrutement-fichier-cv-ajax-wrapper {
+    .description {
+        @include open-sans-semi-bold(11px, 13px);
+        color: #656565;
+        margin-top: 10px;
+    }
+}
+
+
+.node-type-webform div.messages.error {
+    margin-left: 70px !important;
+    margin-top: 10px !important;
+}
+
+.node-type-webform .region-first-content .webform-datepicker {
+    padding: 0;
+
+    label {
+        display: none;
+    }
+
+    .hasDatepicker {
+        width: 18px;
+        padding: 0;
+        height: 15px;
+        vertical-align: middle;
+    }
+}
+
+#edit-submitted-webform-exposition-reservation-date-debut-day, #edit-submitted-webform-exposition-reservation-date-fin-day {
+    margin-right: 3px;
+}
+
+#edit-submitted-webform-exposition-reservation-date-debut-day, #edit-submitted-webform-exposition-reservation-date-debut-month, #edit-submitted-webform-exposition-reservation-date-debut-year {
+    padding: 0 20px;
+    background-position: 90% center !important;
+}
+
+#edit-submitted-webform-exposition-reservation-date-fin-day, #edit-submitted-webform-exposition-reservation-date-fin-month, #edit-submitted-webform-exposition-reservation-date-fin-year {
+    padding: 0 20px;
+    background-position: 90% center !important;
+}
+
+.webform-container-inline div, .webform-container-inline div.form-item {
+    display: inline-block;
+}
+
+#user-pass {
+    width: 620px;
+    margin: 0 auto;
+
+    input {
+        width: 100%;
+    }
+}
+
+.page-user-editeur {
+  .region-first-content {
+    .form-item {
+      .form-type-radio {
+        margin-bottom: 5px;
+        
+        input {
+          width: auto !important;
+          height: auto !important;
+        }
+
+        label {
+          display: inline-block !important;
+          vertical-align: middle;
+          width: auto;
+          margin: 0;
+        }
+      }
+    }
+    .captcha {
+      &.form-wrapper {
+        legend {
+          display: none;
+        }
+
+        .fieldset-wrapper {
+          .fieldset-description {
+            display: none;
+          }
+        }
+      }
+    }
+  }
+}
+
+#webform-client-form-307 {
+    #edit-submitted-webform-exposition-reservation-date-debut-day, #edit-submitted-webform-exposition-reservation-date-fin-day {
+        margin-right:11px;
+    }
+
+    .webform-datepicker select {
+        margin-right: 6px;
+    }
+
+    .webform-datepicker {
+        margin-top: 0;
+        padding-left: 0!important;
+    }
+}

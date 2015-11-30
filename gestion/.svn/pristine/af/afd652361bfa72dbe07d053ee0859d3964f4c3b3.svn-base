@@ -1,0 +1,42 @@
+.form-item-certifie label {
+  width: 100%;
+}
+
+.form-item-id-adefim label {
+  width: 100px;
+}
+
+.message-merci {
+  font-weight: bold;
+  font-size: 13px;
+  margin: 40px 0;
+}
+
+#edit-transmettre {
+  margin-bottom: 40px;
+}
+
+#center h1 {
+  text-align: left;
+  display: block;
+  margin-bottom: 40px;
+}
+
+.form-item-certifie .messages-inline {
+  margin-left: 0;
+  
+}
+
+#edit-framework {
+  text-align: center;
+  font-size: 15px;
+  margin: 50px 0;
+}
+
+.num_siret {
+	display: none;
+}
+.message-merci {
+	color : #000000;
+	font-size : 12px;
+}

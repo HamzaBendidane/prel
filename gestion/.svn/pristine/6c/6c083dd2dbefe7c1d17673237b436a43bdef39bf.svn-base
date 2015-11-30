@@ -1,0 +1,176 @@
+<?php
+
+function _administration_utilisateurs_db_query_filter($post_data, &$query) {
+  global $user;
+
+  $search_fields = false;
+  if ($post_data) {
+    $numero_demande = isset($post_data['numero_demande']) ? $post_data['numero_demande'] : null;
+    $nom         = isset($post_data['nom']) ? $post_data['nom'] : null;
+    $prenom      = isset($post_data['prenom']) ? $post_data['prenom'] : null;
+    $email       = isset($post_data['email']) ? $post_data['email'] : null;
+    $siret       = isset($post_data['siret']) ? $post_data['siret'] : null;
+    $statut      = isset($post_data['statut']) ? $post_data['statut'] : null;
+    $search_fields = true;
+  }
+
+  $join_lue = false;
+
+  if ($search_fields) {
+    if (!empty($numero_demande)) {
+      $query->condition('e.numero_demande' , (int)$numero_demande , '=');
+    }
+    if (!empty($nom)) {
+      $query->condition('last_name', '%' . db_like($nom) . '%' , 'LIKE');
+    }
+    if (!empty($prenom)) {
+      $query->condition('first_name', '%' . db_like($prenom) . '%' , 'LIKE');
+    }
+    if (!empty($email)) {
+      $query->condition('mail', $email , '=');
+    }
+    if (!empty($siret)) {
+      $entreprise_data = shared_db_get_entreprise_data_from_siret($siret);
+      if ($entreprise_data) {
+        $join_lue = true;
+        $query->leftJoin('lien_user_entreprise_ref_esclave_entreprise' , 'lue', 'lue.id_user_entreprise = e.id');
+        $query->condition('lue.id_ref_esclave_entreprise', trim($entreprise_data->id), '=');
+      } else {
+        drupal_set_message('Aucune entreprise n\'a été trouvé avec le SIRET : '.$siret, 'warning');
+      }
+    }
+    if (!empty($statut) || $statut == '0') {
+      $query->condition('statut', $statut , '=');
+    }
+  }
+}
+
+function _administration_utilisateurs_db_construct_result($results) {
+  $rows = array();
+
+  foreach ($results  as $key => $user) {
+
+    $user_data = user_load($user->id_user_drupal);
+     $user_roles = isset($user_data->roles) ? $user_data->roles : array();
+     if (is_array($user_roles)) {
+         $roles = array_values($user_roles);
+     }else $roles = array();
+
+    $entreprise_html = '';
+    if (array_key_exists(5, $user_roles) || array_key_exists(7, $user_roles)) {
+      $entreprise_html = _administration_utilisateurs_db_get_entreprises($user->id);
+    }
+
+    $actionEdit = '';
+    $actionDelete = '';
+    $actionValid = '';
+    if ($user->statut) {
+      if (shared_user_access('GES_MOD_UTI')) {
+        $actionEdit = l(
+            '<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>',
+            '/opcaim-admin/utilisateurs/modifier/'.$user->id,
+            array(
+                'html' => true,
+                'attributes' => array('class' => array('action'))
+            )
+        );
+      }
+      if (shared_user_access('GES_SUP_UTI')) {
+        $actionDelete = l(
+            '<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>',
+            '/opcaim-admin/utilisateurs/bloquer/'.$user->id,
+            array(
+                'html' => true,
+                'attributes' => array(
+                    'class' => array('action delete'),
+                    'data-id' => $user->id,
+                    'data-name' => $user->first_name . ' ' . $user->last_name
+                )
+            )
+        );
+      }
+      $action_html = '<div class="center">' . $actionEdit . $actionDelete . '</div>';
+    } else {
+      if (shared_user_access('GES_VAL_UTI')) {
+        $actionValid = l(
+            '<span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>',
+            '/opcaim-admin/utilisateurs/valider/'.$user->id,
+            array(
+                'html' => true,
+                'attributes' => array('class' => array('action'))
+            )
+        );
+      }
+      $action_html = '<div class="center">' . $actionValid . '</div>';
+    }
+
+
+    $rows[] = array(
+        'numero_demande' => $user->numero_demande,
+        'nom' => $user->first_name . ' ' . $user->last_name,
+        'type_compte' => @$roles[1],
+        'email' => $user->mail,
+        'numero_siret' => $entreprise_html,
+        'statut' => $user->statut ? 'Validé' : 'Bloqué',
+        'derniere_connexion' => @$user_data->login ? date('d/m/Y h:i', $user_data->login) : '-',
+        'action' => $action_html,
+    );
+  }
+
+
+  return $rows;
+}
+
+/**
+ *  Recherche dans la base des informations utilisateurs
+ *
+ */
+function administration_utilisateurs_db_get_utilisateurs($post_data) {
+
+    db_set_active(@DB_EXTRANET);
+
+  $query = db_select('drupal_user' , 'u');
+    $query->join('user_entreprise' , 'e' , 'u.id = e.id_drupal_user ' );
+
+    $query->join('lien_user_entreprise_ref_esclave_entreprise' , 'lue', 'lue.id_user_entreprise = e.id');
+    $query->distinct();
+    $query->fields('e' , array('numero_demande')); // Numéro de demande
+    $query->fields('u' , array('first_name', 'last_name', 'mail', 'id_user_drupal', 'id', 'statut'));
+
+    shared_update_requete_adefim_entreprise($query,'lue.id_ref_esclave_entreprise','extranet');
+    
+  _administration_utilisateurs_db_query_filter($post_data, $query);
+
+  $results =  $query->extend('PagerDefault')->limit(10)->execute();  // Pagination des résultats
+
+  db_set_active();
+  return _administration_utilisateurs_db_construct_result($results);
+
+}
+
+function _administration_utilisateurs_db_get_entreprises($id_drupal_user) {
+  db_set_active(@DB_EXTRANET);
+
+  $query = db_select('lien_user_entreprise_ref_esclave_entreprise' , 'lue');
+  $query->fields('lue', array('id_ref_esclave_entreprise'));
+  $query->join('user_entreprise' , 'ue' , 'lue.id_user_entreprise = ue.id ' );
+  $query->condition('ue.id_drupal_user' , $id_drupal_user, '=');
+  $query->condition('lue.est_actif' , 1, '=');
+
+  $id_entreprises = $query->execute()->fetchAll();
+
+  db_set_active(@DB_SLAVE);
+
+  $entreprise_html = '';
+  foreach ($id_entreprises as $key => $id_entreprise) {
+    $entreprise_data = shared_db_get_entreprise_data($id_entreprise->id_ref_esclave_entreprise);
+    if ($entreprise_data != false) {
+        $entreprise_html .= trim($entreprise_data->raison_sociale) . ' : ' . trim($entreprise_data->siret) . '<br />' ;
+    }
+
+  }
+
+  db_set_active();
+
+  return $entreprise_html;
+}

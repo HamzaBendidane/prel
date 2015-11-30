@@ -1,0 +1,29 @@
+<?php
+$link = "";
+foreach ($rows as $id => $row) {
+        if (!$row == "") {
+            $link = $row;
+        }
+    continue;
+}
+
+?>
+<div class="col-md-14">
+<?php if (!empty($title)): ?>
+  <h3><?php print $title; ?></h3>
+<?php endif; ?>
+  <?php if (!drupal_is_front_page()): ?>
+  
+<!--        <ul class="header-icons">
+             <li class="header-icon">
+              <a href="<?php //print $link; ?>"><img src="<?php //print base_path() . path_to_theme() . '/' . 'images/info.png'; ?>" /> </a>
+             </li>
+        </ul>-->
+  <?php endif; ?>
+<?php foreach ($rows as $id => $row): ?>
+  <div<?php if ($classes_array[$id]) { print ' class="' . $classes_array[$id] .'"';  } ?>>
+
+    <?php print $row; ?>
+  </div>
+<?php endforeach; ?>
+</div>

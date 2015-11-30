@@ -1,0 +1,12 @@
+
+<div id="row" class="blocs">
+<?php 
+  foreach ($blocs as $bloc) {
+    ?>
+    <div class="blocs-content col-lg-4 col-md-6">
+    <?php print $bloc; ?>
+    </div>
+    <?php 
+  }
+  ?>
+</div>

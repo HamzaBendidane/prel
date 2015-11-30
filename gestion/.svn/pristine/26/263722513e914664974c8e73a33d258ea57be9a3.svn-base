@@ -1,0 +1,208 @@
+<?php
+/**
+ * @file
+ * ecofolio_styles_images.features.inc
+ */
+
+/**
+ * Implements hook_image_default_styles().
+ */
+function ecofolio_styles_images_image_default_styles() {
+  $styles = array();
+
+  // Exported image style: block_bigmenu.
+  $styles['block_bigmenu'] = array(
+    'name' => 'block_bigmenu',
+    'label' => 'Bloc bigmenu',
+    'effects' => array(
+      1 => array(
+        'label' => 'Scale and crop',
+        'help' => 'Scale and crop will maintain the aspect-ratio of the original image, then crop the larger dimension. This is most useful for creating perfectly square thumbnails without stretching the image.',
+        'effect callback' => 'image_scale_and_crop_effect',
+        'dimensions callback' => 'image_resize_dimensions',
+        'form callback' => 'image_resize_form',
+        'summary theme' => 'image_resize_summary',
+        'module' => 'image',
+        'name' => 'image_scale_and_crop',
+        'data' => array(
+          'width' => 230,
+          'height' => 110,
+        ),
+        'weight' => 1,
+      ),
+    ),
+  );
+
+  // Exported image style: block_folder.
+  $styles['block_folder'] = array(
+    'name' => 'block_folder',
+    'label' => 'Bloc dossier',
+    'effects' => array(
+      5 => array(
+        'label' => 'Scale and crop',
+        'help' => 'Scale and crop will maintain the aspect-ratio of the original image, then crop the larger dimension. This is most useful for creating perfectly square thumbnails without stretching the image.',
+        'effect callback' => 'image_scale_and_crop_effect',
+        'dimensions callback' => 'image_resize_dimensions',
+        'form callback' => 'image_resize_form',
+        'summary theme' => 'image_resize_summary',
+        'module' => 'image',
+        'name' => 'image_scale_and_crop',
+        'data' => array(
+          'width' => 310,
+          'height' => 170,
+        ),
+        'weight' => 1,
+      ),
+    ),
+  );
+
+  // Exported image style: block_homepage.
+  $styles['block_homepage'] = array(
+    'name' => 'block_homepage',
+    'label' => 'Bloc homepage (scale&crop 300x250)',
+    'effects' => array(
+      3 => array(
+        'label' => 'Scale and crop',
+        'help' => 'Scale and crop will maintain the aspect-ratio of the original image, then crop the larger dimension. This is most useful for creating perfectly square thumbnails without stretching the image.',
+        'effect callback' => 'image_scale_and_crop_effect',
+        'dimensions callback' => 'image_resize_dimensions',
+        'form callback' => 'image_resize_form',
+        'summary theme' => 'image_resize_summary',
+        'module' => 'image',
+        'name' => 'image_scale_and_crop',
+        'data' => array(
+          'width' => 300,
+          'height' => 250,
+        ),
+        'weight' => 2,
+      ),
+    ),
+  );
+
+  // Exported image style: block_intra.
+  $styles['block_intra'] = array(
+    'name' => 'block_intra',
+    'label' => 'Bloc intra (scale&crop 310x280)',
+    'effects' => array(
+      8 => array(
+        'label' => 'Scale and crop',
+        'help' => 'Scale and crop will maintain the aspect-ratio of the original image, then crop the larger dimension. This is most useful for creating perfectly square thumbnails without stretching the image.',
+        'effect callback' => 'image_scale_and_crop_effect',
+        'dimensions callback' => 'image_resize_dimensions',
+        'form callback' => 'image_resize_form',
+        'summary theme' => 'image_resize_summary',
+        'module' => 'image',
+        'name' => 'image_scale_and_crop',
+        'data' => array(
+          'width' => 310,
+          'height' => 280,
+        ),
+        'weight' => 1,
+      ),
+    ),
+  );
+
+  // Exported image style: image_contenu.
+  $styles['image_contenu'] = array(
+    'name' => 'image_contenu',
+    'label' => 'Image contenu',
+    'effects' => array(
+      5 => array(
+        'label' => 'Scale',
+        'help' => 'Scaling will maintain the aspect-ratio of the original image. If only a single dimension is specified, the other dimension will be calculated.',
+        'effect callback' => 'image_scale_effect',
+        'dimensions callback' => 'image_scale_dimensions',
+        'form callback' => 'image_scale_form',
+        'summary theme' => 'image_scale_summary',
+        'module' => 'image',
+        'name' => 'image_scale',
+        'data' => array(
+          'width' => 670,
+          'height' => '',
+          'upscale' => 1,
+        ),
+        'weight' => 1,
+      ),
+    ),
+  );
+
+  // Exported image style: listing_actualites.
+  $styles['listing_actualites'] = array(
+    'name' => 'listing_actualites',
+    'label' => 'Listing Actualités (width140px)',
+    'effects' => array(
+      9 => array(
+        'label' => 'Scale',
+        'help' => 'Scaling will maintain the aspect-ratio of the original image. If only a single dimension is specified, the other dimension will be calculated.',
+        'effect callback' => 'image_scale_effect',
+        'dimensions callback' => 'image_scale_dimensions',
+        'form callback' => 'image_scale_form',
+        'summary theme' => 'image_scale_summary',
+        'module' => 'image',
+        'name' => 'image_scale',
+        'data' => array(
+          'width' => 140,
+          'height' => '',
+          'upscale' => 0,
+        ),
+        'weight' => 1,
+      ),
+    ),
+  );
+
+  // Exported image style: listing_mediatheque.
+  $styles['listing_mediatheque'] = array(
+    'name' => 'listing_mediatheque',
+    'label' => 'Listing Médiathèque',
+    'effects' => array(
+      10 => array(
+        'label' => 'Scale and crop',
+        'help' => 'Scale and crop will maintain the aspect-ratio of the original image, then crop the larger dimension. This is most useful for creating perfectly square thumbnails without stretching the image.',
+        'effect callback' => 'image_scale_and_crop_effect',
+        'dimensions callback' => 'image_resize_dimensions',
+        'form callback' => 'image_resize_form',
+        'summary theme' => 'image_resize_summary',
+        'module' => 'image',
+        'name' => 'image_scale_and_crop',
+        'data' => array(
+          'width' => 82,
+          'height' => 82,
+        ),
+        'weight' => 1,
+      ),
+    ),
+  );
+
+  // Exported image style: slider_homepage.
+  $styles['slider_homepage'] = array(
+    'name' => 'slider_homepage',
+    'label' => 'Diaporama Homepage (scale&crop 1200x470)',
+    'effects' => array(),
+  );
+
+  // Exported image style: social_networks_footer.
+  $styles['social_networks_footer'] = array(
+    'name' => 'social_networks_footer',
+    'label' => 'SociaI networks footer (height30px)',
+    'effects' => array(
+      6 => array(
+        'label' => 'Scale',
+        'help' => 'Scaling will maintain the aspect-ratio of the original image. If only a single dimension is specified, the other dimension will be calculated.',
+        'effect callback' => 'image_scale_effect',
+        'dimensions callback' => 'image_scale_dimensions',
+        'form callback' => 'image_scale_form',
+        'summary theme' => 'image_scale_summary',
+        'module' => 'image',
+        'name' => 'image_scale',
+        'data' => array(
+          'width' => '',
+          'height' => 30,
+          'upscale' => 0,
+        ),
+        'weight' => 1,
+      ),
+    ),
+  );
+
+  return $styles;
+}

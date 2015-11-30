@@ -1,0 +1,143 @@
+<?php
+
+/**
+ * @file
+ * Provides a table element in Forms API so that table rendering can be integrated
+ * seamlessly into a form.
+ */
+
+/**
+ * Implements hook_menu().
+ */
+function table_element_info() {
+  return array(
+    'table' => array(
+      '#theme' => 'table_table',
+      '#process' => array('table_process_table_root'),
+      '#rows' => array(),
+    ),
+    'table_row' => array(
+      '#process' => array('table_process_table_row'),
+    ),
+  );
+}
+
+/**
+ * Implements hook_theme().
+ */
+function table_theme($existing, $type, $theme, $path) {
+  return array(
+    'table_table' => array(
+      'render element' => 'table',
+    ),
+  );
+}
+
+/**
+ * Ensures that all children are table rows.
+ *
+ * @param $element
+ *   An associative array containing the properties and children of the
+ *   table.
+ * @param $form_state
+ *   The $form_state array for the form this table belongs to.
+ * @return
+ *   The processed element.
+ */
+function table_process_table_root($element, &$form_state) {
+  foreach (element_children($element) as $row) {
+    if (!isset($element[$row]['#type'])) {
+      $element[$row]['#type'] = 'table_row';
+    }
+    elseif ($element[$row]['#type'] !== 'table_row') {
+      trigger_error(sprintf("Table nesting error with element '%s' in form '%s': All elements that are direct descendants of a table element must be table rows. Element '%s' was of type '%s'", $row, $form_state['complete form']['#form_id'], $row, $element[$row]['#type']), E_USER_ERROR);
+    }
+  }
+  return $element;
+}
+
+/**
+ * Ensures that all children are table cells.
+ *
+ * @param $element
+ *   An associative array containing the properties and children of the
+ *   table row.
+ * @param $form_state
+ *   The $form_state array for the form this table row belongs to.
+ * @return
+ *   The processed element.
+ */
+function table_process_table_row($element, &$form_state) {
+  foreach (element_children($element) as $cell) {
+    if (!is_array($element[$cell])) {
+      $element[$cell] = array(
+        '#type' => 'markup',
+        '#markup' => $element[$cell],
+      );
+    }
+  }
+  return $element;
+}
+
+/**
+ * Return a themed table.
+ *
+ * @param $variables
+ *   An associative array containing:
+ *   - table: A FAPI specification of a table.
+ *
+ * @return
+ *   A themed table.
+ */
+function theme_table_table($variables) {
+  $table = array(
+    'rows' => $variables['table']['#rows'],
+  );
+
+  // Add object properties directly to the array so that you can specify them
+  // with #<property> instead of having to put them into #attributes.
+  foreach (array('header', 'attributes', 'caption', 'colgroups', 'sticky', 'empty') as $key) {
+    if (isset($variables['table']["#$key"])) {
+      $table[$key] = $variables['table']["#$key"];
+    }
+  }
+
+
+  $col_order = array();
+  foreach (array_keys($variables['table']['#header']) as $key) {
+    $col_order = array_merge($col_order, explode(',', $key));
+  }
+
+  // All children of the table element are table rows. This is ensured in
+  // table_process_table_root(). These rows are added in addition to the rows
+  // already specified in #rows.
+  foreach (element_children($variables['table']) as $row_id) {
+    $row = array('data' => array());
+    $row += $variables['table'][$row_id]['#attributes'];
+
+    foreach ($col_order as $cell_id) {
+      if (isset($variables['table'][$row_id][$cell_id])) {
+        $cell = array('data' => drupal_render($variables['table'][$row_id][$cell_id]));
+        if (isset($variables['table'][$row_id][$cell_id]['#cell_attributes'])) {
+          $cell += $variables['table'][$row_id][$cell_id]['#cell_attributes'];
+        }
+        $row['data'][] = $cell;
+      }
+      elseif (isset($variables['table'][$row_id]['#:' . $cell_id])) {
+        $row['data'][] = $variables['table'][$row_id]['#:' . $cell_id];
+      }
+      else {
+        $row['data'][] = '';
+      }
+    }
+
+    // Use the row's key as HTML ID if it's not numeric.
+    if (!isset($row['id']) && !is_numeric($row_id)) {
+      $row['id'] = drupal_html_id($row_id);
+    }
+
+    $table['rows'][] = $row;
+  }
+
+  return theme('table', $table);
+}

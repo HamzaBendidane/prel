@@ -1,0 +1,113 @@
+.popin {
+  display: none;
+  position: fixed;
+  top: 110px;
+  left: 300px;
+  z-index: 500;
+}
+
+.popin a.close {
+  position: absolute;
+  bottom: 20px;
+  right: 25px;
+  font-weight: 400;
+}
+
+.popin .top {
+  background: url('../images/popin-borders.png');
+  width: 555px;
+  height: 11px;
+}
+
+.popin .bottom {
+  background: url('../images/popin-borders.png') 0 11px;
+  width: 555px;
+  height: 11px;
+}
+
+.popin .content {
+  text-align: center;
+  background: url('../images/popin-middle.png') repeat-y;
+  padding: 25px 30px 70px;
+  width: 495px;
+}
+
+.popin.no-title {
+  padding-top: 45px;
+}
+
+.popin .content .title-container {
+  text-align: left;
+  border-bottom: 1px solid #e6e6e6;
+  padding-bottom: 15px;
+  margin-bottom: 30px;
+}
+
+.popin .content .title-container .title {
+  font-weight: 600;
+  font-size: 13px;
+}
+
+.popin .content .title-container .subtitle {
+  font-weight: 300;
+  font-size: 18px;
+  text-decoration: none;
+}
+
+.popin .content .instructions {
+  font-size: 15px;
+  font-weight: 400;
+  text-align: left;
+  margin-bottom: 10px;
+}
+
+.popin .content .help {
+  font-size: 12px;
+  font-weight: 400;
+  margin-bottom: 15px;
+  text-align: left;
+}
+
+.popin .content .error {
+  margin-bottom: 10px;
+  color: #d54015;
+  font-weight: 600;
+  font-size: 12px;
+  font-style: italic;
+  margin-right: 40px;
+}
+
+.popin .content .error .error-icon {
+  background: url('../images/error.png');
+  width: 16px;
+  height: 15px;
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 5px;
+}
+
+.popin .content .form .fields {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.popin .content .form .field-container .field {
+  width: 264px;
+}
+
+.popin .content .form .btn {
+  display: inline-block;
+  vertical-align: middle;
+  color: #d54015;
+  margin-left: 10px;
+}
+
+/******* popin wrong password *******/
+
+#wrong-password.popin .content .error {
+  margin-bottom: 40px;
+}
+
+.popin .content .form .fields .field-container.account-field-container {
+  margin-bottom: 5px;
+}

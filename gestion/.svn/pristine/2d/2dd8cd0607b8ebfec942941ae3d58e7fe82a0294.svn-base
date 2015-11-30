@@ -1,0 +1,101 @@
+(function($){
+    jQuery(document).ready(function($) {
+        $(".form-username").focus();
+               
+        $("#forgot-password-link").click(function() {
+            $("#errors-forgot-password").html('');
+            $("#forgot-password").modal();
+        });
+        
+        $("#follow-create-account-link").click(function() {
+            $("#errors-follow-create-account").html('');
+            $("#follow-create-account").modal();
+        });        //showModal window and errors if errors present
+        showFormErrors();
+        //get a message of a status if set and show it
+        var statusMsg = showStatus(Drupal.settings.LOGIN.errors);
+        if (statusMsg) {
+            $("#status-form").html(statusMsg);
+        }
+        
+        /**
+         * Get error object transmitted from php, 
+         * show errors if present in modal 
+         * and open an appropriate modal
+         */
+        function showFormErrors() {
+            if (!Drupal.settings.LOGIN.errors) {
+                return false;
+            }
+            //get object of transmitted errors
+            var errors = Drupal.settings.LOGIN.errors;
+
+            if (!errors.hasOwnProperty('form_id') || !errors.form_id) {
+                return false;
+            }
+            if (errors.form_id[0] == "login_password_forgot_form") {
+                showErrors(errors, "#errors-forgot-password", "#forgot-password");
+            }
+            if (errors.form_id[0] == "login_follow_form") {
+                showErrors(errors, "#errors-follow-create-account", "#follow-create-account");
+            }
+        }
+        
+        /**
+         * get an error message, if error message is present
+         * show an appropriate modal
+         * @param {Object} errors 
+         * @param {string} errorsDivId an id of a div for errors in a modal
+         * @param {string} modalId - id of modal to show
+         */
+        function showErrors(errors, errorsDivId, modalId) {
+            //get error msg
+            var errorsMsg = getErrorsMsg(errors);
+            //attach this msg to error div
+            //and show modal
+            if (errorsMsg != "") {
+                $(errorsDivId).html(errorsMsg);
+                $(modalId).modal();
+            }
+        }
+
+        /**
+         * construct a div with errors
+         * @param {Object} errors
+         * @returns {String} errorMsg
+         */
+        function getErrorsMsg(errors) {
+            var errorMsg = "";
+            if (errors.hasOwnProperty('error')) {
+                errorMsg += "<div class='errorlogin'>";
+                for (var i in errors.error) {
+                    errorMsg += '<div class="">' + errors.error[i] + '</div>';
+                }
+                errorMsg += "</div>";
+                return errorMsg;
+            }
+            return errorMsg;
+        }
+        
+        /**
+         * if status exist return a div contained a msg for status
+         * @param {Object} errors
+         * @returns {Boolean|String}
+         */
+        function showStatus(errors) {
+            var statusMsg = "";
+            if (!errors || !errors.hasOwnProperty('status')) {
+                return false;
+            }
+            statusMsg += "<div class=''>";
+            for (var i in errors.status) {
+                statusMsg += '<div class="">' + errors.status[i] + '</div>';
+            }
+            statusMsg += "</div>";
+            return statusMsg;
+        }
+        
+ 
+  
+    });
+})(jQuery)

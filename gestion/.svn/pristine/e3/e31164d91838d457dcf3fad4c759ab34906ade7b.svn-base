@@ -1,0 +1,5 @@
+name = "Gestion des logs"
+description = "Permet de logguer les informations de l'extranet créées, modifiées ou supprimées"
+package = OPCAIM
+core = 7.x
+version = "7.1.0"

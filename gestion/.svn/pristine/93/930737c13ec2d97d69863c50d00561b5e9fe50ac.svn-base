@@ -1,0 +1,4 @@
+name = Ecofolio Cart
+description = Ecofolio custom cart
+package = Ecofolio
+core = 7.x

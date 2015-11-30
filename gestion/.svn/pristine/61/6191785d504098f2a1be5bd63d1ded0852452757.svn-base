@@ -1,0 +1,19 @@
+<fieldset class="form-wrapper" id="edit-company">
+  <legend>
+    <span class="fieldset-legend"><b>L'ENTREPRISE</b></span>
+  </legend>
+  <div class="fieldset-wrapper">
+
+    <?php
+    print theme_table(array(
+        'header' => array('Entreprise', 'Adefim'),
+        'rows' => print_entreprise_confirmation_data($form_creation_compte),
+        'sticky' => false,
+        'attributes' => array(),
+        'caption' => '',
+        'colgroups' => array(),
+        'empty' => null
+    ));
+    ?>
+  </div>
+</fieldset>

@@ -1,0 +1,48 @@
+/****** Object:  Table [dbo].[dgf_relance]    Script Date: 24/07/2015 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[dgf_relance](
+	[id] [int] IDENTITY(1,1) NOT NULL,
+	[id_dgf] [int] NOT NULL,
+	[mode_envoi] [nvarchar](max) NOT NULL,
+	[fichier_comp][nvarchar](max) NULL,
+	[commentaire] [nvarchar](max) NULL,
+	[date_creation] [datetime] NOT NULL,
+	[id_user_creation] [int] NOT NULL,
+	[date_last_edit] [datetime] NULL,
+	[id_user_last_edit] [int] NULL,
+ CONSTRAINT [PK_dgf_relance] PRIMARY KEY CLUSTERED 
+(
+	[id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+
+GO
+
+/****** Object:  Table [dbo].[lien_relance_justificatif]   Script Date: 24/07/2015 ******/
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[lien_relance_justificatif](
+	[id_relance] [int] NOT NULL,
+	[id_ref_justificatif] [int] NOT NULL,)
+
+ 
+
+GO
+
+
+
+/****** Object:  Table [dbo].[lien_relance_destinataire]   Script Date: 24/07/2015 ******/
+
+ SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[lien_relance_destinataire](
+	[id_relance] [int] NOT NULL,
+	[id_drupal_user] [nvarchar](max) NULL,
+	[autre_mail] [nvarchar](max) NULL,
+ )
+GO
+
+

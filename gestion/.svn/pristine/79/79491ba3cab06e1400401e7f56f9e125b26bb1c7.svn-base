@@ -1,0 +1,49 @@
+<?php
+    // print 'Afficher la pagination';
+    // var_dump($nbResultTot);
+    // var_dump($pageCurrent);
+    // var_dump($nbElementDisplay);
+    // print('nbResultTot : '.$nbResultTot);
+    // print '<br />';
+    // print('pageCurrent : '.$pageCurrent);
+    // print '<br />';
+    // print('nbElementDisplay : '.$nbElementDisplay);
+    // print '<br />';
+    
+    $nbPages = ceil($nbResultTot/$nbElementDisplay);
+
+    print '<div id="pagerWrapper">';
+    if ($nbPages != 1):
+       
+        print '<div class="item-list">';
+        print '<ul class="pager clearfix">';
+        
+        if ($pageCurrent > 1):
+            print '<li class="pager-first"><a class="goToPage" data-pageNumber="1" title="Aller à la première page">«</a></li>';
+            print '<li class="pager-previous"><a class="goToPage" data-pageNumber="'.($pageCurrent - 1).'" title="Aller à la page précédente">‹</a></li>';
+        endif;
+        
+        for ($i = 0; $i < $nbPages; $i++) {
+            $class = '';
+            if ($i === 0) {
+                $class = ' first';
+            }
+            if (($i + 1) == $pageCurrent) {
+                print '<li class="pager-current '.$class.'">' . ($i + 1) . '</li>';
+            } else {
+                print '<li class="pager-item '.$class.'"><a class="goToPage" data-pageNumber="' . ($i + 1) . '" title="Go to page ' . ($i + 1) . '">' . ($i + 1) . '</a></li>';
+            }
+        }
+        
+        if ($pageCurrent < $nbPages):
+            print '<li class="pager-next"><a class="goToPage" data-pageNumber="'.($pageCurrent + 1).'" title="Aller à la page suivante">›</a></li>';
+            print '<li class="pager-last"><a class="goToPage" data-pageNumber="'.$nbPages.'" title="Aller à la dernière page">››</a></li>';
+        endif;
+        
+        print '</ul>';
+        print '</div>';
+    endif;
+    print '</div>';
+    print '<input id="ajaxMaxPage" type="hidden" value="'.$nbPages.'" />';
+    
+?>

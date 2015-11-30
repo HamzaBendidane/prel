@@ -1,0 +1,120 @@
+<?php
+/**
+ * initialise le module hardis
+ */
+function hardis_bootstrap(){
+    return array('ajouterlieu_form');
+}
+/**
+ * Access callback
+ * @return bool
+ */
+function _hardis_access_callback() {
+  return true;
+}
+/**
+ * Implements hook_menu().
+ * @return array
+ */
+function hardis_menu() {
+  $items = array();
+
+    $items['stage_list'] = array(
+        'title' => t('Liste des stages'),
+        'page callback' => 'common_view',
+        'page arguments' => array('list','stages'),
+        'access callback' => '_hardis_access_callback',
+        'file' => 'hardis_controller.inc',
+        'type' => MENU_NORMAL_ITEM,
+    );
+    $items['ajouter_stage_form'] = array(
+        'title' => t('Ajouter des stages'),
+        'page callback' => 'common_view',
+        'page arguments' => array('form','ajouterstage'),
+        'access callback' => '_hardis_access_callback',
+        'file' => 'hardis_controller.inc',
+        'type' => MENU_NORMAL_ITEM,
+    );
+    $items['list_tarifs_form'] = array(
+        'title' => t('Gestion des tarifs'),
+        'page callback' => 'common_view',
+        'page arguments' => array('list','tarifs'),
+        'access callback' => '_hardis_access_callback',
+        'file' => 'hardis_controller.inc',
+        'type' => MENU_NORMAL_ITEM,
+    );
+
+    $items['stagiaires_list'] = array(
+        'title' => t('Liste des stagiaires'),
+        'page callback' => 'common_view',
+        'page arguments' => array('list','stagiaires'),
+        'access callback' => '_hardis_access_callback',
+        'file' => 'hardis_controller.inc',
+        'type' => MENU_NORMAL_ITEM,
+    );
+    $items['prospects_list'] = array(
+        'title' => t('Gestion des propects'),
+        'page callback' => 'common_view',
+        'page arguments' => array('list','prospects'),
+        'access callback' => '_hardis_access_callback',
+        'file' => 'hardis_controller.inc',
+        'type' => MENU_NORMAL_ITEM,
+    );
+    $items['lieux_list'] = array(
+        'title' => t('Gestion des tarifs'),
+        'page callback' => 'common_view',
+        'page arguments' => array('list','tarifs'),
+        'access callback' => '_hardis_access_callback',
+        'file' => 'hardis_controller.inc',
+        'type' => MENU_NORMAL_ITEM,
+    );
+    $items['ajouterlieu'] = array(
+        'title' => t('Ajouter un lieu'),
+        'page callback' => 'common_view',
+        'page arguments' => array('form','ajouterlieu'),
+        'access callback' => '_hardis_access_callback',
+        'file' => 'hardis_controller.inc',
+        'type' => MENU_NORMAL_ITEM,
+    );
+
+    $items['animateurs_list'] = array(
+        'title' => t('Liste des animateurs'),
+        'page callback' => 'common_view',
+        'page arguments' => array('list','animateurs'),
+        'access callback' => '_hardis_access_callback',
+        'file' => 'hardis_controller.inc',
+        'type' => MENU_NORMAL_ITEM,
+    );
+
+    $items['ajouteranimateur_list'] = array(
+        'title' => t('Ajouter un animateur'),
+        'page callback' => 'common_view',
+        'page arguments' => array('form','ajouteranimateurs'),
+        'access callback' => '_hardis_access_callback',
+        'file' => 'hardis_controller.inc',
+        'type' => MENU_NORMAL_ITEM,
+    );
+
+
+    return $items;
+}
+/**
+ * Implement hook_theme
+ * @param $existing
+ * @param $type
+ * @param $theme
+ * @param $path
+ * @return array
+ */
+function hardis_theme($existing, $type, $theme, $path)
+{
+    foreach (hardis_bootstrap() as $value) {
+        $aReturn[$value] = array(
+            'variables' => array(),
+            'render element' => 'element',
+            'template' => $value,
+            'path' => drupal_get_path('module', 'hardis') . '/theme',
+        );
+    }
+    return $aReturn;
+}

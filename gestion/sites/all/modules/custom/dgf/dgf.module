@@ -1,0 +1,359 @@
+<?php
+
+require_once 'breadcrumb.inc';
+require_once 'dgf_langs.inc';
+
+function _dgf_access_callback() {
+  return shared_user_access('GES_CP');
+}
+
+function dgf_init() {
+    //Set le menu de demande de gestion et financement activ
+    if (strpos(request_uri(), 'dgf/demande') !== false) {
+        set_menu_item_actif();
+    }
+}
+function dgf_menu() {
+  $items = array();
+
+  $items['dgf/demande'] = array(
+      'title' => t('Etape demande'),
+      'page callback' => 'dgf_demande_view',
+      'access callback' => '_dgf_access_callback',
+      //'file' => 'inc/demande/dgf_demande_form.inc',
+      'type' => MENU_NORMAL_ITEM,
+  );
+  $items['dgf/demande/organisme-formation'] = array(
+      'title' => t('Etape organisme de formation'),
+      'page callback' => 'dgf_organisme_formation_view',
+      'access arguments' => array('_dgf_access_callback'),
+      'file' => 'inc/organisme_formation/organisme_formation_view.inc',
+      'type' => MENU_NORMAL_ITEM,
+      'access callback' => '_dgf_access_callback',
+  );
+
+  // Appel AJAX
+  $items['dgf/ajax/sauver/contact'] = array(
+      'page callback' => 'sauver_contact_organisme_formation',
+      'access arguments' => array('sauver_contact_organisme_formation'),
+      'file' => 'inc/organisme_formation/organisme_formation_db.inc',
+      'type' => MENU_CALLBACK,
+      'access callback' => '_dgf_access_callback',
+  );
+
+
+  $items['dgf/demande/contrat'] = array(
+      'title' => t('Etape contrat'),
+      'page callback' => 'dgf_contrat_view',
+      'access arguments' => array('_dgf_access_callback'),
+      'access callback' => '_dgf_access_callback',
+      'file' => 'inc/contrat/contrat_view.inc',
+      'type' => MENU_NORMAL_ITEM,
+  );
+
+
+  $items['dgf/demande/formation'] = array(
+      'title' => t('Etape formation'),
+      'page callback' => 'dgf_formation_view',
+      'access arguments' => array('_dgf_access_callback'),
+      'access callback' => '_dgf_access_callback',
+      'type' => MENU_NORMAL_ITEM,
+  );
+
+  $items['dgf/demande/formation/ajax/get-intitule-from-cqp'] = array(
+      'title' => 'Permet d\'obtenir l\lintitulé de la formation pas rapport au CQP donné',
+      'page callback' => 'formation_db_get_intitule_from_cqp',
+      'access callback' => TRUE,
+      'file' => 'inc/formation/formation_db.inc',
+      'type' => MENU_CALLBACK,
+  );
+
+ $items['dgf/demande/organisme-formation/autocomplete/siret'] = array(
+    //'title' => 'Siret Entreprises',
+    'page callback' => 'dgf_of_siret_autocomplete',
+     'access callback' => '_dgf_access_callback',
+    'file' => 'inc/organisme_formation/organisme_formation_auto_complete.inc',
+    'type' => MENU_CALLBACK,
+  );
+
+  $items['dgf/demande/organisme-formation/autocomplete/activity-number'] = array(
+    'title' => 'Numéro de déclaration d’activité',
+    'page callback' => 'dgf_of_activity_number_autocomplete',
+      'access callback' => '_dgf_access_callback',
+    'file' => 'inc/organisme_formation/organisme_formation_auto_complete.inc',
+    'type' => MENU_CALLBACK,
+  );
+
+  $items['dgf/demande/organisme-formation/autocomplete/corporate-name'] = array(
+    'title' => 'Raison sociale',
+    'page callback' => 'dgf_of_corporate_name_autocomplete',
+      'access callback' => '_dgf_access_callback',
+    'file' => 'inc/organisme_formation/organisme_formation_auto_complete.inc',
+    'type' => MENU_CALLBACK,
+  );
+
+  $items['dgf/demande/organisme-formation/ajax/get-contact-from-of'] = array(
+      'title' => 'Permet d\'obtenir les contacts d\'un organisme de formation',
+      'page callback' => 'organisme_formation_db_get_contact_from_organisme_formation',
+      'access callback' => '_dgf_access_callback',
+      'file' => 'inc/organisme_formation/organisme_formation_auto_complete.inc',
+      'type' => MENU_CALLBACK,
+  );
+
+  $items['dgf/ajax/organisme-formation/check-contact-of-infos'] = array(
+      'title' => 'Vérifie si le contact sélectionné a un email et une fonction en BDD',
+      'page callback' => 'organisme_formation_db_check_contact_infos',
+      'access callback' => '_dgf_access_callback',
+      'file' => 'inc/organisme_formation/organisme_formation_db.inc',
+      'type' => MENU_CALLBACK,
+  );
+
+  //  Justificatifs
+  //   $items['dgf/demande/justificatifs'] = array(
+//       'title' => t('Justificatifs'),
+//       'page callback' => 'drupal_get_form',
+//       'page arguments' => array('dgf_justificatifs_form'),
+//       'access callback' => '_dgf_access_callback',
+//       'file' => 'inc/justificatifs/justificatifs_form.inc',
+//       'type' => MENU_CALLBACK,
+//   );
+
+  $items['dgf/demande/justificatifs'] = array(
+      'title' => t('Etape justificatifs'),
+      'page callback' => 'dgf_justificatifs_view',
+      'access arguments' => array('_dgf_access_callback'),
+      'type' => MENU_NORMAL_ITEM,
+      'access callback' => '_dgf_access_callback',
+  );
+
+  // Url pour supprimer un fichier
+  $items['dgf/demande/justificatifs/%/sup/%'] = array(
+      'page callback' => 'justificatifs_delete_files',
+      'page arguments' => array(3,5),
+      'access callback' => '_dgf_access_callback',
+      'file' => 'inc/justificatifs/justificatifs_form.inc',
+      'type' => MENU_CALLBACK,
+      'access callback' => '_dgf_access_callback',
+  );
+
+  $items['autocomplete/get-intitule-formation'] = array(
+      'title' => t('Liste des intitulés de formation correspondant au nom donné' ),
+      'page callback' => 'formation_db_get_referentiel_esclave_intitule_formation',
+      'access callback' => TRUE,
+      'file' => 'inc/formation/formation_db.inc',
+      'type' => MENU_CALLBACK,
+      'access callback' => '_dgf_access_callback',
+  );
+
+//   $items['dgf/demande/attestation'] = array(
+//       'title' => t('Attestation' ),
+//       'page callback' => 'drupal_get_form',
+//       'page arguments' => array('dgf_attestation_form'),
+//       'access callback' => '_dgf_access_callback',
+//       'file' => 'inc/attestation/attestation_form.inc',
+//       'type' => MENU_CALLBACK,
+//   );
+
+  $items['dgf/demande/attestation'] = array(
+      'title' => t('Etape attestation'),
+      'page callback' => 'dgf_attestation_view',
+      'access arguments' => array('_dgf_access_callback'),
+      'file' => 'inc/attestation/attestation_view.inc',
+      'type' => MENU_NORMAL_ITEM,
+      'access callback' => '_dgf_access_callback',
+  );
+
+  return $items;
+}
+
+// in_array sur 2 niveau
+function in_array_r($needle, $haystack, $strict = false) {
+  foreach ($haystack as $item) {
+    if (($strict ? $item === $needle : $item == $needle) || (is_array($item) && in_array_r($needle, $item, $strict))) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
+
+// Gestion de l'affichage du breakcrumb pour les modules dgf et contrat_pro
+function dgf_form_alter (&$form_id, &$form) {
+  $etapes = array(
+      'Demande' => array('dgf_demande_form'),
+      'Salarié' => array('dgf_contrat_pro_stagiaire_form'),
+      'Contrat' => array('dgf_contrat_form'),
+      'Formation' => array('dgf_formation_form'),
+      'Organisme' => array('dgf_organisme_formation_form'),
+      'Tuteur' => array('dgf_contrat_pro_tuteur_form'),
+      'Visualisation' => array('dgf_contrat_pro_message_information_final_form', 'dgf_contrat_pro_cerfa_form'),
+      'Justificatif' => array('dgf_justificatifs_form'),
+//       'Paiement' => array('dgf_paiement_form')
+  );
+
+  if(isset($form_id['#form_id']) && (in_array_r($form_id['#form_id'], $etapes))) {
+    // Affichage en amont des formulaires
+    $form_id['#prefix'] = dgf_get_breadcrumb($etapes, $form_id['#form_id']);
+  }
+}
+
+/**
+ *  Modal Quitter
+ *  @param $form
+ *  @param $validatorsQuit
+ *  @param $validatorsSave
+ *  @param $submitsSave
+ *  @param null $ecran
+ */
+function dgf_modal_quit_form(&$form, $validatorsSave, $submitsSave) {
+  $prefix = '<div id="modalquit" class="modal" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                  <div class="modal-header">
+                     <button type="button" class="close modalQuit" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4>Souhaitez-vous enregistrer ?</h4>
+                  </div>
+                    <div class="modal-footer">';
+
+  $suffix = '</div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+          </div><!-- /.modal -->';
+
+
+  $form['modal_quit']['header'] = array(
+      '#type' => 'markup',
+      '#markup' => $prefix,
+  );
+
+  $form['modal_quit']['modal_quit'] = array(
+          '#type' => 'button',
+          '#value' => t('Non'),
+          '#limit_validation_errors' => array()
+  );
+
+  $form ['modal_quit']['modal_save'] = array(
+      '#type' => 'submit',
+      '#value' => t('Oui'),
+      '#attributes' => array(
+          'class' => array('btn modalSave'),
+      ),
+      '#validate' => $validatorsSave,
+      '#submit' => $submitsSave,
+  );
+
+  $form['modal_quit']['footer'] = array(
+      '#type' => 'markup',
+      '#markup' => $suffix,
+  );
+}
+
+function dgf_boutons_action_form(&$form, $validatorsBoutonNext, $submitsBoutonNext) {
+
+  $form['back'] = array(
+      '#type' => 'button',
+      '#value' => t('Précédent'),
+      '#limit_validation_errors' => array()
+  );
+
+  $form['quit'] = array(
+      '#type' => 'markup',
+      '#markup' => '<input type="button" id="edit-quit" value="Quitter" class="form-submit">',
+  );
+
+  $form['next'] = array(
+      '#type' => 'submit',
+      '#value' => t('Suivant'),
+      '#validate' => $validatorsBoutonNext,
+      '#submit' => $submitsBoutonNext,
+  );
+
+}
+
+function dgf_demande_view() {
+
+  require_once 'inc/demande/dgf_demande_form.inc';
+
+  $variables =  array(
+      'demande'=> drupal_get_form('dgf_demande_form')
+  );
+
+  $output = theme('dgf_demande_theme', $variables);
+
+  return $output;
+}
+
+function dgf_formation_view() {
+
+  require_once 'inc/formation/formation_form.inc';
+
+  $variables =  array(
+      'formation'=> drupal_get_form('dgf_formation_form')
+  );
+
+  $output = theme('dgf_formation_theme', $variables);
+
+  return $output;
+}
+
+function dgf_justificatifs_view() {
+
+    require_once 'inc/justificatifs/justificatifs_form.inc';
+
+    $variables =  array(
+            'justificatifs'=> drupal_get_form('dgf_justificatifs_form')
+    );
+
+    $output = theme('dgf_justificatifs_theme', $variables);
+
+    return $output;
+}
+
+function dgf_theme($existing, $type, $theme, $path) {
+    return array(
+      'dgf_demande_theme' => array(
+          'variables' => array(),
+          'render element' => 'element',
+          'template' => 'dgf_demande',
+          'path' => drupal_get_path('module', 'dgf') .'/theme',
+      ),
+      'dgf_contrat_theme' => array(
+          'variables' => array(),
+          'render element' => 'element',
+          'template' => 'dgf_contrat',
+          'path' => drupal_get_path('module', 'dgf') .'/inc/contrat/theme',
+      ),
+       'dgf_formation_theme' => array(
+          'variables' => array(),
+          'render element' => 'element',
+          'template' => 'dgf_formation',
+          'path' => drupal_get_path('module', 'dgf') .'/theme',
+      ),
+       'dgf_justificatifs_theme' => array(
+          'variables' => array(),
+          'render element' => 'element',
+          'template' => 'dgf_justificatifs',
+          'path' => drupal_get_path('module', 'dgf') .'/theme',
+      ),
+       'dgf_organisme_formation_theme' => array(
+          'variables' => array(),
+          'render element' => 'element',
+          'template' => 'dgf_organisme_formation',
+          'path' => drupal_get_path('module', 'dgf') .'/inc/organisme_formation/theme',
+      ),
+       'dgf_attestation_theme' => array(
+          'variables' => array(),
+          'render element' => 'element',
+          'template' => 'dgf_attestation',
+          'path' => drupal_get_path('module', 'dgf') .'/inc/attestation/theme',
+      ),
+  );
+}
+
+//Set le menu de demande gestion et financement activ
+function set_menu_item_actif() {
+    $item = menu_get_item();
+    $item['href'] = 'dgf/demande';
+    menu_set_item(NULL, $item);
+}

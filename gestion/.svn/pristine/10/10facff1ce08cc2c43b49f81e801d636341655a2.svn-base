@@ -1,0 +1,248 @@
+<?php
+
+/**
+ * Implements hook_field_formatter_info().
+ */
+function ecofolio_cart_field_formatter_info() {
+  return array(
+    'add_to_cart_formatter' => array(
+      'label' => t('Add to cart'),
+      'field types' => array('file'),
+    ),
+  );
+}
+
+/**
+ * Implements hook_field_formatter_view().
+ */
+function ecofolio_cart_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
+  $element = array();
+  if ($display['type'] == 'add_to_cart_formatter') {
+    if ($entity->type == 'document') {
+      $link = '<input type="checkbox" class="checkbox-file" name="files" id="checkbox-' . $entity->field_gabarit['und'][0]['fid'] . '" value="' . $entity->field_gabarit['und'][0]['fid'] . '">';
+      $link .= '<label for="checkbox-' . $entity->field_gabarit['und'][0]['fid'] . '">Gabarit</label>';
+      $element[0]['#markup'] = $link;
+    } else {
+      $link = '<input type="checkbox" class="checkbox-file" name="files" id="checkbox-' . $entity->field_fichier['und'][0]['fid'] . '" value="' . $entity->field_fichier['und'][0]['fid'] . '">';
+      $link .= '<label for="checkbox-' . $entity->field_fichier['und'][0]['fid'] . '"></label>';
+      $element[0]['#markup'] = $link;
+    }
+  }
+
+  return $element;
+}
+
+function ecofolio_cart_preprocess_views_view(&$vars) {
+  global $user;
+  
+  $arg = arg(1) == 'mes-parutions' ? 'annonces-presse' : arg(1);
+  
+  if ($vars['view']->name == 'espace_editeur' || $vars['view']->name == 'mes_parutions') {
+    $formLogin = drupal_get_form('user_login_block');
+    $vars['loginForm'] = drupal_render($formLogin);
+    $vars['annonces_link'] = l(t('Annonces presse'), 'espace-editeur/annonces-presse', array('attributes' => array('class' => array('left-link'))));
+    $vars['bannieres_link'] = l(t('Bannières web'), 'espace-editeur/bannieres-web', array('attributes' => array('class' => array('right-link'))));
+    $vars['choice_link'] = l(t('Choix des annonces'), 'espace-editeur/' . $arg, array('attributes' => array('class' => array('left-link'))));
+    $vars['parutions_link'] = l(t('Mes parutions'), 'espace-editeur/mes-parutions', array('attributes' => array('class' => array('right-link'))));
+  }
+}
+
+function ecofolio_cart_preprocess_node(&$vars) {
+  global $user;
+
+  if ($vars['type'] == 'document') {
+    $attributes_left = array(
+      'attributes' => array(
+        'class' => array(
+          'active',
+          'left-link',
+        ),
+      )
+    );
+    $attributes_right = array(
+      'attributes' => array(
+        'class' => array(
+          'active',
+          'right-link',
+        ),
+      )
+    );
+    if ($vars['field_type_document'][0]['taxonomy_term']->name == 'Annonces presse') {
+      $path = 'annonces-presse';
+      $vars['annonces_link'] = l(t('Annonces presse'), 'espace-editeur/annonces-presse', $attributes_left);
+      $vars['bannieres_link'] = l(t('Bannières web'), 'espace-editeur/bannieres-web', array('attributes' => array('class' => array('right-link'))));
+      $vars['choice_link'] = l(t('Choix des annonces'), 'espace-editeur/' . $path, $attributes_left);
+      $vars['parutions_link'] = l(t('Mes parutions'), 'espace-editeur/mes-parutions', array('attributes' => array('class' => array('right-link'))));
+    } else if ($vars['field_type_document'][0]['taxonomy_term']->name == 'Bannières web') {
+      $path = 'bannieres-web';
+      $vars['annonces_link'] = l(t('Annonces presse'), 'espace-editeur/annonces-presse', array('attributes' => array('class' => array('left-link'))));
+      $vars['bannieres_link'] = l(t('Bannières web'), 'espace-editeur/bannieres-web', $attributes_right);
+      $vars['choice_link'] = l(t('Choix des annonces'), 'espace-editeur/' . $path, $attributes_left);
+      $vars['parutions_link'] = l(t('Mes parutions'), 'espace-editeur/mes-parutions', array('attributes' => array('class' => array('right-link'))));
+    }
+
+    $default_options = array(
+      'attributes' => array(
+        'id' => 'download-zipcart',
+        'class' => array(
+          'zipcart',
+        ),
+      ),
+      'query' => _zipcart_get_destination_alias(),
+    );
+    $vars['downloads'] = l(t('Ajouter au panier'), ZIPCART_PATH_ADD, $default_options);
+    if ($vars['field_type_document'][0]['taxonomy_term']->name == 'Bannières web') {
+      $vars['texte_up'] = variable_get('texte_bannieres');
+    } else if ($vars['field_type_document'][0]['taxonomy_term']->name == 'Annonces presse') {
+      $vars['texte_up'] = variable_get('texte_annonces');
+    }
+    $vars['texte_down'] = variable_get('texte_document');
+    $formLogin = drupal_get_form('user_login_block');
+    $vars['loginForm'] = drupal_render($formLogin);
+  }
+}
+
+function ecofolio_cart_preprocess_page(&$vars) {
+  if ($vars['node']->type == 'document') {
+    drupal_add_js(drupal_get_path('module', 'ecofolio_cart') . '/js/jquery.tablesorter.js');
+    drupal_add_js(drupal_get_path('module', 'ecofolio_cart') . '/js/ecofolio_cart.js');
+  }
+}
+
+function ecofolio_cart_form_alter(&$form, &$form_state, $form_id) {
+  if ($form_id == 'views_exposed_form') {
+    if(function_exists('views_get_page_view') && views_get_page_view()){
+      $view = views_get_page_view();
+      if ($view->name == 'espace_editeur') {
+        $form['tid_1']['#options']['All'] = t('Toutes les thématiques');
+        $form['tid_2']['#options']['All'] = t('Tous les formats');
+      }
+    }
+  }
+}
+
+
+function ecofolio_cart_menu() {
+  $items['admin/config/documents'] = array(
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('document_settings_form'),
+    'title' => 'Configuration document',
+    'description' => 'Configure settings for documents',
+    'access arguments' => array('administer site configuration'),
+    'type' => MENU_NORMAL_ITEM,
+    'file' => 'ecofolio_cart.admin.inc',
+  );
+
+  $items['espace-editeur/user'] = array(
+    'title' => t('Connexion'),
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('user_login'),
+    'access arguments' => array('access zipcart downloads'),
+    'type' => MENU_NORMAL_ITEM,
+  );
+
+  return $items;
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ * Alter du formulaire LOGIN
+ */
+function ecofolio_cart_form_user_login_alter(&$form, &$form_state, $form_id) {
+  if (arg(0) != 'user') {
+    $form['#submit'][] = 'ecofolio_cart_login_redirect';
+
+    $form['title'] = array(
+      '#type' => 'item',
+      '#markup' => '<h1>Connexion</h1>',
+      '#weight' => -50,
+    );
+
+    $form['create_account'] = array(
+      '#type' => 'item',
+      '#markup' => l(t('Se créer un compte'), 'user-editeur/register', array('attributes' => array('class' => array('user-create-link')))),
+      '#weight' => -10,
+    );
+
+    $form['name']['#weight'] = -40;
+    $form['pass']['#weight'] = -30;
+    $form['actions']['#weight'] = -20;
+  }
+}
+
+/**
+ * edirect user to front page after login.
+ */
+function ecofolio_cart_login_redirect(&$form, &$form_state) {
+  $form_state['redirect'] = 'espace-editeur/annonces-presse';
+}
+
+/**
+ * Implements hook_block_info().
+ */
+function ecofolio_cart_block_info() {
+  $blocks[0] = array(
+    'info'  => t('Go to Cart'),
+    'cache' => DRUPAL_NO_CACHE,
+  );
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_view().
+ */
+function ecofolio_cart_block_view($delta = '') {
+  if (user_access('access zipcart downloads')) {
+    switch ($delta) {
+      case '0':
+        $block = array(
+          'subject' => t('Go to cart'),
+          'content' => zipcart_block_go_to_cart(),
+        );
+        return $block;
+    }
+  }
+}
+
+function zipcart_block_go_to_cart() {
+  global $user;
+
+  if (user_is_logged_in()) {
+    if (arg(1) == 'panier') {
+      $str = 'Modifier mon panier';
+      $url = 'espace-editeur/annonces-presse';
+    } else {
+      $str = 'Valider mon panier';
+      $url = 'espace-editeur/panier';
+    }
+    if (in_array('espace editeur', $user->roles)) {
+      if (empty($_SESSION['zipcart']['files']) && arg(1) != 'panier') {
+        $output = '<div class="connect-disable">' . t('Valider mon panier') . '</div><div class="connect">';
+      } else {
+        $output = l(t($str), $url, array('attributes' => array('class' => array('check-cart')), 'html' => TRUE));
+      }
+    } else {
+      $output = '<div class="connect-disable">' . t('Valider mon panier') . '</div><div class="connect">Votre compte ne dispose pas des droits nécessaires pour valider votre panier. Merci de bien vouloir ' .
+        l('contacter l\'administrateur du site', 'contact', array(
+          'attributes' => array(
+            'class' => array(
+              'connexion',
+            )
+          ),
+        ))
+        . '.</div>';
+    }
+  } else {
+    $output = '<div class="connect-disable">' . t('Valider mon panier') . '</div><div class="connect">' . l(
+      t('Connectez-vous'), 'user', array(
+        'attributes' => array(
+          'class' => array(
+            'connexion',
+          )
+        ),
+      )
+    ) . ' pour valider votre panier.</div>';
+  }
+
+  return $output;
+}

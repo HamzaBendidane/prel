@@ -1,0 +1,9 @@
+name = OPCAIM
+description = Thème pour l'extranet Drupal
+screenshot = screenshot.png
+core = 7.x
+
+regions[header] = Header
+regions[sidebar_first]  = Left sidebar
+regions[content] = Content
+regions[footer] = Footer

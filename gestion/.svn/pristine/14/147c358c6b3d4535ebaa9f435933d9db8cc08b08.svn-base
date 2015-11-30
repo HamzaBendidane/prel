@@ -1,0 +1,107 @@
+<h3>Relance entreprise</h3>
+<form id="<?php print $relance['#id'] ?>" accept-charset="UTF-8" 
+      method="<?php print $relance['#method'] ?>" class = "form-inline" 
+      action="<?php print $relance['#action'] ?>" 
+      enctype="<?php print $relance['#attributes']['enctype'] ?>">
+          <div class="padding15">
+      <div class="row">
+            <div class="col-md-6 form-item">
+                <?php
+                //cas demande non multi -etab
+                    $id_dgf = arg(2);
+                    $ref_entreprise = relance_get_entreprise($id_dgf);
+                       $html_ref_entreprise=' <label>Référence entreprise et DGF </label>
+                       <p>'.$ref_entreprise['t_raison_sociale'].' - DGF n°'.$id_dgf.'</p>
+                       ';
+                    print $html_ref_entreprise;
+                  ?>
+            </div>
+      </div>
+      
+      <div class="row">
+            <div class="col-md-6 form-item">
+                <?php
+               
+                    $id_dgf = arg(2);
+                    $historique = relance_get_historique($id_dgf);
+                       $html_historique=' <label>Historique des relances </label>';
+                       foreach ($historique as $histo) {
+                         $html_historique.=' <p>'.$histo->t_raison_sociale.' - DGF n°'.$id_dgf.'</p>';
+                       }
+                    print $html_historique;
+                  ?>
+            </div>
+      </div>
+        <div class="row">
+            <div class="col-md-6">
+            	<?php print drupal_render($relance['pieces']); ?>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 required">
+              <?php print drupal_render($relance['envoi']); ?>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 form-item required">
+            	  <?php print drupal_render($relance['destinataire']); ?>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 form-item ">
+            	  <?php print drupal_render($relance['autre_mail']); ?>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+              <?php print drupal_render($relance['add']); ?>
+            </div>
+         </div>
+        <div class="row">
+            <div class="col-md-6">
+            	<?php print drupal_render($relance['commentaire']); ?>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+            	<?php print drupal_render($relance['file_to_upload']); ?>
+            	 <?php print drupal_render($relance['join_file']); ?>
+            </div>
+            
+        </div>
+
+    </div>
+    <div id="boutonAction" class="row">
+        <?php print drupal_render($relance['back']); ?>
+        <?php print drupal_render($relance['next']); ?>
+    </div>
+    
+      
+    
+
+
+<!-- Partie ajouter un contact  -->
+  <div id="new-contact-modal" class="modal" tabindex="-1" role="dialog"
+    aria-hidden="true">
+    <div class="modal-dialog modal-md">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close modalQuit" data-dismiss="modal"
+            aria-hidden="true">&times;</button>
+          <h4 class="modal-title">Ajouter un destinataire</h4>
+        </div>
+          <div class="col-md-12 required">
+            <?php print drupal_render($relance['contact_modal']['modal_contact_mail']); ?>
+          </div>
+        <div class="modal-footer">
+           <input class="btn btn-cancel modalQuit" data-dismiss="modal" type="button" id="edit-modal-quit" value="Annuler">
+          <input class="btn btn-submit form-submit modalValid" type="button" id="edit-modal-save" value="Valider">
+        </div>
+      </div>
+      <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+  </div>
+  <!-- /.modal -->
+  <?php print drupal_render_children($relance); ?>
+</form>

@@ -1,0 +1,59 @@
+(function($){
+    jQuery(document).ready(function($) {
+    	
+    	jQuery("#new-contact-modal").modal('hide');
+        jQuery("#edit-modal-quit").click(function() {
+        	jQuery("#new-contact-modal").modal('hide');
+        return false;
+        });
+        manageNewContactModal();
+    });
+})(jQuery);
+
+function manageNewContactModal() {
+	jQuery("#edit-add").click(function() {
+    	jQuery("#new-contact-modal").modal('show');
+    	return false;
+    });
+    
+    jQuery("#edit-modal-save").click(function() {
+        if (!checkErrorModalContact()) {
+            jQuery("#new-contact-modal").modal('hide');
+            populateSelectContactFromModal();
+        }
+        return false;
+    });
+}
+
+function checkErrorModalContact() {
+    var error = false;
+    jQuery("#new-contact-modal .messages-inline").remove();
+    jQuery("#new-contact-modal .error").removeClass('error');
+   
+    
+    if (jQuery("#edit-modal-contact-mail").val() == '') {
+        jQuery("#edit-modal-contact-mail").addClass('error');
+        jQuery(".form-item-modal-contact-mail").append('<div class="messages-inline">Le champ Courriel est obligatoire.</div>');
+        error = true;
+    }
+    if (jQuery("#edit-modal-contact-mail").val() != '' && !validateEmail(jQuery("#edit-modal-contact-mail").val())) {
+        jQuery("#edit-modal-contact-mail").addClass('error');
+        jQuery(".form-item-modal-contact-mail").append('<div class="messages-inline">Le champ Courriel est invalide.</div>');
+        error = true;
+    }
+   
+    
+    return error;
+}
+
+function populateSelectContactFromModal() {
+   
+    var email = jQuery("#edit-modal-contact-mail").val();
+   jQuery("#edit-autre-mail").val('');
+   jQuery("#edit-autre-mail").val(email);
+}
+
+function validateEmail($email) {
+	  var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
+	  return emailReg.test( $email );
+	}

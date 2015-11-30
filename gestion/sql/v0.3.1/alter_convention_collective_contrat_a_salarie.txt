@@ -1,0 +1,5 @@
+ALTER TABLE dgf_form_salarie ADD [t_convention_collective] VARCHAR(max);
+ALTER TABLE dgf_form_contrat DROP COLUMN [t_convention_collective];
+
+ALTER TABLE temp_dgf_form_salarie ADD id_ref_esclave_convention_collective VARCHAR (max);
+ALTER TABLE temp_dgf_form_contrat DROP COLUMN id_ref_esclave_convention_collective;

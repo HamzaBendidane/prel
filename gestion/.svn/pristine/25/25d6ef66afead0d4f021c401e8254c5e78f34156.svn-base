@@ -1,0 +1,98 @@
+(function($) {
+    jQuery(document).ready(function($) {
+//        jQuery('.field-code').val('test');
+        // Le popover de l'alerte des notifications
+        gestPopoverAlerteNotifications();
+        
+        // Gestion des notifications de l'alertes
+        gestionNotificationsAlerte();
+        autoSettingLibelleFromCode();
+        autocompleteLibelleAndGetCode();
+    });
+})(jQuery);
+
+
+function gestPopoverAlerteNotifications() {
+   
+    jQuery('#alerte-notifications').popover({
+        placement : 'bottom',
+        html : 'true',
+        container: 'body'
+            
+    });
+    
+};
+
+function gestionNotificationsAlerte() {
+    jQuery('#alerte-notifications').click(function() {
+        // MAJ des top "non lu" des notifications
+        jQuery.ajax({
+            url : '/notiflu/notifications-all', // on appelle le script
+            dataType : 'html', // on spécifie bien le type de données
+            success : function(result){
+            }
+        });
+        // Masquer les notifications qui étaient affichées
+        jQuery('.alerte-nb-notifications').hide();
+        jQuery('.bloc-nb-notifications').hide();
+    });
+};
+
+/**
+ * Gère la saisie auto des champs "libellé" corrélés aux champs "code"
+ * 
+ * @returns
+ */
+function autoSettingLibelleFromCode() {
+    jQuery('.field-code').change(function() {
+    	var current_field = jQuery(this);
+        field_value = jQuery(this).val();
+        table_sql = jQuery(this).data('table');
+        code = jQuery(this).data('code');
+        libelle = jQuery(this).data('libelle');
+        jQuery.ajax({
+            type: 'GET',
+            url : '/libelle/from/code/'+ table_sql +'/'+ code +'/'+ libelle +'/'+ field_value,
+            dataType: 'json',
+            error : function(request, status, error) {
+//                console.log(status);
+//                console.log(error);
+            },
+            success : function(ui) {
+//                console.log(ui.value);
+            	current_field.next().val(ui.value);
+            	current_field.parent().next().val(ui.data.id);
+            },
+        });
+    });
+}
+
+/**
+ * Gère la saisie auto des champs "code" corrélés aux champs "libellé"
+ * et l'auto-complétion des champs libelle
+ * 
+ * @returns
+ */
+function autocompleteLibelleAndGetCode() {
+    jQuery('.field-libelle').keyup(function() {
+    	var current_field = jQuery(this);
+        field_value = jQuery(this).val();
+        table_sql = jQuery(this).data('table');
+        code = jQuery(this).data('code');
+        libelle = jQuery(this).data('libelle');
+
+        jQuery(this).autocomplete({
+            source: '/code/from/libelle/'+ table_sql +'/'+ code +'/'+ libelle +'/'+ field_value,
+            dataType: 'json',
+            minLength : 3,
+            success: function(event, ui) {
+            	console.log(ui);
+            },
+            select: function(event, ui) {
+                console.log(ui);
+            	current_field.prev().val(ui.item.data.code);
+            	current_field.parent().next().val(ui.item.data.id);
+            },
+        });
+    });
+}

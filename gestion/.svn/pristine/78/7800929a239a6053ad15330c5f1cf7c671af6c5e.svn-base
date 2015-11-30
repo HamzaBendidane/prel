@@ -1,0 +1,405 @@
+<?php
+
+/**
+ * Implements hook_cron().
+ */
+function ecofolio_manage_mediatheque_cron() {
+
+  _ecofolio_manage_mediatheque_update_fields();
+
+}
+
+/**
+ * Implements hook_enable().
+ */
+function ecofolio_mediatheque_mediatheque_enable() {
+
+  _ecofolio_manage_mediatheque_create_fields();
+
+}
+
+/**
+ * Implements hook_disable().
+ *
+ * Remove field from node bundle (content type) and then delete the field.
+ */
+function ecofolio_mediatheque_mediatheque_disable() {
+
+  $instances = array(
+    'field_name' => 'field_media_user_allowed',
+    'entity_type' => 'node',
+    'bundle' => 'media',
+  );
+
+  field_delete_instance($instances);
+  field_delete_field($instances['field_name']);
+
+  print 'Removed ' . $instances['field_name'] . ' in content type ' . $instances['bundle'] . "\n";
+  
+}
+
+function _ecofolio_manage_mediatheque_create_fields() {
+
+  $user_roles = array_diff(user_roles(), array('authenticated user', 'administrator'));
+
+  $media_user_allowed = array(      
+    'field_name' => 'field_media_user_allowed',
+    'type' => 'list_integer',
+    'active' => 1,
+    'cardinality' => -1,
+    'deleted' => 0,
+    'settings' => array(
+      'allowed_values' => $user_roles,
+      'allowed_values_function' => '',
+    ),
+  );
+  
+  field_create_field($media_user_allowed);
+
+  /**
+   * Bind field to an entity bundle.
+   */
+  $instances = array(
+    'entity_type' => 'node',
+    'bundle' => 'media',
+    'field_name' => $media_user_allowed['field_name'],
+    'label' => t('Sélectionnez les utilisateurs qui pourront visualiser le contenu de cette page :'),
+    'required' => 1,
+    'settings' => array(
+      'user_register_form' => TRUE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'options',
+      'settings' => array(),
+      'type' => 'options_buttons',
+      'weight' => 2,
+    ),
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'list',
+        'settings' => array(),
+        'type' => 'list_default',
+        'weight' => 13,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    
+  );
+
+  field_create_instance($instances);
+
+}
+
+function _ecofolio_manage_mediatheque_update_fields() {
+
+  $user_roles = array_diff(user_roles(), array('authenticated user', 'administrator'));
+
+  $media_user_allowed = array(      
+    'field_name' => 'field_media_user_allowed',
+    'type' => 'list_integer',
+    'active' => 1,
+    'cardinality' => -1,
+    'deleted' => 0,
+    'settings' => array(
+      'allowed_values' => $user_roles,
+      'allowed_values_function' => '',
+    ),
+  );
+  
+  field_update_field($media_user_allowed);
+
+  /**
+   * Bind field to an entity bundle.
+   */
+  $instances = array(
+    'entity_type' => 'node',
+    'bundle' => 'media',
+    'field_name' => $media_user_allowed['field_name'],
+    'label' => t('Sélectionnez les utilisateurs qui pourront visualiser le contenu de cette page :'),
+    'required' => 1,
+    'settings' => array(
+      'user_register_form' => TRUE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'options',
+      'settings' => array(),
+      'type' => 'options_buttons',
+      'weight' => 2,
+    ),
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'list',
+        'settings' => array(),
+        'type' => 'list_default',
+        'weight' => 13,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    
+  );
+
+  field_update_instance($instances);
+
+}
+
+/**
+ * Implements hook_node_access().
+ */
+function ecofolio_manage_mediatheque_node_access($node, $op, $account) {
+  $type = is_string($node) ? $node : $node->type;
+
+  if ($type == 'media' && $op == 'view') {
+
+    if (user_access('bypass node access', $account)) {
+      $rights[$account->uid][$cid][$op] = TRUE;
+      return TRUE;
+    }
+
+    $current_user_roles = array();
+    $current_user_roles = $account->roles;
+
+    if(!empty($node->field_media_user_allowed[LANGUAGE_NONE])) {
+
+      $allowed_role_ids = array();
+
+      foreach ($node->field_media_user_allowed[LANGUAGE_NONE] as $role) {
+        // cas anonymous, tlm peut y accéder
+        if ($role['value'] == 1) {
+            return NODE_ACCESS_ALLOW;
+        }
+        $allowed_role_ids[] = $role['value'];
+      }
+
+      $view_permission = array_intersect(array_keys($current_user_roles), $allowed_role_ids);
+
+      if ($view_permission){
+        return NODE_ACCESS_ALLOW;
+      }
+      else {
+        return NODE_ACCESS_DENY;
+      }
+    }
+  }
+
+  return NODE_ACCESS_IGNORE;
+ 
+}
+
+/**
+ * Implements hook_views_pre_render().
+ */
+function ecofolio_manage_mediatheque_views_pre_render(&$view) {
+
+  if($view->name == 'media' && $view->current_display == 'page') {
+    $results = $view->result;
+  }
+  
+}
+
+/**
+ * Implements hook_form().
+ */
+function ecofolio_manage_mediatheque_cgu_form($form, &$form_state) {
+  $form['#prefix'] = '<div id="formwrapper">';
+  $form['#suffix'] = '</div>';
+  $form['cgu'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('J\'ai pris connaissance de l’intégralité des présentes Conditions Générales d’Utilisation.'),
+  );
+
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('J\'accepte les présentes Conditions Générales d’Utilisation'),
+  );
+  
+  return $form;
+}
+
+function ecofolio_manage_mediatheque_cgu_form_submit($form, &$form_state) {
+  global $user;
+
+  // Submission logic.
+  if ($form['cgu']["#value"]) {
+    $_SESSION['CGU_accepted'] = true;
+    // Si l'utilisateur est connecté, on enregistre en BDD (table user, column cgu_accepted)
+    if ($user->uid != 0) {
+        $userLoad = user_load($user->uid);
+        $edit = array(
+          'cgu_accepted' => array(
+            'und' => array(
+              0 => array(
+                'value' => 1,
+              ),
+            ),
+          ),
+        );
+        user_save($userLoad, $edit);
+    }
+  } else {
+    $_SESSION['CGU_accepted'] = false;
+  }
+}
+
+/**
+ * Implements hook_form().
+ */
+function ecofolio_manage_mediatheque_cpu_form($form, &$form_state) {
+  global $user;
+  $user_fields = user_load($user->uid);
+  
+  if (!empty($user_fields->field_first_name)) {
+    $first_name = $user_fields->field_first_name[LANGUAGE_NONE]['0']['safe_value'];
+  }
+
+  if (!empty($user_fields->field_last_name)) {
+    $last_name = $user_fields->field_last_name[LANGUAGE_NONE]['0']['safe_value'];
+  }
+
+  if (!empty($user_fields->mail)) {
+    $email = $user_fields->mail;
+  }
+
+  $form['#prefix'] = '<div id="formwrapper">';
+  $form['#suffix'] = '</div>';
+
+  $form['#attributes']['class'][] = 'ecofolio-manage-mediatheque-cpu-form';
+
+  $form['nid'] = array(
+    '#type' => 'hidden',
+    '#title' => t('Noeud du média'),
+    '#attribute' => array('class' => 'nid'),
+  );
+  
+   $form['href'] = array(
+    '#type' => 'hidden',
+    '#title' => t('Href du média'),
+    '#attribute' => array('class' => 'href'),
+  );
+
+  $form['personnal_info'] = array(
+    '#type' => 'fieldset',
+    '#title' => t(''),
+    '#prefix' => '<div class="poll-form">',
+    '#suffix' => '</div>',
+    '#tree' => TRUE,
+  );
+
+  $form['personnal_info']['prenom'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Prénom'),
+    '#default_value' => isset($first_name) ? $first_name : '',
+    '#size' => 60,
+    '#maxlength' => 128,
+    '#required' => TRUE,
+  );
+
+  $form['personnal_info']['nom'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Nom'),
+    '#default_value' => isset($last_name) ? $last_name : '',
+    '#size'          => 60,
+    '#maxlength'     => 128,
+    '#required'       => TRUE,
+  );
+
+  $form['personnal_info']['email'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Adresse électronique'),
+    '#required' => TRUE,
+    '#default_value' => isset($email) ? $email : '',
+    '#size' => 60,
+    '#maxlength' => 128,
+  );
+
+  $form['personnal_info']['cpu'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('J\'ai pris connaissance de l\'intégralité des présentes Conditions Particulières d\'Utilisation.'),
+    '#required' => TRUE,
+  );
+
+  $form['personnal_info']['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('J\'accepte les présentes Conditions Particulières d\'Utilisation'),
+  );
+  
+  return $form;
+}
+
+function ecofolio_manage_mediatheque_cpu_form_submit($form, &$form_state) {
+  global $user;
+  
+  $mediaNID = $form['nid']["#value"];
+  $href = $form['href']["#value"];
+
+  // Submission logic.
+  if ($form['personnal_info']['cpu']["#value"]) {
+    $_SESSION['CPU_accepted']['nid'][] = $mediaNID;
+    // Si l'utilisateur est connecté, on enregistre en BDD (table media_cpu, column user_id et cpu_id)
+    if ($user->uid != 0) {
+        $mediaCpu = db_insert('media_cpu')
+        ->fields(array(
+          'user_id' => $user->uid,
+          'cpu_id' => $mediaNID,
+          'user_firstname' => $form['personnal_info']['prenom'],
+          'user_lastname' => $form['personnal_info']['nom'],
+          'user_email' => $form['personnal_info']['email'],
+        ))
+        ->execute();
+    }
+  }
+  
+  // On redirige l'utilisateur vers le média qu'il a sélectionné
+  if ($form['href']["#value"]) {
+    drupal_goto($href);
+  } else if ($form['nid']["#value"]) {
+    drupal_goto('/node/'.$mediaNID);
+  }
+}
+
+/**
+ * Implements hook_node_view().
+ */
+function ecofolio_manage_mediatheque_node_view($node, $view_mode, $langcode) {
+  
+  if ($node->type == 'cpu' && $view_mode == 'full') {
+    $form_node = drupal_render(drupal_get_form('ecofolio_manage_mediatheque_cpu_form', $node));
+    $node->content['form_node'] = array(0 => $form_node, '#weight' => 1);
+  }
+}
+
+function ecofolio_manage_mediatheque_user_login(&$edit, $account) {
+    // A la connexion, on regarde si l'utilisateur avait déjà accepté les CGU (table user, column cgu_accepted)
+    if ($account->cgu_accepted) {
+        // on met à jour la session_cache_expire
+        $_SESSION['CGU_accepted'] = true;
+    }
+    
+    $result = db_select('media_cpu', 'mc')
+        ->fields('mc')
+        ->condition('user_id', $account->uid, '=')
+        ->execute();
+    
+    while ($record = $result->fetchAssoc()) {
+        $_SESSION['CPU_accepted']['nid'][] = $record['cpu_id'];
+    }
+}

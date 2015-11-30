@@ -1,0 +1,62 @@
+<?php
+
+/**
+ * Implements hook_token_info().
+ */
+function shared_token_info() {
+    $types['user_info'] = array(
+        'name' => t("User info tokens"),
+        'description' => t("Tokens for user info"),
+    );
+    $user_info['user_first_name'] = array(
+        'name' => t("User Name"),
+        'description' => t("The first name of the current user."),
+    );
+
+    return array(
+        'types' => $types,
+        'tokens' => array(
+            'user_info' => $user_info,
+        ),
+    );
+}
+
+/**
+ * Implements hook_tokens().
+ */
+function shared_tokens($type, $tokens, array $data = array(), array $options = array()) {
+    global $user_info;
+    
+    $replacements = array();
+    
+    if ($type == 'user_info') {
+        foreach ($tokens as $name => $original) {
+            switch ($name) {
+                case 'user_first_name':
+                    if ($user_info && property_exists($user_info, 'name')) {
+                        $replacements[$original] = getUserFirstName($user_info);
+                    }
+                    break;
+            }
+        }
+    }
+
+    return $replacements;
+}
+
+/**
+ * Get a first name of a object of user
+ * @param object $user
+ * @return string
+ */
+function getUserFirstName($user) {
+    if (isset($user->data['extranet_user'])) {
+        if (property_exists($user->data['extranet_user'], 'drupal_user')) {
+            return trim($user->data['extranet_user']['drupal_user']->first_name);
+        } else if (property_exists($user->data['extranet_user'], 'user_adefim')) {
+            return trim($user->data['extranet_user']['user_adefim']->prenom);
+        }
+    } 
+    return $user->name;
+}
+

@@ -1,0 +1,9 @@
+(function($){
+    jQuery(document).ready(function($) {
+        jQuery('#edit-siret').autocomplete({
+            source: '/autocomplete/entreprise',
+            dataType: 'json',
+            minLength : 3
+        });
+    });
+})(jQuery)

@@ -1,0 +1,224 @@
+<?php
+
+/**
+ *  Création d'un établissement
+ *  Envoie des données
+ *  Hook_submit()
+ *
+ *  @param: $form
+ *  @param: $form_state
+ *
+ *
+ */
+function creation_form_submit($form, &$form_state){
+
+    $data =  $form_state['values'];
+
+    global $user;
+    $drupal_cms_user = $user->uid; // Utilisateur connecté.
+    // DATA ENTREPRISE
+    $raison_sociale = $data['corporate_name'];
+    $siret = $data['siret'];
+    $id_naf = $data['code_naf'];
+    $id_secteur_activite = $data['id_filiere'];
+    $tel = $data['phone_number'];
+
+    // DATA ADRESSE
+
+    $rue = $data['street_name'];
+    $complement_rue = $data['adress_complement'];
+    $complement_rue_suite =  $data['adress_complement'];
+    $code_postal = $data['zip_code'];
+    $id_naf = $data['id_naf'];
+    $ville = $data['city'];
+
+    // DATA CONTACT ENTREPRISE
+    $civilite = $data['title'];
+    $prenom = $data['firstname'];
+    $nom = $data['lastname'];
+    $email = $data['email'];
+    $contact_tel ='';
+    $fonction = $data['function'];
+
+    // ID ADEFIM
+   // $id_adefim = $data['adefim_gestion'];
+    $id_entreprise_ref = shared_get_id_entreprise_from_siret($siret);
+
+    if(empty($id_entreprise_ref)) {
+
+        // SAUVEGARDE DES DONNEES
+        shared_sauver_entreprise($drupal_cms_user, $raison_sociale, $siret, $id_naf,$id_secteur_activite,$tel);
+        $id_entreprise = shared_get_id_entreprise_from_siret($siret);
+        $id_adresse_entreprise = shared_sauver_adresse_entreprise($drupal_cms_user, $id_entreprise, '', $rue, $complement_rue, $complement_rue_suite,  $code_postal, $ville);
+        $id_contact_entreprise = shared_sauver_contact_entreprise($drupal_cms_user, $id_entreprise, $civilite, $prenom, $nom, $contact_tel, $email, $fonction);
+
+        /*
+            shared_lier_adefim_entreprise($drupal_cms_user, $id_adefim, $id_entreprise);
+        */
+        if(!empty($id_adresse_entreprise) && (has_role_adefim() || has_role_admin())) {
+            valider_creation_entreprise($drupal_cms_user, $id_entreprise, $id_adresse_entreprise);
+        }
+        if(!empty($id_contact_entreprise) && (has_role_adefim() || has_role_admin())) {;
+            valider_creation_contact_entreprise($drupal_cms_user, $id_contact_entreprise);
+        }
+
+        if (has_role_entreprise()) drupal_set_message(sprintf(t(@MSG_CONF_GES_ETA11),'établissement',$raison_sociale));
+        if (has_role_adefim() || has_role_admin()) drupal_set_message(sprintf(t(@MSG_CONF_GES_ETA12),'établissement',$raison_sociale));
+
+        /*
+         * creation de la notification_event
+         */
+        $data = array (
+                'id_entreprise' => rtrim ( $id_entreprise ),
+                'callback_param' => array(
+                    'id_entreprises' => array(rtrim ( $id_entreprise ))
+                )
+
+        );
+
+        //Création des notification_event
+        create_notification_event('GST_CRE_ETB', $data);
+
+        if (user_has_role(5)) {
+            // Si ADMIN Entreprise
+            //Création des notification_event
+            create_notification_event('GST_CRE_ETB_VAL', $data);
+        }
+
+    }
+    else {
+        drupal_set_message(sprintf(t(@MSG_CONF_GES_ETA12_PLUS),'établissement',$raison_sociale));
+    }
+    drupal_goto("gestion/etablissement/entreprises/listes");
+}
+/**
+ *  Bouton Annuler : Redirige vers la page des établissements
+ *
+ */
+function creation_form_cancel_submit($form, &$form_state){
+    drupal_goto('/dashboard');
+}
+/**
+ *  Création d'un établissement
+ *
+ *  Envoie des données
+ *
+ */
+function modification_form_submit($form, &$form_state){
+    global $user;
+    $drupal_cms_user = $user->uid; // Utilisteur connecté.
+    $data =  $form_state['values'];
+
+    // DATA ENTREPRISE
+    $raison_sociale = $data['corporate_name'];
+    $siret = $data['siret'];
+    $id_naf = $data['code_naf'];
+    $id_secteur_activite = $data['filiere1'];
+    $tel = $data['phone_number'];
+
+    // DATA ADRESSE
+    $numero_rue = null;
+    $rue = $data['street_name'];
+    $complement_rue = $data['adress_complement'];
+    $complement_rue_suite =  $data['adress_complement_2'];
+    $code_postal = $data['zip_code'];
+    $id_naf = $data['code_naf'];
+    $ville = $data['city'];
+
+    // DATA CONTACT ENTREPRISE
+    $civilite = $data['title'];
+    $prenom = $data['firstname'];
+    $nom = $data['lastname'];
+    $email = $data['email'];
+    $contact_tel = '';
+    $fonction = $data['function'];
+
+   // $id_adefim_nouveau = $data['adefim_gestion'];
+   // $id_adefim_ancien = $data['id_adefim_ancien'];
+
+    $id_entreprise = arg(3);
+    $id_adresse_entreprise = $data['id_adresse'];
+    $id_contact_entreprise = $data['id_contact'];
+    $mod_type = $data['mod_type'];
+
+    try{
+        // Mise à jour des infos en bases de données
+        shared_sauver_entreprise($drupal_cms_user, $raison_sociale, $siret, $id_naf,$id_secteur_activite, $tel,$id_entreprise);
+
+        /*
+         * creation de la notification_event
+         */
+        $data = array (
+                'id_entreprise' => rtrim ( $id_entreprise ),
+                'callback_param' => array(
+                    'id_entreprises' => array(rtrim ( $id_entreprise ))
+                )
+        );
+
+        //Création des notification_event
+        create_notification_event('GST_MOD_ETB', $data);
+
+        if (user_has_role(5)) {
+            // Si ADMIN Entreprise
+
+            //Création des notification_event
+            create_notification_event('GST_MOD_ETB_VAL', $data);
+        }
+
+
+        if(!empty($id_adresse_entreprise) && ($mod_type || has_role_adefim() || has_role_admin())) {
+            valider_creation_entreprise($drupal_cms_user, $id_entreprise, $id_adresse_entreprise);
+        }
+        if(!empty($id_contact_entreprise) && ($mod_type || has_role_adefim() || has_role_admin())) {;
+          valider_creation_contact_entreprise($drupal_cms_user, $id_contact_entreprise);
+        }
+/*
+        if ($id_adefim_ancien != $id_adefim_nouveau){
+            try{
+                if ($id_adefim_ancien) shared_delier_adefim($id_adefim_ancien,$drupal_cms_user, $id_entreprise);
+
+                if ($id_adefim_nouveau) shared_relier_adefim($id_adefim_nouveau, $drupal_cms_user, $id_entreprise);
+
+            }catch (Exception $e){
+                 $e->getMessage();
+            }
+        }
+*/
+        shared_sauver_adresse_entreprise($drupal_cms_user, $id_entreprise, $numero_rue, $rue, $complement_rue, $complement_rue_suite,  $code_postal, $ville,$id_adresse_entreprise);
+        shared_sauver_contact_entreprise($drupal_cms_user, $id_entreprise, $civilite, $prenom, $nom, $contact_tel, $email, $fonction,$id_contact_entreprise);
+
+        if ($mod_type) {
+            drupal_set_message(sprintf(t(@MSG_CONF_VAL_ETA21), 'établissement', $raison_sociale));
+        }else {
+            if (has_role_entreprise()) {
+                drupal_set_message(sprintf(t(@MSG_CONF_GES_ETA21), 'établissement', $raison_sociale));
+            }
+            if (has_role_adefim() || has_role_admin()) {
+                drupal_set_message(sprintf(t(@MSG_CONF_GES_ETA22), 'établissement', $raison_sociale));
+            }
+        }
+
+    }
+    catch(exception $e) {
+
+        db_set_active();
+
+        drupal_set_message("Echec de la modification de l'établissement");
+        if (has_role_admin()) drupal_set_message($e->getMessage());
+        drupal_goto($_SERVER['HTTP_REFERER']);
+    }
+
+    drupal_goto("gestion/etablissement/entreprises/listes");
+}
+/**
+ *  Bouton Annuler : Redirige vers la page des établissements
+ *
+ */
+function validation_form_cancel_submit($form, &$form_state){
+    global $user;
+    $drupal_cms_user = $user->uid;
+
+    $id_entreprise = arg(3);
+    annuler_modification_entreprise($drupal_cms_user,$id_entreprise);
+    drupal_goto("gestion/etablissement/valider/entreprises/listes");
+}

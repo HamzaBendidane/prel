@@ -1,0 +1,272 @@
+<?php
+/**
+ * @file
+ * ecofolio_menus.features.fe_block_settings.inc
+ */
+
+/**
+ * Implements hook_default_fe_block_settings().
+ */
+function ecofolio_menus_default_fe_block_settings() {
+  $export = array();
+
+  $export['version'] = '2.0';
+
+  $export['menu-menu-sidebar-main-menu'] = array(
+    'cache' => -1,
+    'custom' => 0,
+    'delta' => 'menu-sidebar-main-menu',
+    'module' => 'menu',
+    'node_types' => array(),
+    'pages' => '',
+    'roles' => array(),
+    'themes' => array(
+      'ecofolio' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'ecofolio',
+        'weight' => -12,
+      ),
+      'omega' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'omega',
+        'weight' => 0,
+      ),
+      'seven' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'seven',
+        'weight' => 0,
+      ),
+    ),
+    'title' => '',
+    'visibility' => 0,
+  );
+
+  $export['menu-menu-sidebar-top-menu'] = array(
+    'cache' => -1,
+    'custom' => 0,
+    'delta' => 'menu-sidebar-top-menu',
+    'module' => 'menu',
+    'node_types' => array(),
+    'pages' => '',
+    'roles' => array(),
+    'themes' => array(
+      'ecofolio' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'ecofolio',
+        'weight' => -11,
+      ),
+      'omega' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'omega',
+        'weight' => 0,
+      ),
+      'seven' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'seven',
+        'weight' => 0,
+      ),
+    ),
+    'title' => '',
+    'visibility' => 0,
+  );
+
+  $export['menu-menu-top-menu'] = array(
+    'cache' => -1,
+    'custom' => 0,
+    'delta' => 'menu-top-menu',
+    'module' => 'menu',
+    'node_types' => array(),
+    'pages' => '',
+    'roles' => array(),
+    'themes' => array(
+      'ecofolio' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'ecofolio',
+        'weight' => -6,
+      ),
+      'omega' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'omega',
+        'weight' => 0,
+      ),
+      'seven' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'seven',
+        'weight' => 0,
+      ),
+    ),
+    'title' => '',
+    'visibility' => 0,
+  );
+
+  $export['menu_block-1'] = array(
+    'cache' => -1,
+    'custom' => 0,
+    'delta' => 1,
+    'module' => 'menu_block',
+    'node_types' => array(),
+    'pages' => '',
+    'roles' => array(),
+    'themes' => array(
+      'ecofolio' => array(
+        'region' => 'sidebar_first',
+        'status' => 1,
+        'theme' => 'ecofolio',
+        'weight' => -42,
+      ),
+      'omega' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'omega',
+        'weight' => 0,
+      ),
+      'seven' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'seven',
+        'weight' => 0,
+      ),
+    ),
+    'title' => '',
+    'visibility' => 0,
+  );
+
+  $export['menu_block-2'] = array(
+    'cache' => -1,
+    'custom' => 0,
+    'delta' => 2,
+    'module' => 'menu_block',
+    'node_types' => array(),
+    'pages' => '',
+    'roles' => array(),
+    'themes' => array(
+      'ecofolio' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'ecofolio',
+        'weight' => -24,
+      ),
+      'omega' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'omega',
+        'weight' => 0,
+      ),
+      'seven' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'seven',
+        'weight' => 0,
+      ),
+    ),
+    'title' => 'Main menu level1 - menu_block',
+    'visibility' => 0,
+  );
+
+  $export['menu_block-3'] = array(
+    'cache' => -1,
+    'custom' => 0,
+    'delta' => 3,
+    'module' => 'menu_block',
+    'node_types' => array(),
+    'pages' => '',
+    'roles' => array(),
+    'themes' => array(
+      'ecofolio' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'ecofolio',
+        'weight' => -33,
+      ),
+      'omega' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'omega',
+        'weight' => 0,
+      ),
+      'seven' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'seven',
+        'weight' => 0,
+      ),
+    ),
+    'title' => '<none>',
+    'visibility' => 0,
+  );
+
+  $export['menu_block-4'] = array(
+    'cache' => -1,
+    'custom' => 0,
+    'delta' => 4,
+    'module' => 'menu_block',
+    'node_types' => array(),
+    'pages' => '',
+    'roles' => array(),
+    'themes' => array(
+      'ecofolio' => array(
+        'region' => 'sidebar_first',
+        'status' => 1,
+        'theme' => 'ecofolio',
+        'weight' => -41,
+      ),
+      'omega' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'omega',
+        'weight' => 0,
+      ),
+      'seven' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'seven',
+        'weight' => 0,
+      ),
+    ),
+    'title' => '',
+    'visibility' => 0,
+  );
+
+  $export['system-main-menu'] = array(
+    'cache' => -1,
+    'custom' => 0,
+    'delta' => 'main-menu',
+    'module' => 'system',
+    'node_types' => array(),
+    'pages' => '',
+    'roles' => array(),
+    'themes' => array(
+      'ecofolio' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'ecofolio',
+        'weight' => -21,
+      ),
+      'omega' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'omega',
+        'weight' => 0,
+      ),
+      'seven' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'seven',
+        'weight' => 0,
+      ),
+    ),
+    'title' => '',
+    'visibility' => 0,
+  );
+
+  return $export;
+}

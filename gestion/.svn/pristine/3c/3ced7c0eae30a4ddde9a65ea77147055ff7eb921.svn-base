@@ -1,0 +1,202 @@
+<?php
+/**
+ * Retourne le nombre d'utilisateur inactifs pour les entreprises.
+ * @author Gael GALBAS-FRONTINOIS
+ * @return count : nombre d'utilisateurs
+ */
+function dashboard_db_get_count_users_inactifs() {
+  db_set_active(@DB_EXTRANET);
+  
+  $query = db_select('drupal_user' , 'u');
+  $query->leftJoin('user_entreprise' , 'e' , 'u.id = e.id_drupal_user ' );
+  $query->fields('e' , array('numero_demande')); // Numéro de demande
+  $query->fields('u' , array('first_name', 'last_name', 'mail', 'id_user_drupal', 'id', 'statut'));
+  $query->leftJoin('lien_user_entreprise_ref_esclave_entreprise' , 'lue', 'lue.id_user_entreprise = e.id');
+  $query->condition('u.statut', 0, '=');
+  shared_update_requete_adefim_entreprise($query,'lue.id_ref_esclave_entreprise');
+  
+  $results = $query->execute()->fetchAll();
+  db_set_active();
+  
+  if(is_array($results)) {
+    $nb = count($results);
+  }
+  else {
+    $nb = 0;
+  }
+  
+  return $nb;
+}
+
+
+/**
+ * Retourne le nombre d'entreprise inactives pour les entreprises.
+ * @author Gael GALBAS-FRONTINOIS
+ * @return count : nombre d'entreprises en attente de validation par l'utilisateur
+ */
+function dashboard_db_get_count_entreprises_inactives() {
+
+  require_once drupal_get_path('module', 'dgf_administration_etablissements' ) . '/validation_liste/validation_liste_db.inc';
+  $data = liste_entreprises('raison_sociale', 'ASC', '', '', '', true);
+  
+  if (is_array($data)) {
+    $nb = count($data);
+  }
+  else {
+    $nb = 0;
+  }
+  
+  return $nb;
+}
+
+
+/**
+ * Retourne les nombres de dossiers selon les natures passées en paramètres
+ * @author Gael GALBAS-FRONTINOIS
+ * @param natures liste des natures
+ * @return query : nombre de demande pour la liste des natures
+ */
+function dashboard_db_get_count_dossier_nature($natures = array(), $entreprises = array()) {
+  db_set_active(@DB_EXTRANET);
+  $query = db_select('dgf_form_demande', 'de');
+  $query->join('ref_nature_demande', 'nat', 'nat.label = de.t_nature_demande');
+  $query->join('lien_dgf_ref_esclave_entreprise', 'lie', 'lie.id_dgf = de.id_dgf');
+  // condition sur les entreprises
+  $db_or = db_or();
+  foreach ($entreprises as $entreprise) {
+    $db_or ->condition('lie.id_ref_esclave_entreprise', $entreprise, '=');
+  }
+  if(isset($db_or->conditions()['0'])) {
+    $query->condition($db_or);
+  }
+  // condition sur les natures
+  $db_or = db_or();
+  foreach ($natures as $nature) {
+    $db_or->condition('nat.label', $nature, '=');
+  }
+  if(isset($db_or->conditions()['0'])) {
+    $query->condition($db_or);
+  }
+
+  $query->addExpression('count(*)');
+  $result  = $query->execute()->fetchField();
+  db_set_active();
+
+  return $result;
+}
+
+/**
+ * Retourne les nombres de dossiers selon les natures passées en paramètres
+ * @author Gael GALBAS-FRONTINOIS
+ * @param natures liste des natures
+ * @return query : nombre de demande pour la liste des natures
+ */
+function dashboard_db_get_count_dossier_nature_autres($natures = array(), $entreprises = array()) {
+  db_set_active(@DB_EXTRANET);
+  $query = db_select('dgf_form_demande', 'de');
+  $query->join('ref_nature_demande', 'nat', 'nat.label = de.t_nature_demande');
+  $query->join('lien_dgf_ref_esclave_entreprise', 'lie', 'lie.id_dgf = de.id_dgf');
+
+  // condition sur les entreprise
+  $db_or = db_or();
+  foreach ($entreprises as $entreprise) {
+    $db_or ->condition('lie.id_ref_esclave_entreprise', $entreprise, '=');
+  }
+  if(isset($db_or->conditions()['0'])) {
+    $query->condition($db_or);
+  }
+
+  // condition sur les natures
+  foreach ($natures as $nature) {
+    $query->condition('nat.label', $nature, '!=');
+  }
+
+  $query->addExpression('count(*)');
+  $result  = $query->execute()->fetchField();
+  db_set_active();
+
+  return $result ;
+}
+
+
+/**
+ * Retourne les nombres de demandes selon les natures passées en paramètres
+ * @author Gael GALBAS-FRONTINOIS
+ * @param natures liste des natures
+ * @return query : nombre de demande pour la liste des natures
+ */
+function dashboard_db_get_count_demande_nature($natures = array(), $entreprises = array()) {
+
+  db_set_active(@DB_EXTRANET);
+  $query = db_select('temp_dgf_form_demande', 'de');
+  $query->join('ref_nature_demande', 'nat', 'nat.id = de.id_dgf_nature_demande');
+  $query->join('lien_dgf_ref_esclave_entreprise', 'lie', 'lie.id_dgf = de.id_dgf');
+
+  // condition sur les entreprise
+  $db_or = db_or();
+  foreach ($entreprises as $entreprise) {
+    $db_or ->condition('lie.id_ref_esclave_entreprise', $entreprise, '=');
+  }
+  if(isset($db_or->conditions()['0'])) {
+    $query->condition($db_or);
+  }
+
+  // condition sur les natures
+  $db_or = db_or();
+  foreach ($natures as $nature) {
+    $query_nature = db_select('ref_nature_demande', 'nat');
+    $query_nature->condition('nat.label', $nature, '=');
+    $query_nature->fields('nat', array('id'));
+    $id_nature  = $query_nature->execute()->fetchField();
+    $db_or->condition('nat.id', $id_nature, '=');
+  }
+  if(isset($db_or->conditions()['0'])) {
+    $query->condition($db_or);
+  }
+
+  $query->addExpression('count(*)');
+  $result  = $query->execute()->fetchField();
+  db_set_active();
+
+  return $result;
+}
+
+/**
+ * Retourne les nombres de demandes selon les natures passées en paramètres
+ * @author Gael GALBAS-FRONTINOIS
+ * @param natures liste des natures
+ * @return query : nombre de demande pour la liste des natures
+ */
+function dashboard_db_get_count_demanes_nature_autres($natures = array(), $entreprises = array()) {
+  db_set_active(@DB_EXTRANET);
+  $query = db_select('dgf_form_demande', 'de');
+  $query->join('ref_nature_demande', 'nat', 'nat.label = de.t_nature_demande');
+  $query->join('lien_dgf_ref_esclave_entreprise', 'lie', 'lie.id_dgf = de.id_dgf');
+
+  // condition sur les entreprise
+  $db_or = db_or();
+  foreach ($entreprises as $entreprise) {
+    $db_or ->condition('lie.id_ref_esclave_entreprise', $entreprise, '=');
+  }
+  if(isset($db_or->conditions()['0'])) {
+    $query->condition($db_or);
+  }
+
+  // condition sur les natures
+  foreach ($natures as $nature) {
+    $query_nature = db_select('ref_nature_demande', 'nat');
+    $query_nature->condition('nat.label', $nature, '=');
+    $query_nature->fields('nat', array('id'));
+    $id_nature  = $query_nature->execute()->fetchField();
+
+    $query->condition('nat.id', $id_nature, '!=');
+  }
+
+  $query->addExpression('count(*)');
+  $result  = $query->execute()->fetchField();
+  db_set_active();
+
+  return $result ;
+}
+
+

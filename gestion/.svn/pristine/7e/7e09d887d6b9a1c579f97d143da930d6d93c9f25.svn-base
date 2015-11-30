@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the Ecofolio CT Newsletter  feature.
+ */
+
+include_once 'ecofolio_ct_newsletter.features.inc';

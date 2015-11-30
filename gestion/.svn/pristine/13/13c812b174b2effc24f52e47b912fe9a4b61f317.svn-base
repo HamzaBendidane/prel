@@ -1,0 +1,5 @@
+name = "Gestion des habilitations"
+description = "Gestion des droits pour les utilisateurs EXTRANET"
+version = "7.1.0"
+core = "7.x"
+package = "OPCAIM"

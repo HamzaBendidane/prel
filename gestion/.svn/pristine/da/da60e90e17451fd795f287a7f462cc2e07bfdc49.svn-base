@@ -1,0 +1,343 @@
+var app = {};
+
+jQuery(document).ready(function(){
+
+    //Init
+    if(jQuery("body").hasClass("front"))
+        app.isFront = true;
+    else
+        app.isFront = false;
+
+    app.headerIsMin = false;
+    app.isTablet = false;
+
+    jQuery('input, textarea').placeholder();
+
+    //FastClick
+    //FastClick.attach(document.body);
+
+    //Header
+    manageHeader();
+
+    //Chosen
+    manageChosenList();
+
+    //Resize
+    jQuery(window).resize(function(){
+        onResize();
+    });
+    onResize();
+
+    //Slider
+    if(app.isFront)
+        manageSlider();
+      
+    jQuery("#edit-field-telephone-und-0-value").mask("99 99 99 99 99");
+});
+
+/*********************
+HEADER
+*********************/
+function manageHeader()
+{
+    app.header = {};
+    app.headerTablet = {};
+    app.headerMobile = {};
+
+    //Header
+    app.header.full = jQuery("#section-header .header_full");
+    app.header.logoMin = jQuery("#section-header .header_full .encart_top .logo_min");
+    //TweenLite.set(app.header.logoMin, {scale:0.8});
+
+    //Declaration
+    app.header.btDeclaration = jQuery("#section-header .header_full .encart_top a.espace_decla");
+    app.header.btCloseDeclaration = jQuery("#section-header .header_full .menu_espace_decla .close");
+    app.header.menuDeclaration = jQuery("#section-header .header_full .menu_espace_decla");
+    app.header.innerMenuDeclaration = jQuery("#section-header .header_full .menu_espace_decla .inner_menu_espace_decla");
+
+    //Main
+    app.header.menu = jQuery("#section-header .header_full div.main_menu");
+    app.header.lineSelect = jQuery("#section-header .header_full div.main_menu .line");
+
+    //Search
+    app.header.btSearch = jQuery("#section-header .header_full div.main_menu ul li.search");
+    app.header.menuSections = jQuery("#section-header .header_full div.main_menu ul");
+    app.header.menuSearch = jQuery("#section-header .header_full div.main_menu div.search");
+    app.header.btCloseSearch = jQuery("#section-header .header_full div.main_menu div.search .close");
+
+    //Menu declaration
+    app.header.btDeclaration.on("click", function(e){
+        e.preventDefault();
+        app.header.btDeclaration.addClass("selected");
+
+        TweenLite.to(app.header.menuDeclaration, 0.3, {height: "92px", ease:Expo.easeOut});
+        TweenLite.to(app.header.innerMenuDeclaration, 0.3, {height: "92px", delay: 0.3, ease:Expo.easeOut});
+    });
+    app.header.btCloseDeclaration.on("click", function(e){
+        e.preventDefault();
+        app.header.btDeclaration.removeClass("selected");
+
+        TweenLite.to(app.header.menuDeclaration, 0.3, {height: "0", delay: 0.3, ease:Expo.easeOut});
+        TweenLite.to(app.header.innerMenuDeclaration, 0.3, {height: "0", ease:Expo.easeOut});
+    });
+
+    //Menu search
+    app.header.btSearch.on("click", function(e){
+        e.preventDefault();
+        app.header.menuSections.css("left", "-872px");
+        app.header.menuSearch.css("left", "85px");
+        TweenLite.to(app.header.lineSelect, 0.3, {autoAlpha:0, ease:Expo.easeOut});
+    });
+    app.header.btCloseSearch.on("click", function(e){
+        e.preventDefault();
+        app.header.menuSections.css("left", "0");
+        app.header.menuSearch.css("left", "960px");
+        TweenLite.to(app.header.lineSelect, 0.3, {autoAlpha:1, ease:Expo.easeOut});
+    });
+
+    //Go up
+    app.btGoUp = jQuery("#section-footer .footer_full .go_up");
+    app.btGoUp.on("click", function(){
+        TweenLite.to(window, 1, {scrollTo:{y:0}, ease:Expo.easeInOut});
+    });
+
+    //Line
+    app.timeSelectCurrentMenu = setTimeout(selectCurrentMenuItem, 200);
+
+    jQuery("#section-header .header_full div.main_menu ul").find("li").on('mouseenter', function(){
+
+        clearTimeout(app.timeSelectCurrentMenu);
+
+        if(jQuery(this).index() == 0)
+            app.header.lineSelect.css("left", jQuery(this).position().left - 1);
+        else
+            app.header.lineSelect.css("left", jQuery(this).position().left + 28);
+    });
+    jQuery("#section-header .header_full div.main_menu ul").find("li").on('mouseleave', function(){
+        if(app.header.menuSections.find("li.active").length > 0)
+        {
+            if(app.header.menuSections.find("li.active").index() == 0)
+                app.header.lineSelect.css("left", app.header.menuSections.find("li.active").position().left - 1);
+            else
+                app.header.lineSelect.css("left", app.header.menuSections.find("li.active").position().left + 28);
+        }
+        else
+        {
+            app.header.lineSelect.css("left", "-10px");
+        }
+    });
+
+
+    //Tablet
+    app.headerTablet.btMenu = jQuery(".header_full .main_menu_ipad .menu_burger a.menu_burger");
+    app.headerTablet.btSearch = jQuery(".header_full .main_menu_ipad .menu_burger .ico_seach");
+    app.headerTablet.btCloseMenuTop = jQuery(".header_full .main_menu_ipad .top_menu a.back");
+    app.headerTablet.btCloseMenuSearch = jQuery(".header_full .main_menu_ipad .menu_burger .search .close");
+
+    app.headerTablet.menuiPad = jQuery(".header_full .main_menu_ipad");
+    app.headerTablet.menuTop = jQuery(".header_full .main_menu_ipad .top_menu");
+    app.headerTablet.menuSearch = jQuery(".header_full .main_menu_ipad .menu_burger .search");
+
+
+    app.headerTablet.btMenu.on("click", function(e){
+        e.preventDefault();
+        TweenLite.to(app.headerTablet.menuTop, 0.5, {height: app.headerTablet.menuTop.find(".inner_top_menu").height(), ease:Expo.easeOut});
+    });
+
+    app.headerTablet.btCloseMenuTop.on("click", function(e){
+        e.preventDefault();
+        TweenLite.to(app.headerTablet.menuTop, 0.5, {height: 0, ease:Expo.easeOut});
+    });
+
+    app.headerTablet.btSearch.on("click", function(e){
+        e.preventDefault();
+        TweenLite.to(app.headerTablet.menuSearch, 0.5, {left: 0, ease:Expo.easeOut});
+    });
+
+    app.headerTablet.btCloseMenuSearch.on("click", function(e){
+        e.preventDefault();
+        TweenLite.to(app.headerTablet.menuSearch, 0.5, {left: "100%", ease:Expo.easeOut});
+    });
+
+    //Mobile
+    app.headerMobile.btMenu = jQuery(".header_mobile .encart_top .bt_menu");
+    app.headerMobile.btCloseMenuTop = jQuery(".header_mobile .main_menu .top a.back");
+    app.headerMobile.items = jQuery(".header_mobile .main_menu .top > ul > li > a");
+
+    app.headerMobile.btSearch = jQuery(".header_mobile .encart_top .menu_top_right .main_menu .bottom .seach_btn a");
+    app.headerMobile.searchDiv = jQuery(".menu_top_right .main_menu .bottom div.search");
+
+    app.headerMobile.menuTop = jQuery(".header_mobile .menu_top_right");
+
+    app.headerMobile.btMenu.on("click", function(e){
+        e.preventDefault();
+        TweenLite.to(app.headerMobile.menuTop, 0.5, {height: app.headerMobile.menuTop.find(".main_menu").height(), ease:Expo.easeOut});
+    });
+
+    app.headerMobile.btCloseMenuTop.on("click", function(e){
+        e.preventDefault();
+        TweenLite.to(app.headerMobile.menuTop, 0.5, {height: 0, ease:Expo.easeOut});
+        TweenLite.to(app.headerMobile.searchDiv, 0.3, {left: "100%", ease:Expo.easeOut});
+    });
+
+    jQuery.each(app.headerMobile.items, function(index, value){
+        jQuery(value).on("click", function(e){
+            if(jQuery(value).find("span").html() != "Accueil")
+            {
+                e.preventDefault();
+                app.headerMobile.currentSubItem = jQuery(value).parent().find(".submenu");
+                TweenLite.to(app.headerMobile.currentSubItem, 0.3, {left: 0, ease:Expo.easeOut});
+            }
+        });
+    });
+
+    jQuery(".header_mobile .encart_top .menu_top_right .main_menu .top > ul li div.submenu .back").on("click", function(e){
+        e.preventDefault();
+        TweenLite.to(app.headerMobile.currentSubItem, 0.3, {left: "320px", ease:Expo.easeOut});
+    });
+
+
+    app.headerMobile.btSearch.on("click", function(e){
+        e.preventDefault();
+        TweenLite.to(app.headerMobile.searchDiv, 0.3, {left: "0", ease:Expo.easeOut});
+    });
+
+    //Scroll
+    jQuery(window).scroll(function() {
+        onScroll();
+    });
+}
+
+function manageSlider()
+{
+    app.sliderItems = jQuery(".views-slideshow-cycle-main-frame-row-item");
+    app.sliderImgWidthRef = jQuery(app.sliderItems[0]).find("img").actual('width');
+
+    if(app.sliderImgWidthRef == 0)
+        app.sliderImgWidthRef = jQuery(window).width();
+
+    jQuery.each(app.sliderItems, function(index, value){
+       var item_img = jQuery(value).find("img");
+        item_img.height(660);
+
+/*        if(item_img.actual('width') == 0)
+            item_img.css({marginLeft: -(app.sliderImgWidthRef / 2) + "px"});
+        else
+            item_img.css({marginLeft: -(item_img.actual('width') / 2) + "px"});*/
+    });
+}
+
+function selectCurrentMenuItem()
+{
+    if(app.header.menuSections.find("li.active").length > 0)
+    {
+        if(app.header.menuSections.find("li.active").index() == 0)
+            app.header.lineSelect.css("left", app.header.menuSections.find("li.active").position().left - 1);
+        else
+            app.header.lineSelect.css("left", app.header.menuSections.find("li.active").position().left + 28);
+    }
+    else
+    {
+        app.header.lineSelect.css("left", "-10px");
+    }
+}
+
+/*********************
+CHOSEN
+*********************/
+function manageChosenList()
+{
+    jQuery("#edit-field-actu-date-value-value-year").chosen({disable_search_threshold: 20});
+    jQuery("#edit-submitted-webform-contact-roles").chosen({disable_search_threshold: 20});
+
+    jQuery("#edit-field-roles-und").chosen({disable_search_threshold: 20});
+    jQuery("#edit-field-civility-und").chosen({disable_search_threshold: 20});
+
+    jQuery("#edit-submitted-type-candidature").chosen({disable_search_threshold: 20});
+}
+
+/*********************
+SCROLL
+*********************/
+function onScroll()
+{
+    app.wScrollTop = jQuery(window).scrollTop();
+
+    if(app.header.btDeclaration.hasClass("selected"))
+    {
+        app.header.btDeclaration.removeClass("selected");
+        TweenLite.to(app.header.menuDeclaration, 0.3, {height: "0", ease:Expo.easeOut});
+        TweenLite.to(app.header.innerMenuDeclaration, 0.3, {height: "0", ease:Expo.easeOut});
+    }
+
+    if (app.wScrollTop >= (app.isFront ? 140 : 50))
+    {
+        if(!app.headerIsMin)
+        {
+            app.headerIsMin = true;
+            TweenLite.killTweensOf(app.header.logoMin, false);
+            TweenLite.to(app.header.logoMin, 0.3, {alpha:1, delay: 0.3, ease:Expo.easeOut});
+
+            TweenLite.to(app.header.full.find(".encart_top"), 0.3, {height:"60px", ease:Expo.easeOut});
+            TweenLite.to(app.header.full.find(".encart_top .logo"), 0.3, {autoAlpha:0, ease:Expo.easeOut});
+            TweenLite.to(app.header.full.find(".encart_top .menu_top_right"), 0.3, {autoAlpha:0, ease:Expo.easeOut});
+            TweenLite.to(app.header.full.find(".encart_top .espace_decla"), 0.3, {autoAlpha:0, ease:Expo.easeOut});
+
+            if(!app.isFront && !app.isTablet)
+            {
+                TweenLite.to(app.header.menu, 0.3, {top:"60px", ease:Expo.easeOut});
+            }
+
+            if(app.isTablet)
+                TweenLite.to(app.headerTablet.menuiPad, 0.3, {top:"60px", ease:Expo.easeOut});
+        }
+
+    }
+    else
+    {
+        if(app.headerIsMin)
+        {
+            app.headerIsMin = false;
+            TweenLite.killTweensOf(app.header.logoMin, false);
+            TweenLite.to(app.header.logoMin, 0.3, {alpha:0, ease:Expo.easeOut});
+
+            TweenLite.to(app.header.full.find(".encart_top"), 0.3, {height:"140px", delay: 0.3, ease:Expo.easeOut});
+            TweenLite.to(app.header.full.find(".encart_top .logo"), 0.3, {autoAlpha:1, delay: 0.3, ease:Expo.easeOut});
+            TweenLite.to(app.header.full.find(".encart_top .menu_top_right"), 0.3, {autoAlpha:1, delay: 0.3,ease:Expo.easeOut});
+            TweenLite.to(app.header.full.find(".encart_top .espace_decla"), 0.3, {autoAlpha:1, delay: 0.3, ease:Expo.easeOut});
+
+            if(!app.isFront && !app.isTablet)
+                TweenLite.to(app.header.menu, 0.3, {top:"140px", delay: 0.3, ease:Expo.easeOut});
+            if(app.isTablet)
+                TweenLite.to(app.headerTablet.menuiPad, 0.3, {top:"140px", delay: 0.3, ease:Expo.easeOut});
+        }
+
+    }
+
+    if(app.isFront && !app.isTablet)
+    {
+        if(app.wScrollTop >= 600)
+        {
+            app.header.menu.css({position: "fixed", top: "60px"});
+        }
+        else
+        {
+            app.header.menu.css({position: "absolute", top: "660px"});
+        }
+    }
+}
+
+function onResize(){
+    app.windowWidth = jQuery(window).width();
+
+    if(app.windowWidth <= 995)
+    {
+        app.isTablet = true;
+    }
+    else
+    {
+        app.isTablet = false;
+    }
+
+    onScroll();
+}

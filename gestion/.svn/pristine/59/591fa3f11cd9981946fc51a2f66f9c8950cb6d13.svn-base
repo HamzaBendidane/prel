@@ -1,0 +1,5 @@
+name = "Suivi des demandes et paiements"
+description = "Suivi des demandes non finalisées ou des dossiers et des paiements "
+package = OPCAIM
+core = "7.x"
+version = "7.1.0"

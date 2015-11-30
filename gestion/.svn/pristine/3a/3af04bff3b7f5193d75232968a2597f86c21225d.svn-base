@@ -1,0 +1,23 @@
+<?php
+/**
+ * @file
+ * ecofolio_homeunivers.ds.inc
+ */
+
+/**
+ * Implements hook_ds_view_modes_info().
+ */
+function ecofolio_homeunivers_ds_view_modes_info() {
+  $export = array();
+
+  $ds_view_mode = new stdClass();
+  $ds_view_mode->api_version = 1;
+  $ds_view_mode->view_mode = 'bloc_univers';
+  $ds_view_mode->label = 'Bloc Univers';
+  $ds_view_mode->entities = array(
+    'node' => 'node',
+  );
+  $export['bloc_univers'] = $ds_view_mode;
+
+  return $export;
+}

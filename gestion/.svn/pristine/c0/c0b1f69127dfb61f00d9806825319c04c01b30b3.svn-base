@@ -1,0 +1,297 @@
+<?php
+/**
+ * @file
+ * ecofolio_search.views_default.inc
+ */
+
+/**
+ * Implements hook_views_default_views().
+ */
+function ecofolio_search_views_default_views() {
+  $export = array();
+
+  $view = new view();
+  $view->name = 'recherche';
+  $view->description = '';
+  $view->tag = 'default';
+  $view->base_table = 'search_api_index_search';
+  $view->human_name = 'recherche';
+  $view->core = 7;
+  $view->api_version = '3.0';
+  $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
+
+  /* Display: Master */
+  $handler = $view->new_display('default', 'Master', 'default');
+  $handler->display->display_options['title'] = 'Résultats de recherche';
+  $handler->display->display_options['use_ajax'] = TRUE;
+  $handler->display->display_options['use_more_always'] = FALSE;
+  $handler->display->display_options['use_more_text'] = 'plus';
+  $handler->display->display_options['access']['type'] = 'none';
+  $handler->display->display_options['cache']['type'] = 'none';
+  $handler->display->display_options['query']['type'] = 'views_query';
+  $handler->display->display_options['exposed_form']['type'] = 'better_exposed_filters';
+  $handler->display->display_options['exposed_form']['options']['submit_button'] = 'OK';
+  $handler->display->display_options['exposed_form']['options']['reset_button_label'] = 'Réinitialiser';
+  $handler->display->display_options['exposed_form']['options']['exposed_sorts_label'] = 'Trier par';
+  $handler->display->display_options['exposed_form']['options']['autosubmit_hide'] = FALSE;
+  $handler->display->display_options['exposed_form']['options']['bef'] = array(
+    'general' => array(
+      'allow_secondary' => 0,
+      'secondary_label' => 'Options avancées',
+    ),
+    'sort' => array(
+      'bef_format' => 'default',
+      'advanced' => array(
+        'collapsible' => 0,
+        'collapsible_label' => 'Sort options',
+        'combine' => 1,
+        'combine_rewrite' => 'Date Desc|Du plus récent au plus ancien
+Date Asc|Du plus ancien au plus récent
+Pertinence Desc|Pertinence
+',
+        'reset' => 0,
+        'reset_label' => '',
+        'is_secondary' => 0,
+      ),
+    ),
+    'populate' => array(
+      'bef_format' => 'default',
+      'more_options' => array(
+        'is_secondary' => 0,
+        'any_label' => '',
+        'bef_filter_description' => '',
+        'tokens' => array(
+          'available' => array(
+            0 => 'global_types',
+          ),
+        ),
+        'rewrite' => array(
+          'filter_rewrite_values' => '',
+        ),
+      ),
+    ),
+    'type' => array(
+      'bef_format' => 'bef',
+      'more_options' => array(
+        'bef_select_all_none' => 0,
+        'bef_collapsible' => 0,
+        'is_secondary' => 0,
+        'any_label' => '',
+        'bef_filter_description' => '',
+        'tokens' => array(
+          'available' => array(
+            0 => 'global_types',
+          ),
+        ),
+        'rewrite' => array(
+          'filter_rewrite_values' => '',
+        ),
+      ),
+    ),
+  );
+  $handler->display->display_options['exposed_form']['options']['input_required'] = 0;
+  $handler->display->display_options['exposed_form']['options']['text_input_required_format'] = 'filtered_html';
+  $handler->display->display_options['pager']['type'] = 'full';
+  $handler->display->display_options['pager']['options']['items_per_page'] = '10';
+  $handler->display->display_options['pager']['options']['offset'] = '0';
+  $handler->display->display_options['pager']['options']['id'] = '0';
+  $handler->display->display_options['pager']['options']['quantity'] = '9';
+  $handler->display->display_options['pager']['options']['expose']['items_per_page_label'] = 'Éléments par page';
+  $handler->display->display_options['pager']['options']['expose']['items_per_page_options_all_label'] = '- Tout -';
+  $handler->display->display_options['pager']['options']['expose']['offset_label'] = 'Décalage';
+  $handler->display->display_options['pager']['options']['tags']['first'] = '«';
+  $handler->display->display_options['pager']['options']['tags']['previous'] = '‹';
+  $handler->display->display_options['pager']['options']['tags']['next'] = '›';
+  $handler->display->display_options['pager']['options']['tags']['last'] = '»';
+  $handler->display->display_options['style_plugin'] = 'default';
+  $handler->display->display_options['style_options']['grouping'] = array(
+    0 => array(
+      'field' => 'type',
+      'rendered' => 1,
+      'rendered_strip' => 0,
+    ),
+  );
+  $handler->display->display_options['row_plugin'] = 'fields';
+  /* Entête: Global : Résumé des résultats */
+  $handler->display->display_options['header']['result']['id'] = 'result';
+  $handler->display->display_options['header']['result']['table'] = 'views';
+  $handler->display->display_options['header']['result']['field'] = 'result';
+  $handler->display->display_options['header']['result']['empty'] = TRUE;
+  $handler->display->display_options['header']['result']['content'] = '@total résultats';
+  /* Champ: Nœud indexé(e) : Titre */
+  $handler->display->display_options['fields']['title']['id'] = 'title';
+  $handler->display->display_options['fields']['title']['table'] = 'search_api_index_search';
+  $handler->display->display_options['fields']['title']['field'] = 'title';
+  $handler->display->display_options['fields']['title']['label'] = '';
+  $handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['title']['link_to_entity'] = 1;
+  /* Champ: Nœud indexé(e) : Date */
+  $handler->display->display_options['fields']['field_actu_date']['id'] = 'field_actu_date';
+  $handler->display->display_options['fields']['field_actu_date']['table'] = 'search_api_index_search';
+  $handler->display->display_options['fields']['field_actu_date']['field'] = 'field_actu_date';
+  $handler->display->display_options['fields']['field_actu_date']['label'] = '';
+  $handler->display->display_options['fields']['field_actu_date']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_actu_date']['hide_empty'] = TRUE;
+  $handler->display->display_options['fields']['field_actu_date']['settings'] = array(
+    'format_type' => 'jour_mois_annee',
+    'fromto' => 'both',
+    'multiple_number' => '',
+    'multiple_from' => '',
+    'multiple_to' => '',
+  );
+  /* Champ: Nœud indexé(e) : Accroche */
+  $handler->display->display_options['fields']['field_actu_teaser']['id'] = 'field_actu_teaser';
+  $handler->display->display_options['fields']['field_actu_teaser']['table'] = 'search_api_index_search';
+  $handler->display->display_options['fields']['field_actu_teaser']['field'] = 'field_actu_teaser';
+  $handler->display->display_options['fields']['field_actu_teaser']['label'] = '';
+  $handler->display->display_options['fields']['field_actu_teaser']['alter']['strip_tags'] = TRUE;
+  $handler->display->display_options['fields']['field_actu_teaser']['element_label_colon'] = FALSE;
+  /* Champ: Nœud indexé(e) : Le corps du texte */
+  $handler->display->display_options['fields']['body']['id'] = 'body';
+  $handler->display->display_options['fields']['body']['table'] = 'search_api_index_search';
+  $handler->display->display_options['fields']['body']['field'] = 'body';
+  $handler->display->display_options['fields']['body']['label'] = '';
+  $handler->display->display_options['fields']['body']['alter']['max_length'] = '100';
+  $handler->display->display_options['fields']['body']['alter']['strip_tags'] = TRUE;
+  $handler->display->display_options['fields']['body']['alter']['trim'] = TRUE;
+  $handler->display->display_options['fields']['body']['element_label_colon'] = FALSE;
+  /* Champ: Nœud indexé(e) : Type de contenu */
+  $handler->display->display_options['fields']['type']['id'] = 'type';
+  $handler->display->display_options['fields']['type']['table'] = 'search_api_index_search';
+  $handler->display->display_options['fields']['type']['field'] = 'type';
+  $handler->display->display_options['fields']['type']['label'] = '';
+  $handler->display->display_options['fields']['type']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['type']['alter']['alter_text'] = TRUE;
+  $handler->display->display_options['fields']['type']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['type']['link_to_entity'] = 0;
+  $handler->display->display_options['fields']['type']['format_name'] = 1;
+  /* Critère de tri: Nœud indexé(e) : Date de création */
+  $handler->display->display_options['sorts']['created']['id'] = 'created';
+  $handler->display->display_options['sorts']['created']['table'] = 'search_api_index_search';
+  $handler->display->display_options['sorts']['created']['field'] = 'created';
+  $handler->display->display_options['sorts']['created']['order'] = 'DESC';
+  $handler->display->display_options['sorts']['created']['exposed'] = TRUE;
+  $handler->display->display_options['sorts']['created']['expose']['label'] = 'Date';
+  /* Critère de tri: Rechercher : Pertinence */
+  $handler->display->display_options['sorts']['search_api_relevance']['id'] = 'search_api_relevance';
+  $handler->display->display_options['sorts']['search_api_relevance']['table'] = 'search_api_index_search';
+  $handler->display->display_options['sorts']['search_api_relevance']['field'] = 'search_api_relevance';
+  $handler->display->display_options['sorts']['search_api_relevance']['order'] = 'DESC';
+  $handler->display->display_options['sorts']['search_api_relevance']['exposed'] = TRUE;
+  $handler->display->display_options['sorts']['search_api_relevance']['expose']['label'] = 'Pertinence';
+  $handler->display->display_options['filter_groups']['groups'] = array(
+    1 => 'OR',
+    2 => 'AND',
+  );
+  /* Critère de filtrage: Nœud indexé(e) : Titre */
+  $handler->display->display_options['filters']['title']['id'] = 'title';
+  $handler->display->display_options['filters']['title']['table'] = 'search_api_index_search';
+  $handler->display->display_options['filters']['title']['field'] = 'title';
+  $handler->display->display_options['filters']['title']['group'] = 1;
+  /* Critère de filtrage: Le corps du texte : Texte (indexed) */
+  $handler->display->display_options['filters']['body_value']['id'] = 'body_value';
+  $handler->display->display_options['filters']['body_value']['table'] = 'search_api_index_search';
+  $handler->display->display_options['filters']['body_value']['field'] = 'body_value';
+  $handler->display->display_options['filters']['body_value']['group'] = 1;
+  /* Critère de filtrage: Global : Populate filters */
+  $handler->display->display_options['filters']['populate']['id'] = 'populate';
+  $handler->display->display_options['filters']['populate']['table'] = 'views_filters_populate';
+  $handler->display->display_options['filters']['populate']['field'] = 'populate';
+  $handler->display->display_options['filters']['populate']['group'] = 1;
+  $handler->display->display_options['filters']['populate']['exposed'] = TRUE;
+  $handler->display->display_options['filters']['populate']['expose']['operator_id'] = '';
+  $handler->display->display_options['filters']['populate']['expose']['label'] = 'Rechercher par mots-clés';
+  $handler->display->display_options['filters']['populate']['expose']['operator'] = 'populate_op';
+  $handler->display->display_options['filters']['populate']['expose']['identifier'] = 'search';
+  $handler->display->display_options['filters']['populate']['expose']['remember_roles'] = array(
+    2 => '2',
+    1 => 0,
+    3 => 0,
+    4 => 0,
+    5 => 0,
+    6 => 0,
+    7 => 0,
+    8 => 0,
+    9 => 0,
+  );
+  $handler->display->display_options['filters']['populate']['filters'] = array(
+    'title' => 'title',
+    'body_value' => 'body_value',
+    'type' => 0,
+    'type_1' => 0,
+  );
+  /* Critère de filtrage: Nœud indexé(e) : Type de contenu */
+  $handler->display->display_options['filters']['type']['id'] = 'type';
+  $handler->display->display_options['filters']['type']['table'] = 'search_api_index_search';
+  $handler->display->display_options['filters']['type']['field'] = 'type';
+  $handler->display->display_options['filters']['type']['value'] = array(
+    'actu' => 'actu',
+    'page' => 'page',
+  );
+  $handler->display->display_options['filters']['type']['group'] = 2;
+  $handler->display->display_options['filters']['type']['exposed'] = TRUE;
+  $handler->display->display_options['filters']['type']['expose']['operator_id'] = 'type_op';
+  $handler->display->display_options['filters']['type']['expose']['operator'] = 'type_op';
+  $handler->display->display_options['filters']['type']['expose']['identifier'] = 'type';
+  $handler->display->display_options['filters']['type']['expose']['multiple'] = TRUE;
+  $handler->display->display_options['filters']['type']['expose']['remember_roles'] = array(
+    2 => '2',
+    1 => 0,
+    3 => 0,
+    4 => 0,
+    5 => 0,
+    6 => 0,
+    7 => 0,
+    8 => 0,
+    9 => 0,
+  );
+  $handler->display->display_options['filters']['type']['expose']['reduce'] = 1;
+  $handler->display->display_options['filters']['type']['group_info']['label'] = 'Type de contenu';
+  $handler->display->display_options['filters']['type']['group_info']['identifier'] = 'type';
+  $handler->display->display_options['filters']['type']['group_info']['remember'] = FALSE;
+  $handler->display->display_options['filters']['type']['group_info']['group_items'] = array(
+    1 => array(),
+    2 => array(),
+    3 => array(),
+  );
+  /* Critère de filtrage: Nœud indexé(e) : Type de contenu */
+  $handler->display->display_options['filters']['type_1']['id'] = 'type_1';
+  $handler->display->display_options['filters']['type_1']['table'] = 'search_api_index_search';
+  $handler->display->display_options['filters']['type_1']['field'] = 'type';
+  $handler->display->display_options['filters']['type_1']['value'] = array(
+    'actu' => 'actu',
+    'page' => 'page',
+  );
+  $handler->display->display_options['filters']['type_1']['group'] = 2;
+
+  /* Display: Page */
+  $handler = $view->new_display('page', 'Page', 'page');
+  $handler->display->display_options['path'] = 'recherche';
+  $translatables['recherche'] = array(
+    t('Master'),
+    t('Résultats de recherche'),
+    t('plus'),
+    t('OK'),
+    t('Réinitialiser'),
+    t('Trier par'),
+    t('Asc'),
+    t('Desc'),
+    t('Sélectionnez n\'importe quel filtre et cliquez sur Appliquer pour voir les résultats'),
+    t('Éléments par page'),
+    t('- Tout -'),
+    t('Décalage'),
+    t('«'),
+    t('‹'),
+    t('›'),
+    t('»'),
+    t('@total résultats'),
+    t('Date'),
+    t('Pertinence'),
+    t('Rechercher par mots-clés'),
+    t('Type de contenu'),
+    t('Page'),
+  );
+  $export['recherche'] = $view;
+
+  return $export;
+}

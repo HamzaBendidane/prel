@@ -1,0 +1,106 @@
+<fieldset class="form-wrapper" id="edit-company">
+  <legend>
+    <span class="fieldset-legend"><b>L'ENTREPRISE</b></span>
+  </legend>
+  <div class="fieldset-wrapper">
+    <div class="company-infos company-infos-0">
+      <div class="row">
+        <div class="col-md-6 required">
+          <?php print drupal_render($form_creation_compte['company']['siret']['0']); ?>
+        </div>
+        <div class="col-md-6 required">
+          <?php print drupal_render($form_creation_compte['company']['raison_sociale']['0']); ?>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6 required">
+          <?php print drupal_render($form_creation_compte['company']['code_naf']['0']); ?>
+        </div>
+        <div class="col-md-6 required">
+          <?php print drupal_render($form_creation_compte['company']['adresse'][0]); ?>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6 required">
+          <?php print drupal_render($form_creation_compte['company']['filiere']['0']); ?>
+        </div>
+        <div class="col-md-6">
+          <?php print drupal_render($form_creation_compte['company']['complement_adresse']['0']); ?>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <?php print drupal_render($form_creation_compte['company']['filiere2']['0']); ?>
+        </div>
+        <div class="col-md-6">
+            <?php print drupal_render($form_creation_compte['company']['complement_adresse_2']['0']); ?>
+        </div>
+      </div>
+      <div class="row">
+          <div class="col-md-6">
+
+          </div>
+          <div class="col-md-6 required">
+              <?php print shared_form_input_coller_serrer($form_creation_compte['company']['code_postal']['0'],
+                  $form_creation_compte['company']['ville']['0']); ?>
+          </div>
+      </div>
+    </div>
+
+    <?php
+      print drupal_render($form_creation_compte['company']['demande_multi_siret']);
+    ?>
+
+    <div id="autreSiret">
+      <?php if ($form_creation_compte['company']['nb_siret']['#value'] >=1 ) { ?>
+        <?php for ($i = 1; $i < $form_creation_compte['company']['nb_siret']['#value']; $i++) { ?>
+          <div class="company-infos company-infos-<?php $i ?>">
+            <div class="row">
+              <div class="col-md-6 required">
+                <?php print drupal_render($form_creation_compte['company']['siret'][$i]); ?>
+              </div>
+              <div class="col-md-6 required">
+                <?php print drupal_render($form_creation_compte['company']['raison_sociale'][$i]); ?>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6 required">
+                <?php print drupal_render($form_creation_compte['company']['code_naf'][$i]); ?>
+              </div>
+              <div class="col-md-6 required">
+                  <?php print drupal_render($form_creation_compte['company']['adresse'][$i]); ?>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6 required">
+                <?php print drupal_render($form_creation_compte['company']['filiere'][$i]); ?>
+              </div>
+              <div class="col-md-6">
+                <?php print drupal_render($form_creation_compte['company']['complement_adresse'][$i]); ?>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <?php print drupal_render($form_creation_compte['company']['filiere2'][$i]); ?>
+              </div>
+              <div class="col-md-6">
+                <?php print drupal_render($form_creation_compte['company']['complement_adresse_2'][$i]); ?>
+
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6"></div>
+              <div class="col-md-offset-6 col-md-6 required">
+                <?php print shared_form_input_coller_serrer($form_creation_compte['company']['code_postal'][$i],
+                  $form_creation_compte['company']['ville'][$i]); ?>
+              </div>
+            </div>
+          </div>
+      <?php } ?>
+    <?php } ?>
+    </div>
+
+    <?php print drupal_render($form_creation_compte['company']['ajout_siret']); ?>
+
+  </div>
+</fieldset>

@@ -1,0 +1,39 @@
+<?php
+
+ /**
+ * Implements hook_menu().
+ *
+ * Cette fonction rajoute un menu d'accès pour la création de compte des entreprises.
+ * Return: Drupal menu items
+ */
+
+require_once 'inc/migration_db.inc';
+
+function migration_menu() {
+  $items = array();
+
+    $items['migration/comptes'] = array(
+        'page callback' => 'migration',
+        'access callback' => TRUE,
+        'file' => 'inc/migration_scripts.inc',
+        'type' => MENU_CALLBACK,
+    );
+    
+    $items['migration/lien_adef_entr'] = array(
+        'page callback' => 'migration_lien_adefim_entreprise',
+        'access callback' => TRUE,
+        'file' => 'inc/migration_scripts.inc',
+        'type' => MENU_CALLBACK,
+    );
+    
+    $items['migration/lien_user_entr'] = array(
+        'page callback' => 'migration_lien_user_entreprise',
+        'access callback' => TRUE,
+        'file' => 'inc/migration_scripts.inc',
+        'type' => MENU_CALLBACK,
+    );
+
+    // Retourne le menu
+  return $items;
+}
+

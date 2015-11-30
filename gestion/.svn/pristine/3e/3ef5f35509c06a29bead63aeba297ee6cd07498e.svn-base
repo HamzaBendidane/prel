@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the Ecofolio Sidebar feature.
+ */
+
+include_once 'ecofolio_sidebar.features.inc';
