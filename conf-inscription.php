@@ -38,18 +38,12 @@
             <h2>Votre inscritption a été prise en compte</h2>
             <h4>Nous vous remercions de vous être inscrit sur notre site http://cer-prelude.fr.<br>
 
-                Afin de finaliser votre inscription merci de cliquer sur le lien que vous avez recu par Mail .<br>
-
-                Une fois votre compte validé vous pourrez vous inscrir au stages <br>
+                Vvous pourrez vous inscrir au stages <br>
 
                 Pour ce faire, il vous suffira d'indiquer lors de l'inscription
                 votre identifiant  et votre mot de passe.<br>
 
-                En cas d'oubli de mot de passe vous pourrez le réinitialiser via le lien
-                ci-dessous :
-                http://cer-prelude.fr/user/password
-
-                L'équipe d'Ecofolio</h4>
+            </h4>
         </div>
         <div class="row bar-title2">
 

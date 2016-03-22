@@ -54,7 +54,7 @@
 
     <?php
     $errors = form_get_errors();
-var_dump($_SESSION);
+
     foreach($errors as $value){
         ?>
         <div class="error">

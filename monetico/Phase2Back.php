@@ -74,18 +74,6 @@ $phase2back_fields = sprintf(MONETICOPAIEMENT_PHASE2BACK_FIELDS, $oEpt->sNumero,
 
 if ($oHmac->computeHmac($phase2back_fields) == strtolower($MoneticoPaiement_bruteVars['MAC']))
 	{
-// =============================================================================================================================================================
-// FIN SECTION CODE
-//
-// END CODE SECTION 
-// =============================================================================================================================================================
-
-// =============================================================================================================================================================
-// SECTION IMPLEMENTATION : Vous devez modifier ce code afin d'y mettre votre propre logique métier
-// 
-// IMPLEMENTATION SECTION : You must adapt this code with your own application logic.
-// =============================================================================================================================================================
-
 	switch($MoneticoPaiement_bruteVars['code-retour']) {
 
 		case "Annulation" :
@@ -99,7 +87,7 @@ if ($oHmac->computeHmac($phase2back_fields) == strtolower($MoneticoPaiement_brut
 			break;
 
 		case "payetest":
-		    
+
 			break;
 
 		case "paiement":
@@ -169,7 +157,7 @@ else
 //-----------------------------------------------------------------------------
 // Send receipt to Monetico Paiement server
 //-----------------------------------------------------------------------------
-printf (MONETICOPAIEMENT_PHASE2BACK_RECEIPT, $receipt);
+
 
 // Copyright (c) 2014 Euro-Information
 // All rights reserved. ---
