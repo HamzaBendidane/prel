@@ -277,9 +277,9 @@ $sMAC = $oHmac->computeHmac($phase1go_fields);
 
     // Language of the company code
     $sLangue = "FR";
-
+global $user;
     // customer email
-    $sEmail = "bendidane@hotmail.com";
+    $sEmail = $user->mail;
 
     $sOptions = "";
 
