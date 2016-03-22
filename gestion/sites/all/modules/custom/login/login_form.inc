@@ -20,11 +20,34 @@ function login_form($form, &$form_state) {
   return $form;
 }
 
+
+function login_site_form($form, &$form_state) {
+
+    $form['username'] = array(
+        '#type' => 'textfield',
+        '#title' => t(''),
+        '#attributes' => array('class' => array('form-username'),'placeholder' => 'IDENTIFIANT'),
+    );
+    $form['password'] = array(
+        '#type' => 'password',
+        '#title' => t(''),
+        '#attributes' => array('class' => array('form-password'),'placeholder' => 'MOT DE PASSE'),
+    );
+    $form['submit'] = array(
+        '#type' => 'submit',
+        '#value' => t('CONNEXION'),
+        '#attributes' => array('class' => array('btn-xxx')),
+      //  '#validate' => array(''),
+        '#submit' => array('check_login_submit'),
+    );
+
+    return $form;
+}
+
 function login_password_forgot_form($form, &$form_state) {
 
   $form['email'] = array(
       '#type' => 'textfield',
-//       '#title' => t('Votre email : '),
       '#attributes' => array(
           'class' => array('form-email'),
           'placeholder' => array('Email')
@@ -38,24 +61,3 @@ function login_password_forgot_form($form, &$form_state) {
   );
   return $form;
 }
-
-/*Suivi d'une demande */
-// function login_follow_form($form, &$form_state) {
-//   $form['email'] = array(
-//       '#type' => 'textfield',
-//       '#title' => t('Votre email : '),
-//       '#attributes' => array('class' => array('form-email')),
-//   );
-//   $form['numero_demande'] = array(
-//       '#type' => 'textfield',
-//       '#title' => t('Votre numéro de demande : '),
-//       '#attributes' => array('class' => array('form-numero-demande')),
-//   );
-//   $form['submit'] = array(
-//       '#type' => 'submit',
-//       '#value' => t('OK'),
-//       '#attributes' => array('class' => array('btn')),
-//   );
-
-//   return $form;
-// }

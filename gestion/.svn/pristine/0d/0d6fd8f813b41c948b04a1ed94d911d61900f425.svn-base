@@ -1,7 +1,0 @@
-<?php
-/**
- * @file
- * Code for the Ecofolio Blocs REM Pages de contenu feature.
- */
-
-include_once 'ecofolio_blocs_rem_pages_contenu.features.inc';

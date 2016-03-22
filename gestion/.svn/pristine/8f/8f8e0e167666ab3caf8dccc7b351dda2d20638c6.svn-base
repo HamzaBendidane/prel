@@ -1,7 +1,0 @@
-<?php
-/**
- * @file
- * Code for the Ecofolio Reseaux sociaux feature.
- */
-
-include_once 'ecofolio_social_networks.features.inc';

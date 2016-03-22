@@ -1,7 +1,0 @@
-<?php
-/**
- * @file
- * Code for the Ecofolio Content Types Blocs feature.
- */
-
-include_once 'ecofolio_ct_blocs.features.inc';

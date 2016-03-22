@@ -1,2 +1,0 @@
-ALTER TABLE [opcaim_extranet].[dbo].[dgf]
-ADD [etape_demande] int NULL;

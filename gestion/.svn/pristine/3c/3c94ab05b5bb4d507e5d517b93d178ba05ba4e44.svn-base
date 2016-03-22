@@ -1,6 +1,0 @@
-name = Ecofolio annonce custom
-description = Module to manage display current user information.
-core = 7.x
-package = Ecofolio
-
-files[] = ecofolio_annonce_custom.module

@@ -16,8 +16,24 @@
 <!-- Wrap all page content here -->
 <div id="wrap">
 
-    <?php include("header.php"); ?>
+    <?php include("header.php");
 
+    module_load_include('inc', 'login','login_form');
+    module_load_include('inc', 'login','login_form_submit');
+    module_load_include('inc', 'login','login_langs');
+
+    $login_form = drupal_get_form('login_site_form') ;
+    ?>
+    <?php
+
+    if (isset($_GET['id'])){
+        $_SESSION['stage'] = $_GET['id'];
+    }
+    global $user;
+    if ($user->uid) {
+        header('location:permis.php');
+    }
+    ?>
     <!-- Projects Row -->
     <div class="row bg-ctIn">
 
@@ -36,7 +52,7 @@
             <div class="col-xs-3"><div class="step"></div></div>
         </div>
         <div class="row bar-title2">
-            <h2> CONNEXIONe</h2>
+            <h2> CONNEXION</h2>
         </div>
     </div>
     <div class="connexion center">
@@ -46,20 +62,29 @@
             CONNEXION
 
         </div>
+        <div class="error">
+        <?php    $errors = drupal_get_messages();
+         if (is_array(@$errors['error'])){
+             echo implode("<br>",$errors['error']);
+         }?>
+        </div>
         <div class="conn-form">
-            <form method="post" action="index.php">
+            <form id="<?php print $login_form['#id'] ?>" accept-charset="UTF-8"
+                  method="<?php print $login_form['#method'] ?>" class="form-inline"
+                  action="<?php print $login_form['#action'] ?>">
 
                 <div class="row input center">
-                    <p><input type="text" name="login" value="" placeholder="IDENTIFIANT"></p>
+                    <?php print drupal_render($login_form['username']); ?>
                 </div>
-                <div class="divider-small-p"></div>
+                <div class="divider-small-ps"></div>
                 <div class="row input center">
-                    <p><input type="password" name="password" value="" placeholder="MOT DE PASSE"></p>
+                    <?php print drupal_render($login_form['password']); ?>
                 </div>
-                <div class="divider-small-p"></div>
+                <div class="divider-small-ps"></div>
                 <div class="row input center">
-                    <p class="submit"><input class ="btn-xxx"type="submit" name="commit" value="CONNEXION"></p>
+                    <?php print drupal_render($login_form['submit']); ?>
                 </div>
+                <?php print drupal_render_children($login_form); ?>
             </form>
         </div>
 
@@ -70,10 +95,6 @@
     </div>
 
 </div>
-
-
-
-
     <!-- /.row -->
     <!-- script references -->
     <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>

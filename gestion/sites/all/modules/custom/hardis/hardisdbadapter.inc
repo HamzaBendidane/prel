@@ -120,6 +120,17 @@ class hardisdbadapter{
         return $results;
     }
 
+  public function get_all() {
+    db_set_active($this->db);
+    $query = db_select($this->table, 'v')
+      ->fields('v', array() );
+
+    $results = $this->run($query,true);
+
+    db_set_active();
+    return $results;
+  }
+
     public function get_by_id($value,$fields=array()){
         return $this->get_by_fields(array($this->id => $value),$fields);
     }
@@ -139,6 +150,14 @@ class hardisdbadapter{
         $nid->condition($this->id, $id, '=' );
         return $nid->execute();
         db_set_active();
+    }
+
+    public function delete($id) {
+      db_set_active($this->db);
+      $nid = db_delete($this->table);
+      $nid->condition($this->id, $id, '=' );
+      return $nid->execute();
+      db_set_active();
     }
     public function __destruct(){
         db_set_active();

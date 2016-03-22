@@ -1,7 +1,0 @@
-<?php
-/**
- * @file
- * Code for the Ecofolio page feature.
- */
-
-include_once 'ecofolio_page.features.inc';

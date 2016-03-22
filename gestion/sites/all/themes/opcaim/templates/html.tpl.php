@@ -17,8 +17,21 @@
     <link rel="stylesheet" href="<?php print drupal_get_path('theme', 'opcaim') . '/dist/css/AdminLTE.min.css'; ?>">
     <!-- AdminLTE Skins. Choose a skin from the css/skins
          folder instead of downloading all of them to reduce the load. -->
-    <link rel="stylesheet" href="<?php print drupal_get_path('theme', 'opcaim') . '/dist/css/skins/_all-skins.min.css';?>">
+  <link rel="stylesheet" href="<?php print drupal_get_path('theme', 'opcaim') . '/dist/css/skins/_all-skins.min.css';?>">
+  <link rel="stylesheet" href="<?php print drupal_get_path('module', 'hardis' ) . '/css/common.css' ;?>">
+  <!-- jQuery 2.1.4 -->
+  <script src="<?php print drupal_get_path('theme', 'opcaim')."/plugins/jQuery/jQuery-2.1.4.min.js" ?>"></script>
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/css/datepicker.min.css" />
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/css/datepicker3.min.css" />
+  <link rel="stylesheet" href="<?php print drupal_get_path('theme', 'opcaim')."/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css" ?>">
 
+  <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.min.js"></script>
+
+  <link rel="stylesheet" href="<?php print drupal_get_path('theme', 'opcaim')."/plugins/timepicker/bootstrap-timepicker.min.css"; ?>">
+  <script src="<?php print drupal_get_path('theme', 'opcaim')."/plugins/timepicker/bootstrap-timepicker.js" ;?>"></script>
+
+  <!-- Bootstrap 3.3.5 -->
+  <script src="<?php  print drupal_get_path('theme', 'opcaim')."/bootstrap/js/bootstrap.min.js" ?>"></script>
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -27,11 +40,14 @@
     <![endif]-->
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
+<?php
+if (user_is_logged_in()){
+?>
 <div class="wrapper">
 
     <header class="main-header">
         <!-- Logo -->
-        <a href="../../index2.html" class="logo">
+        <a href="/gestion/dashbord" class="logo">
             <!-- mini logo for sidebar mini 50x50 pixels -->
             <span class="logo-mini"><b>A</b>P</span>
             <!-- logo for regular state and mobile devices -->
@@ -46,6 +62,49 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </a>
+          <div class="navbar-custom-menu">
+            <ul class="nav navbar-nav">
+              <!-- Messages: style can be found in dropdown.less-->
+
+              <!-- Notifications: style can be found in dropdown.less -->
+
+              <!-- Tasks: style can be found in dropdown.less -->
+
+              <!-- User Account: style can be found in dropdown.less -->
+              <li class="dropdown user user-menu">
+                <a data-toggle="dropdown" class="dropdown-toggle" href="#" aria-expanded="false">
+                  <span class="hidden-xs"> <?php
+                    global $user;
+                    print ($user->name);
+
+                    ?></span>
+                </a>
+                <ul class="dropdown-menu">
+                  <!-- User image -->
+                  <li class="user-header">
+                    <p>
+                      <?php
+                      global $user;
+                      print ($user->name);
+
+                      ?>
+                      <small>Member since Nov. 2012</small>
+                    </p>
+                  </li>
+                  <!-- Menu Body -->
+
+                  <!-- Menu Footer-->
+                  <li class="user-footer">
+
+                    <div class="pull-right">
+                      <a class="btn btn-default btn-flat" href="/gestion/user/logout">Deconnexion</a>
+                    </div>
+                  </li>
+                </ul>
+              </li>
+
+            </ul>
+          </div>
         </nav>
     </header>
     <!-- Left side column. contains the logo and sidebar -->
@@ -55,57 +114,71 @@
             <!-- sidebar menu: : style can be found in sidebar.less -->
             <ul class="sidebar-menu">
 
-                <li class="treeview ">
+                <li class="treeview active" >
                     <a href="#">
                         <i class="fa fa-circle-o text-pink"></i>
                         <span>Stages</span>
                     </a>
-                    <ul class="treeview-menu">
-                        <li><a href="../layout/top-nav.html"><i class="fa fa-th"></i></i>Liste des stages</a></li>
-                        <li><a href="../layout/boxed.html"><i class="fa fa-edit"></i> Gestion des tarifs</a></li>
-                        <li><a href="../layout/fixed.html"><i class="fa fa-folder"></i>Ajouter un stage</a></li>
+                    <ul class="treeview-menu" style="display: block;">
+                        <li><a href="/gestion/stage_list"><i class="fa fa-th"></i></i>Liste des stages</a></li>
+               <!--         <li><a href="../layout/boxed.html"><i class="fa fa-edit"></i> Gestion des tarifs</a></li> -->
+                        <li><a href="/gestion/ajouterstage"><i class="fa fa-folder"></i>Ajouter un stage</a></li>
                     </ul>
                 </li>
 
-                <li class="treeview">
+                <li class="treeview active">
                     <a href="#">
                         <i class="fa fa-circle-o text-red"></i>
                         <span>Stagiaires</span>
                     </a>
                     <ul class="treeview-menu">
-                        <li><a href="../layout/top-nav.html"><i class="fa fa-th"></i></i>Liste des stagiaires</a></li>
-                        <li><a href="../layout/boxed.html"><i class="fa fa-edit"></i>Gestion des prospects</a></li>
+                        <li><a href="/gestion/stagiaires_list"><i class="fa fa-th"></i></i>Liste des stagiaires</a></li>
+                    <!--    <li><a href="../layout/boxed.html"><i class="fa fa-edit"></i>Gestion des prospects</a></li> -->
                     </ul>
                 </li>
 
-                <li class="treeview">
+                <li class="treeview active">
                     <a href="#">
                         <i class="fa fa-circle-o text-green"></i>
                         <span>Lieux</span>
                     </a>
                     <ul class="treeview-menu">
-                        <li><a href="../layout/top-nav.html"><i class="fa fa-th"></i></i>Liste des lieux</a></li>
-                        <li><a href="../layout/boxed.html"><i class="fa fa-edit"></i> Saisir N° agrément</a></li>
-                        <li><a href="../layout/fixed.html"><i class="fa fa-folder"></i>Ajouter un lieu</a></li>
+                        <li><a href="/gestion/lieux_list"><i class="fa fa-th"></i></i>Liste des lieux</a></li>
+                  <!--      <li><a href="../layout/boxed.html"><i class="fa fa-edit"></i> Saisir N° agrément</a></li> -->
+                        <li><a href="/gestion/ajouterlieu"><i class="fa fa-folder"></i>Ajouter un lieu</a></li>
                     </ul>
                 </li>
 
-                <li class="treeview">
+                <li class="treeview active">
                     <a href="#">
                         <i class="fa fa-circle-o text-yellow"></i>
                         <span>Animateurs</span>
                     </a>
                     <ul class="treeview-menu">
-                        <li><a href="../layout/top-nav.html"><i class="fa fa-th"></i></i>Liste des animateurs</a></li>
-                        <li><a href="../layout/fixed.html"><i class="fa fa-folder"></i>Ajouter un animateur</a></li>
+                        <li><a href="/gestion/animateurslist"><i class="fa fa-th"></i></i>Liste des animateurs</a></li>
+                        <li><a href="/gestion/ajouteranimateur"><i class="fa fa-folder"></i>Ajouter un animateur</a></li>
                     </ul>
                 </li>
+              <li class="treeview active">
+                <a href="#">
+                <i class="fa fa-circle-o text-yellow"></i>
+                <span>Contenu</span>
+                </a>
+                <ul class="treeview-menu">
+                  <li><a href="/gestion/contenulist?t=1"><i class="fa fa-th"></i></i>Stages</a></li>
+                  <li><a href="/gestion/contenulist?t=2"><i class="fa fa-th"></i>Permis</a></li>
+                  <li><a href="/gestion/ajoutercontenu"><i class="fa fa-folder"></i></i>Ajouter un contenu</a></li>
+
+                </ul>
+              </li>
             </ul>
         </section>
         <!-- /.sidebar -->
     </aside>
 
     <!-- Content Wrapper. Contains page content -->
+
+
     <div class="content-wrapper">
 
         <?php print $page; ?>
@@ -284,11 +357,19 @@
          immediately after the control sidebar -->
     <div class="control-sidebar-bg"></div>
 </div><!-- ./wrapper -->
+<?php
+}else {
+  ?>
+<div class="content-wrapper">
+  <?php print $page; ?>
+  </div>
+<?php
+}
+?>
 
-<!-- jQuery 2.1.4 -->
-<script src="<?php print drupal_get_path('theme', 'opcaim')."/plugins/jQuery/jQuery-2.1.4.min.js" ?>"></script>
-<!-- Bootstrap 3.3.5 -->
-<script src="<?php  print drupal_get_path('theme', 'opcaim')."/bootstrap/js/bootstrap.min.js" ?>"></script>
+
+
+
 <!-- FastClick -->
 <script src="<?php  print drupal_get_path('theme', 'opcaim')."/plugins/fastclick/fastclick.min.js" ?>"></script>
 <!-- AdminLTE App -->

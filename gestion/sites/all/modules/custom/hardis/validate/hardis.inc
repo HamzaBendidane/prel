@@ -5,7 +5,12 @@
  * @param $form_state
  */
 function hardis_validate($form, &$form_state){
-    print("validate");
+   // print("validate");
+}
+
+
+function creation_form_skip($form, &$form_state){
+  die;
 }
 
 /**

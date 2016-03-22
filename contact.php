@@ -22,7 +22,7 @@
     <div class="row bg-ct">
 
         <div class="col-md-3 bg-ct1 page-prod">
-            <div class="row">
+            <div class="row" >
                 <div class="divider-small-p"></div>
                 <div class="col-md-5 bg-ctt-1"></div>
                 <div class="col-md-7 tx-ft"><h3>Par téléphone</h3>01.54.56.78.98<br>

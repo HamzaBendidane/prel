@@ -24,19 +24,68 @@
 
         <div class="row top-botom">
             <div class="col-md-4 ">
-                <div class="Centre_de_Pithiviers__42_rue_du_maréchal_Lecler">
-                Centre de Pithiviers
+             <div class="Centre_de_Pithiviers__42_rue_du_maréchal_Lecler">
 
-                42 rue du maréchal Leclerc
-                92345
-
-                Horaires :
-                du lundi au samedi
-                de 09h à 19h
-
-                01.89.98.65.34
-                    </div>
-            </div>
+Antony 92160
+<br>
+Centre Commercial Bièvre II
+<br>
+200 rue Adolphe Pajeaud
+<br>
+01 55 59 80 90
+</div>
+ <hr>
+<div class="Centre_de_Pithiviers__42_rue_du_maréchal_Lecler">
+Fontenay aux Roses 92260
+<br>
+54 rue Boucicaut
+<br>
+01 43 500 500
+</div>
+ <hr>
+<div class="Centre_de_Pithiviers__42_rue_du_maréchal_Lecler">
+Verrières le Buisson 91370
+<br>
+70 avenue Gabriel Péri
+<br>
+01 69 53 19 49
+</div>
+<hr>
+<div class="Centre_de_Pithiviers__42_rue_du_maréchal_Lecler">
+Pithiviers 45300
+<br>
+Centre de formations
+<br>
+11 passage des Halles
+<br>
+02 38 30 3000
+</div>
+<hr>
+<div class="Centre_de_Pithiviers__42_rue_du_maréchal_Lecler">
+Bureau accueil Auto Ecole
+<br>
+43 rue Amiral Gourdon
+<br>
+02 38 30 3000
+</div>
+ <hr>
+<div class="Centre_de_Pithiviers__42_rue_du_maréchal_Lecler">
+Neuville aux Bois 45170
+<br>
+15 rue Pierre Lebrun
+<br>
+02 38 91 00 00
+</div>
+ <hr>
+<div class="Centre_de_Pithiviers__42_rue_du_maréchal_Lecler">
+Fleury les Aubrais 45400
+<br>
+45 rue Jean Jaurès
+<br>
+02 38 49 00 00 
+</div>
+<hr>
+		</div>
             <div class="col-md-8"> <div id="map-canvas">
         <span id="map-input">
              42 rue du maréchal Leclerc <br>92345

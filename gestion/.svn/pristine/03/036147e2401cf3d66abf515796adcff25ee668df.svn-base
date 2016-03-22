@@ -1,7 +1,0 @@
-<?php
-/**
- * @file
- * Code for the Ecofolio rule bloc cxm feature.
- */
-
-include_once 'ecofolio_rule_bloc_cxm.features.inc';

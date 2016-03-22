@@ -1,5 +1,0 @@
-name = "Administration des utilisateurs"
-description = "Administration des utilisateurs de l'extranet"
-version = "7.1.0"
-core = "7.x"
-package = "OPCAIM"

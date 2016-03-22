@@ -1,4 +1,0 @@
-name = Ecofolio Newsletters Export
-description = Module to manage newsletters exports
-core = 7.x
-package = Ecofolio

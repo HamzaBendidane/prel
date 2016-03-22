@@ -45,3 +45,19 @@
     margin-right: auto;
     padding-left: 0 !important;
 }
+.form-item.form-type-textfield > label {
+    width: 22%;
+}
+.form-item > label {
+    width: 22%;
+}
+.form-group {
+    padding-top: 5px;
+}
+.error {
+    border-color: #dd4b39;
+    box-shadow: none;
+}
+.control-label {
+    color: #dd4b39;
+}

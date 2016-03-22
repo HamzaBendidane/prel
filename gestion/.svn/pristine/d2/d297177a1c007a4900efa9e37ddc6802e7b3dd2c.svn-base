@@ -1,7 +1,0 @@
-<?php
-/**
- * @file
- * Code for the Ecofolio image styles feature.
- */
-
-include_once 'ecofolio_image_styles.features.inc';

@@ -1,3 +1,0 @@
-name = MessageBusiness
-description = Synchronise les souscriptions à la newsletter (via Simplenews) à MessageBusiness.
-core = 7.x

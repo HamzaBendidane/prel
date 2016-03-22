@@ -16,8 +16,6 @@ class view_hardis extends list_common{
         $token = new tools_token_token();
         $str = $token->createToken(1);
 
-       // tools_assertion_value::assertRange(1,3,4);
-
         return array("page" => current_path().' '.request_path().' '.request_uri() .' '.$test.' '.$decript.' '.$token->createToken(1));
     }
 }

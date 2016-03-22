@@ -25,7 +25,7 @@ function opcaim_select($variables) {
         _form_set_class($divelement, array('errorCustomSelect'));
     }
 
-    return '<div' . drupal_attributes($divelement ['#attributes']) .'><select' . drupal_attributes($element ['#attributes']) . '>' . form_select_options($element) . '</select></div>';
+    return '<select' . drupal_attributes($element ['#attributes']) . '>' . form_select_options($element) . '</select>';
 }
 
 function opcaim_form_element($variables) {
@@ -52,8 +52,7 @@ function opcaim_form_element($variables) {
     // Add a class for disabled elements to facilitate cross-browser styling.
     if (!empty($element ['#attributes']['disabled'])) {
         $attributes ['class'][] = 'form-disabled';
-    }
-    $output = '<div' . drupal_attributes($attributes) . '>' . "\n";
+    }$output = '<div' . drupal_attributes($attributes) . '>' . "\n";
 
     // If #title is not set, we don't display any label or required marker.
     if (!isset($element ['#title'])) {
@@ -85,7 +84,8 @@ function opcaim_form_element($variables) {
         $output .= '<div class="description">' . $element ['#description'] . "</div>\n";
     }
 
-    $errors = form_get_errors();
+
+  $errors = form_get_errors();
 
     if (isset($variables['element']['#name']) && $errors) {
         if ($variables['element']['#type'] !== 'radio') {
@@ -98,7 +98,7 @@ function opcaim_form_element($variables) {
                 } else {
                     $class = 'messages-inline';
                 }
-                $output .= '<div class="'.$class.'">' . $errors[$variables['element']['#name']] . '</div>';
+                $output .= '<div class="control-label">' . $errors[$variables['element']['#name']] . '</div>';
 
             }
         }

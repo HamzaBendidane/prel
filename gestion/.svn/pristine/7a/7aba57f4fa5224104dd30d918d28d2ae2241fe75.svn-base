@@ -1,5 +1,0 @@
-<?php foreach ($items as $delta => $item){ ?>
-<div class="field field-liens-supplementaire">
-<img src="/sites/all/themes/opcaim/images/lien-aide_en_ligne.png" />
-<?php print render($item); ?></div>
-<?php } ?>

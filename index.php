@@ -37,32 +37,32 @@
                 </a>
                 <a href="acces.php">
                     <img class="img-responsive img-left" src="images/prelude-2_07.gif" alt="">
-                    <div class="text-reposnsive">PARIS</div>
+                    <div class="text-reposnsive-prov">Province</div>
                 </a>
             </div>
         </div>
         <div class="divider-small"></div>
         <div class="row">
             <div class="col-xs-3 portfolio-item">
-                <a href="#">
+                <a href="/stages.php?id=20">
                     <img class="img-responsive" src="images/prelude-2_12.gif" alt="">
                     <div class="text-reposnsive">Code de la route</div>
                 </a>
             </div>
             <div class="col-xs-3 portfolio-item">
-                <a href="#">
+                <a href="/stages.php?id=14">
                     <img class="img-responsive" src="images/prelude-2_14.gif" alt="">
                     <div class="text-reposnsive">Voiture</div>
                 </a>
             </div>
             <div class="col-xs-3 portfolio-item">
-                <a href="#">
+                <a href="/stages.php?id=13">
                     <img class="img-responsive" src="images/prelude-2_16.gif" alt="">
                     <div class="text-reposnsive">moto</div>
                 </a>
             </div>
             <div class="col-xs-3 portfolio-item">
-                <a href="#">
+                <a href="/stages.php?id=4">
                     <img class="img-responsive" src="images/prelude-2_18.gif" alt="">
                     <div class="text-reposnsive">ECO-CONDUITE</div>
                 </a>
@@ -72,20 +72,20 @@
     <!-- Projects Row -->
     <div class="row">
         <div class="col-xs-3 portfolio-item">
-            <a href="#">
+            <a href="/stages.php?id=19">
                 <img class="img-responsive" src="images/prelude-2_25.gif" alt="">
                 <div class="text-reposnsive">permis à 1 euro
                     par jour</div>
             </a>
         </div>
         <div class="col-xs-3 portfolio-item">
-            <a href="#">
+            <a href="/stages.php?id=5">
                 <img class="img-responsive" src="images/prelude-2_27.gif" alt="">
                 <div class="text-reposnsive">stage de récupérationde points</div>
             </a>
         </div>
         <div class="col-xs-3 portfolio-item">
-            <a href="#">
+            <a href="/stages.php?id=6">
                 <img class="img-responsive" src="images/prelude-2_28.gif" alt="">
                 <div class="text-reposnsive">retrait de permis</div>
             </a>

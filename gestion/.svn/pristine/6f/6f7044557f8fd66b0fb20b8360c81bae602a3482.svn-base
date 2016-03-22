@@ -1,6 +1,0 @@
-<!--course made with elearning_maker e-doceo--><HTML><HEAD><TITLE>player e-doceo</TITLE><META http-equiv="Content-Type"content="text/html; charset=UTF-8"><SCRIPT LANGUAGE="VBScript"><!--
-Sub player_FSCommand(ByVal command,ByVal args)
-call doFSCommand(command,args)
-end sub</SCRIPT><SCRIPT type="text/javascript">var nWidth=(screen.width>800)?screen.availWidth:screen.width;var nHeight=(screen.height>600)?screen.availHeight:screen.height;if(top==window){window.resizeTo(nWidth,nHeight);}
-function player_sendAPILoaded(){}
-function player_DoFSCommand(command,args){doFSCommand(command,args);}</SCRIPT><SCRIPT language="javascript"src="flash.js"></SCRIPT><SCRIPT language="javascript"src="APIWrapper.js"></SCRIPT></HEAD><BODY bgColor="#FFFFFF"MARGINWIDTH="0"LEFTMARGIN="0"MARGINHEIGHT="0"TOPMARGIN="0"onbeforeunload="javascript:doQuit();"style="overflow:hidden;"><SCRIPT language='javascript'>doStart("#FFFFFF","100%","100%","0");</SCRIPT></BODY></HTML>

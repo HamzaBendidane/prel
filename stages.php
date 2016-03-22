@@ -16,79 +16,64 @@
 <!-- Wrap all page content here -->
 <div id="wrap">
 
-    <?php include("header.php"); ?>
+  <?php include("header.php"); ?>
+    <?php
 
+    $contenu = new db_contenu();
+
+    $data = $contenu->get_by_id($_GET['id']);
+    $data = array_pop($data);
+
+    ?>
+
+    <div class="container middle text-center">
+        <div class="col-sm-10 col-sm-offset-1">
+            <div class="page-header text-center">
+                <h1><?php print trom($data['titre'])?></h1>
+            </div>
+
+        </div>
+    </div>
+    <div class="row bg-stg-13 link-stage middle text-center">
+            <?php print trom($data['bloc_g'])?>
+
+    </div>
+    <div class="container middle">
+        <div class="col-sm-10 col-sm-offset-1 ">
+                <?php print trom($data['bloc_c'])?>
+        </div>
+    </div>
     <!-- Projects Row -->
     <div class="row">
-        <div class="col-md-4 prod-1 page-prod">
-            <div class="divider-small-p"></div>
-            <div class="Permis_voiture_classique">Permis voiture classique</div>
-            <div class="divider-small"></div>
+        <div class="col-md-4 prod-1 page-prod text-center">
+            <div class="divider-small-ps"></div>
+            <h2>MODALITES DE PAYEMENT</h2>
+
             <hr class="divider-small-p-hr">
-            <div class="Le_permis_de_conduire_est_une_véritable_formati">
-                <p>
-                Le permis de conduire est une véritable formation, qui demande de l'investissement personnel et de la disponibilité, bref du sérieux. Devenir titulaire du permis de conduire permet d'accéder à la mobilité tant recherchée mais il engage votre responsablité pour assurer votre sécurité et celle des autres usagers de la route.
-                    <br><br><br>
-                    <span class = "Le_permis_de_conduire_est_une_véritable">             Voir aussi :
-                    <br><br>
-Conduite accompagnée
-                    <br><br>
-Conduite anticipée</p></span>
 
-            </div>
+            <?php print trom($data['bloc_m'])?>
         </div>
-        <div class="col-md-5  prod-2 page-prod">
+        <div class="col-md-4  prod-2 page-prod text-center">
+            <div class="divider-small-ps"></div>
+
+                <h2>PLANNING DES HORRAIRES DE CONDUITE</h2>
+
+                <hr class="divider-small-p-hr-bl">
+
+                <?php print trom($data['bloc_d'])?>
+
+        </div>
+        <a  href="inscription.php?id=<?php print trom($data['id'])?>">
+        <div class="col-md-4 page-prod prod-3">
             <div class="divider-small-p"></div>
 
-                <div class="Notre_formation_comprend">Notre formation comprend :</div>
-
-                <div class="divider-small"></div>
-
-                <hr class="divider-small-p-hr">
-
-                <div class="Notre-color">
-
-                    -Évaluation (obligatoire)
-                    -Frais de constitution de dossier
-                    -Démarches en préfecture
-                    tests de code et cours avec formateur (pendant 6 mois)
-                    avec boîtier et carte de suivi personnel
-                    -20 heures de conduite voiture particulière
-                    -Ecoute pédagogique illimitée et gratuite
-
-                    Fournitures pédagogiques :
-
-                    -Un livret de code
-                    -Un livret d’interrogation orale
-
-                    Frais d’examens (1 passage) :
-
-                    Théorique (code)
-                    Circulation (conduite)
-                    -Examen blanc pratique
-                    -Assurance tous risques examen.
-            </div>
-        </div>
-        <div class="col-md-3 page-prod prod-3">
-            <div class="divider-small-p"></div>
-            <div class="Permis_voiture_classique">
-                Horaires des cours :
-
-<br><br>
-                du lundi au jeudi :
-                <br><br>
-                de 09h à 18h
-                <br><br>
-                le vendredi et le smaedi :
-                <br><br>
-                de 10h à 19h
-            </div>
             <div class="divider-small-p"></div>
             <div class="center bg-ico">
-            <a  class ="btn-inscription" href="inscription.php">S'INSCRIRE</a>
+
             </div>
 
         </div>
+        </a>
     </div>
     <!-- /.row -->
     <!-- script references -->

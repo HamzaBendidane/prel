@@ -335,7 +335,6 @@ function drupal_build_form($form_id, &$form_state) {
   if ($check_cache) {
     $form = form_get_cache($form_state['input']['form_build_id'], $form_state);
   }
-
   // If the previous bit of code didn't result in a populated $form object, we
   // are hitting the form for the first time and we need to build it from
   // scratch.
@@ -346,7 +345,6 @@ function drupal_build_form($form_id, &$form_state) {
     if ($check_cache) {
       $form_state_before_retrieval = $form_state;
     }
-
     $form = drupal_retrieve_form($form_id, $form_state);
     drupal_prepare_form($form_id, $form, $form_state);
 
@@ -364,11 +362,9 @@ function drupal_build_form($form_id, &$form_state) {
     //   not desired.
     // - temporary: Any assigned data is expected to survives within the same
     //   page request.
-    if ($check_cache) {
       $uncacheable_keys = array_flip(array_diff(form_state_keys_no_cache(), array('always_process', 'temporary')));
       $form_state = array_diff_key($form_state, $uncacheable_keys);
       $form_state += $form_state_before_retrieval;
-    }
   }
 
   // Now that we have a constructed form, process it. This is where:

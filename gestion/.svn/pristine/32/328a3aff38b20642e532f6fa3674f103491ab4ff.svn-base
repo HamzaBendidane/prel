@@ -1,7 +1,0 @@
-<?php
-/**
- * @file
- * Code for the Ecofolio Diaporama Univers feature.
- */
-
-include_once 'ecofolio_slider_homeunivers.features.inc';

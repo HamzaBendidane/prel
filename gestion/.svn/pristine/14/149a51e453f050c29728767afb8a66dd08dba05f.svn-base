@@ -1,9 +1,0 @@
-name = Ecofolio Manage Médiathèque Content
-description = Module to manage the mediatheque content.
-core = 7.x
-package = Ecofolio
-dependencies[] = "colorbox"
-dependencies[] = "colorbox_node"
-dependencies[] = "schema"
-
-files[] = ecofolio_manage_mediatheque.module

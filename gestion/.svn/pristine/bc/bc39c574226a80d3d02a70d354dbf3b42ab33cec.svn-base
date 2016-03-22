@@ -1,7 +1,0 @@
-<?php
-/**
- * @file
- * Code for the Opcaim info-bulles feature.
- */
-
-include_once 'opcaim_info_bulles.features.inc';

@@ -1,5 +1,0 @@
-; $Id: example.info,v 1.0.0.0 2013/07/17 10:42:00 WAMI Exp $
-name = "Ecofolio Annonces Custom"
-description = "Ecofolio Annonces Custom"
-core = "7.x"
-package = "Ecofolio"

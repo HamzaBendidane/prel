@@ -1,7 +1,0 @@
-<?php
-/**
- * @file
- * Code for the Ecofolio Webforms feature.
- */
-
-include_once 'ecofolio_webforms.features.inc';

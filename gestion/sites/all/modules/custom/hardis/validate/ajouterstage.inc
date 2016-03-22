@@ -4,7 +4,7 @@
  * @param $form
  * @param $form_state
  */
-function ajouterstage_validate($form, &$form_state){
+function creation_form_validate_stage($form, &$form_state){
     print("validate");
 }
 

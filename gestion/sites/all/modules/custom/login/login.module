@@ -121,14 +121,22 @@ function login_view() {
     } else if ($_POST['form_id'] === 'login_password_forgot_form') {
       password_forgot();
     }
-//     else if ($_POST['form_id'] === 'login_follow_form') {
-//       follow_login();
-//     }
-
   }
+$form = drupal_get_form('login_form');
 
+  $form['username']['#title'] = "";
+  $form['username']['#attributes']['class'] = array("form-control");
+  $form['username']['#attributes']['placeholder'] = 'Votre compte';
+
+  $form['password']['#title'] = "";
+  $form['password']['#attributes']['class'] = array("form-control");
+  $form['password']['#attributes']['placeholder'] = 'Votre mot de passe';
+
+
+  $form['submit']['#title'] = "";
+  $form['submit']['#attributes']['class'] = array("btn btn-primary btn-block btn-flat");
   $variables =  array(
-    'login_form' => drupal_get_form('login_form'),
+    'login_form' => $form,
     'login_password_forgot_form' => drupal_get_form('login_password_forgot_form'),
 //     'login_follow_form' => drupal_get_form('login_follow_form')
   );
@@ -164,3 +172,12 @@ function login_user_presave(&$edit, $account, $category) {
     $edit['data']['extranet_user']->entreprises = $edit['extranet_user']['entreprises'];
   }
 }
+
+function login_custom_theme() {
+    // Allow the user to request a particular theme via a query parameter.
+        return 'opcaim';
+}
+
+
+
+

@@ -31,6 +31,7 @@ class list_common{
             'quantity' => 10,
             'empty' =>  'Text empty' ,
             'sticky' => false,
+            'attributes' => array('class' => 'table table-hover')
         ));
         return array('page' => $page,'form'=> $form);
     }

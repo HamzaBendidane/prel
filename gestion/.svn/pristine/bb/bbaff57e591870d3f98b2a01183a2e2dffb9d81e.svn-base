@@ -1,5 +1,0 @@
-<div id="blocs-rem" class="clearfix" style="clear:both">
-	<?php foreach ($blocs as $key => $bloc): ?>
-		<?php print render($bloc); ?>
-	<?php endforeach; ?>
-</div>

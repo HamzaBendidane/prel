@@ -17,7 +17,19 @@
 <div id="wrap">
 
     <?php include("header.php"); ?>
+    <?php
 
+
+
+    $dbContenu = new db_contenu();
+
+    $contenu = $dbContenu->get_by_id($_SESSION['stage']);
+    $contenu = array_pop($contenu);
+
+    $stages = new db_stage();
+    $stages = $stages->get_by_fields(array('id_contenu' => $contenu['id']));
+
+    ?>
     <!-- Projects Row -->
     <div class="row bg-ctIn">
 
@@ -36,62 +48,89 @@
             <div class="col-xs-3"><div class="step"></div></div>
         </div>
         <div class="row bar-title2">
-            <h2> Permis</h2>
+            <h2><?php print $contenu['titre'] ?></h2>
         </div>
     </div>
 
     <div class="large center">
 
-    <div class="col-md-4">
+    <div class="col-md-3">
     <div class="permis">
     <div class="permis-bas center">
 
         <div class="connexion-haut">
-Type de formation
-
+            Type de formation
         </div>
         <div class="permis-form">
-            <form method="post" action="index.html">
+            <form method="post" action="confirmation.php">
 
                 <div class="row input center cent">
-                    <INPUT type= "radio" name="tarif" value="formation"><h2>FORMATION</h2>
 
+                    <?php
+                    if ($contenu['type'] == 1 ){
+                    ?>
+                    <h2>FORMATION</h2>
+                    <?php
+                    }else{
+                    ?>
+                     <h2>STAGE</h2>
+                    <?php
+                    }
+                    ?>
                 </div>
-                <div class="divider-small-p"></div>
-                <div class="row input center cent">
-                <INPUT type= "radio" name="tarif" value="stage"><h2>STAGE</h2>
-                </div>
+
         </div>
-
-
-            </a>
-
     </div>
     </div>
     </div>
 
-    <div class="col-md-4">
+
+    <div class="col-md-6">
         <div class="permis">
             <div class="permis-bas center">
 
-                <div class="connexion-haut">
-                    Formation
+                <div class="connexion-haut">Formation
                 </div>
                 <div class="permis-form">
-                    <form method="post" action="index.html">
+<div>
+    <?php
+    if (is_array($stages) && count($stages)){
+    ?>
+                    <table width="95%" cellspacing="0" cellpadding="0" border="1" class="front-stagetable">
+                        <tbody><tr class="stagetable-header">
+                            <td width="200" align="center"><b>Dates des stages</b></td>
+                            <td align="center"><b>Inscription</b></td>
+                            <td align="center"><b>Adresse de formation</b></td>
+                        </tr>
 
-                        <div class="row input center cent">
-                          <h2>FORMATION</h2>
-                        </div>
-                        <div class="divider-small-p"></div>
-                        <div class="row input center cent">
-                            <select name="carlist" form="carform">
-                                <option value="volvo">Volvo</option>
-                                <option value="saab">Saab</option>
-                                <option value="opel">Opel</option>
-                                <option value="audi">Audi</option>
-                            </select>
-                        </div>
+                        <?php
+                         foreach ($stages as $value) {
+                             $dblieu = new db_lieu();
+                             $lieu = $dblieu->get_by_id($value['id_lieu']);
+                             $lieu = array_pop($lieu);
+                             ?>
+                             <tr class="stagetable-line1">
+                                 <td align="left">
+                                     <span style="font-size:11px;"><?php print $value['premier_jour_stage']?></span><br><span class="stageprix">Prix : <?php print $value['tarif_reference']?> €</span></td>
+                                 <td align="center" class="complet centercol" width="30%">
+                                     <form action="confirmation.php" method="post" name="formulaire">
+                                         <input type="hidden" value="<?php print $value['id'] ?>" name="id_stage">
+                                         <input type="submit" class = 'btn-xxx'
+                                                onfocus="this.blur();" value="Inscription"
+                                                class="submitbuttonlisteattente" name="submit">
+                                     </form>
+                                 </td>
+                                 <td align="center"><b><?php print $lieu['libelle']?></b><br><?php print $lieu['adresse']?> <?php print $lieu['code_postal']?> <?php print $lieu['ville']?>
+                                 </td>
+                             </tr>
+                         <?php
+                         }
+                        ?>
+                        </tbody></table>
+    <?php
+    }
+    ?>
+</div>
                 </div>
 
 
@@ -100,41 +139,34 @@ Type de formation
             </div>
         </div>
     </div>
-    <div class="col-md-4">
-        <div class="permis">
-            <div class="permis-bas center">
+        <div class="col-md-3">
+            <div class="permis">
+                <div class="permis-bas center">
 
-                <div class="connexion-haut">
+                    <div class="connexion-haut">
 
-Modalités
+                        Modalités
+                    </div>
+                    <div class="permis-form">
+                        <form method="post" action="index.html">
+
+                            <div class="divider-small-p"></div>
+                            <?php
+                            if ($contenu['bloc_m'] == 1 ){
+                                ?>
+                                <h2>FORMATION</h2>
+                            <?php
+                            }
+                            ?>
+                    </div>
+
+
+                    </a>
+
                 </div>
-                <div class="permis-form">
-                    <form method="post" action="index.html">
-
-                        <div class="row input center cent">
-                          <h2>Modalités</h2>
-                        </div>
-                        <div class="divider-small-p"></div>
-                        <div class="row input center cent">
-                            <select name="carlist" form="carform">
-                                <option value="volvo">Volvo</option>
-                                <option value="saab">Saab</option>
-                                <option value="opel">Opel</option>
-                                <option value="audi">Audi</option>
-                            </select>
-                        </div>
-                </div>
-
-
-                </a>
-
             </div>
         </div>
-    </div>
         <br><br><br>
-    <div class="row input center">
-        <p class="submit"><input class ="btn-xxx"type="submit" name="commit" value="VALIDER"></p>
-    </div>
     </div>
 </div>
 

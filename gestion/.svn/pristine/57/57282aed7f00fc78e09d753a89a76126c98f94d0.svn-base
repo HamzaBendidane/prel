@@ -1,7 +1,0 @@
-<?php
-/**
- * @file
- * Code for the Ecofolio Homeunivers feature.
- */
-
-include_once 'ecofolio_homeunivers.features.inc';

@@ -1,6 +1,0 @@
-name = Ecofolio Custom Forms
-description = Customisation des formulaires d'écofolio
-core = 7.x
-package = Ecofolio
-
-files[] = ecofolio_custom_forms.module

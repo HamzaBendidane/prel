@@ -1,5 +1,0 @@
-alter table temp_dgf_form_formation
-add id_type_qualification int;
-
-alter table dgf_form_formation
-add t_type_qualification nvarchar(max);

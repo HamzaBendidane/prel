@@ -47,7 +47,7 @@ function shared_tokens($type, $tokens, array $data = array(), array $options = a
   
   if(isset($_POST['email']) && ($user_info == '') ) {
     $user = user_load_by_mail($_POST['email']);
-    $user_info_table = (shared_users_verify_get_infos($user->uid));
+   // $user_info_table = (shared_users_verify_get_infos($user->uid));
     $user_info = $user_info_table[0];
   }
   

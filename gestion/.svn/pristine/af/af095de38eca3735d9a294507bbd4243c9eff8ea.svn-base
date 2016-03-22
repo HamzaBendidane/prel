@@ -1,8 +1,0 @@
-.page-annonces {
-
-    .view.annonces {
-        position: relative;
-        padding: 70px 0 0 70px;
-    }
-
-}

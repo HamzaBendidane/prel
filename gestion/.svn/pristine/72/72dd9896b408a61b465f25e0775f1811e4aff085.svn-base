@@ -1,6 +1,0 @@
-name = Ecofolio Menus Custom
-description = Module to manage the sidebar-first menus output.
-core = 7.x
-package = Ecofolio
-
-files[] = ecofolio_menus_custom.module

@@ -35,9 +35,8 @@ function shared_validate_date($date, $format = 'd/m/Y') {
 function element_shared_date_validate($element, &$form_state){
     $value = $element ['#value'];
     $aDate = explode("/",$value);
-
-    if (count($aDate)!= 3 || !checkdate($aDate[1], $aDate[0], $aDate[2])) {
-        form_error($element, t('@name doit être une date.', array('@name' => $element ['#title'])));
+    if ($value && (count($aDate)!= 3 || !checkdate($aDate[1], $aDate[0], $aDate[2]))) {
+        form_error($element, t('@name doit être une date.', array('@name' => $element['#attributes']['placeholder'])));
     }
 }
 
@@ -68,7 +67,7 @@ function element_shared_password_validate($element, &$form_state) {
 function element_shared_not_empty_validate($element, &$form_state){
     $value = $element ['#value'];
     if ($value == '') {
-        form_error($element, t('Le champ @name est obligatoire.', array('@name' => $element ['#title'])));
+        form_error($element, t('Le champ @name est obligatoire.', array('@name' => $element['#attributes']['placeholder'])));
     }
 }
 
@@ -106,6 +105,7 @@ function element_shared_not_numeric_validate($element, &$form_state){
  * @param unknown $form_state
  */
 function element_shared_code_postal($element, &$form_state){
+
     $value = $element ['#value'];
     if (!preg_match('/^(BP)?[0-9]{5,5}$/', $value)) {
         form_error($element, t('Le code postal doit être composé ainsi : 75001 ou BP90123. '));
@@ -120,9 +120,23 @@ function element_shared_code_postal($element, &$form_state){
  * @param unknown $form_state
  */
 function element_shared_telephone($element, &$form_state){
+
     $value = $element ['#value'];
-    if (!preg_match('/^0[1-68][0-9]{8}$/', $value)) {
-        form_set_error($element['#name'], t('Le champ téléphone doit être un nombre valide.'));
+    if ($value && !preg_match('/^0[1-68][0-9]{8}$/', $value)) {
+        form_set_error($element['#attributes']['placeholder'], t('Le champ téléphone doit être un nombre valide.'));
     }
+
+}
+/**
+ * @author HBEN
+ * Valider que le champ n'est pas vide
+ * @param unknown $element
+ * @param unknown $form_state
+ */
+function element_shared_mail($element, &$form_state){
+  $value = $element ['#value'];
+  if (!valid_email_address($value )) {
+    form_set_error($element['#attributes']['placeholder'], t('Le champ Email doit être un nombre valide.'));
+  }
 
 }

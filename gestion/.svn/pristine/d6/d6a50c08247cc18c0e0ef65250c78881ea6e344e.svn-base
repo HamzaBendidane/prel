@@ -1,7 +1,0 @@
-<?php
-//---------------------------------------------------------------------
-// Liste des constantes des messages d'erreurs standards du formulaire
-//---------------------------------------------------------------------
-
-define('ERR_MODE_ENVOI', 'Le champ Mode d\'envoi est obligatoire.');
-define('ERR_SLT_CONTACT', 'Le champ Destinataire est obligatoire');

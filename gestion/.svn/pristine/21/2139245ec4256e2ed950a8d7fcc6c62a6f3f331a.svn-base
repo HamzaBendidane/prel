@@ -1,1 +1,0 @@
-ALTER TABLE [dbo].[temp_dgf_form_salarie] ALTER COLUMN [id_ref_esclave_salarie] char(25) NULL

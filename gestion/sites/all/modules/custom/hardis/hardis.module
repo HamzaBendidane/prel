@@ -3,14 +3,14 @@
  * initialise le module hardis
  */
 function hardis_bootstrap(){
-    return array('ajouterlieu_form');
+    return array('stagiaires_list','voirstage_form','ajouterlieu_form','lieux_list','ajouterstage_form','stages_list','animateurs_list','ajouteranimateurs_form','inscrirestagiaire_form','dashbord_view','contenu_list','ajoutercontenu_form');
 }
 /**
  * Access callback
  * @return bool
  */
 function _hardis_access_callback() {
-  return true;
+  return user_access(3);
 }
 /**
  * Implements hook_menu().
@@ -27,7 +27,16 @@ function hardis_menu() {
         'file' => 'hardis_controller.inc',
         'type' => MENU_NORMAL_ITEM,
     );
-    $items['ajouter_stage_form'] = array(
+  $items['dashbord'] = array(
+    'title' => t('Liste des stages'),
+    'page callback' => 'common_view',
+    'page arguments' => array('view','dashbord'),
+    'access callback' => '_hardis_access_callback',
+    'file' => 'hardis_controller.inc',
+    'type' => MENU_NORMAL_ITEM,
+      'theme callback' => 'hardis_custom_theme',
+  );
+    $items['ajouterstage'] = array(
         'title' => t('Ajouter des stages'),
         'page callback' => 'common_view',
         'page arguments' => array('form','ajouterstage'),
@@ -52,6 +61,23 @@ function hardis_menu() {
         'file' => 'hardis_controller.inc',
         'type' => MENU_NORMAL_ITEM,
     );
+
+  $items['ajoutercontenu'] = array(
+    'title' => t('Ajouter des stages'),
+    'page callback' => 'common_view',
+    'page arguments' => array('form','ajoutercontenu'),
+    'access callback' => '_hardis_access_callback',
+    'file' => 'hardis_controller.inc',
+    'type' => MENU_NORMAL_ITEM,
+  );
+    $items['contenulist'] = array(
+      'title' => t('Liste des cotenus'),
+      'page callback' => 'common_view',
+      'page arguments' => array('list','contenu'),
+      'access callback' => '_hardis_access_callback',
+      'file' => 'hardis_controller.inc',
+      'type' => MENU_NORMAL_ITEM,
+    );
     $items['prospects_list'] = array(
         'title' => t('Gestion des propects'),
         'page callback' => 'common_view',
@@ -61,9 +87,9 @@ function hardis_menu() {
         'type' => MENU_NORMAL_ITEM,
     );
     $items['lieux_list'] = array(
-        'title' => t('Gestion des tarifs'),
+        'title' => t('Gestion des lieux'),
         'page callback' => 'common_view',
-        'page arguments' => array('list','tarifs'),
+        'page arguments' => array('list','lieux'),
         'access callback' => '_hardis_access_callback',
         'file' => 'hardis_controller.inc',
         'type' => MENU_NORMAL_ITEM,
@@ -77,7 +103,32 @@ function hardis_menu() {
         'type' => MENU_NORMAL_ITEM,
     );
 
-    $items['animateurs_list'] = array(
+    $items['dellieu'] = array(
+      'title' => t('Ajouter un lieu'),
+      'page callback' => 'common_callback',
+      'page arguments' => array('call','delete_lieu'),
+      'access callback' => '_hardis_access_callback',
+      'file' => 'hardis_controller.inc',
+      'type' => MENU_NORMAL_ITEM,
+    );
+    $items['delstage'] = array(
+      'title' => t('Ajouter un lieu'),
+      'page callback' => 'common_callback',
+      'page arguments' => array('call','delete_stage'),
+      'access callback' => '_hardis_access_callback',
+      'file' => 'hardis_controller.inc',
+      'type' => MENU_NORMAL_ITEM,
+    );
+    $items['delanimateur'] = array(
+      'title' => t('Ajouter un lieu'),
+      'page callback' => 'common_callback',
+      'page arguments' => array('call','del_animateur'),
+      'access callback' => '_hardis_access_callback',
+      'file' => 'hardis_controller.inc',
+      'type' => MENU_NORMAL_ITEM,
+    );
+
+    $items['animateurslist'] = array(
         'title' => t('Liste des animateurs'),
         'page callback' => 'common_view',
         'page arguments' => array('list','animateurs'),
@@ -86,7 +137,7 @@ function hardis_menu() {
         'type' => MENU_NORMAL_ITEM,
     );
 
-    $items['ajouteranimateur_list'] = array(
+    $items['ajouteranimateur'] = array(
         'title' => t('Ajouter un animateur'),
         'page callback' => 'common_view',
         'page arguments' => array('form','ajouteranimateurs'),
@@ -94,6 +145,24 @@ function hardis_menu() {
         'file' => 'hardis_controller.inc',
         'type' => MENU_NORMAL_ITEM,
     );
+   $items['inscrirestagiaire'] = array(
+     'title' => t('Ajouter un animateur'),
+     'page callback' => 'common_view',
+     'page arguments' => array('form','inscrirestagiaire'),
+     'access callback' => '_hardis_access_callback',
+     'file' => 'hardis_controller.inc',
+     'type' => MENU_NORMAL_ITEM,
+   );
+    $items['voirstage'] = array(
+        'title' => t('Voir un stage'),
+        'page callback' => 'common_view',
+        'page arguments' => array('form','voirstage'),
+        'access callback' => '_hardis_access_callback',
+        'file' => 'hardis_controller.inc',
+        'type' => MENU_NORMAL_ITEM,
+    );
+
+
 
 
     return $items;
@@ -113,8 +182,13 @@ function hardis_theme($existing, $type, $theme, $path)
             'variables' => array(),
             'render element' => 'element',
             'template' => $value,
+
             'path' => drupal_get_path('module', 'hardis') . '/theme',
         );
     }
     return $aReturn;
+}
+function hardis_custom_theme() {
+    // Allow the user to request a particular theme via a query parameter.
+        return 'opcaim';
 }

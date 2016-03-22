@@ -31,8 +31,6 @@ function include_css($view){
     drupal_add_css(drupal_get_path('module', 'hardis' ) . '/css/common.css' );
     drupal_add_css(drupal_get_path('module', 'hardis' ) . '/css/sb-admin.css' );
     drupal_add_css(drupal_get_path('module', 'hardis' ) . '/css/skins/_all-skins.min.css' );
-
-
 }
 
 /**
@@ -67,6 +65,7 @@ function common_view($type,$view) {
             $output = theme($view."_".$type, $variables);
 
             break;
+
     }
     if (@ENV == "dev"){
         $output .= theme('hardis_dev', $_SESSION);
@@ -85,7 +84,10 @@ function common_list($view) {
     $oForm = new $strForm($view);
     return $oForm->display();
 }
-
+function common_callback($type,$view) {
+  include_files('common');
+  call_user_func($view);
+}
 /**
  *  Common Form
  *

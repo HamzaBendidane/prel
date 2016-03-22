@@ -1,5 +1,0 @@
-name = "Visualisation d'une demande"
-description = "Module qui permet de visualiser une demande"
-version = "7.1.0"
-core = "7.x"
-package = "OPCAIM"

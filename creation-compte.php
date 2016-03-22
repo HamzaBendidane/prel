@@ -16,7 +16,10 @@
 <!-- Wrap all page content here -->
 <div id="wrap">
 
-    <?php include("header.php"); ?>
+    <?php include("header.php");
+        module_load_include('inc', 'login','inscription');
+        $form = drupal_get_form('inscription_form');
+    ?>
 
     <!-- Projects Row -->
     <div class="row bg-ctIn">
@@ -36,55 +39,83 @@
             <div class="col-xs-3"><div class="step"></div></div>
         </div>
         <div class="row bar-title2">
-            <h2> Création de compte</h2>
+            <h2> Mon compte</h2>
         </div>
+        <?php
+        if ($_GET['ok']){
+        ?>
+        <div class="row bar-title2">
+            <h2> Mon Modification a été prise en compte</h2>
+        </div>
+        <?php
+        }
+        ?>
     </div>
-    <form method="post" action="permis.php" class="conn-form">
 
+    <?php
+    $errors = form_get_errors();
+    foreach($errors as $value){
+        ?>
+        <div class="error">
+            <?php print $value ?>
+        </div>
+    <?php
+    }
+    ?>
+        <form id="<?php print $form['#id'] ?>" accept-charset="UTF-8"
+              method="<?php print $form['#method'] ?>" class="conn-form"
+              action="<?php print $form['#action'] ?>">
         <div class="row">
             <div class="col-md-1"><h3>VOUS</h3></div>
-            <div class="col-md-3"> <p><input type="text" name="login" value="" placeholder="IDENTIFIANT"></p></div>
-            <div class="col-md-3"> <p><input type="text" name="login" value="" placeholder="IDENTIFIANT"></p></div>
-            <div class="col-md-3"> <p><input type="text" name="login" value="" placeholder="IDENTIFIANT"></p></div>
+            <div class="col-md-3"> <p> <?php print drupal_render($form['civilite']);?></p></div>
+            <div class="col-md-3"> <p><?php print drupal_render($form['prenom']);;?></p></div>
+            <div class="col-md-3"> <p><?php print drupal_render($form['nom']);?></p></div>
 
         </div>
         <div class="divider-small-pp"></div>
         <div class="row">
             <div class="col-md-1"></div>
-            <div class="col-md-3"> <p><input type="text" name="login" value="" placeholder="IDENTIFIANT"></p></div>
-            <div class="col-md-3"> <p><input type="text" name="login" value="" placeholder="IDENTIFIANT"></p></div>
-            <div class="col-md-3"> <p><input type="text" name="login" value="" placeholder="IDENTIFIANT"></p></div>
+            <div class="col-md-3"> <p><?php print drupal_render($form['ne_le']);;?></p></div>
+            <div class="col-md-3"> <p><?php print drupal_render($form['ne_a']);;?></p></div>
 
         </div>
         <div class="divider-small-pp"></div>
         <div class="row">
             <div class="col-md-1"></div>
-            <div class="col-md-3"> <p><input type="text" name="login" value="" placeholder="IDENTIFIANT"></p></div>
-            <div class="col-md-3"> <p><input type="text" name="login" value="" placeholder="IDENTIFIANT"></p></div>
-            <div class="col-md-3"> <p><input type="text" name="login" value="" placeholder="IDENTIFIANT"></p></div>
+            <div class="col-md-3"> <p><?php print drupal_render($form['adresse']);?></p></div>
+            <div class="col-md-3"> <p> <?php print drupal_render($form['cp']); ?></p></div>
+            <div class="col-md-3"> <p><?php print drupal_render($form['ville']); ?></p></div>
 
+        </div>
+        <div class="divider-small-pp"></div>
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-3"> <p><?php print drupal_render($form['telephone']);;?></p></div>
+            <div class="col-md-3"> <p><?php print drupal_render($form['telephone2']);;?></p></div>
+            <div class="col-md-3"> <p><?php print drupal_render($form['email']);;?></p></div>
         </div>
         <div class="divider-small-p"></div>
         <div class="row">
             <div class="col-md-1"><h3>PERMIS</h3></div>
-            <div class="col-md-3"> <p><input type="text" name="login" value="" placeholder="IDENTIFIANT"></p></div>
-            <div class="col-md-3"> <p><input type="text" name="login" value="" placeholder="IDENTIFIANT"></p></div>
-            <div class="col-md-3"> <p><input type="text" name="login" value="" placeholder="IDENTIFIANT"></p></div>
+            <div class="col-md-3"> <p><?php print drupal_render($form['numero_permis']);?></p></div>
+            <div class="col-md-3"> <p><?php print drupal_render($form['date_delivrance']);?></p></div>
+            <div class="col-md-3"> <p><?php print drupal_render($form['lieu_delivrance']);?></p></div>
 
         </div>
         <div class="divider-small-p"></div>
         <div class="row">
-            <div class="col-md-1"><h3>AUTRE</h3></div>
-            <div class="col-md-3"> <p><input type="text" name="login" value="" placeholder="IDENTIFIANT"></p></div>
-            <div class="col-md-3"> <p><input type="text" name="login" value="" placeholder="IDENTIFIANT"></p></div>
-            <div class="col-md-3"> <p><input type="text" name="login" value="" placeholder="IDENTIFIANT"></p></div>
+            <div class="col-md-1"></div>
+            <div class="col-md-3"> <p><?php print drupal_render($form['date_obtention']);;?></p></div>
+            <div class="col-md-3"> <p><?php print drupal_render($form['points']);?></p></div>
+            <div class="col-md-3"> <p><?php print drupal_render($form['souce_points']);?></p></div>
 
         </div>
         <div class="divider-small-p"></div>
         <div class="row input center">
-            <p class="submit"><input class ="btn-xxx"type="submit" name="commit" value="VALIDER"></p>
+            <p class="submit"><?php print drupal_render($form['submit']);?></p>
         </div>
-    </form>
+            <?php print drupal_render_children($form); ?>
+        </form>
 </div>
 
 
