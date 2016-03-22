@@ -5983,6 +5983,7 @@ function drupal_render(&$elements) {
   }
   // Call the element's #theme function if it is set. Then any children of the
   // element have to be rendered there.
+
   if (isset($elements['#theme'])) {
      $elements['#children'] = theme($elements['#theme'], $elements);
   }

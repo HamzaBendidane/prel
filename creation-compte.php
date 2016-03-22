@@ -54,6 +54,7 @@
 
     <?php
     $errors = form_get_errors();
+var_dump($_SESSION);
     foreach($errors as $value){
         ?>
         <div class="error">
@@ -94,8 +95,14 @@
             <div class="col-md-3"> <p><?php print drupal_render($form['telephone2']);;?></p></div>
             <div class="col-md-3"> <p><?php print drupal_render($form['email']);;?></p></div>
         </div>
-        <div class="divider-small-p"></div>
 
+        <div class="divider-small-p"></div>
+            <div class="row">
+                <div class="col-md-1"><h3>Mot de passe</h3></div>
+                <div class="col-md-3"> <p><?php print drupal_render($form['mdp']);;?></p></div>
+                <div class="col-md-3"> <p><?php print drupal_render($form['mdp_confirm']);;?></p></div>
+
+            </div>
         <div class="row input center">
             <p class="submit"><?php print drupal_render($form['submit']);?></p>
         </div>

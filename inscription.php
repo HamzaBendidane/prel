@@ -77,13 +77,13 @@
 
                 <div class="row input center">
                     <?php
-                    unset($login_form['username']['#theme_wrappers']);
+                    //unset($login_form['username']['#theme_wrappers']);
                     print drupal_render($login_form['username']); ?>
                 </div>
                 <div class="divider-small-ps"></div>
                 <div class="row input center">
                     <?php
-                    unset($login_form['password']['#theme_wrappers']);
+                    //unset($login_form['password']['#theme_wrappers']);
                     print drupal_render($login_form['password']); ?>
                 </div>
                 <div class="divider-small-ps"></div>

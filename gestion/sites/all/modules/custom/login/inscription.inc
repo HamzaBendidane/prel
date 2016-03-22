@@ -9,10 +9,7 @@ function opcaim_form_element($variables) {
         '#title_display' => 'before',
     );
 
-    // Add element #id for #type 'item'.
-    if (isset($element ['#markup']) && !empty($element ['#id'])) {
-        $attributes ['id'] = $element ['#id'];
-    }
+
     // Add element's #type and #name as class to aid with JS/CSS selectors.
     $attributes ['class'] = array('form-item');
     if (!empty($element ['#type'])) {
@@ -182,6 +179,26 @@ function inscription_form($form, &$form_state)
         ),
         '#element_validate' => array('element_shared_not_empty_validate'),
     );
+    $form['mdp'] = array(
+        '#type' => 'textfield',
+        '#title' => t(''),
+        '#attributes' => array(
+            'placeholder' => t(''),
+            'class' => array('form-control'),
+            'placeholder' => t('Mot de passe'),
+        ),
+        '#element_validate' => array('element_shared_not_empty_validate'),
+    );
+    $form['mdp_confirm'] = array(
+        '#type' => 'textfield',
+        '#title' => t(''),
+        '#attributes' => array(
+            'placeholder' => t(''),
+            'class' => array('form-control'),
+            'placeholder' => t('Confirmation Mot de passe'),
+        ),
+        '#element_validate' => array('element_shared_not_empty_validate'),
+    );
 
     $form['telephone'] = array(
         '#type' => 'textfield',
@@ -307,7 +324,9 @@ function inscription_form($form, &$form_state)
     return $form;
 }
 function creation_form_validate_stage_add($form, &$form_state){
-
+    if ($form_state['values']['mdp'] != $form_state['values']['mdp_confirm']){
+        form_error($form['mdp_confirm'],'Mots de passe différents : Merci de saisir le même mot de passe.', 'error');
+    }
 }
 function creation_form_submit_stage_add($form, &$form_state){
 
@@ -351,6 +370,7 @@ function creation_form_submit_stage_add($form, &$form_state){
             'mail' => trim($form_state['values']['email']),
             'init' => trim($form_state['values']['email']),
             'status' => 1,
+            'pass' => $form_state['values']['mdp'],
             'access' => REQUEST_TIME
         );
 
@@ -359,8 +379,7 @@ function creation_form_submit_stage_add($form, &$form_state){
         $id_drupal_user = $account->uid;
         $dataStage['id_drupal_user'] = $id_drupal_user;
         $stagiaire->insert($dataStage);
-        _user_mail_notify('register_no_approval_required', $account);
-
+       // _user_mail_notify('register_no_approval_required', $account);
     }else $stagiaire->update($form_state['values']['id'], $dataStage);
 
     if ($_GET['op']){

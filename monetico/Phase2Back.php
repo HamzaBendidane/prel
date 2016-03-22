@@ -15,9 +15,6 @@
  *
  *****************************************************************************/
 
-//header("Pragma: no-cache");
-//header("Content-type: text/plain");
-
 // =============================================================================================================================================================
 // SECTION INCLUDE :  Cette section ne doit pas être modifié.
 // Attention !! MoneticoPaiement_Config contient la clé, vous devez protéger ce fichier avec tous les mécanismes disponibles dans votre environnement de développement.
@@ -102,11 +99,7 @@ if ($oHmac->computeHmac($phase2back_fields) == strtolower($MoneticoPaiement_brut
 			break;
 
 		case "payetest":
-		    // Paiement accepté sur le serveur de test
-			// Insérez votre code ici (envoi d'email / mise à jour base de données)
-			//
-			// Payment has been accepted on the test server
-			// put your code here (email sending / Database update)
+		    
 			break;
 
 		case "paiement":
