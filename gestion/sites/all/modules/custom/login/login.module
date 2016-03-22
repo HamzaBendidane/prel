@@ -11,35 +11,8 @@ function login_menu() {
       'access callback' => true,
       'type' => MENU_CALLBACK,
   );
-
-  $items['login/modalSubmit'] = array(
-      'title' => t('submit'),
-      'page callback' => 'password_forgot',
-      'file' => 'login_form_submit.inc',
-      'access callback' => true,
-      'type' => MENU_CALLBACK,
-  );
-
   return $items;
 }
-
-
-function login_reset_password_custom_validate($form, &$form_state) {
-  element_shared_password_validate($form['account']['pass'], $form_state);
-}
-
-function login_reset_password_custom_submit($form, &$form_state) {
-  global $user;
-  $edit = array('pass' => $form_state['values']['pass']);
-  $account = user_save($form['#user'], $edit);
-  session_destroy();
-  drupal_set_message('Votre mot de passe a bien été modifié');
-  drupal_goto('mote-passe.php');
-}
-
-
-
-
 
 
 function login_view() {
@@ -59,9 +32,7 @@ function login_view() {
 $form = drupal_get_form('login_form');
 
   $variables =  array(
-    'login_form' => $form,
-    'login_password_forgot_form' => drupal_get_form('login_password_forgot_form'),
-//     'login_follow_form' => drupal_get_form('login_follow_form')
+    'login_form' => $form
   );
 
   $output = theme('custom_login', $variables);

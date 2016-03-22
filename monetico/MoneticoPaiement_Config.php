@@ -10,8 +10,8 @@ define ("MONETICOPAIEMENT_EPTNUMBER", "0385258");
 define ("MONETICOPAIEMENT_VERSION", "3.0");
 define ("MONETICOPAIEMENT_URLSERVER", "https://p.monetico-services.com/test/");
 define ("MONETICOPAIEMENT_COMPANYCODE", "preludeformations");
-define ("MONETICOPAIEMENT_URLOK", "http://cer-prelude.fr/ok.php");
-define ("MONETICOPAIEMENT_URLKO", "http://cer-prelude.fr/nok.php");
+define ("MONETICOPAIEMENT_URLOK", "http://cer-prelude.fr/monetico/Phase2Back.php");
+define ("MONETICOPAIEMENT_URLKO", "http://cer-prelude.fr/monetico/Phase2Back.php");
 
 define ("MONETICOPAIEMENT_CTLHMAC","V4.0.sha1.php--[CtlHmac%s%s]-%s");
 define ("MONETICOPAIEMENT_CTLHMACSTR", "CtlHmac%s%s");

@@ -15,8 +15,8 @@
  *
  *****************************************************************************/
 
-header("Pragma: no-cache");
-header("Content-type: text/plain");
+//header("Pragma: no-cache");
+//header("Content-type: text/plain");
 
 // =============================================================================================================================================================
 // SECTION INCLUDE :  Cette section ne doit pas être modifié.
@@ -110,11 +110,7 @@ if ($oHmac->computeHmac($phase2back_fields) == strtolower($MoneticoPaiement_brut
 			break;
 
 		case "paiement":
-			// Paiement accepté sur le serveur de production
-			// Insérez votre code ici (envoi d'email / mise à jour base de données)
-			//
-			// Payment has been accepted on the productive server
-			// put your code here (email sending / Database update)
+
 			break;
 
 		
