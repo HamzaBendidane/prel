@@ -188,7 +188,4 @@ function hardis_theme($existing, $type, $theme, $path)
     }
     return $aReturn;
 }
-function hardis_custom_theme() {
-    // Allow the user to request a particular theme via a query parameter.
-        return 'opcaim';
-}
+

@@ -95,22 +95,7 @@
             <div class="col-md-3"> <p><?php print drupal_render($form['email']);;?></p></div>
         </div>
         <div class="divider-small-p"></div>
-        <div class="row">
-            <div class="col-md-1"><h3>PERMIS</h3></div>
-            <div class="col-md-3"> <p><?php print drupal_render($form['numero_permis']);?></p></div>
-            <div class="col-md-3"> <p><?php print drupal_render($form['date_delivrance']);?></p></div>
-            <div class="col-md-3"> <p><?php print drupal_render($form['lieu_delivrance']);?></p></div>
 
-        </div>
-        <div class="divider-small-p"></div>
-        <div class="row">
-            <div class="col-md-1"></div>
-            <div class="col-md-3"> <p><?php print drupal_render($form['date_obtention']);;?></p></div>
-            <div class="col-md-3"> <p><?php print drupal_render($form['points']);?></p></div>
-            <div class="col-md-3"> <p><?php print drupal_render($form['souce_points']);?></p></div>
-
-        </div>
-        <div class="divider-small-p"></div>
         <div class="row input center">
             <p class="submit"><?php print drupal_render($form['submit']);?></p>
         </div>

@@ -37,13 +37,29 @@ function login_site_form($form, &$form_state) {
         '#type' => 'submit',
         '#value' => t('CONNEXION'),
         '#attributes' => array('class' => array('btn-xxx')),
-      //  '#validate' => array(''),
         '#submit' => array('check_login_submit'),
     );
 
     return $form;
 }
 
+function password_form_site($form, &$form_state) {
+
+    $form['username'] = array(
+        '#type' => 'textfield',
+        '#title' => t(''),
+        '#attributes' => array('class' => array('form-username'),'placeholder' => 'IDENTIFIANT'),
+    );
+
+    $form['submit'] = array(
+        '#type' => 'submit',
+        '#value' => t('Valider'),
+        '#attributes' => array('class' => array('btn-xxx')),
+        '#submit' => array('password_forgot'),
+    );
+
+    return $form;
+}
 function login_password_forgot_form($form, &$form_state) {
 
   $form['email'] = array(

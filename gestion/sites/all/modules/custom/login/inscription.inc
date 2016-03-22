@@ -80,17 +80,18 @@ function opcaim_form_element($variables) {
 
     return $output;
 }
-function inscription_form($form, &$form_state) {
+function inscription_form($form, &$form_state)
+{
 
     global $user;
 
-    if ($user->uid){
+    if ($user->uid) {
         $stagiaire = new db_stagiaires();
         $stagiaire = $stagiaire->get_by_fields(array('id_drupal_user' => $user->uid));
         $data = array_pop($stagiaire);
     }
 
-    if($data['ne_le']) {
+    if ($data['ne_le']) {
         $date = DateTime::createFromFormat('Y-m-d', $data['ne_le']);
         $data['ne_le'] = $date->format('d/m/Y');
     }
@@ -102,9 +103,9 @@ function inscription_form($form, &$form_state) {
 
     $form['civilite'] = array(
         '#type' => 'select',
-        '#options' => array(1 => "Mr" , 2 => "Mme"),
+        '#options' => array(1 => "Mr", 2 => "Mme"),
         '#default_value' => $data['civilite'],
-        '#attributes' =>array(
+        '#attributes' => array(
             'placeholder' => t('Civilité'),
             'class' => array('form-control')
         ),
@@ -114,7 +115,7 @@ function inscription_form($form, &$form_state) {
         '#type' => 'textfield',
         '#title' => t(''),
         '#default_value' => $data['nom'],
-        '#attributes' =>array(
+        '#attributes' => array(
             'class' => array('form-control'),
             'placeholder' => t('Nom')
         ),
@@ -124,7 +125,7 @@ function inscription_form($form, &$form_state) {
         '#type' => 'textfield',
         '#title' => t(''),
         '#default_value' => $data['prenom'],
-        '#attributes' =>array(
+        '#attributes' => array(
             'class' => array('form-control'),
             'placeholder' => t('Prénom')
         ),
@@ -134,8 +135,8 @@ function inscription_form($form, &$form_state) {
         '#type' => 'textfield',
         '#title' => t(''),
         '#default_value' => $data['ne_le'],
-        '#attributes' =>array(
-            'class' => array('form-control','dateP'),
+        '#attributes' => array(
+            'class' => array('form-control', 'dateP'),
             'placeholder' => 'jj/mm/aaaa',
             'placeholder' => t('Né(e) le'),
         ),
@@ -145,7 +146,7 @@ function inscription_form($form, &$form_state) {
         '#type' => 'textfield',
         '#title' => t(''),
         '#default_value' => $data['heure_fin_matin'],
-        '#attributes' =>array(
+        '#attributes' => array(
             'class' => array('form-control'),
             'placeholder' => t('Né(e) à'),
         ),
@@ -154,16 +155,16 @@ function inscription_form($form, &$form_state) {
         '#type' => 'textfield',
         '#title' => t(''),
         '#default_value' => $data['adresse'],
-        '#attributes' =>array(
+        '#attributes' => array(
             'class' => array('form-control'),
             'placeholder' => t('Adresse'),
         ),
         '#element_validate' => array('element_shared_not_empty_validate'),
     );
     $form['cp'] = array(
-        '#type'     => 'textfield',
-        '#title'    => t(''),
-        '#attributes' =>array(
+        '#type' => 'textfield',
+        '#title' => t(''),
+        '#attributes' => array(
             'class' => array('form-control'),
             'placeholder' => t('Code postal'),
         ),
@@ -174,7 +175,7 @@ function inscription_form($form, &$form_state) {
         '#type' => 'textfield',
         '#title' => t(''),
         '#default_value' => $data['ville'],
-        '#attributes' =>array(
+        '#attributes' => array(
             'placeholder' => t(''),
             'class' => array('form-control'),
             'placeholder' => t('Ville'),
@@ -186,7 +187,7 @@ function inscription_form($form, &$form_state) {
         '#type' => 'textfield',
         '#title' => t(''),
         '#default_value' => $data['telephone'],
-        '#attributes' =>array(
+        '#attributes' => array(
             'placeholder' => t(''),
             'class' => array('form-control'),
             'placeholder' => t('Tél'),
@@ -197,25 +198,28 @@ function inscription_form($form, &$form_state) {
         '#type' => 'textfield',
         '#title' => t(''),
         '#default_value' => $data['telephone2'],
-        '#attributes' =>array(
+        '#attributes' => array(
             'placeholder' => t(''),
             'class' => array('form-control'),
             'placeholder' => t('Tél (2)'),
         ),
         '#element_validate' => array('element_shared_telephone'),
     );
+    if (!$data['email']) {
+
     $form['email'] = array(
         '#type' => 'textfield',
         '#title' => t(''),
         '#default_value' => $data['email'],
-        '#attributes' =>array(
+        '#attributes' => array(
             'placeholder' => t(''),
             'class' => array('form-control'),
             'placeholder' => t('E-mail'),
         ),
-        '#element_validate' => array('element_shared_not_empty_validate'),
-    );
-
+        '#element_validate' => array('element_shared_not_empty_validate', 'element_shared_mail'),
+        );
+    }
+/*
     $form['numero_permis'] = array(
         '#type' => 'textfield',
         '#title' => t(''),
@@ -285,7 +289,7 @@ function inscription_form($form, &$form_state) {
         ),
     );
 
-
+*/
 
     $form['submit'] = array(
         '#type' => 'submit',
@@ -304,10 +308,6 @@ function inscription_form($form, &$form_state) {
 }
 function creation_form_validate_stage_add($form, &$form_state){
 
-
-
-
-
 }
 function creation_form_submit_stage_add($form, &$form_state){
 
@@ -325,7 +325,9 @@ function creation_form_submit_stage_add($form, &$form_state){
     $dataStage['ville'] = $form_state['values']['ville'];
     $dataStage['telephone'] = $form_state['values']['telephone'];
     $dataStage['telephone2'] = $form_state['values']['telephone2'];
-    $dataStage['email'] = $form_state['values']['email'];
+    if ($form_state['values']['email']){
+        $dataStage['email'] = $form_state['values']['email'];
+    }
     $dataStage['fax'] = $form_state['values']['fax'];
     $dataStage['numero_permis'] = $form_state['values']['numero_permis'];
     $dataStage['date_delivrance'] = covert_to_date($form_state['values']['date_delivrance']);
@@ -369,5 +371,4 @@ function creation_form_submit_stage_add($form, &$form_state){
     }else{
         drupal_goto('/conf-inscription.php');
     }
-
 }

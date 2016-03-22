@@ -123,7 +123,7 @@ function element_shared_telephone($element, &$form_state){
 
     $value = $element ['#value'];
     if ($value && !preg_match('/^0[1-68][0-9]{8}$/', $value)) {
-        form_set_error($element['#attributes']['placeholder'], t('Le champ téléphone doit être un nombre valide.'));
+        form_error($element, t('Le champ téléphone doit être un nombre valide.'));
     }
 
 }
@@ -136,7 +136,12 @@ function element_shared_telephone($element, &$form_state){
 function element_shared_mail($element, &$form_state){
   $value = $element ['#value'];
   if (!valid_email_address($value )) {
-    form_set_error($element['#attributes']['placeholder'], t('Le champ Email doit être un nombre valide.'));
+      form_error($element, t('Le champ Email doit être un nombre valide.'));
+  }else{
+      $user = user_load_by_mail($value);
+      if ($user->uid ){
+          form_error($element, t('Cet E-mail est  déjà associées à un compte client Merci de vous connecter. Mot de passe oublié ?'));
+      }
   }
 
 }

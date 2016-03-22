@@ -23,6 +23,7 @@
     module_load_include('inc', 'login','login_langs');
 
     $login_form = drupal_get_form('login_site_form') ;
+
     ?>
     <?php
 
@@ -30,7 +31,8 @@
         $_SESSION['stage'] = $_GET['id'];
     }
     global $user;
-    if ($user->uid) {
+
+    if ($user->uid && $_SESSION['stage']) {
         header('location:permis.php');
     }
     ?>
@@ -74,12 +76,21 @@
                   action="<?php print $login_form['#action'] ?>">
 
                 <div class="row input center">
-                    <?php print drupal_render($login_form['username']); ?>
+                    <?php
+                    unset($login_form['username']['#theme_wrappers']);
+                    print drupal_render($login_form['username']); ?>
                 </div>
                 <div class="divider-small-ps"></div>
                 <div class="row input center">
-                    <?php print drupal_render($login_form['password']); ?>
+                    <?php
+                    unset($login_form['password']['#theme_wrappers']);
+                    print drupal_render($login_form['password']); ?>
                 </div>
+                <div class="divider-small-ps"></div>
+                <div class="row input center">
+                   <a href="mot-de-passe.php"> Mot de passe oublié ?</a>
+                </div>
+
                 <div class="divider-small-ps"></div>
                 <div class="row input center">
                     <?php print drupal_render($login_form['submit']); ?>

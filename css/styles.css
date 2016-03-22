@@ -674,6 +674,12 @@ height: 100%;
     margin-top: 10px;
     font-weight: bold;
 }
+.control-label{
+    text-align: center;
+    color: #c64e53;
+    margin-top: 10px;
+    font-weight: bold;
+}
 .btn-new-acc{
     font-family:  MuseoLight, Verdana, sans-serif;
     position: absolute;

@@ -39,7 +39,10 @@ return $data;
                     <div class="col-sm-8 head-log">
                         <?php print $user->name ?>
                         <br>
-                        Elève
+                        Elève<br>
+                        <a href="logout.php">
+                            Déconnexion
+                        </a>
                     </div>
                     <div class="col-sm-4 head-log">
                         <a href="creation-compte.php?op=update">

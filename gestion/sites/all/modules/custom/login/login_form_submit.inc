@@ -48,6 +48,7 @@ function check_login() {
 }
 
 function check_login_submit() {
+
     global $user;
     $username = $_POST['username'];
     $password = $_POST['password'];
@@ -64,12 +65,17 @@ function check_login_submit() {
             // on vérifie que les identifiants sont bons
             $uid = user_authenticate($username, $password);
 
-            if ($uid) {
+            if ($uid ) {
                 // on loggue l'utilisateur
                 $form_state['uid'] = $uid;
                 user_login_submit(array(), $form_state);
 
-                drupal_goto('/permis.php');
+                if (!$_SESSION['stage']){
+                    drupal_goto('/index.php');
+                }else{
+                    drupal_goto('/permis.php');
+                }
+
             }else{
 
                 // Utilisateur non trouvé, on affiche un message d'erreur
@@ -91,25 +97,27 @@ function check_login_submit() {
     }
 }
 
-function password_forgot() {
-  require 'login_langs.inc';
-  $email = $_POST['email'];
+function password_forgot($form, &$form_state) {
+
+  $email = $form_state['values']['username'];
   $errors='ok';
   // Si le champ email est vide, on affiche un message d'erreur
   if (empty($email)) {
-//     drupal_set_message(@ERROR_FORGOT_PWD_MAIL_EMPTY, 'error_modal');
-    $errors = @ERROR_FORGOT_PWD_MAIL_EMPTY;
+      drupal_set_message(@ERROR_FORGOT_PWD_MAIL_EMPTY, 'error_modal');
+      drupal_set_message(@FORGOT_PWD_VALID, 'status');
+      drupal_goto('/mot-de-passe.php');
   } else {
     $user = user_load_by_mail($email);
     if (false !== $user) {
       // envoi du mail
       _user_mail_notify('password_reset', $user);
       drupal_set_message(@FORGOT_PWD_VALID, 'status');
+        drupal_goto('/mot-de-passe.php');
     }  else {
       // Si l'email n'est pas connu dans le système, on affiche un message d'erreur
       $errors = @ERROR_FORGOT_PWD_MAIL_KO;
-      drupal_set_message(@ERROR_FORGOT_PWD_MAIL_KO, $type = 'error_modal');
+        drupal_set_message(@ERROR_FORGOT_PWD_MAIL_KO, $type = 'error_modal');
+        drupal_goto('/mot-de-passe.php');
     }
   }
-  die(drupal_json_output(['reponse' => $errors]));
 }

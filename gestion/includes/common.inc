@@ -5927,6 +5927,7 @@ function drupal_render_page($page) {
  *   The rendered HTML.
  */
 function drupal_render(&$elements) {
+
   if (empty($elements) || (isset($elements['#access']) && !$elements['#access'])) {
     return '';
   }
@@ -5983,8 +5984,9 @@ function drupal_render(&$elements) {
   // Call the element's #theme function if it is set. Then any children of the
   // element have to be rendered there.
   if (isset($elements['#theme'])) {
-    $elements['#children'] = theme($elements['#theme'], $elements);
+     $elements['#children'] = theme($elements['#theme'], $elements);
   }
+
   // If #theme was not set and the element has children, render them now.
   // This is the same process as drupal_render_children() but is inlined
   // for speed.
@@ -6001,7 +6003,6 @@ function drupal_render(&$elements) {
       $elements['#children'] = theme($theme_wrapper, $elements);
     }
   }
-
   // Filter the outputted content and make any last changes before the
   // content is sent to the browser. The changes are made on $content
   // which allows the output'ed text to be filtered.
