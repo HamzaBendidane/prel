@@ -6026,7 +6026,7 @@ function drupal_render(&$elements) {
 
   $prefix = isset($elements['#prefix']) ? $elements['#prefix'] : '';
   $suffix = isset($elements['#suffix']) ? $elements['#suffix'] : '';
-echo  $output = $prefix . $elements['#children'] . $suffix;
+  $output = $prefix . $elements['#children'] . $suffix;
 
   // Cache the processed element if #cache is set.
   if (isset($elements['#cache'])) {
