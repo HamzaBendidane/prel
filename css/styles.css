@@ -1,9 +1,9 @@
-@import url("/font/MuseoSans-100.otf");
+@import url("/font/MuseoSans_500.otf");
 
 @font-face { /* declare fonts */
     font-family: "MuseoLight";
-    src: url("/font/Museo300-Regular.otf");
-    src: local("Museo 300"), local("Museo-300")
+    src: url("/font/Museo500-Regular.otf");
+    src: local("Museo 500"), local("Museo-500")
 }
 /* display fonts */
 h1 { font: 24px/1 MuseoLight, Verdana, sans-serif; }
@@ -15,7 +15,7 @@ body {
     height: 100%;
     /* The html and body elements cannot have any padding or margin. */
     -webkit-font-smoothing: antialiased;
-    font-family:  MuseoLight, Verdana, sans-serif;
+    font-family:  MuseoSans, Verdana, sans-serif;
 }
 
 .row {
@@ -24,12 +24,27 @@ body {
 }
 .text-reposnsive-prov {
     color: #ffffff;
-    font-weight: 300;
+    font-weight: 500;
     position: absolute;
     text-align: center;
     text-transform: uppercase;
     top: 200px;
     width: 93%;
+}
+.btn-info , .btn-primary ,.btn-primary:hover .btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active {
+    background-color: white !important;
+    border-color: white  !important;
+    color: white  !important;
+}
+.btn-info:hover .btn-info:hover, .btn-info:focus, .btn-info:active, .btn-info.active, .open .dropdown-toggle.btn-info {
+    background-color: white  !important;
+    border-color: white  !important;
+    color: white  !important;
+}
+.btn-primary:hover .btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active, .open .dropdown-toggle.btn-info {
+    background-color: white;
+    border-color: white;
+    color: white;
 }
 /* Wrapper for page content to push down footer */
 #wrap {
@@ -141,6 +156,22 @@ h1 {
         width: 100px;
     }
 
+}
+.navbar-text {
+    float: left;
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+.color-w{
+    color: white;
+}
+.navbar-btn {
+    margin-bottom: 5px;
+    margin-top: 5px;
+}
+
+.btn-danger:hover{
+    background-color:#d9534f
 }
 .conn-form select {
     font-family: MuseoLight, Verdana, sans-serif;
@@ -287,11 +318,13 @@ h1 {
 }
 #map-canvas {
     width: 100%;
-    height: 950px;
+    height: 500px;
     margin: 0;
     padding: 15px;
 }
-
+.map-canvas2 {
+    height: 900px !important;
+}
 .scroll-top {
     position:fixed;
     bottom:0;
@@ -445,7 +478,7 @@ height: 100%;
     background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(20,20,20,0.2)),to(rgba(255,255,255,0)), color-stop(1,#000));
 }
 .page-prod{
-    min-height: 500px;
+    min-height: 800px;
 }
 .prod-1{
     background-color: #d05252;
@@ -457,7 +490,7 @@ height: 100%;
 
 }
 .prod-3{
-    background: url('/7.png')  no-repeat scroll 0 0;
+    background: url('/inscription.png')  no-repeat scroll 0 0;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
@@ -553,7 +586,7 @@ height: 100%;
     margin-top: 100px;
 }
 .bg-ct{
-    background: url('/67-bg.png')  no-repeat scroll 0 0;
+    background: url('/67-bg.jpg')  no-repeat scroll 0 0;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
@@ -656,17 +689,28 @@ height: 100%;
     border: 0 none;
     font-weight: bold;
 }
+.barr-bas{
+    border-bottom-color: #999;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    padding-bottom: 15px;
+    padding-top: 15px;
+}
 .btn-xxx {
     font-family:  MuseoLight, Verdana, sans-serif;
-    height: 56px;
+    height: 35px;
     width: 90%;
     text-align: center;
     background-color: #c64e53 !important;
-    color: #383838;
+    color: #FFFFFF;
     border: 0 none;
     font-weight: bold;
-    margin-top: 10px;
-    margin-bottom: 10px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    border-radius: 30px;
+}
+.color-red{
+    color: #c64e53 !important;
 }
 .error {
     text-align: center;

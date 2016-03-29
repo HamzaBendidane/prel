@@ -109,12 +109,7 @@
             <?php print drupal_render_children($form); ?>
         </form>
 </div>
-
-
-
-
-
-
+<?php include "footer.php" ?>
 <!-- /.row -->
 <!-- script references -->
 <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>

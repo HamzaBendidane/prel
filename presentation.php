@@ -78,7 +78,7 @@
     </div>
 <div id="footer">
     <div class=" divider" id="section2">
-      <p class="lead-title">NOS CENTRES</p>
+      <p class="lead-title divider">NOS CENTRES</p>
 
       <div id="map-canvas">
         <span id="map-input">
@@ -86,6 +86,8 @@
         </span>
 
 </div>
+        <?php include "footer.php" ?>
+
         <!-- script references -->
         <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
         <script src="js/bootstrap.min.js"></script>

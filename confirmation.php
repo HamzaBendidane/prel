@@ -163,7 +163,7 @@ $sMAC = $oHmac->computeHmac($phase1go_fields);
 // =============================================================================================================================================================
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <meta charset="utf-8">
@@ -175,6 +175,7 @@ $sMAC = $oHmac->computeHmac($phase1go_fields);
     <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
     <link href="css/styles.css" rel="stylesheet">
+
 </head>
 <body>
 <!-- Wrap all page content here -->
@@ -205,7 +206,7 @@ $sMAC = $oHmac->computeHmac($phase1go_fields);
 
         $dbInscription->insert(array('id_stage' => $_POST['id_stage'],'id_stagiaire' => $data['id'],'statut' => 1 ));
     }else{
-        drupal_goto('index.php');
+        drupal_goto('inscription.php');
     }
 
 
@@ -390,15 +391,15 @@ $sMAC = $oHmac->computeHmac($phase1go_fields);
         </div>
     </div>
 
-    <div class="large center">
+    <div class="container">
 
         <div id="header">
-            <a href="http://www.monetico.ca"><img src="logomoneticopaiement.png" alt="Monetico Paiement" title="Monetico Paiement" /></a>
+            <a href="http://www.monetico.ca"><img src="monetico/logomoneticopaiement.png" alt="Monetico Paiement" title="Monetico Paiement" /></a>
         </div>
 
 
         
-        <h1>Connexion au serveur de paiement</h1>
+        <center><h2>Connexion au serveur de paiement</h2></center>
 
         <div id="frm">
 
@@ -441,7 +442,9 @@ $sMAC = $oHmac->computeHmac($phase1go_fields);
 
                       END INSTALLMENT PAYMENT SECTION
                     -------------------------------------------------------------------------------------------------------------------------------------------------------------->
-                    <input type="submit" name="bouton"              id="bouton"         value="Connexion / Connection" />
+                   <center>
+                    <input type="submit" name="bouton"              id="bouton"       value="" style="background: transparent url(/img/cb.jpg) no-repeat scroll 0% 0% / 199px auto; width: 200px; height: 50px;" />
+                </center>
                 </p>
             </form>
             <!--============================================================================================================================================================
@@ -455,6 +458,7 @@ $sMAC = $oHmac->computeHmac($phase1go_fields);
 </div>
 
 </form>
+<?php include "footer.php" ?>
 
     <!-- /.row -->
     <!-- script references -->

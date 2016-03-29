@@ -25,7 +25,26 @@
     $data = array_pop($data);
 
     ?>
+    <div class="row right">
+        <br>
+        <div class="col-sm-10 col-sm-offset-10">
+            <?php
+            if (trom($data['bloc_m'])) {
+            ?>
+                <button type="button" class="btn btn-info " data-toggle="modal" data-target="#myModal"><img
+                        src="inscription.png" width="200px"></button>
+            <?php
+            }else {
+                ?>
+                <a  href="permis.php?id=<?php print trom($data['id'])?>">
+                        <img src="inscription.png" width="200px">
+                </a>
+            <?php
+            }
+            ?>
 
+        </div>
+    </div>
     <div class="container middle text-center">
         <div class="col-sm-10 col-sm-offset-1">
             <div class="page-header text-center">
@@ -43,38 +62,40 @@
                 <?php print trom($data['bloc_c'])?>
         </div>
     </div>
-    <!-- Projects Row -->
-    <div class="row">
-        <div class="col-md-4 prod-1 page-prod text-center">
-            <div class="divider-small-ps"></div>
-            <h2>MODALITES DE PAYEMENT</h2>
+    <div class="container">
 
-            <hr class="divider-small-p-hr">
+        <!-- Trigger the modal with a button -->
 
-            <?php print trom($data['bloc_m'])?>
-        </div>
-        <div class="col-md-4  prod-2 page-prod text-center">
-            <div class="divider-small-ps"></div>
+        <!-- Modal -->
+        <div class="modal fade" id="myModal" role="dialog">
+            <div class="modal-dialog">
 
-                <h2>PLANNING DES HORRAIRES DE CONDUITE</h2>
-
-                <hr class="divider-small-p-hr-bl">
-
-                <?php print trom($data['bloc_d'])?>
-
-        </div>
-        <a  href="inscription.php?id=<?php print trom($data['id'])?>">
-        <div class="col-md-4 page-prod prod-3">
-            <div class="divider-small-p"></div>
-
-            <div class="divider-small-p"></div>
-            <div class="center bg-ico">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">MODALITES</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p><?php print trom($data['bloc_m'])?></p>
+                    </div>
+                    <div class="modal-footer">
+                        <a  href="permis.php?id=<?php print trom($data['id'])?>">
+                        <button type="button" class="btn btn-primary">
+                                <img src="inscription.png" width="200px">
+                            </button></a>
+                    </div>
+                </div>
 
             </div>
-
         </div>
-        </a>
+
     </div>
+
+</div>
+  <?php include "footer.php" ?>
+    <!-- Projects Row -->
+
     <!-- /.row -->
     <!-- script references -->
     <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>

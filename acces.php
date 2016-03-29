@@ -86,7 +86,7 @@ Fleury les Aubrais 45400
 </div>
 <hr>
 		</div>
-            <div class="col-md-8"> <div id="map-canvas">
+            <div class="col-md-8"> <div id="map-canvas" class="map-canvas2">
         <span id="map-input">
              42 rue du maréchal Leclerc <br>92345
         </span>
@@ -95,6 +95,7 @@ Fleury les Aubrais 45400
         </div>
 
     </div>
+    <?php include "footer.php" ?>
 
     <!-- script references -->
     <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
